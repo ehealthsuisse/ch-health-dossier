@@ -1,6 +1,8 @@
 ### DSTU5 Release 2025-12-18
 
 #### Resolved Issues
+* IUA: Correct grant_type for authorization code flow token request [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458)
+* IUA: Remove misleading statement [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456) 
 * IUA: Specified the signature for the ITI-71 token requests [#419](https://github.com/ehealthsuisse/ch-epr-fhir/issues/419)
 * Unknown code '26' in the CodeSystem 'http://terminology.hl7.org/CodeSystem/object-role' version '1.0.0': waiting to be added, see [#190](https://github.com/ehealthsuisse/ch-epr-fhir/issues/190)
 * Security Audit Considerations: Clarify that audit events can be recorded via syslog or FHIR [#436](https://github.com/ehealthsuisse/ch-epr-fhir/issues/436)

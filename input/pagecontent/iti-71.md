@@ -215,18 +215,11 @@ The scope parameter of the request MAY claim the following attributes:
 
 Note: The parameters need to be url encoded, see above message example.
 
-Additional scopes are required depending on the user's role: For assistants, there SHALL be a scope with name **principal_id**, 
-the value of which SHALL be the GLN of the healthcare professional an assistant is acting on behalf of. There SHALL be 
-a scope with name **principal**, the value of which SHALL be the name of the healthcare professional an assistant is 
-acting on behalf of. There MAY be a scope with name **group_id** and **group**, the value of which SHALL be the ID and name of 
-the organization or group the user is acting on behalf of. The value of **group_id** SHALL be an OID in the format of a URN 
-and the organization or group shall be registered in the EPR HPD.
-
 In the second step of the sequence the IUA Authorization Client SHALL perform an OAuth Token Request for the 
 authorization code grant type with the following Swiss extension:
 
 The Token Request SHALL contain the following attributes:
-- grant_type (required): The value of the parameter shall be `client_credentials`.
+- grant_type (required): The value of the parameter shall be `authorization_code`.
 - code (required): The authorization code received from the IUA Authorization Server in the authorization response.
 - code_verifier (required): The original code verifier string.
 - client_id (required): The client identifier the IUA Authorization Client is registered with at the IUA Authorization Server.
