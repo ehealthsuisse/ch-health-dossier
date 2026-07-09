@@ -56,9 +56,6 @@
                 <a href="iti-119.html">Patient Demographics Match [ITI-119]</a>
             </li>
             <li>
-                <a href="iti-83.html">Mobile Patient Identifier Cross-reference Query [ITI-83]</a>
-            </li>
-            <li>
                 <a href="iti-65.html">Provide Document Bundle [ITI-65]</a>
             </li>
             <li>
@@ -121,9 +118,6 @@
             </li>
             <li>
                 <a href="capstatements.html">Capability Statements</a>
-            </li>
-            <li>
-                <a href="operations.html">Operations</a>
             </li>
             <li>
                 <a href="sequencediagrams.html">Sequence diagrams</a>

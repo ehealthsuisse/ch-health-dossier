@@ -6,7 +6,6 @@ actor user as "Patient"
 box "Patient Portal" #BFCAD2
 	participant app as "App GUI\nIUA Authorization Client"
 	participant AuthorizationClient as "Authorization Client\n(IUA)"
-  participant pixmconsumer as "Patient Identifier\nCross-reference\nConsumer"
 end box
 
 box "SMART on FHIR App" #BDBED0
@@ -16,7 +15,6 @@ end box
 
 box "Community Components" #FFEFDE
 	participant mp_AuthorizationServer as "Authorization Server\n(IUA)"
-	participant mp_pix_x_ref_mgr as "Patient Identifier\nCross-reference\nMange"
 	participant mp_doc_responder as "Document Responder\n(MHD)"
 end box
 
@@ -33,8 +31,6 @@ app -> mp_AuthorizationServer: GET /.well-known/smart-configuration
 activate mp_AuthorizationServer
 app <- mp_AuthorizationServer: Conformance statement incl. OAuth 2.1 endpoints
 deactivate mp_AuthorizationServer
-
-!include_many step_mh_iua_pixm.plantuml.txt
 
 ' SMART on FHIR App launch
 app -> app2: launch app

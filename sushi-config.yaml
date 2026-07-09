@@ -76,8 +76,6 @@ pages:
     title: Get Authorization Server Metadata [ITI-103]
   iti-119.md:
     title: Patient Demographics Match [ITI-119]
-  iti-83.md:
-    title: Mobile Patient Identifier Cross-reference Query [ITI-83]
   iti-104.md:
     title: Patient Identity Feed FHIR [ITI-104]
   iti-65.md:
@@ -114,8 +112,6 @@ pages:
     title: Terminology
   capstatements.xml:
     title: Capability Statements
-  operations.xml:
-    title: Operations
   sequencediagrams.md:
     title: Sequence Diagrams
   tracecontext.md:
@@ -129,8 +125,6 @@ resources:
   CapabilityStatement/CH.PDQm.Consumer:
     exampleBoolean: false
   CapabilityStatement/CH.PDQm.Supplier:
-    exampleBoolean: false
-  CapabilityStatement/CH.PIXm.Consumer:
     exampleBoolean: false
   CapabilityStatement/CH.PIXm.Source:
     exampleBoolean: false
@@ -252,14 +246,6 @@ resources:
     name: CH ATC - Reponse Audit Trail
     description: CH ATC - Reponse Audit Trail
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH-ATC.ITI-81.Response
-  Parameters/ParametersPIXmInput:
-    name: PIXm Parameters Query Input
-    description: Example Input Parameters Mobile Patient Identifier Cross-reference Query
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pixm-in-parameters
-  Parameters/ParametersPIXmOutput:
-    name: PIXm Parameters Query Output
-    description: Example Output Parameters Mobile Patient Identifier Cross-reference Query
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pixm-out-parameters
   Patient/PatientPIXmFeed:
     name: PIXm Patient Feed
     description: Example PIXm Patient for Feed
@@ -268,10 +254,6 @@ resources:
     name: PDQm Patient Franz Muster (Full URL)
     description: Example Patient
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-patient
-  Organization/GruppenpraxisCH:
-    name: PIXm Feed Provider Organization Gruppenpraxis
-    description: Example Organization
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pixm-feed-organization
   Bundle/PDQm-QueryResponse:
     name: PDQm Match response message
     description: CH PDQm Match response message example result for Franz Muster, 27.1.1955
@@ -399,22 +381,10 @@ resources:
     name: Example of audit event for a [CH:MHD-1] transaction at Responder
     description: This example shows an  made by the Document Responder for a CH:MHD-1 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-responder
-  AuditEvent/ChAuditEventIti83ConsumerExample:
-    name: Example of audit event for an [ITI-83] transaction at Consumer
-    description: This example shows an  made by the Patient Identifier Cross-reference Consumer for an ITI-83 transaction.
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti83Consumer
-  AuditEvent/ChAuditEventIti83ManagerExample:
-    name: Example of audit event for an [ITI-83] transaction at Manager
-    description: This example shows an  made by the Patient Identifier Cross-reference Manager for an ITI-83 transaction.
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti83Manager
   AuditEvent/ChAuditEventIti104SourceExample:
     name: Example of audit event for an [ITI-104] transaction at Source
     description: This example shows an  made by the Patient Identity Source for an ITI-104 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti104Source
-  AuditEvent/ChAuditEventIti104ManagerCreateExample:
-    name: Example of audit event for an [ITI-104] add transaction at Manager
-    description: This example shows an  made by the Patient Identifier Cross-reference Manager for an ITI-104 transaction that added a new Patient.
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti104ManagerCreate
   AuditEvent/ChAuditEventIti104ManagerUpdateExample:
     name: Example of audit event for an [ITI-104] update transaction at Manager
     description: This example shows an  made by the Patient Identifier Cross-reference Manager for an ITI-104 transaction that revised an existing Patient.
