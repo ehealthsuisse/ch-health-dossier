@@ -6,7 +6,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-65]
 Source'."
 * insert ChAuditEventExtendedRules
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
-* agent[documentRecipient] ^short = "The 'Document Recipient' actor (EPR API)"
+* agent[documentRecipient] ^short = "The 'Document Recipient' actor (Health Dossier API)"
 * entity[submissionSet].what.identifier 1..1
   * value 1..1
   * system 1..1
@@ -20,7 +20,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-65]
 Recipient'."
 * insert ChAuditEventExtendedRules
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
-* agent[documentRecipient] ^short = "The 'Document Recipient' actor (EPR API)"
+* agent[documentRecipient] ^short = "The 'Document Recipient' actor (Health Dossier API)"
 * entity[submissionSet].what.identifier 1..1
   * value 1..1
   * system 1..1
@@ -66,7 +66,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-67]
 Consumer'."
 * insert ChAuditEventExtendedRules
 * agent[client] ^short = "The 'Document Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Document Responder' actor (EPR API)"
+* agent[server] ^short = "The 'Document Responder' actor (Health Dossier API)"
 
 
 Profile:     ChAuditEventIti67Responder
@@ -76,7 +76,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-67]
 Responder'."
 * insert ChAuditEventExtendedRules
 * agent[client] ^short = "The 'Document Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Document Responder' actor (EPR API)"
+* agent[server] ^short = "The 'Document Responder' actor (Health Dossier API)"
 
 
 Instance:   ChAuditEventIti67ConsumerExample
@@ -128,7 +128,7 @@ Responder'."
 RuleSet: ChAuditEventIti68Rules
 * insert ChAuditEventExtendedRules
 * agent[client] ^short = "The 'Document Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Document Responder' actor (EPR API)"
+* agent[server] ^short = "The 'Document Responder' actor (Health Dossier API)"
 * entity[data]
   * ^short = "The document that was accessed"
   * what.reference 1..1
@@ -252,7 +252,7 @@ Source'."
 * entity[documentReference] ^short = "DocumentReference"
 * insert ChAuditEventExtendedRules
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
-* agent[documentResponder] ^short = "The 'Document Responder' actor (EPR API)"
+* agent[documentResponder] ^short = "The 'Document Responder' actor (Health Dossier API)"
 
 
 Profile:     ChAuditEventChMhd1Responder
@@ -312,7 +312,7 @@ Responder'."
 * entity[documentReference] ^short = "DocumentReference"
 * insert ChAuditEventExtendedRules
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
-* agent[documentResponder] ^short = "The 'Document Responder' actor (EPR API)"
+* agent[documentResponder] ^short = "The 'Document Responder' actor (Health Dossier API)"
 
 
 Instance:   ChAuditEventChMhd1SourceExample

@@ -4,7 +4,7 @@ title 3.01 Authentication/Authorization
 
 actor user as "Patient"
 
-box "EPR App" #BFCAD2
+box "Health App" #BFCAD2
 	participant app as "App GUI"
 end box
 

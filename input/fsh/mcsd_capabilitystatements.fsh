@@ -2,7 +2,7 @@
 Instance: CH.mCSD.Directory
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.mCSD.Directory"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.mCSD.Directory"
 * name = "CH_mCSD_Directory"
 * title = "mCSD Directory (server)"
 * status = #active
@@ -19,7 +19,7 @@ Usage: #definition
   * interaction[+].code = #transaction
   * resource[+]
     * type = #Organization
-    * profile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Organization"
+    * profile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization"
     * interaction[+].code = #create
     * interaction[+].code = #update
     * interaction[+].code = #delete
@@ -53,7 +53,7 @@ Usage: #definition
       * type = #token
   * resource[+]
     * type = #Practitioner
-    * profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Practitioner"
+    * profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Practitioner"
     * interaction[+].code = #create
     * interaction[+].code = #update
     * interaction[+].code = #delete
@@ -95,7 +95,7 @@ Usage: #definition
       * type = #string
   * resource[+]
     * type = #PractitionerRole
-    * profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.PractitionerRole"
+    * profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.PractitionerRole"
     * interaction[+].code = #create
     * interaction[+].code = #update
     * interaction[+].code = #delete
@@ -135,7 +135,7 @@ Usage: #definition
 Instance: CH.mCSD.QueryClient
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.mCSD.QueryClient"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.mCSD.QueryClient"
 * name = "CH_mCSD_Query_Client"
 * title = "mCSD Query Client (client)"
 * status = #active
@@ -151,7 +151,7 @@ Usage: #definition
   * documentation = "IHE ITI mCSD ITI-90 endpoint"
   * resource[+]
     * type = #Organization
-    * profile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Organization"
+    * profile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization"
     * interaction[+].code = #read
     * interaction[+].code = #search-type
     * versioning = #no-version
@@ -182,7 +182,7 @@ Usage: #definition
       * type = #token
   * resource[+]
     * type = #Practitioner
-    * profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Practitioner"
+    * profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Practitioner"
     * interaction[+].code = #read
     * interaction[+].code = #search-type
     * versioning = #no-version
@@ -221,7 +221,7 @@ Usage: #definition
       * type = #string
   * resource[+]
     * type = #PractitionerRole
-    * profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.PractitionerRole"
+    * profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.PractitionerRole"
     * interaction[+].code = #read
     * interaction[+].code = #search-type
     * versioning = #no-version
@@ -258,7 +258,7 @@ Usage: #definition
 Instance: CH.mCSD.DataSource
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.mCSD.DataSource"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.mCSD.DataSource"
 * name = "CH_mCSD_Data_Source"
 * title = "mCSD Data Source (client)"
 * status = #active
@@ -275,21 +275,21 @@ Usage: #definition
   * interaction[+].code = #transaction
   * resource[+]
     * type = #Organization
-    * profile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Organization"
+    * profile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization"
     * interaction[+].code = #create
     * interaction[+].code = #update
     * interaction[+].code = #delete
     * versioning = #no-version
   * resource[+]
     * type = #Practitioner
-    * profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Feed.Practitioner"
+    * profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Feed.Practitioner"
     * interaction[+].code = #create
     * interaction[+].code = #update
     * interaction[+].code = #delete
     * versioning = #no-version
   * resource[+]
     * type = #PractitionerRole
-    * profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.PractitionerRole"
+    * profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.PractitionerRole"
     * interaction[+].code = #create
     * interaction[+].code = #update
     * interaction[+].code = #delete

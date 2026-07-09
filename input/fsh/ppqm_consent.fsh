@@ -403,13 +403,13 @@ Severity:       #error
 
 Invariant:      ch-epr-ppqm-template-structure
 Description:    "The resource shall correspond to one of official policy set templates"
-Expression:     "conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate201') or
-                 conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate202') or
-                 conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate203') or
-                 conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate301') or
-                 conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate302') or
-                 conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate303') or
-                 conformsTo('http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsentTemplate304')"
+Expression:     "conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate201') or
+                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate202') or
+                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate203') or
+                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate301') or
+                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate302') or
+                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate303') or
+                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsentTemplate304')"
 Severity:       #error
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StructureDefinition xmlns="http://hl7.org/fhir">
     <id value="ch-atc-uniqueid-identifier"/>
-    <url value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-atc-uniqueid-identifier"/>
+    <url value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-atc-uniqueid-identifier"/>
     <name value="UniqueidIdentifier"/>
     <title value="Identifier for XDSDocumentEntry.uniqueId"/>
     <status value="active"/>

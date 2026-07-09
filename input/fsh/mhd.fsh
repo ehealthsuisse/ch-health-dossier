@@ -317,7 +317,7 @@ Usage: #example
 * contained.identifier.type = $v2-0203#MR
 * contained.identifier.system = "urn:oid:2.999.1.2.3.4"
 * contained.identifier.value = "8734"
-* extension.url = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-ext-author-authorrole"
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
@@ -379,7 +379,7 @@ InstanceOf: CHMhdProvideDocumentBundleComprehensive
 Title: "MHD Provide Document Bundle for a PDF Document"
 Description: "MHD Provide Document Bundle for a PDF Document"
 Usage: #example
-* meta.profile[0] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
+* meta.profile[0] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
 * meta.profile[+] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Comprehensive.ProvideBundle"
 * type = #transaction
 * entry[SubmissionSet].fullUrl = "urn:uuid:68a928c0-df48-4743-a291-bfb0609bbddc"
@@ -403,7 +403,7 @@ Usage: #inline
 * extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* extension[+].url = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-ext-author-authorrole"
+* extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
 * identifier.use = #usual
 * identifier.system = "urn:ietf:rfc:3986"
@@ -427,7 +427,7 @@ Usage: #inline
 * contained.identifier.type = $v2-0203#MR
 * contained.identifier.system = "urn:oid:2.999.1.2.3.4"
 * contained.identifier.value = "8734"
-* extension.url = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-ext-author-authorrole"
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
@@ -464,7 +464,7 @@ InstanceOf: Bundle
 Title: "MHD Provide Document Bundle Response for PDF publication"
 Description: "MHD Provide Document Bundle Response for PDF publication"
 Usage: #example
-* meta.profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive-response"
+* meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive-response"
 * type = #transaction-response
 * link.relation = "self"
 * link.url = "http://example.org"
@@ -483,7 +483,7 @@ InstanceOf: ChFindDocumentReferencesComprehensiveResponse
 Title: "MHD Find DocumentReferences"
 Description: "MHD Find DocumentReferences - Bundle as Response"
 Usage: #example
-* meta.profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-documentreference-comprehensive-bundle"
+* meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-comprehensive-bundle"
 * type = #searchset
 * total = 1
 * link.relation = "self"

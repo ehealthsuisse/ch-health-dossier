@@ -7,7 +7,7 @@
 	StructureDefinition for the DocumentAuditEvent.
 		</div>
 	</text>
-	<url value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/DocumentAuditEvent" />
+	<url value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent" />
 	<name value="DocumentAuditEvent" />
 	<title value="DocumentAuditEvent" />
 	<status value="active" />
@@ -45,7 +45,7 @@
 	<kind value="resource" />
 	<abstract value="false" />
 	<type value="AuditEvent" />
-	<baseDefinition value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-atc-auditevent" />
+	<baseDefinition value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-atc-auditevent" />
 	<derivation value="constraint" />
 	<differential>
 		<element id="AuditEvent">
@@ -55,7 +55,7 @@
 				<key value="ch-atc-dae-1"/>
 				<severity value="error"/>
 				<human value="subtype needs to be fixed to ValueSet DocumentAuditEventType"/>
-				<!-- <expression value="subtype.exists() and subtype.count()=1 and subtype[0].memberOf('http://fhir.ch/ig/ch-epr-fhir/ValueSet/DocumentAuditEventType')"/>  member of not implemented yet -->
+				<!-- <expression value="subtype.exists() and subtype.count()=1 and subtype[0].memberOf('http://fhir.ch/ig/ch-health-dossier/ValueSet/DocumentAuditEventType')"/>  member of not implemented yet -->
 				<expression value="subtype.exists() and subtype.count()=1 and subtype[0].code.startsWith('ATC_DOC')"/>
 			</constraint>
 		</element>
@@ -95,7 +95,7 @@
 				</extension>
 				<strength value="required"/>
 				<description value="Document Audit Event Type"/>
-				<valueSet value="http://fhir.ch/ig/ch-epr-fhir/ValueSet/DocumentAuditEventType"/>
+				<valueSet value="http://fhir.ch/ig/ch-health-dossier/ValueSet/DocumentAuditEventType"/>
 			</binding>
 			<mapping>
 				<identity value="ch-atc"/>
@@ -152,7 +152,7 @@
 				</extension>
 				<strength value="required"/>
 				<description value="EPR Participant"/>
-				<valueSet value="http://fhir.ch/ig/ch-epr-fhir/ValueSet/EprParticipant"/>
+				<valueSet value="http://fhir.ch/ig/ch-health-dossier/ValueSet/EprParticipant"/>
 			</binding>
 			<mapping>
 				<identity value="ch-atc"/>
@@ -245,7 +245,7 @@
             <max value="1"/>
             <type>
                 <code value="Identifier"/>
-				<profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-atc-uniqueid-identifier" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-atc-uniqueid-identifier" />
             </type>
 			<mapping>
 				<identity value="ch-atc"/>
@@ -272,7 +272,7 @@
 		</element>
 		<element id="AuditEvent.entity:Document.detail">
 			<path value="AuditEvent.entity.detail"/>
-			<min value="4"/>
+			<min value="3"/>
 			<slicing>
 				<discriminator>
 					<type value="value" />

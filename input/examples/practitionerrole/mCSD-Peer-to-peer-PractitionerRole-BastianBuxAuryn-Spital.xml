@@ -2,7 +2,7 @@
 <PractitionerRole xmlns="http://hl7.org/fhir">
     <id value="mCSD-Peer-to-peer-PractitionerRole-BastianBuxAuryn-Spital"/>
     <meta>
-        <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.PractitionerRole"/>
+        <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.PractitionerRole"/>
     </meta>
     <identifier>
         <system value="urn:ietf:rfc:4514"/>

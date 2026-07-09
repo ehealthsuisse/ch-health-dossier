@@ -7,7 +7,7 @@ skinparam svgDimensionStyle false
 
 left to right direction
 
-component "EPR App" {
+component "Health App" {
   [IUA Authorization Client] as IUAClient
 
   [Patient Demographics Consumer] as PDQmConsumer
@@ -34,7 +34,7 @@ component "IdP" {
   IUAClient --> UAProvider : CH:XUA Authenticate User
 }
 
-component "EPR API" {
+component "Health Dossier API" {
   [IUA Authorization Server] as IUAAuthServer
   IUAClient -> IUAAuthServer : Get Access Token [ITI-71], \nGet Authorization Server Metadata [ITI-103]
   [IUA Resource Server] as IUAResourceServer

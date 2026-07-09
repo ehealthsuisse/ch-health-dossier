@@ -1,7 +1,7 @@
 <AuditEvent xmlns="http://hl7.org/fhir">
    <id value="atc-doc-create-rep-pat"/>
    <meta>
-      <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/DocumentAuditEvent"></profile>
+      <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent"></profile>
    </meta>
    <text>
       <status value="generated"></status>

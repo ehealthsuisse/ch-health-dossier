@@ -2,7 +2,7 @@
   <!--<id value="56562bcf-2a5a-48d4-9a83-0f0dbbef74cc"/>-->
   <id value="ch-atc-iti-81-response-sample"/>
   <meta>
-    <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH-ATC.ITI-81.Response" />
+    <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH-ATC.ITI-81.Response" />
   </meta>
   <type value="searchset"/>
   <total value="3"/>
@@ -16,7 +16,7 @@
       <AuditEvent xmlns="http://hl7.org/fhir">
         <id value="1"/>
         <meta>
-          <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/DocumentAuditEvent"/>
+          <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent"/>
         </meta>
         <text>
           <status value="generated"/>
@@ -144,7 +144,7 @@
       <AuditEvent xmlns="http://hl7.org/fhir">
         <id value="2"/>
         <meta>
-          <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/AccessAuditTrailEvent"/>
+          <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/AccessAuditTrailEvent"/>
         </meta>
         <text>
           <status value="generated"/>
@@ -215,7 +215,7 @@
       <AuditEvent xmlns="http://hl7.org/fhir">
         <id value="3"/>
         <meta>
-          <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PolicyAuditEvent"/>
+          <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent"/>
         </meta>
         <text>
           <status value="generated"/>

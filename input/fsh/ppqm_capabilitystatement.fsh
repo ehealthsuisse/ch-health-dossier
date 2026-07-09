@@ -2,7 +2,7 @@
 Instance: CH.PPQm.PolicyRepository
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.PPQm.PolicyRepository"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.PPQm.PolicyRepository"
 * name = "CH_PPQm_Policy_Repository"
 * title = "PPQm Policy Repository (server)"
 * status = #active
@@ -29,10 +29,10 @@ Usage: #definition
 * rest.resource[=].searchParam[+].name = "identifier"
 * rest.resource[=].searchParam[=].type = #token
 * rest.resource[=].searchParam[=].documentation = "PPQ-5 — Query by Policy Set ID"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsent"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsent"
 * rest.resource[+].type = #Bundle
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmFeedRequestBundle"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmRetrieveResponseBundle"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmFeedRequestBundle"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmRetrieveResponseBundle"
 * rest.interaction[+].code = #transaction
 * rest.interaction[=].documentation = "Only the PPQ-4 transaction is supported."
 
@@ -41,7 +41,7 @@ Usage: #definition
 Instance: CH.PPQm.PolicySourceConsumer
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.PPQm.PolicySourceConsumer"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.PPQm.PolicySourceConsumer"
 * name = "CH_PPQm_Policy_Source_Consumer"
 * title = "PPQm Policy Source and Consumer (client)"
 * status = #active
@@ -68,9 +68,9 @@ Usage: #definition
 * rest.resource[=].searchParam[+].name = "identifier"
 * rest.resource[=].searchParam[=].type = #token
 * rest.resource[=].searchParam[=].documentation = "PPQ-5 — Query by Policy Set ID"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmConsent"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsent"
 * rest.resource[+].type = #Bundle
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmFeedRequestBundle"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PpqmRetrieveResponseBundle"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmFeedRequestBundle"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmRetrieveResponseBundle"
 * rest.interaction[+].code = #transaction
 * rest.interaction[=].documentation = "Only the PPQ-4 transaction is supported."

@@ -268,7 +268,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-119
               Demographics Consumer'."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Demographics Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Demographics Supplier' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Demographics Supplier' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
   * system 1..1
@@ -281,7 +281,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-119
 Demographics Supplier'."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Demographics Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Demographics Supplier' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Demographics Supplier' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
   * system 1..1

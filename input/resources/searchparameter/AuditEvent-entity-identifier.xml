@@ -3,7 +3,7 @@
     <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
         <valueCode value="trial-use"/>
     </extension>
-    <url value="http://fhir.ch/ig/ch-epr-fhir/SearchParameter/AuditEvent-entity-identifier"/>
+    <url value="http://fhir.ch/ig/ch-health-dossier/SearchParameter/AuditEvent-entity-identifier"/>
     <version value="4.0.1"/>
     <name value="SPEntityIdentifier"/>
     <status value="active"/>
