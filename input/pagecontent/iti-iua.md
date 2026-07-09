@@ -123,7 +123,7 @@ The JWT Token option SHALL be supported by the Authorization Server and Resource
 
 To support automated client configuration the Authorization Server actor SHALL support the Authorization Metadata option.
 
-This national extension adds the Actor options Workflow Initiator Option, Technical User Option and Proxy Option to comply 
+This national extension adds the Actor options Workflow Initiator Option and Technical User Option to comply 
 to the legal requirements of the Swiss EPR.
 
 #### Workflow Initiator Option
@@ -163,23 +163,6 @@ when claiming the Technical User option:
 | Authorization Client  | Incorporate Access Token          | R           |
 | Authorization Server  | Get Access Token                  | R           |
 | Authorization Server  | Get Authorization Server Metadata | R           |
-| Resource Server       | Incorporate Access Token          | R           |
-| Resource Server       | Get Authorization Server Metadata | O           |
-{:class="table table-bordered"}
-
-#### Proxy Option
-
-The Proxy option SHALL be claimed by all implementations, which use EPR compliant access token from
-other transactions and use the access token when acting as an agent to request protected data
-from other actors (i.e.: Document Source or Consumers with the Federated Cross Community Access Option).
-Actors shall perform the following required transactions (labeled "R") when claiming the Proxy
-option:
-
-
-| Actor                 | Transaction                       | Optionality |
-|-----------------------|-----------------------------------|-------------|
-| Authorization Client  | Incorporate Access Token          | R           |
-| Authorization Client  | Get Authorization Server Metadata | O           |
 | Resource Server       | Incorporate Access Token          | R           |
 | Resource Server       | Get Authorization Server Metadata | O           |
 {:class="table table-bordered"}

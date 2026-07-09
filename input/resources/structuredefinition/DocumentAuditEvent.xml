@@ -307,31 +307,6 @@
 			</type>
 		</element>
 
-		<!-- Slice Document Detail: homeCommunityID  -->
-		<element id="AuditEvent.entity:Document.detail:homeCommunityID">
-			<path value="AuditEvent.entity.detail"/>
-			<sliceName value="homeCommunityID"/>
-			<short value="homeCommunityID" />
-			<min value="1"/>
-			<max value="1"/>
-			<mapping>
-				<identity value="ch-atc"/>
-				<map value="homeCommunityID"/>
-			</mapping>
-		</element>
-		<element id="AuditEvent.entity:Document.detail.type:homeCommunityID">
-			<path value="AuditEvent.entity.detail.type"/>
-			<fixedString value="homeCommunityID"/>
-		</element>
-		<element id="AuditEvent.entity.detail.value:homeCommunityID">
-			<path value="AuditEvent.entity.detail.value"/>
-			<definition value="The details, base64 encoded. Used to carry bulk information."/>
-			<comment value="The value is base64 encoded to enable various encodings or binary content."/>
-			<type>
-				<code value="base64Binary"/>
-			</type>
-		</element>
-
 		<!-- Slice Document Detail: EprDocumentTypeCode  -->
 		<element id="AuditEvent.entity:Document.detail:EprDocumentTypeCode">
 			<path value="AuditEvent.entity.detail"/>

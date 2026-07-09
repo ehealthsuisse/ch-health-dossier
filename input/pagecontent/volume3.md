@@ -233,7 +233,6 @@ This content profile describes Audit Event related to Document Management. The f
 				<p>
                     <a href="https://profiles.ihe.net/ITI/TF/Volume3/ch-4.2.html#4.2.3.2.26">uniqueId</a><br />
                     <a href="https://profiles.ihe.net/ITI/TF/Volume3/ch-4.2.html#4.2.3.2.18">repositoryUniqueId</a><br />
-                    <a href="https://profiles.ihe.net/ITI/TF/Volume3/ch-4.2.html#4.2.3.2.12">homeCommunityID</a>
                 </p>
 			</td>
 		</tr>

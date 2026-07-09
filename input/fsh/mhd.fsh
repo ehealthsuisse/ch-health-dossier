@@ -25,17 +25,6 @@ Usage: #example
 * issue[=].code = #processing
 * issue[=].details.text = "UnmodifiableMetadataError"
 
-Extension: ChMhdHomeCommunityId
-Id: ch-mhd-home-community-id
-Title: "CH MHD Extension to provide the homeCommunityId"
-Description: "This CH MHD extension enables to provide homeCommunityId in an OperationOutcome"
-* ^context[+].type = #element
-* ^context[=].expression = "OperationOutcome.issue.details"
-* . ^short = "CH MHD Extension: homeCommunityId"
-* value[x] 1..
-* value[x] only Identifier
-* valueIdentifier ^short = "Value of the homeCommunityId"
-
 Extension: ChExtDeletionStatus
 Id: ch-ext-deletionstatus
 Title: "CH Extension Deletion Status"

@@ -79,7 +79,7 @@ Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) 
 * [EPR policy set based on template 301](StructureDefinition-PpqmConsentTemplate301.html)
 
 #### Policy Administrator sets a patient representative 
-A policy administrator of the home community intends to set a person as a patient representative. The policy administrator authenticates to the 
+A policy administrator intends to set a person as a patient representative. The policy administrator authenticates to the 
 portal and selects the view of patient's representatives. The policy administrator opens the form to add a representative for the patient and enters the 
 required data.
 
