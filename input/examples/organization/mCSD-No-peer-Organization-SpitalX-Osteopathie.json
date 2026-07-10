@@ -2,7 +2,7 @@
   "resourceType" : "Organization",
   "id" : "mCSD-No-peer-Organization-SpitalX-Osteopathie",
   "meta" : {
-    "profile" : ["http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH.mCSD.Organization"]
+    "profile" : ["http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization"]
   },
   "identifier" : [{
     "system" :  "urn:ietf:rfc:4514",

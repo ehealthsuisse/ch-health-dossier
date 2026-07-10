@@ -1,7 +1,7 @@
 Instance: CH.MHD.DocumentConsumer
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.MHD.DocumentConsumer"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.MHD.DocumentConsumer"
 * name = "CH_MHD_DocumentConsumer"
 * title = "MHD Document Consumer (client)"
 * status = #active
@@ -20,7 +20,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.resource[0].type = #DocumentReference
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-documentreference-comprehensive"
+* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-comprehensive"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].searchParam[0].name = "_id"
@@ -88,7 +88,7 @@ Usage: #definition
 * rest.resource[=].searchParam[=].type = #token
 * rest.resource[=].searchParam[=].documentation = "Kind of document (LOINC if possible)"
 * rest.resource[+].type = #List
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-submissionset-comprehensive"
+* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-submissionset-comprehensive"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].searchParam[0].name = "_id"
@@ -126,7 +126,7 @@ Usage: #definition
 Instance: CH.MHD.DocumentResponder
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.MHD.DocumentResponder"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.MHD.DocumentResponder"
 * name = "CH_MHD_DocumentResponder"
 * title = "MHD Document Responder (server)"
 * status = #active
@@ -145,7 +145,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.resource[0].type = #DocumentReference
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-documentreference-comprehensive"
+* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-comprehensive"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].interaction[+].code = #update
@@ -225,7 +225,7 @@ Usage: #definition
 Instance: CH.MHD.DocumentRecipient
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.MHD.DocumentRecipient"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.MHD.DocumentRecipient"
 * name = "CH_MHD_DocumentRecipient"
 * title = "MHD Document Recipient (server)"
 * status = #active
@@ -244,12 +244,12 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.interaction.code = #transaction
-* rest.interaction.documentation = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
+* rest.interaction.documentation = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
 
 Instance: CH.MHD.DocumentSource
 InstanceOf: CapabilityStatement
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.MHD.DocumentSource"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.MHD.DocumentSource"
 * name = "CH_MHD_DocumentSource"
 * title = "MHD Document Source (client)"
 * status = #active
@@ -268,4 +268,4 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.interaction.code = #transaction
-* rest.interaction.documentation = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
+* rest.interaction.documentation = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"

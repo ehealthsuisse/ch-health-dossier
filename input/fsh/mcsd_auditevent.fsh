@@ -6,7 +6,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-90]
 Client' & Directory, when reading care service resources."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Query Client' actor (EPR application)"
-* agent[server] ^short = "The 'Directory' actor (EPR API)"
+* agent[server] ^short = "The 'Directory' actor (Health Dossier API)"
 * entity[data].what only Reference(IHE.mCSD.Practitioner or IHE.mCSD.PractitionerRole or IHE.mCSD.Organization)
   * type 1..1
   * identifier 0..1
@@ -22,7 +22,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-90]
 Client' & Directory, when querying care service resources."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Query Client' actor (EPR application)"
-* agent[server] ^short = "The 'Directory' actor (EPR API)"
+* agent[server] ^short = "The 'Directory' actor (Health Dossier API)"
 
 
 Instance:   ChAuditEventIti90ReadExample
@@ -91,7 +91,7 @@ Source' & Directory, when deleting care service resources."
 RuleSet: ChAuditEventIti130Rules
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Data Source' actor (EPR application)"
-* agent[server] ^short = "The 'Directory' actor (EPR API)"
+* agent[server] ^short = "The 'Directory' actor (Health Dossier API)"
 * entity[data].what only Reference(IHE.mCSD.Practitioner or IHE.mCSD.PractitionerRole or IHE.mCSD.Organization)
 
 

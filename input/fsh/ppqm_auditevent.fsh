@@ -27,7 +27,7 @@ Source' and 'Policy Repository' when deleting a privacy policy."
 RuleSet: ChAuditEventPpq3Rules
 * insert ChAuditEventExtendedRules
 * agent[client] ^short = "The 'Policy Source' actor (EPR application)"
-* agent[server] ^short = "The 'Policy Repository' actor (EPR API)"
+* agent[server] ^short = "The 'Policy Repository' actor (Health Dossier API)"
 * subtype contains ppq3 1..1
 * subtype[ppq3] = urn:e-health-suisse:event-type-code#PPQ-3 "Mobile Privacy Policy Feed"
 * entity[data] ^short = "The privacy policy being created, updated or deleted"
@@ -145,7 +145,7 @@ Repository'."
 RuleSet: ChAuditEventPpq5Rules
 * insert ChAuditEventExtendedRules
 * agent[client] ^short = "The 'Policy Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Policy Repository' actor (EPR API)"
+* agent[server] ^short = "The 'Policy Repository' actor (Health Dossier API)"
 * subtype contains ppq5 1..1
 * subtype[anySearch] = $restfulInteraction#search "search"
 * subtype[ppq5] = urn:e-health-suisse:event-type-code#PPQ-5 "Mobile Privacy Policy Retrieve"

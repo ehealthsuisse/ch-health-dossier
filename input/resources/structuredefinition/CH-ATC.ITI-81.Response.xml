@@ -10,7 +10,7 @@
 	The IHE MHD Profile text is Normative, this conformance resource is Informative.						
 		</div>
 	</text>
-	<url value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/CH-ATC.ITI-81.Response" />
+	<url value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH-ATC.ITI-81.Response" />
 	<name value="ChAtcIti81Response" />
 	<title value="ChAtcIti81Response" />
 	<status value="active" />
@@ -82,7 +82,7 @@
 			<min value="1" />
 			<type>
 				<code value="AuditEvent" />
-				<profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/DocumentAuditEvent" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent" />
 			</type>
 			<mustSupport value="true" />
 		</element>
@@ -102,7 +102,7 @@
             <min value="1" />
 			<type>
 				<code value="AuditEvent" />
-				<profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PolicyAuditEvent" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent" />
 			</type>
 			<mustSupport value="true" />
 		</element>
@@ -122,7 +122,7 @@
             <min value="1" />
 			<type>
 				<code value="AuditEvent" />
-				<profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/AccessAuditTrailEvent" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/AccessAuditTrailEvent" />
 			</type>
 			<mustSupport value="true" />
 		</element>
@@ -142,7 +142,7 @@
             <min value="1" />
 			<type>
 				<code value="AuditEvent" />
-				<profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/HpdAuditEvent" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/HpdAuditEvent" />
 			</type>
 			<mustSupport value="true" />
 		</element>

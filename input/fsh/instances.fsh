@@ -11,7 +11,7 @@ The PDQm Patient Demographics Consumer Actor requirements CapabilityStatement ex
 - TLS SHALL be used together with IUA basic access token
 """
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.PDQm.Consumer"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.PDQm.Consumer"
 * name = "CH_PDQm_Consumer"
 * title = "PDQm Consumer (client)"
 * status = #active
@@ -26,7 +26,7 @@ Usage: #definition
 * rest.documentation = "PDQm client will query for Patient resources matching a FHIR Patient resource"
 * rest.security.description = "TLS SHALL be used together with IUA basic access token"
 * rest.resource.type = #Patient
-* rest.resource.supportedProfile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-pdqm-patient"
+* rest.resource.supportedProfile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-patient"
 * rest.resource.operation[+].name = "match"
 * rest.resource.operation[=].definition = Canonical(CHPDQmMatch)
 * rest.resource.operation[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
@@ -48,7 +48,7 @@ The PDQm Patient Demographics Supplier Actor requirements CapabilityStatement ex
 - SHALL return Patient Resources conforming to the PDQm Patient Profile
 """
 Usage: #definition
-* url = "http://fhir.ch/ig/ch-epr-fhir/CapabilityStatement/CH.PDQm.Supplier"
+* url = "http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.PDQm.Supplier"
 * name = "CH_PDQm_Supplier"
 * title = "PDQm Supplier (server)"
 * status = #active
@@ -64,7 +64,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA basic access token"
 * rest.resource.type = #Patient
-* rest.resource.supportedProfile = "http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-pdqm-patient"
+* rest.resource.supportedProfile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-patient"
 * rest.resource.operation[+].name = "match"
 * rest.resource.operation[=].definition = Canonical(CHPDQmMatch)
 * rest.resource.operation[=].extension[+].url = "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"

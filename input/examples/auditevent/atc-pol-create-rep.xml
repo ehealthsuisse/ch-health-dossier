@@ -1,7 +1,7 @@
 <AuditEvent xmlns="http://hl7.org/fhir">
    <id value="atc-pol-create-rep"></id>
    <meta>
-      <profile value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/PolicyAuditEvent"></profile>
+      <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent"></profile>
    </meta>
    <text>
       <status value="generated"></status>

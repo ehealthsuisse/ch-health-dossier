@@ -355,7 +355,6 @@ Annex 5 Addendum 1, section 1.6.4.2 Get X-User Assertion).
 | subject_organization_id | O/O                           | urn:oasis:names:tc:xspa:1.0:subject:organization-id | The OID of the user’s organization in URN notation.                       |
 | subject_role            | O/R                           | urn:oasis:names:tc:xacml:2.0:subject:role           | Code indicating the user role from the EPR Role Code Value Set.           |
 | purpose_of_use          | O/R                           | urn:oasis:names:tc:xspa:1.0:subject:purposeofuse    | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
-| home_community_id       | O/R                           | urn:ihe:iti:xca:2010:homeCommunityId                | OID of the user’s home community in URN notation.                         |
 | person_id               | O/R                           | urn:oasis:names:tc:xacml:2.0:resource:resource-id   | SHALL be the EPR-SPID of the patients EPR.                                |
 {:class="table table-bordered"}
 
@@ -446,8 +445,7 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
   "extensions": {
     "ihe_iua": {
-      "subject_name": "Martina Musterarzt",
-      "home_community_id": "urn:oid:1.2.3.4"
+      "subject_name": "Martina Musterarzt"
     },
     "ch_epr": {
       "user_id": "2000000090092",
@@ -472,7 +470,6 @@ the **purpose_of_use**, **subject_role** and the EPR-SPID of the patient. It may
   "extensions": {
     "ihe_iua": {
       "subject_name": "Martina Musterarzt",
-      "home_community_id": "urn:oid:1.2.3.4",
       "person_id": "761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO",
       "subject_role": {
         "system": "urn:oid:2.16.756.5.30.1.127.3.10.6",
@@ -520,7 +517,6 @@ patient SHALL have the additional extension **ch_delegation**:
   "extensions": {
     "ihe_iua": {
       "subject_name": "Dagmar Musterassistent",
-      "home_community_id": "urn:oid:1.2.3.4",
       "person_id": "761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO",
       "subject_role": {
         "system": "urn:oid:2.16.756.5.30.1.127.3.10.6",

@@ -57,7 +57,6 @@ Description: """
 Find patient matches using IHE-PIXm Profile
 """
 
-* base = "http://fhir.ch/ig/ch-epr-fhir/OperationDefinition/CH.PIXm"
 * name = "CH_PIXm"
 * status = #active
 * kind = #operation
@@ -104,7 +103,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-83]
 Identifier Cross-reference Consumer'."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Identifier Cross-reference Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
   * system 1..1
@@ -117,7 +116,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-83]
 Identifier Cross-reference Manager'."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Identifier Cross-reference Consumer' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
   * system 1..1
@@ -160,7 +159,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-104
 Identity Source'."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Identifier Source' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 
 
 Profile:     ChAuditEventIti104ManagerCreate
@@ -170,7 +169,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-104
 Identifier Cross-reference Manager' when creating a patient."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Identifier Source' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
   * system 1..1
@@ -183,7 +182,7 @@ Description: "This profile is used to define the CH Audit Event for the [ITI-104
 Identifier Cross-reference Manager' when updating a patient."
 * insert ChAuditEventBasicRules
 * agent[client] ^short = "The 'Patient Identifier Source' actor (EPR application)"
-* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (EPR API)"
+* agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
   * system 1..1

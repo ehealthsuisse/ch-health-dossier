@@ -4,11 +4,9 @@ The national extensions documented in this implementation guide shall be used in
 profiles, actors and transactions provided in Volumes 1 through 3 of the IHE IT Infrastructure Technical Framework.
 
 This implementation guide with national extensions of IHE integration profiles was authored in order to fulfil the Swiss
-regulations of the Ordinance on the Electronic Patient Record (EPRO, SR 816.11). The EPRO and the
-EPRO-DFI are published in Official Compilation of Federal Legislation (AS) (available in [German](https://www.admin.ch/opc/de/classified-compilation/20111795/index.html), [French](https://www.admin.ch/opc/fr/classified-compilation/20111795/index.html)
-and [Italian](https://www.admin.ch/opc/it/classified-compilation/20111795/index.html)).
+regulations of the EGDG ([de](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [fr](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [it](https://www.fedlex.admin.ch/eli/fga/2025/3399/de)).
 
-For general information on the EPR and the system level architecture of how services in Switzerland are divided into different communities see the architecture page (available in [German](https://www.e-health-suisse.ch/technik/technische-interoperabilitaet/architektur-epd-schweiz), [French](https://www.e-health-suisse.ch/fr/technique/interoperabilite-technique/architecture-dep-suisse) and [Italian](https://www.e-health-suisse.ch/it/tecnica/collegamento-cip/collegamento-cip)) of [eHealth Suisse](https://www.e-health-suisse.ch/).
+For general information about the revision from the EPDG to the EGDG see [de](https://www.bag.admin.ch/de/epd-weiterentwickeln-totalrevision), [fr](https://www.bag.admin.ch/fr/developpement-du-dep-revision-complete), [it](https://www.bag.admin.ch/it/ulteriore-sviluppo-della-cip-revisione-totale)
 
 <div markdown="1" class="stu-note">
 
@@ -22,9 +20,9 @@ For general information on the EPR and the system level architecture of how serv
 
 #### Introduction
 
-This national extension is motivated by the intention to provide FHIR based profiles for the Swiss EPR by extending the IHE FHIR based mobile profiles. The IHE FHIR based mobile profiles use technologies (REST, OAuth, etc.) which are widely spread in the developer community and may be used for Web Applications, for example in web based primary systems or portals.
+This national extension is motivated by the intention to provide FHIR based profiles for the Swiss Health Dossier by extending the IHE FHIR based mobile profiles. The IHE FHIR based mobile profiles use technologies (REST, OAuth, etc.) which are widely spread in the developer community and may be used for Web Applications, for example in web based primary systems or portals.
 
-This national extension strictly separates the authentication and authorization of the applications use to access the EPR on behalf of the user and the authentication and authorization of the user itself. By using this separation this national extension closely follows the underlying IUA Trial Implementation and OAuth 2.1: 
+This national extension strictly separates the authentication and authorization of the applications use to access the Health Dossier on behalf of the user and the authentication and authorization of the user itself. By using this separation this national extension closely follows the underlying IUA Trial Implementation and OAuth 2.1: 
 * Client authentication - an application identifies and authenticates to an authorization server.
 * Client authorization - an application is authorized by the user or system policy to access data and documents on behalf of the user.
 * User authentication - a natural person identifies and authenticates using an Identity Provider with the authenticators registered for the natural person.
@@ -33,10 +31,10 @@ This national extension strictly separates the authentication and authorization 
 The scope of this extension covers the following use cases:
 1.	Client authentication and authorization; 
 2.	User authentication and authorization; 
-3.	Read data and documents from the EPR;
-4.	Write data and documents to the EPR; 
-5.	Write logs to the EPR ATNA Audit Record Repository.
-6.  Read audit trails for a patient according the EPR requirements.
+3.	Read data and documents from the Health Dossier;
+4.	Write data and documents to the Health Dossier; 
+5.	Write logs to the ATNA Audit Record Repository.
+6.  Read audit trails for a patient according the Health Dossier requirements.
 
 #### Profiles, grouped actors, actors and transactions
 
@@ -46,8 +44,8 @@ The following figure shows the profiles, grouped actors, actors and transactions
 
 Two grouped actors are defined:
 
-- EPR App - An application that uses the client actors for connecting to the EPR through the FHIR API. This can be a portal, primary system or SMART on FHIR App.
-- EPR API - The FHIR API a community offers for connecting clients to the EPR through the FHIR API
+- Health App - An application that uses the client actors for connecting to the Health Dossier through the FHIR API. This can be a portal, primary system or SMART on FHIR App.
+- Health Dossier API - The FHIR API the Health Dossier offers for connecting clients.
 
 ### Conformance Expectations
 
@@ -77,7 +75,8 @@ The following national integration profiles are included in this implementation 
 
 ### Design considerations 
 
-The Swiss EPR is a federated system with multiple communities publishing documents for a patient. A patient has a reference community but documents can be published for a patient in other communities too. Each patient has one active national identifier (EPR-SPID) which shall be used to correlate the patient between the different communities. This impacts the FHIR API in the following way:
+Each patient has one active national identifier (EPR-SPID) which shall be used to correlate the patient between the different communities. 
+This impacts the FHIR API in the following way:
 
 #### logical reference for patients and health care professionals, contained resources
 

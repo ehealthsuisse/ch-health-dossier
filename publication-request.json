@@ -1,11 +1,11 @@
 {
-  "package-id" : "ch.fhir.ig.ch-epr-fhir",
-  "version" : "5.0.0",
-  "path" : "http://fhir.ch/ig/ch-epr-fhir/5.0.0",
+  "package-id" : "ch.fhir.ig.ch-health-dossier",
+  "version" : "1.0.0-preview",
+  "path" : "http://fhir.ch/ig/ch-health-dossier/1.0.0-preview",
   "mode" : "milestone",
   "status" : "ballot",
-  "sequence" : "DSTU 5",
-  "desc" : "eHealth Suisse DSTU 5",
+  "sequence" : "DSTU 1",
+  "desc" : "eHealth Suisse",
   "changes" : "changelog.html",
-  "first": false
+  "first": true
 }

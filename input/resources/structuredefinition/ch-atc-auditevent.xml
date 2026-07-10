@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ch-atc-auditevent"/>
-  <url value="http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-atc-auditevent"/>
+  <url value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-atc-auditevent"/>
   <name value="ChAtcAuditEvent"/>
   <title value="CH ATC AuditEvent"/>
   <status value="active"/>

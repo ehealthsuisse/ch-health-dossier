@@ -31,10 +31,6 @@ Moreover, when serving incoming requests, each actor SHALL:
 
 This allows all actors to correlate transactions that are related because they all stem from the same initial action, and facilitates logging, tracing and auditing.
 It also links transactions to their audit events, through the whole `traceparent` value.
-For example: when receiving a Find Document References [ITI-67] request, a Document Responder actor (with the Option
-Federated Cross Community Access) will need to query all other communities.
-For each of these queries, the Document Recipient actor sets the `traceparent` header with the same **trace-id**
-value and generate a new **parent-id** value.
 
 ##### Audit event requirements
 
