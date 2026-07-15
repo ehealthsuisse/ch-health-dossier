@@ -2,7 +2,7 @@ id: ch.fhir.ig.ch-health-dossier
 canonical: http://fhir.ch/ig/ch-health-dossier
 url: http://fhir.ch/ig/ch-health-dossier/ImplementationGuide/ch.fhir.ig.ch-health-dossier
 name: CHHealthDossier
-title: CH Health Dossier FHIR (R4)
+title: CH Health Dossier (R4)
 description: FHIR implementation guide to the Swiss Health Dossier
 status: active
 experimental: false

@@ -1,11 +1,10 @@
 This section specifies Swiss national extensions to Patient Demographics Query for mobile (PDQm). PDQm is [published](https://profiles.ihe.net/ITI/PDQm/index.html) as an IHE ITI Trial Implementation profile.
 
 ###	Scope  
-In the Swiss EPR, the PDQm profile ensures that different systems can search patients participating in the Swiss EPR by demographics and that the initial demographics data can be retrieved from the MPI. 
+In the Swiss Health Dossier, the PDQm profile ensures that different systems can search patients participating in the Swiss Health Dossier by demographics and that the demographics data can be retrieved. 
 
 ###	Use Cases  
-An EPR App wants to search a patient participating in the EPR. The EPR App needs to provide demographic search 
-criteria and can then retrieve patients matching these parameters.
+A Health App wants to search a patient participating in the Swiss Health Dossier. The Health App needs to provide demographic search criteria and can then retrieve patients matching these parameters.
 
 ###	Actors and Transactions, Content Specifications  
 This national extension adds restrictions to the amount of query results if too many are found. Otherwise there are no extensions or restrictions to the profile actors and the transaction. 
