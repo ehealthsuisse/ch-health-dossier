@@ -4,7 +4,7 @@
     <name value="CH_PIXm_Manager" />
     <title value="PIXm Patient Identifier Cross-reference Manager (server)" />
     <status value="active" />
-    <date value="2020-07-07" />
+    <date value="2026-07-15" />
     <publisher value="eHealth Suisse"/>
     <contact>
         <name value="eHealth Suisse"/>
@@ -13,14 +13,14 @@
             <value value="https://www.e-health-suisse.ch"/>
         </telecom>
     </contact>
-    <description value="The Patient Identifier Cross-reference Manager CapabilityStatement expresses the requirements that shall be provided. - using FHIR R4 - using json and xml encoding - support the $ihe-pix operation - support conditional update for [ITI-104] - support conditional delete for [ITI-104] if Remove Patient Option is supported - used with IHE-IUA"/>
+    <description value="The Patient Identifier Cross-reference Manager allows a conditional update to revise contact information of an existing patient."/>
     <kind value="requirements" />
     <fhirVersion value="4.0.1" />
     <format value="application/fhir+xml" />
     <format value="application/fhir+json" />
     <rest>
         <mode value="server" />
-        <documentation value="PIXm server stores the patient data provided with the request and assigns it to or creates a master patient record and a MPI-PID [ITI-104]." />
+        <documentation value="Patient Identifier Cross-reference Manager support for [ITI-104]." />
         <security>
             <cors value="false" />
             <description value="TLS SHALL be used together with IUA basic access token" />
@@ -34,9 +34,5 @@
             </interaction>
             <conditionalUpdate value="true"/>
         </resource>
-        <operation>
-            <name value="$ihe-pix"/>
-            <definition value="http://fhir.ch/ig/ch-health-dossier/OperationDefinition/CH.PIXm"/>
-        </operation>
     </rest>
 </CapabilityStatement>
