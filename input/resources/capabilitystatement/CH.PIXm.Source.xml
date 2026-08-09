@@ -4,7 +4,7 @@
     <name value="CH_PIXm_Source" />
     <title value="PIXm Patient Identity Source (client)" />
     <status value="active" />
-    <date value="2020-07-09" />
+    <date value="2026-07-15" />
     <publisher value="eHealth Suisse"/>
     <contact>
         <name value="eHealth Suisse"/>
@@ -13,14 +13,14 @@
             <value value="https://www.e-health-suisse.ch"/>
         </telecom>
     </contact>
-    <description value="The Patient Identity Source Actor CapabilityStatement expresses the requirements that can be utilized while being compliant. - using FHIR R4 - using json or xml encoding - using conditional update for [ITI-104] - provide supported Patient profile for cross-referencing for [ITI-104]"/>
+    <description value="The Patient Identity Source can do a conditional update to revise contact information of an existing patient."/>
     <kind value="requirements" />
     <fhirVersion value="4.0.1" />
     <format value="application/fhir+xml" />
     <format value="application/fhir+json" />
     <rest>
         <mode value="client" />
-        <documentation value="PIXm client registers data of a specific patient in the Patient Identifier Cross-reference Manager [ITI-104]." />
+        <documentation value="Patient Identity Source support for [ITI-104]." />
         <security>
             <cors value="false" />
             <description value="TLS SHALL be used together with IUA basic access token" />

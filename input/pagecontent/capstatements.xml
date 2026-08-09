@@ -13,10 +13,6 @@
         <a href="CapabilityStatement-CH.EPR.App.html">Health App (client)</a>
         <p>CapabilityStatement for Health App (client).</p>
         <ul>
-          <li>
-            <a href="CapabilityStatement-CH.PIXm.Consumer.html">PIXm Patient Identifier Cross-Reference Consumer (client)</a>
-            <p>CapabilityStatement for Actor PIXm Patient Identifier Cross-reference Consumer (client).</p>
-          </li>
            <li><a href="CapabilityStatement-CH.PDQm.Consumer.html">PDQm Consumer (client)</a> <p>CapabilityStatement for Actor PDQm Patient Demographics Query Consumer (client).</p>
           </li>
           <li>

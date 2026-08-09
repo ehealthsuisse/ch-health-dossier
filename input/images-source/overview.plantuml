@@ -12,7 +12,6 @@ component "Health App" {
 
   [Patient Demographics Consumer] as PDQmConsumer
 
-  [PIXm Patient Identifier Cross-reference Consumer] as PIXmConsumer
   [PIXm Patient Identity Source] as PIXmSource
 
   [MHD Document Source] as MHDSource
@@ -44,7 +43,6 @@ component "Health Dossier API" {
   PDQmConsumer --> PDQmSupplier : Patient Demographics Match [ITI-119]
 
   [PIXm Patient Identifier Cross-reference Manager] as PIXmManager
-  PIXmConsumer --> PIXmManager : Mobile Patient Identifier Cross-reference Query [ITI-83]
   PIXmSource --> PIXmManager : Patient Identity Feed FHIR [ITI-104]
 
   [MHD Document Recipient] as MHDRecipient

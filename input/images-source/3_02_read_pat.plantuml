@@ -6,12 +6,10 @@ actor user as "Patient"
 box "Patient Portal" #BFCAD2
 	participant app as "App GUI"
   participant docconsumer as "Document Consumer\n(MHD)"
-  participant pixmconsumer as "Patient Identifier\nCross-reference\nConsumer"
-	participant AuthorizationClient as "Authorization Client\n(IUA)"
+ 	participant AuthorizationClient as "Authorization Client\n(IUA)"
 end box
 
 box "Community Components" #FFEFDE
-	participant mp_pix_x_ref_mgr as "Patient Identifier\nCross-reference\nManger"
 	participant mp_AuthorizationServer as "Authorization Server\n(IUA)"
 	participant mp_doc_responder as "Document Responder\n(MHD)"
 end box
@@ -28,8 +26,6 @@ app -> mp_AuthorizationServer: GET /.well-known/smart-configuration
 activate mp_AuthorizationServer
 app <- mp_AuthorizationServer: Conformance statement incl. OAuth 2.1 endpoints
 deactivate mp_AuthorizationServer
-
-!include_many step_mh_iua_pixm.plantuml.txt
 
 !include_many step_mh_iua.plantuml.txt
 
