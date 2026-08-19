@@ -174,76 +174,22 @@ The PDQm Patient Profile for $match Input SHALL be provided as input to the ITI-
 * identifier[AHVN13] ^short = "AHVN13 / NAVS13 of the patient (13 digits starting with 756, no separators)"
 * telecom ..0                                 // PatientTelecom, forbidden
 
-CodeSystem: ChEhealthCodesystemPqdMoreAttributesRequested
-Id: 2.16.756.5.30.1.127.3.10.17
-Title: "CH Codesystem PDQ More Attributes Requested"
-Description: "Codes for indicating which additional attributes are requested to lower the results number."
-* ^url = "urn:oid:2.16.756.5.30.1.127.3.10.17"
-* ^status = #active
-* ^experimental = false
-* ^publisher = "eHealth Suisse"
-* ^contact.name = "eHealth Suisse"
-* ^contact.telecom.system = #url
-* ^contact.telecom.value = "https://www.e-health-suisse.ch/"
-* ^jurisdiction = urn:iso:std:iso:3166#CH
-* ^copyright = "CC0-1.0"
-* ^caseSensitive = true
-* ^content = #complete
-* #BirthNameRequested "BirthNameRequested"
-
-CodeSystem: IheXcpdMoreAttributesRequested
-Id: 1.3.6.1.4.1.19376.1.2.27.1
-Title: "IHE XCPD Codesystem more attributes requested"
-Description: "Codes for indicating which additional attributes are requested to lower the results number."
-* ^url = "urn:oid:1.3.6.1.4.1.19376.1.2.27.1"
-* ^status = #active
-* ^experimental = false
-* ^publisher = "IHE International"
-* ^contact.name = "IHE IT Infrastructure Technical Committee"
-* ^contact.telecom.system = #email
-* ^contact.telecom.value = "iti@ihe.net"
-* ^jurisdiction = $m49.htm#001
-* ^copyright = "CC0-1.0"
-* ^caseSensitive = true
-* ^content = #complete
-* #LivingSubjectAdministrativeGenderRequested "LivingSubjectAdministrativeGenderRequested"
-* #PatientAddressRequested "PatientAddressRequested"
-* #LivingSubjectBirthPlaceNameRequested "LivingSubjectBirthPlaceNameRequested"
-
-ValueSet: ChPdqmMoreAttributesRequested
-Id: ChPdqmMoreAttributesRequested
-Title: "CH PDQm ValueSet More Attributes Requested"
-Description: "Coded Values for indicating which additional attributes are requested to lower the results number."
-* ^status = #active
-* ^experimental = false
-* IheXcpdMoreAttributesRequested#LivingSubjectAdministrativeGenderRequested
-* IheXcpdMoreAttributesRequested#PatientAddressRequested
-* IheXcpdMoreAttributesRequested#LivingSubjectBirthPlaceNameRequested
-* ChEhealthCodesystemPqdMoreAttributesRequested#BirthNameRequested
-
-Profile: ChPdqmResponseMoreAttributesRequested
+Profile: ChPdqmResponseTooManyResults
 Parent: OperationOutcome
-Id: ch-pdqm-moreattributesrequested
-Title: "CH PDQm OperationOutcome More Attributes Requested"   // need to be put it ig.xml
-Description: "A profile on the OperationOutcome for indicating which additional attributes are requested to lower the results number."   // need to be put it ig.xml
+Id: ch-pdqm-toomanyresults
+Title: "CH PDQm OperationOutcome Too Many Results"   // need to be put it ig.xml
+Description: "A profile on the OperationOutcome to indicate that the search is not complete (too many results)."   // need to be put it ig.xml
 * issue.severity = #warning 
 * issue.code = #incomplete
-* issue.details from ChPdqmMoreAttributesRequested (required)
 
-Instance: PDQmResponseMoreAttributesRequested
-InstanceOf: ch-pdqm-moreattributesrequested
-Title: "PDQm OperationOutcome More Attributes Requested Example"
-Description: "An example on the OperationOutcome for indicating which additional attributes are requested to lower the results number."
+Instance: PDQmResponseTooManyResults
+InstanceOf: ch-pdqm-toomanyresults
+Title: "PDQm OperationOutcome Too Many Results Example"
+Description: "An example on the OperationOutcome for indicating that the search is not complete (too many results)."
 Usage: #example
 * issue[0].severity = #warning
 * issue[=].code = #incomplete
-* issue[=].details.coding[0] = urn:oid:1.3.6.1.4.1.19376.1.2.27.1#LivingSubjectAdministrativeGenderRequested "LivingSubjectAdministrativeGenderRequested"
-* issue[+].severity = #warning
-* issue[=].code = #incomplete
-* issue[=].details.coding[0] = urn:oid:1.3.6.1.4.1.19376.1.2.27.1#LivingSubjectBirthPlaceNameRequested "LivingSubjectBirthPlaceNameRequested"
-* issue[+].severity = #warning
-* issue[=].code = #incomplete
-* issue[=].details.coding[0] = 2.16.756.5.30.1.127.3.10.17#BirthNameRequested "BirthNameRequested"
+* issue[=].details.text = "Too many matches; please provide more specific criteria."
 
 Instance: FranzMusterMatchInputAhvn13
 InstanceOf: CHPDQmMatchInput
@@ -301,7 +247,7 @@ Usage: #example
 * link.relation = "self"
 * link.url = "http://example.com/Patient/$match"
 * entry[OperationOutcome].fullUrl = "urn:uuid:13c56fd3-f2f1-4174-ae56-c91f027ffddf"
-* entry[OperationOutcome].resource = PDQmResponseMoreAttributesRequested
+* entry[OperationOutcome].resource = PDQmResponseTooManyResults
 * entry[OperationOutcome].search.mode = #outcome
 
 
@@ -334,8 +280,6 @@ InstanceOf: ChAuditEventIti119Consumer
 Usage:      #example
 * insert ChAuditEventIti119ExampleRules
 * insert ChExampleAuditEventClientRules
-* insert ChExampleAuditEventEntityPatientRules
-
 
 Instance:   ChAuditEventIti119SupplierExample
 InstanceOf: ChAuditEventIti119Supplier

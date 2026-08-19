@@ -262,7 +262,7 @@ resources:
     name: PDQm Match response message too many results
     description: CH PDQm Match response message with too many results indication
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-matchparametersout
-  OperationOutcome/PDQmResponseMoreAttributesRequested:
+  OperationOutcome/PDQmResponseTooManyResults:
     name: PDQm OperationOutcome More Attributes Requested Example
     description: An example on the OperationOutcome for indicating which additional
       attributes are requested to lower the results number.
