@@ -263,10 +263,9 @@ resources:
     description: CH PDQm Match response message with too many results indication
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-matchparametersout
   OperationOutcome/PDQmResponseTooManyResults:
-    name: PDQm OperationOutcome More Attributes Requested Example
-    description: An example on the OperationOutcome for indicating which additional
-      attributes are requested to lower the results number.
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-moreattributesrequested
+    name: PDQm OperationOutcome too Many Results Example
+    description: An example on the OperationOutcome for too many search results.
+    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-toomanyresults
   OperationOutcome/MhdOperationOutcomeErrorUnmodifiableMetadataError:
     name: MHD OperationOutcome DocumentReference update error unmodifiable metadata
     description: Error OperationOutcome that the updated DocumentReference changed
