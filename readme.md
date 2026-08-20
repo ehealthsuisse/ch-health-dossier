@@ -2,8 +2,6 @@
 
 FHIR API to connect to the CH Health Dossier.
 
-The national IHE extensions documented in this FHIR implementation guide shall be used in conjunction with the definitions of integration profiles, actors and transactions provided in Volumes 1 through 3 of the IHE IT Infrastructure Technical Framework.
-
 ### Structure Definitions
 
 To support **conformance** to the IHE profiles, the following validation mechanisms are added in this implementation guide:
