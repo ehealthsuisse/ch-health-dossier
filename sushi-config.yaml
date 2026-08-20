@@ -2,7 +2,7 @@ id: ch.fhir.ig.ch-health-dossier
 canonical: http://fhir.ch/ig/ch-health-dossier
 url: http://fhir.ch/ig/ch-health-dossier/ImplementationGuide/ch.fhir.ig.ch-health-dossier
 name: CHHealthDossier
-title: CH Health Dossier FHIR (R4)
+title: CH Health Dossier (R4)
 description: FHIR implementation guide to the Swiss Health Dossier
 status: active
 experimental: false
@@ -25,8 +25,8 @@ copyright: CC0-1.0
 jurisdiction: urn:iso:std:iso:3166#CH
 
 dependencies:
-  ch.fhir.ig.ch-term: 3.3.x # current
-  ch.fhir.ig.ch-core: 7.0.0-ballot # current
+  ch.fhir.ig.ch-term: 3.3.x
+  ch.fhir.ig.ch-core: 7.0.0-ballot
   ihe.iti.pixm: 
     version: 3.1.0
     id: ihepixmfhir
@@ -262,7 +262,7 @@ resources:
     name: PDQm Match response message too many results
     description: CH PDQm Match response message with too many results indication
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-matchparametersout
-  OperationOutcome/PDQmResponseMoreAttributesRequested:
+  OperationOutcome/PDQmResponseTooManyResults:
     name: PDQm OperationOutcome More Attributes Requested Example
     description: An example on the OperationOutcome for indicating which additional
       attributes are requested to lower the results number.

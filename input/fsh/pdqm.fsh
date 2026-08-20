@@ -2,10 +2,9 @@ Profile: CHPDQmPatient
 Parent: $ch-core-patient
 Id: ch-pdqm-patient
 Title: "CH PDQm Patient"
-Description: "The patient demographics and identifier information which can be provided in the PDQm response according to the EPR. If the patient is already registered in a community, the MPI-PID SHALL be provided as an identifier. The EPR-SPID as an identifier MAY be added. The birthname can be added with the ISO 21090 qualifier extension."
+Description: "The patient demographics and identifier information provided in a PDQm response."
 * extension[religion] 0..0
 * identifier[EPR-SPID] 1..1 MS
-* identifier[LocalPid] 0..* MS
 * name MS
 * name ^slicing.discriminator.type = #profile
 * name ^slicing.discriminator.path = "$this"
@@ -18,7 +17,34 @@ Description: "The patient demographics and identifier information which can be p
 * name[BirthName] only $ch-epr-fhir-birthname
 * name[BirthName] ^short = "The birthname of the patient"
 * name[BirthName] ^comment = "The birthname is added with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
-* contact 0..0
+* contact[nameOfParent] 0..* MS
+* contact[nameOfParent].gender MS
+
+Mapping: CHPDQmPatientEch0213
+Source: CHPDQmPatient
+Target: "http://www.ech.ch/xmlns/eCH-0213/1"
+Title: "Mapping to CH-0213"
+Description: """
+Element mapping of the eCH-0213 personFromUPIType payload
+
+Limitations of the mappings:
+placeOfBirth = unknown (generalPlaceType has an explicit unknown branch), no current mapping
+nationalityStatus 0 (unknown) / 1 (no nationality) no current mapping
+recordTimestamp no current mapping
+"""
+* -> "personFromUPIType"
+* identifier -> "pids UPIType (AHVN13) resp. EPR-SPID"
+* name.given -> "firstName" "single token, officialFirstName; do not split"
+* name.family -> "officialName"
+* name[BirthName] -> "originalName"
+* gender -> "sex" "via ch-term ConceptMap sex-ech11-to-fhir: 1~male, 2~female, 3~other"
+* birthDate -> "dateOfBirth" "datePartiallyKnownType precision maps onto FHIR date"
+* deceasedDateTime -> "dateOfDeath"
+* contact[nameOfParent] -> "mothersName / fathersName"
+* contact[nameOfParent].name -> "nameOfParentType (firstName and/or officialName)"
+* contact[nameOfParent].gender -> "nameOfParentType"
+* extension[placeOfBirth] -> "placeOfBirth" "swissTown -> city + historyMunicipalityId; foreignCountry -> country (ISO-3166) + town"
+* extension[citizenship] -> "nationalityData" "ISO-3166 per ch-pat-3; only nationalityStatus 2 maps"
 
 // https://github.com/IHE/ITI.PDQm/blob/main/input/fsh/PDQmMatch.fsh
 Instance: CHPDQmMatch
@@ -86,7 +112,6 @@ without being wrapped in a Parameters Resource, as long as it conforms to the [P
 """
 * parameter[resource].resource only CHPDQmMatchInput
 
-// https://github.com/IHE/ITI.PDQm/blob/main/input/fsh/PDQmMatch.fsh
 Profile: CHPDQmMatchParametersOut
 Parent: Bundle
 Id: ch-pdqm-matchparametersout
@@ -114,7 +139,6 @@ Description: "A profile on the Query Patient Resource Response message for ITI-1
 // * entry[OperationOutcome].resource ^type.profile = Canonical(OperationOutcome)
 // * entry[OperationOutcome].resource only ch-pdqm-moreattributesrequested
 
-// https://github.com/IHE/ITI.PDQm/blob/main/input/fsh/PDQmMatch.fsh
 Profile: CHPDQmMatchInput
 Parent: https://profiles.ihe.net/ITI/PDQm/StructureDefinition/IHE.PDQm.MatchInputPatient
 Title: "CH PDQm Patient Profile for $match Input"
@@ -123,6 +147,7 @@ The PDQm Patient Profile for $match Input SHALL be provided as input to the ITI-
 - While it is not REQUIRED that the input to $match be a valid FHIR instance, it is RECOMMENDED to supply as many elements as possible to facilitate matching.
 - modifierExtension and implicitRules SHALL not be specified.
 - The ChEprFhirBirthName profile is available to hold the mother's maiden name
+- The AHVN13 of the patient MAY be provided as an identifier to identify a patient by the minimal demographics and the social security number
 """
 * name ^slicing.discriminator.type = #profile
 * name ^slicing.discriminator.path = "$this"
@@ -139,95 +164,62 @@ The PDQm Patient Profile for $match Input SHALL be provided as input to the ITI-
 * birthDate MS                                // LivingSubjectBirthTime
 * address MS                                  // PatientAddress
 * identifier MS                               // LivingSubjectId
+* identifier ^slicing.discriminator.type = #value
+* identifier ^slicing.discriminator.path = "system"
+* identifier ^slicing.rules = #open
+* identifier contains AHVN13 0..1 MS
+* identifier[AHVN13].system 1..1
+* identifier[AHVN13].system = "urn:oid:2.16.756.5.32" (exactly)
+* identifier[AHVN13].value 1..1
+* identifier[AHVN13] ^short = "AHVN13 / NAVS13 of the patient (13 digits starting with 756, no separators)"
 * telecom ..0                                 // PatientTelecom, forbidden
 
-CodeSystem: ChEhealthCodesystemPqdMoreAttributesRequested
-Id: 2.16.756.5.30.1.127.3.10.17
-Title: "CH Codesystem PDQ More Attributes Requested"
-Description: "Codes for indicating which additional attributes are requested to lower the results number."
-* ^url = "urn:oid:2.16.756.5.30.1.127.3.10.17"
-* ^status = #active
-* ^experimental = false
-* ^publisher = "eHealth Suisse"
-* ^contact.name = "eHealth Suisse"
-* ^contact.telecom.system = #url
-* ^contact.telecom.value = "https://www.e-health-suisse.ch/"
-* ^jurisdiction = urn:iso:std:iso:3166#CH
-* ^copyright = "CC0-1.0"
-* ^caseSensitive = true
-* ^content = #complete
-* #BirthNameRequested "BirthNameRequested"
-
-CodeSystem: IheXcpdMoreAttributesRequested
-Id: 1.3.6.1.4.1.19376.1.2.27.1
-Title: "IHE XCPD Codesystem more attributes requested"
-Description: "Codes for indicating which additional attributes are requested to lower the results number."
-* ^url = "urn:oid:1.3.6.1.4.1.19376.1.2.27.1"
-* ^status = #active
-* ^experimental = false
-* ^publisher = "IHE International"
-* ^contact.name = "IHE IT Infrastructure Technical Committee"
-* ^contact.telecom.system = #email
-* ^contact.telecom.value = "iti@ihe.net"
-* ^jurisdiction = $m49.htm#001
-* ^copyright = "CC0-1.0"
-* ^caseSensitive = true
-* ^content = #complete
-* #LivingSubjectAdministrativeGenderRequested "LivingSubjectAdministrativeGenderRequested"
-* #PatientAddressRequested "PatientAddressRequested"
-* #LivingSubjectBirthPlaceNameRequested "LivingSubjectBirthPlaceNameRequested"
-
-ValueSet: ChPdqmMoreAttributesRequested
-Id: ChPdqmMoreAttributesRequested
-Title: "CH PDQm ValueSet More Attributes Requested"
-Description: "Coded Values for indicating which additional attributes are requested to lower the results number."
-* ^status = #active
-* ^experimental = false
-* IheXcpdMoreAttributesRequested#LivingSubjectAdministrativeGenderRequested
-* IheXcpdMoreAttributesRequested#PatientAddressRequested
-* IheXcpdMoreAttributesRequested#LivingSubjectBirthPlaceNameRequested
-* ChEhealthCodesystemPqdMoreAttributesRequested#BirthNameRequested
-
-Profile: ChPdqmResponseMoreAttributesRequested
+Profile: ChPdqmResponseTooManyResults
 Parent: OperationOutcome
-Id: ch-pdqm-moreattributesrequested
-Title: "CH PDQm OperationOutcome More Attributes Requested"   // need to be put it ig.xml
-Description: "A profile on the OperationOutcome for indicating which additional attributes are requested to lower the results number."   // need to be put it ig.xml
+Id: ch-pdqm-toomanyresults
+Title: "CH PDQm OperationOutcome Too Many Results"   // need to be put it ig.xml
+Description: "A profile on the OperationOutcome to indicate that the search is not complete (too many results)."   // need to be put it ig.xml
 * issue.severity = #warning 
 * issue.code = #incomplete
-* issue.details from ChPdqmMoreAttributesRequested (required)
 
-Instance: PDQmResponseMoreAttributesRequested
-InstanceOf: ch-pdqm-moreattributesrequested
-Title: "PDQm OperationOutcome More Attributes Requested Example"
-Description: "An example on the OperationOutcome for indicating which additional attributes are requested to lower the results number."
+Instance: PDQmResponseTooManyResults
+InstanceOf: ch-pdqm-toomanyresults
+Title: "PDQm OperationOutcome Too Many Results Example"
+Description: "An example on the OperationOutcome for indicating that the search is not complete (too many results)."
 Usage: #example
 * issue[0].severity = #warning
 * issue[=].code = #incomplete
-* issue[=].details.coding[0] = urn:oid:1.3.6.1.4.1.19376.1.2.27.1#LivingSubjectAdministrativeGenderRequested "LivingSubjectAdministrativeGenderRequested"
-* issue[+].severity = #warning
-* issue[=].code = #incomplete
-* issue[=].details.coding[0] = urn:oid:1.3.6.1.4.1.19376.1.2.27.1#LivingSubjectBirthPlaceNameRequested "LivingSubjectBirthPlaceNameRequested"
-* issue[+].severity = #warning
-* issue[=].code = #incomplete
-* issue[=].details.coding[0] = 2.16.756.5.30.1.127.3.10.17#BirthNameRequested "BirthNameRequested"
+* issue[=].details.text = "Too many matches; please provide more specific criteria."
+
+Instance: FranzMusterMatchInputAhvn13
+InstanceOf: CHPDQmMatchInput
+Usage: #inline
+* text.status = #generated
+* text.div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">Franz Muster, 27.1.1995, AHVN13 7561234567897</div>"
+* identifier[AHVN13].system = "urn:oid:2.16.756.5.32"
+* identifier[AHVN13].value = "7561234567897"
+* name.family = "Muster"
+* name.given = "Franz"
+* gender = #male
+* birthDate = "1995-01-27"
+
+Instance: PDQm-MatchRequestAhvn13
+InstanceOf: CHPDQmMatchParametersIn
+Title: "PDQm Match request message with AHVN13"
+Description: "CH PDQm Match request message example identifying Franz Muster, 27.1.1995 by the minimal demographics and the AHVN13 to retrieve the EPR-SPID"
+Usage: #example
+* parameter[resource].name = "resource"
+* parameter[resource].resource = FranzMusterMatchInputAhvn13
 
 Instance: FranzMuster
 InstanceOf: ch-pdqm-patient
 Usage: #inline
 * identifier[EPR-SPID][+].system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * identifier[EPR-SPID][=].value = "761337610411353650"
-* identifier[LocalPid][+].system = "urn:oid:2.999.5.6.7"
-* identifier[LocalPid][=].value = "value of MPI-PID"
-* identifier[LocalPid][+].type = $v2-0203#MR
-* identifier[LocalPid][=].system = "urn:oid:2.999.1.2.3.4"
-* identifier[LocalPid][=].value = "8734"
 * name.family = "Muster"
 * name.given = "Franz"
 * gender = #male
 * birthDate = "1995-01-27"
-* managingOrganization.identifier.system = "urn:oid:2.51.1.3"
-* managingOrganization.identifier.value = "7601000201041"
 
 Instance: PDQm-QueryResponse
 InstanceOf: CHPDQmMatchParametersOut
@@ -255,7 +247,7 @@ Usage: #example
 * link.relation = "self"
 * link.url = "http://example.com/Patient/$match"
 * entry[OperationOutcome].fullUrl = "urn:uuid:13c56fd3-f2f1-4174-ae56-c91f027ffddf"
-* entry[OperationOutcome].resource = PDQmResponseMoreAttributesRequested
+* entry[OperationOutcome].resource = PDQmResponseTooManyResults
 * entry[OperationOutcome].search.mode = #outcome
 
 
@@ -267,12 +259,8 @@ Title:       "CH Audit Event for [ITI-119] Patient Demographics Consumer"
 Description: "This profile is used to define the CH Audit Event for the [ITI-119] transaction and the actor 'Patient
               Demographics Consumer'."
 * insert ChAuditEventBasicRules
-* agent[client] ^short = "The 'Patient Demographics Consumer' actor (EPR application)"
+* agent[client] ^short = "The 'Patient Demographics Consumer' actor (Health App)"
 * agent[server] ^short = "The 'Patient Demographics Supplier' actor (Health Dossier API)"
-* entity[patient].what.identifier 1..1
-  * value 1..1
-  * system 1..1
-
 
 Profile:     ChAuditEventIti119Supplier
 Parent:      AuditPdqmMatchSupplier
@@ -280,7 +268,7 @@ Title:       "CH Audit Event for [ITI-119] Patient Demographics Supplier"
 Description: "This profile is used to define the CH Audit Event for the [ITI-119] transaction and the actor 'Patient
 Demographics Supplier'."
 * insert ChAuditEventBasicRules
-* agent[client] ^short = "The 'Patient Demographics Consumer' actor (EPR application)"
+* agent[client] ^short = "The 'Patient Demographics Consumer' actor (Health App)"
 * agent[server] ^short = "The 'Patient Demographics Supplier' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
@@ -292,8 +280,6 @@ InstanceOf: ChAuditEventIti119Consumer
 Usage:      #example
 * insert ChAuditEventIti119ExampleRules
 * insert ChExampleAuditEventClientRules
-* insert ChExampleAuditEventEntityPatientRules
-
 
 Instance:   ChAuditEventIti119SupplierExample
 InstanceOf: ChAuditEventIti119Supplier

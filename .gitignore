@@ -9,3 +9,7 @@ fsh-generated/**
 /_*.bat
 /_*.sh
 /.idea
+TODO.md
+AGENTS.md
+CLAUDE.md
+Requirements-fromNarrative.json
