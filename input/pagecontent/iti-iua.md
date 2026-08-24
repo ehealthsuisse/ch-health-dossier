@@ -9,19 +9,8 @@ restrictions to the Internet User Authorization (IUA) Profile [published](https:
 of the Swiss EPR.
 
 This national extension is scoped for client authorization in FHIR based interfaces for primary systems, portals and
-SMART on FHIR Apps launched from the portals or primary systems. It is scoped to convey the information required to 
-identify and authenticate the clients an to enforce the privacy policy settings, when accessing protected resources 
-from the EPR.
-
-This national extension covers:
-
-- SMART on FHIR Apps launched from a portal or primary system, which require a launch context identifying the portal or
-  primary system the app is launched from. This requires the portal or primary system to be registered with **client_id**
-  and **client-secret** during onboarding and may require the user to authorize the SMART on FHIR App to act on
-  behalf for given scopes.
-
-- Portals and primary systems registered during onboarding, which authenticate the user compliant to EPRO Annex
-  8 and provide the identity token in the IUA Get Access Token Request send to the IUA Authorization Server.
+"Digitale Gesundheitsanwendungen (dGA)". It is scoped to convey the information required to identify and authenticate 
+the clients an to enforce the privacy policy settings, when accessing protected resources from the EPR.
 
 ### Use Cases
 
@@ -37,7 +26,7 @@ information required to access the EPR (e.g., resolve the digital identity to th
 Server responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and 
 documents from the patients EPR.
 
-#### User Access from an integrated Primary System
+#### User Access from a Primary System
 
 A healthcare professional uses a primary system which is integrated to the Swiss EPR using the profiles to access and
 share data and documents with her patients or other healthcare professionals. To access documents from the EPR the
@@ -45,36 +34,26 @@ healthcare professional authenticates at a certified identity provider from her 
 and switches to the user interface to display the patients documents. The primary system connects to the IUA
 Authorization Server and sends the identity token and the required claims to access the patients EPR.
 
-The IUA Authorization Server verifies if the primary system is authorized to access the EPR on behalf of the user by
-checking that the primary system has been registered during the onboarding process.
+The IUA Authorization Server verifies if the primary system was registered and authorized to access the EPR on behalf 
+of the user during onboarding.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to GLN). The IUA Authorization Server
 responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and documents
 from the patients EPR.
 
-#### User Access from a SMART on FHIR component
+#### Patient Access from a "Digitale Gesundheitsanwendung (dGA)"
 
-A patient or healthcare professional uses a portal or primary system which uses SMART on FHIR Apps to connect to the
-Swiss EPR.
+A patient uses a dGA which is integrated to the Swiss EPR using the profiles to access and share data and documents
+with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified Identity
+Provider. The dGA sends the identity token and the required claims to the IUA Authorization Server
+to retrieve an authorization token to access the patients EPR.
 
-The patient or healthcare professional authenticates in the portal or primary system and launches the SMART on FHIR App
-from the portal or primary system. The portal or primary system first builds a SMART on FHIR launch context with the
-patient context and identifiers of the portal or primary system application and launches the SMART on FHIR App with the
-launch context.
+The Authorization Server validates the claims together with the data from the identity token and resolves additional
+information required to access the EPR (e.g., resolve the digital identity to the EPR-SPID). The IUA Authorization
+Server responds an IUA Authorization Token the dGA shall incorporate to all transaction to retrieve the data and
+documents from the patients EPR.
 
-The IUA Authorization Server verifies that the portal or primary system is authorized to launch SMART on FHIR Apps which
-connect to the EPR on behalf of the user by checking that the portal or primary system has been registered beforehand
-during the onboarding process of the portal or primary system application.
-
-The IUA Authorization Server reflects the community policy which requires the user's consent for SMART on FHIR Apps to
-access their protected data with a given scope. The IUA Authorization Server verifies that the user has a valid session
-at the Identity Provider and retrieves the Identity Assertion from the Identity Provider to identity the user.
-The Authorization Server validates the Authorization Client claims and resolves additional information the SMART on
-FHIR App requires to access the EPR (e.g., resolve the digital identity to the EPR-SPID).
-
-The IUA Authorization Server responds an IUA Authorization Token which the SMART on FHIR App shall incorporate to any
-transaction to retrieve the data and documents from the patients EPR.
 
 #### Writing documents from clinical archives
 
@@ -85,20 +64,20 @@ The healthcare professional reports medical information of a treatment in her pr
 a structured or unstructured document from the data and stores them in the clinical archive system. The clinical archive
 system decides whether the document shall be stored in the patients EHR using the policies defined in the clinic.
 
-To access the patient EHR the clinical archive system first request a basic access token using the client
-credential flow and uses the basic access token in the PIXm or PDQm transactions used to retrieve the EHR-SPID
-and the XAD PID of the patient.
+The clinical archive system connects to the IUA Authorization Server and sends a request with the required claims to 
+access the patients EPR. The IUA Authorization Server verifies if the clinical archive system was registered during 
+onboarding and authorized to access the EPR.
 
-The Authorization server returns the basic access token if the clinical archive systems is registered and is
-authorized to access the Swiss EHR.
-
-The clinical archive system then requests an extended authorization token to be used with the MHD transaction to store
-the document in the patients' EHR.
+The Authorization Server validates the claims and resolves additional information required to access the EPR. The IUA 
+Authorization Server responds an IUA Authorization Token the clinical archive system shall incorporate to any transaction 
+to retrieve the data and documents from the patients EPR.
 
 ### Actors and Transactions
 
 This national extension enhances the requirements on transactions and the expected actions of the Actors of the IUA Trial
 Implementation to comply to the legal requirements of the Swiss EPR.
+
+<!-- TODO: update image to use OpenID Connect only -->
 
 <div>
 {%include IUA_actor_diagram.svg %}
@@ -106,47 +85,20 @@ Implementation to comply to the legal requirements of the Swiss EPR.
 This figure shows the actors directly involved in the Internet User Authorization Profile and the relevant 
 transactions between them.
 
-The IUA Authorization Client SHALL use the Authenticate User transaction defined in Annex 5 EPRO-FDHA to pass identity 
-claims to the User Authentication provider. The User Authentication Provider authenticates the user and returns a 
-SAML 2 Authentication Assertion or an OpenID Connect ID Token. For details of the transaction and message semantics 
-see Annex 8 EPRO-FDHA.
-
 ### Actor Options
 
 This national extension restricts the Actor options of the IUA Trial Implementation to comply with the legal requirements
 of the Swiss EPR.
 
 The IUA Trial Implementation supports three options for the Authorization Token format; the JWT Token, the SAML Token
-and the Token Introspection option. Since this national extension will apply to cross-community communication, the Token
-Introspection Option SHALL NOT be used. The SAML Token option is not specified in this profile. 
-The JWT Token option SHALL be supported by the Authorization Server and Resource Server.
+and the Token Introspection option. In this national extension only the JWT option is used and SHALL be supported by 
+the IUA Authorization Server and IUA Resource Server. 
+
+The SAML Token option and the Introspection Option SHALL NOT be used.
 
 To support automated client configuration the Authorization Server actor SHALL support the Authorization Metadata option.
 
-This national extension adds the Actor options Workflow Initiator Option and Technical User Option to comply 
-to the legal requirements of the Swiss EPR.
-
-#### Workflow Initiator Option
-
-The Workflow Initiator option SHALL be claimed by all implementations, which require user
-authentication and requests to retrieve a EPR compliant access token, i.e., patient and healthcare
-professional portals, primary systems, etc. The implementations usually initiate workflows to access
-data and documents (e.g., read or write documents from the EPR, which are triggered by a user
-interaction). Actors SHALL implement the following required transactions (labeled "R") when claiming the
-Workflow Initiator option:
-
-| Actor                         | Transaction                       | Optionality |
-|-------------------------------|-----------------------------------|-------------|
-| Authorization Client          | CH:XUA Authenticate User          | R           |
-| Authorization Client          | Get Access Token                  | R           |
-| Authorization Client          | Get Authorization Server Metadata | O           |
-| Authorization Client          | Incorporate Access Token          | R           |
-| User Authentication Provider  | CH:XUA Authenticate User          | R           |
-| Authorization Server          | Get Access Token                  | R           |
-| Authorization Server          | Get Authorization Server Metadata | R           |
-| Resource Server               | Incorporate Access Token          | R           |
-| Resource Server               | Get Authorization Server Metadata | O           |
-{:class="table table-bordered"}
+This national extension adds the Technical User Option for Actors to comply to the legal requirements of the Swiss EPR.
 
 #### Technical User Option
 
