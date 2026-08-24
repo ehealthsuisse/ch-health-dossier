@@ -95,8 +95,7 @@ The following national integration profiles are included in this implementation 
 
 ### Design considerations
 
-Each patient has one active national identifier (EPR-SPID) which shall be used to correlate the patient between the
-different communities.
+Each patient has one active national identifier (EPR-SPID) which shall be used to identify the patient in transactions.
 This impacts the FHIR API in the following way:
 
 #### logical reference for patients and health care professionals, contained resources
