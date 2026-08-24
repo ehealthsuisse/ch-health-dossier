@@ -331,17 +331,14 @@ authorization (i.e., read and write documents).
 The IUA Authorization Server and IUA Resource Server SHALL support the IUA JWT extension with claims as defined in
 the following Table.
 
-Note: The claim content of the JWT IUA extensions SHALL correspond to the content defined in the XUA specification (see
-Annex 5 Addendum 1, section 1.6.4.2 Get X-User Assertion).
-
-| JWT Claim (Extension)   | Optionality (Basic/ Extended) | XUA Attribute                                       | Remark                                                                    |
-|-------------------------|-------------------------------|-----------------------------------------------------|---------------------------------------------------------------------------|
-| subject_name            | R/R                           | urn:oasis:names:tc:xspa:1.0:subject:subject-id      | The username as text.                                                     | 
-| subject_organization    | O/O                           | urn:oasis:names:tc:xspa:1.0:subject:organization    | The name of the user’s organization or institution as text.               |
-| subject_organization_id | O/O                           | urn:oasis:names:tc:xspa:1.0:subject:organization-id | The OID of the user’s organization in URN notation.                       |
-| subject_role            | O/R                           | urn:oasis:names:tc:xacml:2.0:subject:role           | Code indicating the user role from the EPR Role Code Value Set.           |
-| purpose_of_use          | O/R                           | urn:oasis:names:tc:xspa:1.0:subject:purposeofuse    | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
-| person_id               | O/R                           | urn:oasis:names:tc:xacml:2.0:resource:resource-id   | SHALL be the EPR-SPID of the patients EPR.                                |
+| JWT Claim (Extension)   | Optionality (Basic/ Extended)   | Remark                                                                    |
+|-------------------------|---------------------------------|---------------------------------------------------------------------------|
+| subject_name            | R/R                             | The username as text.                                                     | 
+| subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
+| subject_organization_id | O/O                             | The OID of the user’s organization in URN notation.                       |
+| subject_role            | O/R                             | Code indicating the user role from the EPR Role Code Value Set.           |
+| purpose_of_use          | O/R                             | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
+| person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
 
 {:class="table table-bordered"}
 
@@ -409,9 +406,6 @@ object with attributes:
 
 - principal (optional) Name of the healthcare professional an assistant is acting on behalf of.
 - principal_id (optional) GLN of the healthcare professional an assistant is acting on behalf of.
-
-Note: This extension corresponds to the attributes **urn:e-health-suisse:principal-name** and **urn:e-health-suisse:
-principal-id** in the XUA specification in Annex 5 Addendum 1, section 1.6.4.2.4.2.2.
 
 ##### Expected Actions
 
