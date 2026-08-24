@@ -6,7 +6,7 @@ User Authorization”.
 ### Scope
 
 The transaction is used by an IUA Authorization Client (e.g., portal, primary system or "Digitale Gesundheitsanwendung
-dGA") to pass claims to the IUA Authorization Server and to retrieve an access token authorizing access to protected
+(dGA)") to pass claims to the IUA Authorization Server and to retrieve an access token which authorizes access to protected
 resources of the Swiss EPR.
 
 Depending on the claims made by the IUA Authorization Client, two different flavors of access tokens SHALL be provided
@@ -23,8 +23,8 @@ by the IUA Authorization Server:
 **Role:** Communicates claims and optional IdP Token to the IUA Authorization Server and receives JWT access
 token.      
 **Actor:** IUA Authorization Server  
-**Role:** Identifies and authenticates the IUA Authorization Client, verifies signatures and claims, optionally
-authorizes the access on behalf of the user and responds a JWT Access Token to the IUA Authorization Client
+**Role:** Identifies and authenticates the IUA Authorization Client, verifies signatures and claims, authorizes the access 
+on behalf of the user and responds a JWT Access Token to the IUA Authorization Client
 to be incorporated into the transactions to access protected resources.
 
 ### Referenced Standards
@@ -61,10 +61,9 @@ This section specifies the authorization code grant flow of the IUA Get Access T
 | Step  | Action                                                                                                                                                                               | Remark                                        | 
 |-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
 | 00,01 | The IUA Authorization Client sends an HTTP GET request to the IUA Authorization Server endpoint.                                                                                     | See [Message Semantics](#message-semantics-1) | 
-| 02,03 | The IUA Authorization Server performs an HTTP GET on the IUA Authorization Client redirect_uri conveying the authorization code.                                                     |                                               |
-| 04    | The IUA Authorization Client performs an HTTP POST with parameter as a form-encoded HTTP entity body, passing its client_id and client_secret as an HTTP authorization header field. | See [Message Semantics](#message-semantics-1) |
+| 02,03 | The IUA Authorization Server responds with a HTTP GET redirect to the IUA Authorization Client redirect_uri conveying the authorization code.                                                     |                                               |
+| 04    | The IUA Authorization Client performs an HTTP POST with parameter as a form-encoded HTTP entity body. | See [Message Semantics](#message-semantics-1) |
 | 05    | The IUA Authorization Server responds with the access token in the HTML body element.                                                                                                | See [Message Semantics](#message-semantics-2) |
-
 {:class="table table-bordered"}
 
 <figcaption ID="5">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -102,7 +101,6 @@ IUA Authorization Clients SHALL sent the following scope values in the Token Req
 |----------------|-------------------------------|------------------------------------|---------------------|--------------------------------------------------------------------------------------------------------------|
 | purpose_of_use | R/R                           | token<sup><a href="#3">3</a></sup> | See sections below. | Shall be AUTO as defined in the code system 2.16.756.5.30.1.127.3.10.5 of the CH:EPR value set.              |
 | subject_role   | R/R                           | token                              | See sections below. | Shall be the value TCU as defined in the code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH:EPR value set. |   
-
 {:class="table table-bordered"}
 
 <sup id="3">3</sup>Token format according FHIR [token type](https://www.hl7.org/fhir/search.html#token).
@@ -188,9 +186,8 @@ IUA Authorization Clients SHALL send the following values in the scope attribute
 
 | Scope          | Optionality (Basic/ Extended) | Type  | Reference           | Remark                                                                                                                                                        |
 |----------------|-------------------------------|-------|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| purpose_of_use | O/R                           | token | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.5 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format.     |
-| subject_role   | O/R                           | token | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format. |
-
+| purpose_of_use | R/R                           | token | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.5 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format.     |
+| subject_role   | R/R                           | token | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format. |
 {:class="table table-bordered"}
 
 <figcaption ID="6">Table: Authorization Request’s scope parameter for the authorization code flow.</figcaption>
@@ -199,10 +196,10 @@ IUA Authorization Clients SHALL send the following values in the scope attribute
 
 The scope parameter of the request MAY claim the following attributes:
 
-- There MAY be a scope with name **purpose_of_use** in token format. If present, the token SHALL convey the coded value
+- There SHALL be a scope with name **purpose_of_use** in token format. If present, the token SHALL convey the coded value
   of the current transaction’s purpose of use. Allowed values are `NORM` (normal access) and `EMER` (emergency access) from
   code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
-- There MAY be a scope with name **subject_role** in token format. If present, the token SHALL convey the coded value of
+- There SHALL be a scope with name **subject_role** in token format. If present, the token SHALL convey the coded value of
   the subject’s role. The value SHALL be either `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative)
   or `PAT` (patient) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid:
   2.16.756.5.30.1.127.3.10.6\|HCP`).
@@ -295,7 +292,7 @@ GET /callback?code=8V1pr0rJ&state=98wrghuwuogerg97
 ```
 
 In the third step of the sequence, the IUA Authorization Client sends an HTTP POST request to the token endpoint of
-IUA Authorization Server to exchange the authorization code and optional identity token (signed JWT) to the access 
+IUA Authorization Server to exchange the authorization code and identity token (signed JWT) to the access 
 token, e.g.:
 
 ```http
@@ -339,7 +336,6 @@ the following Table.
 | subject_role            | O/R                             | Code indicating the user role from the EPR Role Code Value Set.           |
 | purpose_of_use          | O/R                             | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
 | person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
-
 {:class="table table-bordered"}
 
 <figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the JWT extension ihe_iua.</figcaption>  
@@ -362,7 +358,6 @@ in the JWT access token of the Get Access Token Response. Its attributes are:
 | Representative          | IdP-ID   | urn:e-health-suisse:representative-id         |        
 | Document Administrator  | IdP-ID   | urn:e-health-suisse:policy-administrator-id   |        
 | Policy Administrator    | IdP-ID   | urn:e-health-suisse:document-administrator-id |        
-
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
