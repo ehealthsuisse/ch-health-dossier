@@ -78,6 +78,8 @@ A clinical archive system aims to access the EPR to write documents.
 
 ###### Message Semantics
 
+<!-- TODO: client_id and client_secret is in the http auth header, the secret is not in the request --> 
+
 The IUA Authorization Client SHALL send an IUA compliant OAuth Token Request for the client credential grant
 type with Swiss extensions:
 
