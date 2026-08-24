@@ -90,11 +90,9 @@ transactions between them.
 This national extension restricts the Actor options of the IUA Trial Implementation to comply with the legal requirements
 of the Swiss EPR.
 
-The IUA Trial Implementation supports three options for the Authorization Token format; the JWT Token, the SAML Token
-and the Token Introspection option. In this national extension only the JWT option is used and SHALL be supported by 
-the IUA Authorization Server and IUA Resource Server. 
-
-The SAML Token option and the Introspection Option SHALL NOT be used.
+The IUA Trial Implementation supports three options for the Authorization Token format. In this national extension 
+the JWT option is used and SHALL be supported by the IUA Authorization Server and IUA Resource Server. The SAML Token 
+option and the Introspection Option SHALL NOT be used.
 
 To support automated client configuration the Authorization Server actor SHALL support the Authorization Metadata option.
 
