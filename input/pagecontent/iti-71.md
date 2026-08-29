@@ -1,5 +1,4 @@
-This section describes the national extension for the Swiss EPR to
-the [Get Access Token [ITI-71]](https://profiles.ihe.net/ITI/IUA/index.html#371-get-access-token-iti-71) transaction
+This section describes the national extension for the Swiss EPR to the [Get Access Token [ITI-71]](https://profiles.ihe.net/ITI/IUA/index.html#371-get-access-token-iti-71) transaction
 defined in the IUA profile published in the IHE IT Infrastructure Technical Framework Trial Implementation “Internet
 User Authorization”.
 
@@ -78,14 +77,13 @@ A clinical archive system aims to access the EPR to write documents.
 
 ###### Message Semantics
 
-<!-- TODO: client_id and client_secret is in the http auth header, the secret is not in the request --> 
+<!-- DONE: client_id and client_secret is in the http auth header, the secret is not in the request --> 
 
 The IUA Authorization Client SHALL send an IUA compliant OAuth Token Request for the client credential grant
 type with Swiss extensions:
 
 - grant_type (required): The value of the parameter shall be `client_credentials`.
 - client_id (required): The ID the IUA Authorization Client is registered at the IUA Authorization Server.
-- client_secret (required): The secret the IUA Authorization Client is registered at the IUA Authorization Server.
 - scope (required): The scope claimed by the IUA Authorization Client, as defined in the table below.
 - resource (optional): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
@@ -242,7 +240,7 @@ In case of failure, the IUA Authorization Server SHALL respond with HTTP error c
 In case of success, the IUA Authorization Server SHALL send the authorization code to the IUA Authorization Client
 **redirect_uri** via the user agent.
 
-<!-- TODO: verify -->
+<!-- DONE: verified that the client_id and secret are in the http Auth header -->
 The IUA Authorization Client SHALL perform the OAuth Token Request to the token endpoint to resolve the authorization 
 code to the access token, sending the **client_id** and **client_secret** in the HTTP authorization header field.
 
