@@ -57,12 +57,12 @@ This section specifies the authorization code grant flow of the IUA Get Access T
 <figcaption ID="1">Figure: Sequence diagram of the transaction.</figcaption>
 <br/>
 
-| Step  | Action                                                                                                                                                                               | Remark                                        | 
-|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| 00,01 | The IUA Authorization Client sends an HTTP GET request to the IUA Authorization Server endpoint.                                                                                     | See [Message Semantics](#message-semantics-1) | 
-| 02,03 | The IUA Authorization Server responds with a HTTP GET redirect to the IUA Authorization Client redirect_uri conveying the authorization code.                                                     |                                               |
-| 04    | The IUA Authorization Client performs an HTTP POST with parameter as a form-encoded HTTP entity body. | See [Message Semantics](#message-semantics-1) |
-| 05    | The IUA Authorization Server responds with the access token in the HTML body element.                                                                                                | See [Message Semantics](#message-semantics-2) |
+| Step  | Action                                                                                                                                        | Remark                                        | 
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| 00,01 | The IUA Authorization Client sends an HTTP GET request to the IUA Authorization Server endpoint.                                              | See [Message Semantics](#message-semantics-1) | 
+| 02,03 | The IUA Authorization Server responds with a HTTP GET redirect to the IUA Authorization Client redirect uri conveying the authorization code. |                                               |
+| 04    | The IUA Authorization Client performs an HTTP POST with parameter as a form-encoded HTTP entity body.                                         | See [Message Semantics](#message-semantics-1) |
+| 05    | The IUA Authorization Server responds with the access token in the HTML body element.                                                         | See [Message Semantics](#message-semantics-2) |
 {:class="table table-bordered"}
 
 <figcaption ID="5">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -77,7 +77,7 @@ A clinical archive system aims to access the EPR to write documents.
 
 ###### Message Semantics
 
-<!-- DONE: client_id and client_secret is in the http auth header, the secret is not in the request --> 
+<!-- DONE: removed client_secret, since client_id and client_secret is in the http auth header, the secret is not in the request --> 
 
 The IUA Authorization Client SHALL send an IUA compliant OAuth Token Request for the client credential grant
 type with Swiss extensions:
@@ -112,17 +112,18 @@ IUA Authorization Clients SHALL sent the following scope values in the Token Req
 When receiving a Token Request with purpose_of_use set to AUTO and subject_role set to TCU, the Authorization
 Server SHALL:
 
+<!-- TODO: No registration with client secret-->
 - verify the http message signature.
-- identify the IUA Authorization Client with the client_id and client_secret.
-- verify, that the IUA Authorization Client was registered during onboarding with the same client_id and client_secret.
-- verify that the principal_id matches the GLN of the legal responsible healthcare professional the IUA Authorization
+- identify the IUA Authorization Client with the `client_id`.
+- verify, that the IUA Authorization Client was registered during onboarding with the same `client_id` and `client_secret`.
+- verify that the `principal_id` matches the GLN of the legal responsible healthcare professional the IUA Authorization
   Client was registered during onboarding.
 
 The IUA Authorization Server SHALL respond with the Token Response only if all checks are successful. If one
 of the above checks fails, the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
 
 If the person_id is set in the request, the IUA Authorization Server SHALL respond with an Extended Access Token.
-The IUA Authorization Server SHALL respond with a Basic Access Token, if the person_id is not set.
+The IUA Authorization Server SHALL respond with a Basic Access Token, if the `person_id` is not set.
 
 The IUA Authorization Client SHALL use the IUA Access Token as defined in [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
 transaction, when performing requests to resources of the Swiss EPR.
@@ -196,10 +197,10 @@ IUA Authorization Clients SHALL send the following values in the scope attribute
 
 The scope parameter of the request MAY claim the following attributes:
 
-- There SHALL be a scope with name **purpose_of_use** in token format. If present, the token SHALL convey the coded value
+- There SHALL be a scope with name `purpose_of_use` in token format. If present, the token SHALL convey the coded value
   of the current transaction’s purpose of use. Allowed values are `NORM` (normal access) and `EMER` (emergency access) from
   code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
-- There SHALL be a scope with name **subject_role** in token format. If present, the token SHALL convey the coded value of
+- There SHALL be a scope with name `subject_role` in token format. If present, the token SHALL convey the coded value of
   the subject’s role. The value SHALL be either `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative)
   or `PAT` (patient) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid:
   2.16.756.5.30.1.127.3.10.6\|HCP`).
@@ -226,9 +227,9 @@ The Token Request SHALL contain the following attributes:
 
 When receiving the Authorization Request, the IUA Authorization Server
 
-- SHALL verify that the IUA Authorization Client was registered during onboarding with the **client_id** and **client
-  secret** presented in the request.
-- SHALL validate the requests parameter (i.e.: **person_id**). Depending on the parameter, the IUA Authorization Server
+- SHALL verify that the IUA Authorization Client was registered during onboarding with the `client_id` and `client
+  secret` presented in the request.
+- SHALL validate the requests parameter (i.e.: `person_id`). Depending on the parameter, the IUA Authorization Server
   SHALL either build a Basic Access Token authorizing basic access to the EPR (i.e., PIXm), or an Extended Access Token
   to authorize access to resources protected by the role and attribute based EPR authorization (i.e., read and write
   documents).
@@ -238,15 +239,15 @@ When receiving the Authorization Request, the IUA Authorization Server
 In case of failure, the IUA Authorization Server SHALL respond with HTTP error code `401 Not authorized`.
 
 In case of success, the IUA Authorization Server SHALL send the authorization code to the IUA Authorization Client
-**redirect_uri** via the user agent.
+`redirect_uri` via the user agent.
 
 <!-- DONE: verified that the client_id and secret are in the http Auth header -->
 The IUA Authorization Client SHALL perform the OAuth Token Request to the token endpoint to resolve the authorization 
-code to the access token, sending the **client_id** and **client_secret** in the HTTP authorization header field.
+code to the access token, sending the `client_id` and `client_secret` in the HTTP authorization header field.
 
 When retrieving the Token Request, the IUA Authorization Server SHALL verify that the user is authenticated compliant to
 the regulations of the Swiss EPR, either by validating the identity token sent with the token request or by redirecting the
-IUA Authorization Client's user agent to a certified Identity Provider.
+IUA Authorization Client's user agent to a certified identity provider.
 
 The IUA Authorization Server SHALL respond with the IUA Get Access Token Response only if all checks are successful.
 
@@ -271,8 +272,8 @@ GET authorize?
     code_challenge_method=S256
 ```
 
-An extended access token where at least **purpose_of_use** (e.g., `NORM`), **subject_role** (e.g., `HCP`) and
-**person_id** are specified may look like:
+An extended access token where at least `purpose_of_use` (e.g., `NORM`), `subject_role` (e.g., `HCP`) and
+`person_id` are specified may look like:
 
 ```http
 GET authorize?
@@ -364,9 +365,6 @@ in the JWT access token of the Get Access Token Response. Its attributes are:
 
 ||
 
-Note: This extension corresponds to the **NameID** element of SAML 2.0 formatted X-User Assertions described in
-Annex 5 E1, section 1.6.4.2.4.2.
-
 ###### The JWT ch_group extension
 
 Groups are the objects used in the access management of the Swiss EPR. Patients and representatives may assign access
@@ -378,7 +376,7 @@ groups
 a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL be the groups of
 the healthcare professional the assistant is acting on behalf of.
 
-Groups SHALL be wrapped in an **extensions** object with key `ch_group` with a JSON array containing one JSON object
+Groups SHALL be wrapped in an `extensions` object with key `ch_group` with a JSON array containing one JSON object
 per group with the following attributes:
 
 - id (required): The id of the group. Required for users of role healthcare professional and assistant.
@@ -386,17 +384,13 @@ per group with the following attributes:
 - name (required): Name of the group. Required for users of role healthcare professional and assistant.
   The name SHALL be a string.
 
-Note: This extension corresponds to the list of **urn:oasis:names:tc:xspa:1.0:subject:organization** and
-**urn:oasis:names:tc:xspa:1.0:subject:organization-id** elements of SAML 2.0 formatted X-User Assertions described in
-Annex 5 Addendum 1, section 1.6.4.2.4.2.
-
 ###### The JWT ch_delegation extension
 
 Delegation is used in the access management of the Swiss EPR to indicate that a user of role Assistant is acting on
 behalf of a healthcare professional. The IUA Authorization Server and IUA Resource Server SHALL support this extension
 in the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of.
 
-Principals SHALL be wrapped in an **extensions** object with key `ch_delegation` and a JSON value
+Principals SHALL be wrapped in an `extensions` object with key `ch_delegation` and a JSON value
 object with attributes:
 
 - principal (optional) Name of the healthcare professional an assistant is acting on behalf of.
@@ -404,6 +398,7 @@ object with attributes:
 
 ##### Expected Actions
 
+<!-- TODO: copy the business rules from Annex 5 Addendum 1, section 1.6.4.2.4.4 Expected Actions X-Assertion -->
 The business rules for the IUA Authorization Server for healthcare professionals, assistants, patient and
 representative extension SHALL be the same as for Annex 5 Addendum 1, section 1.6.4.2.4.4 Expected Actions X-Assertion
 Provider Extensions.
@@ -434,7 +429,7 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
 ```
 
 An extended JWT access token to be used to access patient documents SHALL have the additional attributes of
-the **purpose_of_use**, **subject_role** and the EPR-SPID of the patient. It may look like:
+the `purpose_of_use`, `subject_role` and the EPR-SPID of the patient. It may look like:
 
 ```json
 {
@@ -481,7 +476,7 @@ the **purpose_of_use**, **subject_role** and the EPR-SPID of the patient. It may
 ```
 
 An extended JWT access token to be used to access by an assistant acting behalf of a healthcare professional for a
-patient SHALL have the additional extension **ch_delegation**:
+patient SHALL have the additional extension `ch_delegation`:
 
 ```json
 {
@@ -595,8 +590,7 @@ implement at least the algorithm 'RSASSA-PKCS1-v1_5 Using SHA-256'.
 When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
 the IUA Resource Servers SHALL verify that both are the same.
 
-The actors SHALL support the **traceparent** header handling, as defined
-in [Appendix: Trace Context](tracecontext.html).
+The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Security Audit Considerations
 
