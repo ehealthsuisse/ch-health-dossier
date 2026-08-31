@@ -20,7 +20,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.resource[0].type = #DocumentReference
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-comprehensive"
+* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].searchParam[0].name = "_id"
@@ -88,7 +88,7 @@ Usage: #definition
 * rest.resource[=].searchParam[=].type = #token
 * rest.resource[=].searchParam[=].documentation = "Kind of document (LOINC if possible)"
 * rest.resource[+].type = #List
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-submissionset-comprehensive"
+* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-submissionset"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].searchParam[0].name = "_id"
@@ -145,7 +145,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.resource[0].type = #DocumentReference
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-comprehensive"
+* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].interaction[+].code = #update
@@ -244,7 +244,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.interaction.code = #transaction
-* rest.interaction.documentation = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
+* rest.interaction.documentation = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle"
 
 Instance: CH.MHD.DocumentSource
 InstanceOf: CapabilityStatement
@@ -268,4 +268,4 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.interaction.code = #transaction
-* rest.interaction.documentation = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
+* rest.interaction.documentation = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle"

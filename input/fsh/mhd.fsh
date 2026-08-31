@@ -49,10 +49,10 @@ Context: List, DocumentReference
 * valueCoding from $DocumentEntry.originalProviderRole (required)
 * valueCoding ^short = "Value of extension"
 
-Profile: CHMhdDocumentReferenceComprehensive
+Profile: CHMhdDocumentReference
 Parent: $ch-core-documentreference
-Id: ch-mhd-documentreference-comprehensive
-Title: "CH MHD DocumentReference Comprehensive"
+Id: ch-mhd-documentreference
+Title: "CH MHD DocumentReference"
 Description: "CH MHD Profile on CH Core DocumentReference"
 * obeys ch-mhd
 * extension contains
@@ -138,16 +138,16 @@ be the the one to use in ITI-68 transactions to retrieve the document content."
 * context.related[StudyInstanceUID].identifier ^short = "Requirements on XDS-I.b (Swiss context): When a Imaging Document Source provides a document to the Document Repository, it must provide the StudyInstanceUID, found in the to be registered KOS object, in the referenceIdList (urn:ihe:iti:xds:2013:referenceIdList) attribute of the documentEntry metadata."
 
 Invariant: ch-mhd
-Description: "The DocumentReference needs to conform to IHE.MHD.Comprehensive.DocumentReference"
+Description: "The DocumentReference needs to conform to IHE.MHD.Minimal.DocumentReference"
 * severity = #error
-* expression = "conformsTo('https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Comprehensive.DocumentReference')"
+* expression = "conformsTo('https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.DocumentReference')"
 
 
-Profile: ChFindDocumentReferencesComprehensiveResponse
+Profile: ChFindDocumentReferencesResponse
 Parent: Bundle
-Id: ch-mhd-documentreference-comprehensive-bundle
-Title: "CH MHD Find Document References Comprehensive Response message"
-Description: "A profile on the Find Document References Comprehensive Response message for ITI-68"
+Id: ch-mhd-documentreference-bundle
+Title: "CH MHD Find Document References Minimal Response message"
+Description: "A profile on the Find Document References Minimal Response message for ITI-68"
 * type = #searchset (exactly)
 * total 1..
 * entry ^slicing.discriminator.type = #profile
@@ -161,7 +161,7 @@ Description: "A profile on the Find Document References Comprehensive Response m
     OperationOutcome 0..1
 * entry[DocumentReference] ^short = "DocumentReference"
 * entry[DocumentReference].resource 1.. MS
-* entry[DocumentReference].resource only CHMhdDocumentReferenceComprehensive
+* entry[DocumentReference].resource only CHMhdDocumentReference
 
 * entry[OperationOutcome] ^short = "OperationOutcome"
 * entry[OperationOutcome].resource 1..
@@ -173,30 +173,30 @@ Description: "The fullUrl must be an absolute URL server address or an URI for U
 * severity = #error
 * expression = "startsWith('http') or startsWith('urn:uuid:') = true"
 
-Profile: CHMhdProvideDocumentBundleComprehensive
-Parent: $IHE.MHD.Comprehensive.ProvideBundle
-Id: ch-mhd-providedocumentbundle-comprehensive
-Title: "CH MHD Provide Document Bundle Comprehensive"
-Description: "IHE MHD profile on Provide Document Bundle (ITI-65) transaction with Comprehensive Metadata for the Swiss EPR."
+Profile: CHMhdProvideDocumentBundle
+Parent: $IHE.MHD.Minimal.ProvideBundle
+Id: ch-mhd-providedocumentbundle
+Title: "CH MHD Provide Document Bundle"
+Description: "IHE MHD profile on Provide Document Bundle (ITI-65) transaction for the Swiss EPR."
 * meta 1..
 * meta.profile MS
 * meta.profile ^slicing.discriminator.type = #value
 * meta.profile ^slicing.discriminator.path = "$this"
 * meta.profile ^slicing.rules = #open
-* meta.profile contains comprehensiveMetadata 1..1 MS
-* meta.profile[comprehensiveMetadata] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Comprehensive.ProvideBundle"
+* meta.profile contains minimalMetadata 1..1 MS
+* meta.profile[minimalMetadata] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
 * entry 3..
 * entry[SubmissionSet] ^sliceName = "SubmissionSet"
 * entry[SubmissionSet] ^mustSupport = true
 * entry[SubmissionSet].resource 1.. MS
-* entry[SubmissionSet].resource ^type.profile = $ch-mhd-submissionset-comprehensive
+* entry[SubmissionSet].resource ^type.profile = $ch-mhd-submissionset
 * entry[SubmissionSet].request 1.. MS
 * entry[SubmissionSet].request.method = #POST
 * entry[SubmissionSet].request.method MS
 * entry[DocumentRefs] ^sliceName = "DocumentRefs"
 * entry[DocumentRefs] ^mustSupport = true
 * entry[DocumentRefs].resource 1.. MS
-* entry[DocumentRefs].resource ^type.profile = Canonical(CHMhdDocumentReferenceComprehensive)
+* entry[DocumentRefs].resource ^type.profile = Canonical(CHMhdDocumentReference)
 * entry[DocumentRefs].request MS
 * entry[DocumentRefs].request.method = #POST
 * entry[DocumentRefs].request.method MS
@@ -210,11 +210,11 @@ Description: "IHE MHD profile on Provide Document Bundle (ITI-65) transaction wi
 * entry[Folders] 0..0 
 * entry[Patient] 0..0
 
-Profile: IHE_MHD_ProvideDocumentBundle_Comprehensive_Response_CH
+Profile: IHE_MHD_ProvideDocumentBundle_Response
 Parent: Bundle
-Id: ch-mhd-providedocumentbundle-comprehensive-response
-Title: "CH MHD Provide Document Bundle Comprehensive Response"
-Description: "IHE MHD profile on Response of Provide Document Bundle (ITI-65) transaction with Comprehensive Metadata."
+Id: ch-mhd-providedocumentbundle-response
+Title: "CH MHD Provide Document Bundle Response"
+Description: "IHE MHD profile on Response of Provide Document Bundle (ITI-65) transaction."
 * type = #transaction-response (exactly)
 * type MS
 * link MS
@@ -228,11 +228,11 @@ Description: "IHE MHD profile on Response of Provide Document Bundle (ITI-65) tr
 * entry.response.etag MS
 * entry.response.outcome MS
 
-Profile: CHMhdSubmissionSetComprehensive
-Parent: $IHE.MHD.UnContained.Comprehensive.SubmissionSet
-Id: ch-mhd-submissionset-comprehensive
-Title: "CH MHD SubmissionSet Comprehensive"
-Description: "CH MHD SubmissionSet Comprehensive"
+Profile: CHMhdSubmissionSet
+Parent: $IHE.MHD.Minimal.SubmissionSet 
+Id: ch-mhd-submissionset
+Title: "CH MHD SubmissionSet"
+Description: "CH MHD SubmissionSet"
 * extension 2..
 * extension contains $ch-ext-author-authorrole named authorAuthorRole 0..1 MS
 * extension[designationType].value[x] from $SubmissionSet.contentTypeCode (required)
@@ -254,7 +254,7 @@ Description: "CH MHD SubmissionSet Comprehensive"
 * subject ^comment = "Not a contained resource. The identifier points to an existing patient in the XDS Affinity Domain."
 * date MS
 * entry 1.. MS
-* entry.item only Reference($ch-mhd-documentreference-comprehensive)
+* entry.item only Reference($ch-mhd-documentreference)
 * entry.item MS
 * entry.item ^type.aggregation[0] = #referenced
 * entry.item ^type.aggregation[+] = #bundled
@@ -276,7 +276,7 @@ Description: "A profile for Update Document Metadata (CH:MHD-1) transaction requ
 * entry contains 
     DocumentReference 1..* MS 
 * entry[DocumentReference] ^short = "DocumentReference"
-* entry[DocumentReference].resource only CHMhdDocumentReferenceComprehensive
+* entry[DocumentReference].resource only CHMhdDocumentReference
 
 Profile: CHMhd1UpdateDocumentMetadataTransactionResponse
 Id: ch-mhd-1-updatedocumentmetadatatransactionresponse
@@ -296,7 +296,7 @@ Description: "A profile for Update Document Metadata (CH:MHD-1) transaction resp
  
 * entry[DocumentReference] ^short = "DocumentReference"
 * entry[DocumentReference].resource 1.. MS
-* entry[DocumentReference].resource only CHMhdDocumentReferenceComprehensive
+* entry[DocumentReference].resource only CHMhdDocumentReference
 
 * entry[OperationOutcome] ^short = "OperationOutcome"
 * entry[OperationOutcome].resource 1..
@@ -305,9 +305,9 @@ Description: "A profile for Update Document Metadata (CH:MHD-1) transaction resp
 
 
 Instance: DocRefPdf
-InstanceOf: ch-mhd-documentreference-comprehensive
-Title: "Comprehensive DocumentReference for a PDF Document"
-Description: "Comprehensive DocumentReference for a PDF Document"
+InstanceOf: ch-mhd-documentreference
+Title: "DocumentReference for a PDF Document"
+Description: "DocumentReference for a PDF Document"
 Usage: #example
 * contained.resourceType = "Patient"
 * contained.id = "1"
@@ -375,12 +375,10 @@ Usage: #example
 * entry.response.etag = "2"
 
 Instance: BundleProvideDocument
-InstanceOf: CHMhdProvideDocumentBundleComprehensive
+InstanceOf: CHMhdProvideDocumentBundle
 Title: "MHD Provide Document Bundle for a PDF Document"
 Description: "MHD Provide Document Bundle for a PDF Document"
-Usage: #example
-* meta.profile[0] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive"
-* meta.profile[+] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Comprehensive.ProvideBundle"
+* meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
 * type = #transaction
 * entry[SubmissionSet].fullUrl = "urn:uuid:68a928c0-df48-4743-a291-bfb0609bbddc"
 * entry[SubmissionSet].resource = Inline-Instance-for-BundleProvideDocument-1
@@ -464,7 +462,7 @@ InstanceOf: Bundle
 Title: "MHD Provide Document Bundle Response for PDF publication"
 Description: "MHD Provide Document Bundle Response for PDF publication"
 Usage: #example
-* meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-comprehensive-response"
+* meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-response"
 * type = #transaction-response
 * link.relation = "self"
 * link.url = "http://example.org"
@@ -479,11 +477,11 @@ Usage: #example
 * entry[=].response.lastModified = "2020-10-02T11:56:15.101+00:00"
 
 Instance: Bundle-FindDocumentReferences
-InstanceOf: ChFindDocumentReferencesComprehensiveResponse
+InstanceOf: ChFindDocumentReferencesResponse
 Title: "MHD Find DocumentReferences"
 Description: "MHD Find DocumentReferences - Bundle as Response"
 Usage: #example
-* meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-comprehensive-bundle"
+* meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference-bundle"
 * type = #searchset
 * total = 1
 * link.relation = "self"
