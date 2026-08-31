@@ -26,22 +26,6 @@ information required to access the EPR (e.g., resolve the digital identity to th
 Server responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and 
 documents from the patients EPR.
 
-#### User Access from a Primary System
-
-A healthcare professional uses a primary system which is integrated to the Swiss EPR using the profiles to access and
-share data and documents with her patients or other healthcare professionals. To access documents from the EPR the
-healthcare professional authenticates at a certified identity provider from her primary system, selects the patient
-and switches to the user interface to display the patients documents. The primary system connects to the IUA
-Authorization Server and sends the identity token and the required claims to access the patients EPR.
-
-The IUA Authorization Server verifies if the primary system was registered and authorized to access the EPR on behalf 
-of the user during onboarding.
-
-The Authorization Server validates the claims together with the data from the identity token and resolves additional
-information required to access the EPR (e.g., resolve the digital identity to GLN). The IUA Authorization Server
-responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and documents
-from the patients EPR.
-
 #### Patient Access from a "Digitale Gesundheitsanwendung (dGA)"
 
 A patient uses a dGA which is integrated to the Swiss EPR using the profiles to access and share data and documents
@@ -54,6 +38,21 @@ information required to access the EPR (e.g., resolve the digital identity to th
 Server responds an IUA Authorization Token the dGA shall incorporate to all transaction to retrieve the data and
 documents from the patients EPR.
 
+#### User Access from a Primary System
+
+A healthcare professional uses a primary system which is integrated to the Swiss EPR using the profiles to access and
+share data and documents with her patients or other healthcare professionals. To access documents from the EPR the
+healthcare professional authenticates at a certified identity provider from her primary system, selects the patient
+and switches to the user interface to display the patients documents. The primary system connects to the IUA
+Authorization Server and sends the identity token and the required claims to access the patients EPR.
+
+The IUA Authorization Server verifies if the primary system was registered and authorized to access the EPR on behalf
+of the user during onboarding.
+
+The Authorization Server validates the claims together with the data from the identity token and resolves additional
+information required to access the EPR (e.g., resolve the digital identity to GLN). The IUA Authorization Server
+responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and documents
+from the patients EPR.
 
 #### Writing documents from clinical archives
 
