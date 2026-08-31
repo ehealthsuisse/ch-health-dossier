@@ -132,8 +132,7 @@ Server SHALL:
 <!-- Done: copied from auth code flow -->
 
 When retrieving the Token Request, the IUA Authorization Server SHALL verify that the user is authenticated compliant to
-the regulations of the Swiss EPR, either by validating the identity token sent with the token request or by redirecting the
-IUA Authorization Client's user agent to a certified identity provider.
+the regulations of the Swiss EPR by validating the identity token. 
 
 The IUA Authorization Server SHALL respond with the Token Response only if all checks are successful. If one
 of the above checks fails, the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
