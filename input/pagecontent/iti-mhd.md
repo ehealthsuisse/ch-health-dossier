@@ -3,19 +3,19 @@ This section specifies Swiss national extensions to the Mobile Access to Health 
 The national extensions adds an additional transaction from the Document Source to the Document Recipient. 
 
 ### Scope  
-An EPR App can query, retrieve or publish data to/from an EPR community using the transaction of the MHD profile. 
-An EPR App can Update Document Metadata for a published document with this national extension.  
+An Health App can query, retrieve or publish data to/from the Health Dossier API using the transaction of the MHD profile. 
+An Health App can Update Document Metadata for a published document with this national extension.  
 
 ###	Use Cases  
 In addition to the Document Sharing Use Case for MHD the national extension defines the following Use Cases:
 
 #### Document Metadata update from a Health Care professional with a primary system
-A Healthcare professional has published a document in his own community for the patient but needs to update the metadata of the document. 
-The healthcare professional updates the metadata (e.g. title) in the primary systems and submits the updated metadata to the community. The
-metadata which is allowed to be updated is defined in Annex 5.1 1.12.
+A Healthcare professional has published a document for the patient but needs to update the metadata of the document. 
+The healthcare professional updates the metadata (e.g. title) in the primary systems and submits the updated metadata to the health dossier. The
+metadata which is allowed to be updated is defined in ~~Annex 5.1 1.12~~ TODO: Volume 3 - Metadata.
 
 #### Patient changes confidentiality code of a document
-A patient wants to change the confidentiality code of one of his documents. The patient updates the confidentiality code in the portal and the portal submits the updated metadata to the community where the document is stored (could be another community as where the patient has his reference community). 
+A patient wants to change the confidentiality code of one of his documents. The patient updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. 
 
 ###	Actors and Transactions  
 
@@ -32,19 +32,17 @@ The Find Document Lists [[ITI-66]](https://profiles.ihe.net/ITI/MHD/ITI-66.html)
 Options that can be selected for each actor in this profile, are listed in the table below. 
 
 {:class="table table-bordered"}
-| Actor                                         | Option Name         | Optionality  |
+| Actor                                         | Option Name               | Optionality  |
 |-----------------------------------------------|---------------------------|-------------|
-| Document Source                               | Comprehensive Metadata   | R      |
-| Document Recipient                            | Comprehensive Metadata                                      | R  |
-| Document Consumer                             | Comprehensive Metadata   | R  |
-| Document Responder                            | Comprehensive Metadata  | R  |
+| Document Source                               | Health Dossier Metadata   | R           |
+| Document Recipient                            | Health Dossier Metadata   | R           |
 
 <figcaption ID="1">Table 1: Actor options.</figcaption>
 
 
-#### Comprehensive Metadata Option
+#### Health Dossier Metadata Option
 
-Comprehensive Metadata as defined in [1:33.2.1](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13321-comprehensive-metadata-option). For all actors the Metadata as defined in Annex 3 SHALL be supported.
+Metadata as defined in [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) SHALL be supported by the Document Source and Document Recipient.
 
 ### Required Actor Groupings  
 This national extension enforces authentication and authorization for access control. Therefore actors of this profile SHALL be grouped with actors of other profiles according to the following table: 
@@ -64,4 +62,4 @@ This national extension enforces authentication and authorization for access con
 For the process flow of this profile and its interplay with the other profiles see [sequence diagrams](sequencediagrams.html). 
 
 ### Security Consideration
-This national extension enforces authentication and authorization of access to the Document Recipient and Document Responder using the  IUA profile as described in [IUA](iti-71.html#expected-actions-1).
+This national extension enforces authentication and authorization of access to the Document Recipient and Document Responder using the IUA profile as described in [IUA](iti-71.html#expected-actions-1).

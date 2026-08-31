@@ -114,6 +114,8 @@ pages:
     title: Capability Statements
   sequencediagrams.md:
     title: Sequence Diagrams
+  accesscontrol.md:
+    title: Enforcement of Access Rules
   tracecontext.md:
     title: Trace Context
   changelog.md:
