@@ -1,4 +1,5 @@
-@startuml 
+@startuml
+hide footbox
 
 title Interaction Diagram for [ITI-71]
 

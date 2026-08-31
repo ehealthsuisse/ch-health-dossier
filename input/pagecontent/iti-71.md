@@ -152,7 +152,7 @@ transaction, when performing requests to resources of the Swiss EPR.
 ##### Message Semantics
 
 The response SHALL either convey a Basic Access Token in JWT format which grants basic access to the EPR (i.e., to
-access patient data), or an Extended Access Token to access resources protected by the role and attribute based EPR
+access patient demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR
 authorization (i.e., read and write documents).
 
 ###### JSON Web Token Option
