@@ -137,7 +137,7 @@ Description: "A profile on the Query Patient Resource Response message for ITI-1
 * entry[OperationOutcome].resource only OperationOutcome
 // * entry[OperationOutcome].resource ^type.code = "OperationOutcome"
 // * entry[OperationOutcome].resource ^type.profile = Canonical(OperationOutcome)
-// * entry[OperationOutcome].resource only ch-pdqm-moreattributesrequested
+// * entry[OperationOutcome].resource only ch-pdqm-toomanyresults
 
 Profile: CHPDQmMatchInput
 Parent: https://profiles.ihe.net/ITI/PDQm/StructureDefinition/IHE.PDQm.MatchInputPatient
