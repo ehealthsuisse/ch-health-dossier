@@ -123,6 +123,9 @@
                 <a href="sequencediagrams.html">Sequence diagrams</a>
             </li>
             <li>
+                <a href="accesscontrol.html">Enforcement of Access Rules</a>
+            </li>
+            <li>
                 <a href="tracecontext.html">Trace Context</a>
             </li>
             <li>

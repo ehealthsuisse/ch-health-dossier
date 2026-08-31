@@ -37,8 +37,9 @@ A Document Source initiates a FHIR request using Update as defined at [http://hl
 
 A Document Source shall send a request for either the JSON or the XML format as defined in FHIR. A Document Responder shall support the JSON and the XML format.
 
-The Document Source shall be capable of accepting elements specified in profile [CH MHD DocumentReference Comprehensive](StructureDefinition-ch-mhd-documentreference-comprehensive.html).
-The DocumentReference elements which are allowed to be updated are defined in Annex 5.1 1.12. The [Mappings tab](StructureDefinition-ch-mhd-documentreference-comprehensive-mappings.html, indicates the mapping between DocumentReference elements and the XDS elements defined in Annex 5.1 1.12.
+The Document Source shall be capable of accepting elements specified in profile [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html).
+
+The DocumentReference elements which are allowed to be updated are defined in Annex 5.1 1.12. The [Mappings tab](StructureDefinition-ch-mhd-documentreference-mappings.html, indicates the mapping between DocumentReference elements and the XDS elements defined in Annex 5.1 1.12.
 
 ##### Example
 
@@ -79,9 +80,10 @@ The transaction SHALL use client authentication and authorization using one of t
 1. Use an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 2. or, use mutual authentication (mTLS) on the transport layer in combination with a XUA token for authorization from the Get X-User Assertion transaction (Annex 5.1 1.6.4.2). The XUA token SHALL be conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-Document Responders SHALL be grouped with the Authorization Decision Consumer actor of the CH:ADR profile
-defined in Extension 2.1 to Annex 5 of the ordinances and perform an Authorization Decision Request [CH:ADR] for
-every update document metadata [CH:MHD-1] request in the own community.
+For every Update Document Metadata [CH:MHD-1] request, the Document Responder SHALL enforce the access rules of the
+patient and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
+The Document Responder SHALL reject the request if the requester is not authorized to update the metadata of the
+document concerned.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 

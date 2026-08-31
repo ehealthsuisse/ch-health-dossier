@@ -26,7 +26,7 @@ In the Swiss EPR the transaction is used by the MHD Document Source to store doc
 
 The FHIR `Bundle.meta.profile` shall have the following value:
 
-`https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Comprehensive.ProvideBundle`
+`https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle`
 
 The additional Swiss EPR metadata is defined with:
 
@@ -34,7 +34,7 @@ The additional Swiss EPR metadata is defined with:
 * [SubmissionSet.Author.AuthorRole](#submissionsetauthorauthorrole) (Annex 5.1 1.2.4.3)
 * [DocumentEntry.originalProviderRole ](#documententryoriginalproviderrole) (Annex 5.1 1.2.4.4)
 
-The request Bundle SHALL follow the [CH MHD Provide Document Bundle Comprehensive](StructureDefinition-ch-mhd-providedocumentbundle-comprehensive.html)
+The request Bundle SHALL follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)
 Profile ([example: Bundle: BundleProvideDocument](Bundle-BundleProvideDocument.html)).
 
 The `DocumentReference.content.attachment.url` value SHALL point to a Binary resource included in the Bundle (see
@@ -66,7 +66,7 @@ The values are defined in the ValueSet [DocumentEntry.originalProviderRole](http
 
 #### Provide Document Bundle Response Message
 
-The response Bundle SHALL follow the [CH MHD Provide Document Bundle Comprehensive Response](StructureDefinition-ch-mhd-providedocumentbundle-comprehensive-response.html)
+The response Bundle SHALL follow the [CH MHD Provide Document Bundle Response](StructureDefinition-ch-mhd-providedocumentbundle-response.html)
 Profile ([example: Bundle: BundleProvideDocument-Response](Bundle-BundleProvideDocument-Response.html)).
 
 #### CapabilityStatement Resource
@@ -80,13 +80,13 @@ The CapabilityStatement resource for the **Document Recipient** is [MHD Document
 The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with 
 server certificates. 
 
-The transaction SHALL use client authentication and authorization using one of the following strategies:
-1. Use an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
-2. or, use mutual authentication (mTLS) on the transport layer in combination with a XUA token for authorization from the Get X-User Assertion transaction (Annex 5.1 1.6.4.2). The XUA token SHALL be conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
+The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-The Document Recipient actor SHALL be grouped with the Authorization Decision Consumer actor of the CH:ADR profile
-defined in Extension 2.1 to Annex 5 of the ordinances and perform an Authorization Decision Request [CH:ADR] for 
-every Provide Document Bundle [ITI-65] request.
+For every Provide Document Bundle [ITI-65] request, the Document Recipient SHALL enforce the access rules of the
+patient and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
+The Document Recipient SHALL reject the request if the requester is not authorized to record data in the health
+dossier of the patient concerned, or if the patient has declared that the data of the treatment concerned shall not
+be recorded in their health dossier.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
