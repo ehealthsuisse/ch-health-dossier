@@ -39,7 +39,8 @@ This section specifies the client credential grant flow of the IUA Get Access To
 
 <div>{% include IUA_ActorDiagram_ITI-71-cc.svg %}</div>
 <figcaption ID="10">Figure: Sequence diagram of the transaction.</figcaption>
-<br/>
+
+||
 
 | Step | Action                                                                                                   | Remark                                                  | 
 |------|----------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
@@ -50,6 +51,8 @@ This section specifies the client credential grant flow of the IUA Get Access To
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
 
 <!-- Done: removed Authorization Code Grant Type -->
+
+||
 
 #### Get Access Token Request
 
@@ -72,10 +75,14 @@ type with Swiss extensions:
 - resource (optional): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 
+||
+
 The Token Request SHALL use the following extension defined in the client-confidential-asymmetric authentication profile
 of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html#backend-services) specification. 
 - client_assertion_type (required): The value shall be `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
 - client_assertion (required): JWT as defined in [SMART App Launch, Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#client-authentication-asymmetric-public-key). 
+
+||
 
 <!-- DONE: added id_token field --> 
 The Token Request SHALL use the following Swiss extension:
@@ -87,6 +94,8 @@ The Token Request SHALL use the following Swiss extension:
 - group_id (optional): The OID of the organization or group a healthcare professional or assistant is acting on behalf of.
 - id_token (optional/required): Signed JWT associated with the current user's authenticated session at the Identity Provider.
 
+||
+
 IUA Authorization Clients SHALL sent the following scope values in the Token Request:
 
 | Scope          | Optionality (Basic/ Extended) | Type                                | Reference           | Remark                                                                                                                                                        |
@@ -97,37 +106,44 @@ IUA Authorization Clients SHALL sent the following scope values in the Token Req
 
 <sup id="3">3</sup>Token format according FHIR [token type](https://www.hl7.org/fhir/search.html#token).
 
-<figcaption ID="6">Table: Authorization Request’s scope parameter for the client credential flow..</figcaption>
+<figcaption ID="6">Table: Authorization Request’s scope parameter for the client credential flow.</figcaption>
 
-<br/>
-
-<!-- TODO: purpose of use shall be AUTO as defined in the code system 2.16.756.5.30.1.127.3.10.5 of the CH:EPR value set. -->
-<!-- TODO: subject role shall be TCU as defined in the code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH:EPR value set.. -->
+||
 
 The scope parameter of the request MAY claim the following attributes:
 
-- There SHALL be a scope with name `purpose_of_use` in token format. If present, the token SHALL convey the coded value
-  of the current transaction’s purpose of use. Allowed values are `NORM` (normal access) and `EMER` (emergency access) from
-  code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
-- There SHALL be a scope with name `subject_role` in token format. If present, the token SHALL convey the coded value of
-  the subject’s role. The value SHALL be either `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative)
-  or `PAT` (patient) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid:
-  2.16.756.5.30.1.127.3.10.6\|HCP`).
+- There SHALL be a scope with name `purpose_of_use` in token format. The token SHALL convey the coded value
+  of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), `EMER` (emergency access) and 
+  `AUTO` (clinical archive) from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set 
+  (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
+- There SHALL be a scope with name `subject_role` in token format. The token SHALL convey the coded value of
+  the subject’s role. Allowed values are `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative), 
+  `PAT` (patient) or `TCU` (clinical archive) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set 
+  (e.g.: `subject_role=urn:oid: 2.16.756.5.30.1.127.3.10.6\|HCP`).
 - IUA Authorization Clients may claim other scopes as defined in the SMART on FHIR specification.
+
+<!-- TODO: fix the scopes as defined in the EGDG and EGDV-EDI -->
 
 Note: The parameters need to be url encoded, see message examples.
 
+||
+
 ###### Expected Actions
 
-When receiving a Token Request with purpose_of_use set to AUTO and subject_role set to TCU, the Authorization
+When receiving a Token Request with `purpose_of_use` set to AUTO and `subject_role` set to TCU, the Authorization
 Server SHALL:
 
 <!-- TODO: No registration with client secret-->
+<!-- TODO: verify the client authentication JWK -->
+
 - verify the http message signature.
-- identify the IUA Authorization Client with the `client_id`.
-- verify, that the IUA Authorization Client was registered during onboarding with the same `client_id` and `client_secret`.
+- verify the client authentication JWK.
+- verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
 - verify that the `principal_id` matches the GLN of the legal responsible healthcare professional the IUA Authorization
   Client was registered during onboarding.
+
+When receiving a Token Request with any other combination of `purpose_of_use` and `subject_role`, the Authorization
+Server SHALL:
 
 <!-- Done: copied from auth code flow -->
 
@@ -136,6 +152,8 @@ the regulations of the Swiss EPR by validating the identity token.
 
 The IUA Authorization Server SHALL respond with the Token Response only if all checks are successful. If one
 of the above checks fails, the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
+
+<!-- Till here -->
 
 If the person_id is set in the request, the IUA Authorization Server SHALL respond with an Extended Access Token.
 The IUA Authorization Server SHALL respond with a Basic Access Token, if the `person_id` is not set.
@@ -175,7 +193,7 @@ the following Table.
 ###### The JWT ch_epr extension
 
 The IUA Authorization Server and IUA Resource Server SHALL support this extension to convey the user's EPR identifier
-in the JWT access token of the Get Access Token Response. Its attributes are:
+in the JWT access token of the Get Access Token Response. It's attributes are:
 
 - user_id (required): The EPR subject identifier as defined in the table below.
 - user_id_qualifier (required): The subject identifier qualifier as defined in the table below.
