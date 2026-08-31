@@ -49,23 +49,7 @@ This section specifies the client credential grant flow of the IUA Get Access To
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
 
-#### Authorization Code Grant Type
-
-This section specifies the authorization code grant flow of the IUA Get Access Token transaction.
-
-<div>{% include IUA_ActorDiagram_ITI-71.svg %}</div>
-<figcaption ID="1">Figure: Sequence diagram of the transaction.</figcaption>
-<br/>
-
-| Step  | Action                                                                                                                                        | Remark                                        | 
-|-------|-----------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| 00,01 | The IUA Authorization Client sends an HTTP GET request to the IUA Authorization Server endpoint.                                              | See [Message Semantics](#message-semantics-1) | 
-| 02,03 | The IUA Authorization Server responds with a HTTP GET redirect to the IUA Authorization Client redirect uri conveying the authorization code. |                                               |
-| 04    | The IUA Authorization Client performs an HTTP POST with parameter as a form-encoded HTTP entity body.                                         | See [Message Semantics](#message-semantics-1) |
-| 05    | The IUA Authorization Server responds with the access token in the HTML body element.                                                         | See [Message Semantics](#message-semantics-2) |
-{:class="table table-bordered"}
-
-<figcaption ID="5">Table: Actions in the HTTP sequence of the transaction.</figcaption>
+<!-- Done: removed Authorization Code Grant Type -->
 
 #### Get Access Token Request
 
@@ -73,39 +57,65 @@ This section specifies the authorization code grant flow of the IUA Get Access T
 
 ###### Trigger Events
 
-A clinical archive system aims to access the EPR to write documents.
+A clinical archive system aims to access the EPR to write documents, or a user authenticates in the portal, primary 
+system or in a "Digitale Gesundheitsanwendung (dGA)" to access data and Documents in the EPR. 
 
 ###### Message Semantics
 
 <!-- DONE: removed client_secret, since client_id and client_secret is in the http auth header, the secret is not in the request --> 
 
-The IUA Authorization Client SHALL send an IUA compliant OAuth Token Request for the client credential grant
+The IUA Authorization Client SHALL send an IUA compliant OAuth 2.1 Token Request for the client credential grant
 type with Swiss extensions:
-
 - grant_type (required): The value of the parameter shall be `client_credentials`.
 - client_id (required): The ID the IUA Authorization Client is registered at the IUA Authorization Server.
 - scope (required): The scope claimed by the IUA Authorization Client, as defined in the table below.
 - resource (optional): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 
-The Authorization Request SHALL use the following Swiss extension:
+The Token Request SHALL use the following extension defined in the client-confidential-asymmetric authentication profile
+of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html#backend-services) specification. 
+- client_assertion_type (required): The value shall be `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
+- client_assertion (required): JWT as defined in [SMART App Launch, Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#client-authentication-asymmetric-public-key). 
 
-- principal (optional): The name of the healthcare professional the technical user acts on behalf of.
-- principal_id (required): The GLN of the healthcare professional the technical user acts act on behalf of.
+<!-- DONE: added id_token field --> 
+The Token Request SHALL use the following Swiss extension:
 - person_id (optional/required): EPR-SPID identifier of the patient’s record and the patient assigning authority
   formatted in CX syntax, required for requesting extended access token.
+- principal (optional/required): The name of the healthcare professional an assistant or a clinical archive system may act on behalf of.
+- principal_id (optional/required): The GLN of the healthcare professional an assistant or a clinical archive system may act on behalf of.
+- group (optional): The name of the organization or group a healthcare professional or assistant may act on behalf of.
+- group_id (optional): The OID of the organization or group a healthcare professional or assistant is acting on behalf of.
+- id_token (optional/required): Signed JWT associated with the current user's authenticated session at the Identity Provider.
 
 IUA Authorization Clients SHALL sent the following scope values in the Token Request:
 
-| Scope          | Optionality (Basic/ Extended) | Type                               | Reference           | Remark                                                                                                       |
-|----------------|-------------------------------|------------------------------------|---------------------|--------------------------------------------------------------------------------------------------------------|
-| purpose_of_use | R/R                           | token<sup><a href="#3">3</a></sup> | See sections below. | Shall be AUTO as defined in the code system 2.16.756.5.30.1.127.3.10.5 of the CH:EPR value set.              |
-| subject_role   | R/R                           | token                              | See sections below. | Shall be the value TCU as defined in the code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH:EPR value set. |   
+| Scope          | Optionality (Basic/ Extended) | Type                                | Reference           | Remark                                                                                                                                                        |
+|----------------|-------------------------------|-------------------------------------|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| purpose_of_use | R/R                           | token <sup><a href="#3">3</a></sup> | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.5 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format.     |
+| subject_role   | R/R                           | token                               | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format. |
 {:class="table table-bordered"}
 
 <sup id="3">3</sup>Token format according FHIR [token type](https://www.hl7.org/fhir/search.html#token).
 
-<figcaption ID="16">Table: Authorization Request’s scope parameter for the client credential flow.</figcaption>  
+<figcaption ID="6">Table: Authorization Request’s scope parameter for the client credential flow..</figcaption>
+
+<br/>
+
+<!-- TODO: purpose of use shall be AUTO as defined in the code system 2.16.756.5.30.1.127.3.10.5 of the CH:EPR value set. -->
+<!-- TODO: subject role shall be TCU as defined in the code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH:EPR value set.. -->
+
+The scope parameter of the request MAY claim the following attributes:
+
+- There SHALL be a scope with name `purpose_of_use` in token format. If present, the token SHALL convey the coded value
+  of the current transaction’s purpose of use. Allowed values are `NORM` (normal access) and `EMER` (emergency access) from
+  code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
+- There SHALL be a scope with name `subject_role` in token format. If present, the token SHALL convey the coded value of
+  the subject’s role. The value SHALL be either `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative)
+  or `PAT` (patient) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid:
+  2.16.756.5.30.1.127.3.10.6\|HCP`).
+- IUA Authorization Clients may claim other scopes as defined in the SMART on FHIR specification.
+
+Note: The parameters need to be url encoded, see message examples.
 
 ###### Expected Actions
 
@@ -119,202 +129,24 @@ Server SHALL:
 - verify that the `principal_id` matches the GLN of the legal responsible healthcare professional the IUA Authorization
   Client was registered during onboarding.
 
+<!-- Done: copied from auth code flow -->
+
+When retrieving the Token Request, the IUA Authorization Server SHALL verify that the user is authenticated compliant to
+the regulations of the Swiss EPR, either by validating the identity token sent with the token request or by redirecting the
+IUA Authorization Client's user agent to a certified identity provider.
+
 The IUA Authorization Server SHALL respond with the Token Response only if all checks are successful. If one
 of the above checks fails, the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
 
 If the person_id is set in the request, the IUA Authorization Server SHALL respond with an Extended Access Token.
 The IUA Authorization Server SHALL respond with a Basic Access Token, if the `person_id` is not set.
 
-The IUA Authorization Client SHALL use the IUA Access Token as defined in [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
-transaction, when performing requests to resources of the Swiss EPR.
-
-
-###### Message Example
-
-```http
-POST /token HTTP/1.1 
-Host: localhost:9001
-
-Accept: application/json
-Content-type: application/x-www-form-urlencoded
-Authorization: Basic bXktYXBwOm15LWFwcC1zZWNyZXQtMTIz
-Content-Digest: sha-512=:Lh6fzO9XALiY46o5xVyN9yZloKZ6pLJV0kz+VirU5b6rQd2ii7vrTt4gxe32HRuLtNYG2Kl7CnGwQjjDxQk4yA===:
-Signature-Input: sig1=("@method" "@target-uri" "authorization" "content-digest");created=1764073861;expires=1764073921;keyid="snIZq-_NvzkKV-IdiM348BCz_RKdwmufnrPubsKKyio";tag="fapi-2-request"
-Signature: sig1=:9FaAZovdKmr9LVmwnzyfRED1ws1dX1mZLIgIPTOyBTNi0HkNoLxVipp8ZyGGx6+XP+7WVRh1wNQk9xjunHhZOw==:
-
-grant_type=client_credentials&
-requested-token-type=urn:ietf:params:oauth:token-type:jwt&
-person_id=761337610411353650%5E%5E%5E%262.16.756.5.30.1.109.6.5.3.1.1%26ISO&
-principal_id=9801000050702&
-scope=user%2F*.*+openid+fhirUser+purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CAUTO+subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.6%7CTC
-```
-
-##### Authorization Code Grant Type
-
-###### Trigger Events
-
-A user launches a portal, primary system or a "Digitale Gesundheitsanwendung (dGA)" to access data and documents from 
-the Swiss EPR.
-
-###### Message Semantics
-
-In the first step of the sequence the IUA Authorization Client SHALL send an OAuth Authorization
-Request for the authorization code grant type with the following Swiss extension:
-
-- response_type (required): The value of the parameter shall be code.
-- client_id (required): The ID the IUA Authorization Client is registered at the IUA Authorization Server.
-- state (required): The state parameter is used to protect against cross-site request forgery attacks. The value of the
-  parameter is passed through unmodified from the request to the response.
-- resource (optional): If present, the single valued identifier of the IUA Resource Server api endpoint to be accessed.
-- code_challenge (optional): The code challenge is a cryptographic challenge used to protect against cross-site request
-  forgery attacks. The value of the parameter is passed through unmodified from the request to the response.
-- code_challenge_method (optional): The code challenge method is the cryptographic method used to protect against
-  cross-site request forgery attacks. If present, the value of it SHALL be S256.
-- redirect_uri (required): The URL the IUA Authorization Client is registered at the IUA Authorization Server.
-- scope (required): The scope claimed by the IUA Authorization Client, as defined in the table below.
-- requested_token_type (optional): If present, the requested token format shall be urn:ietf:params:oauth:token-type:jwt.
-
-The Authorization Request SHALL use the following Swiss extension:
-
-- person_id (optional/required): EPR-SPID identifier of the patient’s record and the patient assigning authority
-  formatted in CX syntax, required for requesting extended access token.
-- principal (optional): The name of the healthcare professional an assistant may act on behalf of.
-- principal_id (optional): The GLN of the healthcare professional an assistant may act on behalf of.
-- group (optional): The name of the organization or group an assistant may act on behalf of.
-- group_id (optional): The OID of the organization or group an assistant is acting on behalf of.
-
-IUA Authorization Clients SHALL send the following values in the scope attribute of the Authorization Request:
-
-| Scope          | Optionality (Basic/ Extended) | Type  | Reference           | Remark                                                                                                                                                        |
-|----------------|-------------------------------|-------|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| purpose_of_use | R/R                           | token | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.5 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format.     |
-| subject_role   | R/R                           | token | See sections below. | Value taken from code system 2.16.756.5.30.1.127.3.10.1.1.3 of the CH: EPR value set in [FHIR token type](https://www.hl7.org/fhir/search.html#token) format. |
-{:class="table table-bordered"}
-
-<figcaption ID="6">Table: Authorization Request’s scope parameter for the authorization code flow.</figcaption>
-
-<br/>
-
-The scope parameter of the request MAY claim the following attributes:
-
-- There SHALL be a scope with name `purpose_of_use` in token format. If present, the token SHALL convey the coded value
-  of the current transaction’s purpose of use. Allowed values are `NORM` (normal access) and `EMER` (emergency access) from
-  code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
-- There SHALL be a scope with name `subject_role` in token format. If present, the token SHALL convey the coded value of
-  the subject’s role. The value SHALL be either `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative)
-  or `PAT` (patient) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid:
-  2.16.756.5.30.1.127.3.10.6\|HCP`).
-- IUA Authorization Clients may claim other scopes as defined in the SMART on FHIR specification.
-
-Note: The parameters need to be url encoded, see above message example.
-
-In the second step of the sequence the IUA Authorization Client SHALL perform an OAuth Token Request for the
-authorization code grant type with the following Swiss extension:
-
-The Token Request SHALL contain the following attributes:
-
-- grant_type (required): The value of the parameter shall be `authorization_code`.
-- code (required): The authorization code received from the IUA Authorization Server in the authorization response.
-- code_verifier (required): The original code verifier string.
-- client_id (required): The client identifier the IUA Authorization Client is registered with at the IUA Authorization
-  Server.
-- requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
-- client_assertion_type (required): If present, the value shall be `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
-- client_assertion (required): The identity token the IUA Authorization Client retrieved from the certified
-  Identity Provider after successful authentication of the user.
-
-###### Expected Actions
-
-When receiving the Authorization Request, the IUA Authorization Server
-
-- SHALL verify that the IUA Authorization Client was registered during onboarding with the `client_id` and `client
-  secret` presented in the request.
-- SHALL validate the requests parameter (i.e.: `person_id`). Depending on the parameter, the IUA Authorization Server
-  SHALL either build a Basic Access Token authorizing basic access to the EPR (i.e., PIXm), or an Extended Access Token
-  to authorize access to resources protected by the role and attribute based EPR authorization (i.e., read and write
-  documents).
-- SHALL verify that the IUA Authorization Client is authorized to access the EPR on behalf of the user by community
-  policy or by the user's consent.
-
-In case of failure, the IUA Authorization Server SHALL respond with HTTP error code `401 Not authorized`.
-
-In case of success, the IUA Authorization Server SHALL send the authorization code to the IUA Authorization Client
-`redirect_uri` via the user agent.
-
-<!-- DONE: verified that the client_id and secret are in the http Auth header -->
-The IUA Authorization Client SHALL perform the OAuth Token Request to the token endpoint to resolve the authorization 
-code to the access token, sending the `client_id` and `client_secret` in the HTTP authorization header field.
-
-When retrieving the Token Request, the IUA Authorization Server SHALL verify that the user is authenticated compliant to
-the regulations of the Swiss EPR, either by validating the identity token sent with the token request or by redirecting the
-IUA Authorization Client's user agent to a certified identity provider.
-
-The IUA Authorization Server SHALL respond with the IUA Get Access Token Response only if all checks are successful.
-
-In case of failure, the IUA Authorization Server SHALL respond with HTTP error code `401 Not authorized`.
-
 The IUA Authorization Client SHALL use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
 transaction, when performing requests to resources of the Swiss EPR.
 
-###### Message Example
+The IUA Authorization Client SHALL use the IUA Access Token as defined in [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
+transaction, when performing requests to resources of the Swiss EPR.
 
-The first step of the sequence is an HTTP GET request that may look like for a Basic Access Token:
-
-```http
-GET authorize?
-    response_type=code&
-    client_id=app-client-id&
-    redirect_uri=http%3A%2F%2Flocalhost%3A9000%2Fcallback&
-    scope=launch+user%2F%2A.%2A+openid+fhirUser&
-    state=98wrghuwuogerg97&
-    aud=https%3A%2F%2Fehr%2Ffhir&
-    code_challenge=ZmVjMmIwMWYyYTNjZWJiNTgyNTgxYzlmOGYyMWM0MWI3YmZhMjQ4YjU5MDc3Mzk4MDBmYTk0OThlNzZiNjAwMw&
-    code_challenge_method=S256
-```
-
-An extended access token where at least `purpose_of_use` (e.g., `NORM`), `subject_role` (e.g., `HCP`) and
-`person_id` are specified may look like:
-
-```http
-GET authorize?
-    response_type=code&
-    client_id=app-client-id&
-    redirect_uri=http%3A%2F%2Flocalhost%3A9000%2Fcallback&
-    person_id=761337610411353650%5E%5E%5E%262.16.756.5.30.1.109.6.5.3.1.1%26ISO&
-    scope=launch+user%2F*.*+openid+fhirUser+purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM+subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.6%7CHCP&
-    code_challenge=ZmVjMmIwMWYyYTNjZWJiNTgyNTgxYzlmOGYyMWM0MWI3YmZhMjQ4YjU5MDc3Mzk4MDBmYTk0OThlNzZiNjAwMw&
-    code_challenge_method=S256
-```
-
-The IUA Authorization Server SHALL respond with a http redirect to the Authorization Client redirect URL. 
-
-```http
-GET /callback?code=8V1pr0rJ&state=98wrghuwuogerg97
-```
-
-In the third step of the sequence, the IUA Authorization Client sends an HTTP POST request to the token endpoint of
-IUA Authorization Server to exchange the authorization code and identity token (signed JWT) to the access 
-token, e.g.:
-
-```http
-POST /token HTTP/1.1 
-Host: localhost:9001
-
-Accept: application/json
-Content-type: application/x-www-form-urlencoded
-Authorization: Basic bXktYXBwOm15LWFwcC1zZWNyZXQtMTIz
-Content-Digest: sha-512=:Lh6fzO9XALiY46o5xVyN9yZloKZ6pLJV0kz+VirU5b6rQd2ii7vrTt4gxe32HRuLtNYG2Kl7CnGwQjjDxQk4yA===:
-Signature-Input: sig1=("@method" "@target-uri" "authorization" "content-digest");created=1764073861;expires=1764073921;keyid="snIZq-_NvzkKV-IdiM348BCz_RKdwmufnrPubsKKyio";tag="fapi-2-request"
-Signature: sig1=:9FaAZovdKmr9LVmwnzyfRED1ws1dX1mZLIgIPTOyBTNi0HkNoLxVipp8ZyGGx6+XP+7WVRh1wNQk9xjunHhZOw==:
-
-grant_type=authorization_code&
-code=98wrghuwuogerg97&
-code_verifier=qskt4342of74bkncmicdpv2qd143iqd822j41q2gupc5n3o6f1clxhpd2x11&
-client_id=app-client-id&
-requested_token_type=urn:ietf:params:oauth:token-type:jwt
-client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-client_assertion=eyJraWQiOiIxZTlnZGs3IiwiYWxnIjoiUlMyNTYifQ[...omitted for brevity...]
-```
 
 #### Get Access Token Response
 
