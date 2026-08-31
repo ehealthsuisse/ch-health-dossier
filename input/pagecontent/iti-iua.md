@@ -62,7 +62,7 @@ archive system uses specific algorithms to decide which documents shall be store
 
 The healthcare professional reports medical information of a treatment in her primary system. The primary system creates
 a structured or unstructured document from the data and stores them in the clinical archive system. The clinical archive
-system decides whether the document shall be stored in the patients EHR using the policies defined in the clinic.
+system decides whether the document shall be stored in the patients EPR using the policies defined in the clinic.
 
 The clinical archive system connects to the IUA Authorization Server and sends a request with the required claims to 
 access the patients EPR. The IUA Authorization Server verifies if the clinical archive system was registered during 
