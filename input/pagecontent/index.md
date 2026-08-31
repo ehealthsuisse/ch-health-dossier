@@ -1,15 +1,11 @@
 ### Introduction
 
-The national extensions documented in this implementation guide shall be used in conjunction with the definitions of
-integration
-profiles, actors and transactions provided in Volumes 1 through 3 of the IHE IT Infrastructure Technical Framework.
-
-This implementation guide with national extensions of IHE integration profiles was authored in order to fulfil the Swiss
-regulations of the
+This implementation guide shall be used in conjunction with the definitions of integration profiles, actors and 
+transactions provided in Volumes 1 through 3 of the IHE IT Infrastructure Technical Framework. It specifies national 
+extensions of the IHE integration profiles in order to fulfil the Swiss regulations of the 
 EGDG ([de](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [fr](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [it](https://www.fedlex.admin.ch/eli/fga/2025/3399/de)).
 
-For general information about the revision from the EPDG to the EGDG
-see [de](https://www.bag.admin.ch/de/epd-weiterentwickeln-totalrevision), [fr](https://www.bag.admin.ch/fr/developpement-du-dep-revision-complete), [it](https://www.bag.admin.ch/it/ulteriore-sviluppo-della-cip-revisione-totale)
+For general information about the revision from the EPDG to the EGDG see [de](https://www.bag.admin.ch/de/epd-weiterentwickeln-totalrevision), [fr](https://www.bag.admin.ch/fr/developpement-du-dep-revision-complete), [it](https://www.bag.admin.ch/it/ulteriore-sviluppo-della-cip-revisione-totale)
 
 <div markdown="1" class="stu-note">
 
