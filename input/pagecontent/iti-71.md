@@ -75,7 +75,7 @@ type with Swiss extensions:
 The Token Request SHALL use the following extension defined in the client-confidential-asymmetric authentication profile
 of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html#backend-services) specification. 
 - client_assertion_type (required): The value shall be `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
-- client_assertion (required): JWT as defined in [SMART App Launch, Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#client-authentication-asymmetric-public-key).
+- client_assertion (required): JWT as defined in [SMART App Launch, Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#client-authentication-asymmetric-public-key).
 <br/>
 
 <!-- TODO: removed the `AUTO` purpose of use -->
@@ -134,7 +134,7 @@ When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authori
 - query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
 
-<!-- TODO: may use the GLN if present -->
+<!-- TODO: may use the GLN if present in the id_token -->
 
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
@@ -178,7 +178,10 @@ When receiving a Token Request with `subject_role` set to `LREP`, the IUA Author
 - read the subject identifier `sub` of the id token and resolve it to the ID of the legal representative.
 
 
-<!-- Done till here so far -->
+##### Message Example
+
+<!-- add message examples -->
+
 
 #### Get Access Token Response
 
@@ -397,17 +400,20 @@ alternative of the JWT token as specified in the IUA Trial Implementation. To en
 the IUA Authorization Server SHALL sign the JWT token with its private key and IUA Resource Servers SHALL verify
 the signature of the JWT token with the Authorization Server's public key. The JWE alternative SHALL not be used.
 
-To ensure the authenticity and integrity of the token requests, IUA Authorization Clients SHALL sign requests to the
+#### Authenticity
+<!-- TODO: authenticity via JWK -->
+
+#### Integrity 
+To ensure the integrity of the token requests, IUA Authorization Clients SHALL sign requests to the
 token endpoint of the IUA Authorization Server with the clients' private key as defined in
 `RFC 9421 HTTP Message Signatures`. The signature SHALL cover the entire request content. The IUA Authorization Server 
 SHALL verify the requests signature with the clients public key exchanged during the client registration process.
 
-The requests signature SHALL cover the following components of the http message as defined in
+The requests signature SHALL cover the following components of the http message as defined in 
 `RFC 9421 HTTP Message Signatures`:
 
 - method (required): The http protocol name the value of it SHALL be `POST`.
 - target-uri (required): The URI of the IUA Authorization server.
-- authorization (required): The value of the Authorization http header.
 - content-digest (required): The digest of the http message as defined in `RFC 9530 Digest Fields`.
 - created (required): Creation time as a UNIX timestamp value of type Integer.
 - expires (required): Expiration time as a UNIX timestamp value of type Integer which SHALL be at max 60 seconds after
@@ -419,10 +425,11 @@ The requests signature SHALL cover the following components of the http message 
 Token requests SHALL use a http header with name `Signature-Input` the value of it SHALL be one or more metadata
 sets with a key uniquely identifying the message signatures within the HTTP message as defined in
 `RFC 9421 HTTP Message Signatures`.
+
 There SHALL be at least one signature metadata set created by the IUA Authorization Client, e.g.:
 
 ```
-Signature-Input: sig1=("@method" "@target-uri" "authorization" "content-digest");created=1764073861;expires=1764073921;keyid="snIZq-_NvzkKV-IdiM348BCz_RKdwmufnrPubsKKyio";tag="fapi-2-request"
+Signature-Input: sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="snIZq-_NvzkKV-IdiM348BCz_RKdwmufnrPubsKKyio";tag="fapi-2-request"
 ```
 
 Token requests SHALL use a http header with name `Signature` the value of it SHALL be one or more message signatures
