@@ -101,44 +101,94 @@ The scope parameter of the request MAY claim the following attributes:
 - IUA Authorization Clients may claim other scopes as defined in the 
   [SMART on FHIR specification](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html).
 
-<!-- TODO: fix the FHIR scopes as defined in the EGDG and EGDV-EDI -->
-
 <sup id="3">3</sup>Token format according FHIR [token type](https://www.hl7.org/fhir/search.html#token).
 
 Note: The parameters need to be url encoded, see message examples.
 
-<br/>
-
 ###### Expected Actions
 
 <!-- TODO: add link to JWK verification -->
+<!-- TODO: add the public key for http signature to metadata -->
+
+The IUA Authorization Server SHALL validate the claims as described in the following sections. If the validation 
+succeeds, the IUA Authorization Server SHALL respond with the [Token Response](#get-access-token-response) 
+defined below. 
+
+In case the validation fails, the IUA Authorization Server SHALL respond with HTTP 401 Unauthorized or 
+HTTP 403 Forbidden error.
 
 When receiving a Token Request, the IUA Authorization Server SHALL: 
 - verify the http message signature.
 - verify the client authentication JWK.
 - verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
 
-When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the 
-IUA Authorization Server SHALL verify that the `principal_id` matches the GLN of the legal responsible 
-healthcare professional the IUA Authorization Client was registered during onboarding.
-
-<!-- TODO: complete and copy checks from A5E1 SAML -->
-
-When receiving a Token Request with any other combination of `purpose_of_use` and `subject_role`, the IUA Authorization
-Server SHALL verify that the user is authenticated compliant to the regulations of the Swiss EPR by validating the 
-identity token. 
-
-The IUA Authorization Server SHALL respond with the Token Response only if all checks are successful. If one
-of the above checks fails, the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
+The IUA Authorization Server SHALL validate the claims as described in the following sections. The IUA Authorization 
+Server SHALL respond with the Token Response only if all checks are successful. If one of the above checks fails, 
+the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
 
 If the `person_id` is set in the request, the IUA Authorization Server SHALL respond with an Extended Access Token.
 Otherwise,the IUA Authorization Server SHALL respond with a Basic Access Token.
 
-The IUA Authorization Client SHALL use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
-transaction, when performing requests to resources of the Swiss EPR.
+###### Clinical archive system
+When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the 
+IUA Authorization Server SHALL
+- verify that the system has been registered during onboarding as a clinical archive system with a principal.   
+- verify that the `principal_id` matches the GLN of the legal responsible person registered during onboarding.
 
-<!-- Till here -->
+###### Healthcare Professionals 
+When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
+- validate the identity token send in the `id_token` claim. 
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
+- verify the healthcare professional is registered with the same GLN in the provider directory. 
+- query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
+  including all superior groups or institutions up to the root level.
 
+<!-- TODO: may use the GLN if present -->
+
+###### Assistants
+When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant.
+- verify the assistant is registered with the same GLN in the provider directory.
+- verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
+  `principal_id` claim.
+- if a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
+  professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute 
+  of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
+  superior groups and institutions up to the root level.
+- If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
+  professional claimed in the `principal_id` to all groups or institutions including all superior groups 
+  or institutions up to the root level.
+
+###### Administrator 
+When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
+- verify the administrator is registered with the same ID in the provider directory.
+
+###### Patient 
+When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
+
+###### Representative 
+When receiving a Token Request with `subject_role` set to `REP`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
+
+###### Legal Representative 
+When receiving a Token Request with `subject_role` set to `LREP`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the ID of the legal representative.
+
+
+<!-- Done till here so far -->
 
 #### Get Access Token Response
 
@@ -163,7 +213,7 @@ the following Table.
 | person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
 {:class="table table-bordered"}
 
-<figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the JWT extension ihe_iua.</figcaption>  
+<figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the ihe_iua extension.</figcaption>  
 
 ###### The JWT ch_epr extension
 
@@ -214,18 +264,14 @@ Delegation is used in the access management of the Swiss EPR to indicate that a 
 behalf of a healthcare professional. The IUA Authorization Server and IUA Resource Server SHALL support this extension
 in the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of.
 
-Principals SHALL be wrapped in an `extensions` object with key `ch_delegation` and a JSON value
-object with attributes:
-
+Principals SHALL be wrapped in an `extensions` object with key `ch_delegation` and a JSON value object with attributes:
 - principal (optional) Name of the healthcare professional an assistant is acting on behalf of.
 - principal_id (optional) GLN of the healthcare professional an assistant is acting on behalf of.
 
 ##### Expected Actions
 
-<!-- TODO: copy the business rules from Annex 5 Addendum 1, section 1.6.4.2.4.4 Expected Actions X-Assertion -->
-The business rules for the IUA Authorization Server for healthcare professionals, assistants, patient and
-representative extension SHALL be the same as for Annex 5 Addendum 1, section 1.6.4.2.4.4 Expected Actions X-Assertion
-Provider Extensions.
+The IUA Authorization Client SHALL use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
+transaction, when performing requests to resources of the Swiss EPR.
 
 ##### Message Example
 
