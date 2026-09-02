@@ -107,27 +107,17 @@ Note: The parameters need to be url encoded, see message examples.
 
 ###### Expected Actions
 
-<!-- TODO: add link to JWK verification -->
 <!-- TODO: add the public key for http signature to metadata -->
 
 The IUA Authorization Server SHALL validate the claims as described in the following sections. If the validation 
 succeeds, the IUA Authorization Server SHALL respond with the [Token Response](#get-access-token-response) 
-defined below. 
-
-In case the validation fails, the IUA Authorization Server SHALL respond with HTTP 401 Unauthorized or 
+defined below. In case the validation fails, the IUA Authorization Server SHALL respond with HTTP 401 Unauthorized or 
 HTTP 403 Forbidden error.
 
 When receiving a Token Request, the IUA Authorization Server SHALL: 
-- verify the http message signature.
-- verify the client authentication JWK.
+- verify the http message signature as specified in [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
+- verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 - verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
-
-The IUA Authorization Server SHALL validate the claims as described in the following sections. The IUA Authorization 
-Server SHALL respond with the Token Response only if all checks are successful. If one of the above checks fails, 
-the IUA Authorization Server SHALL respond with HTTP 401 (Unauthorized) error.
-
-If the `person_id` is set in the request, the IUA Authorization Server SHALL respond with an Extended Access Token.
-Otherwise,the IUA Authorization Server SHALL respond with a Basic Access Token.
 
 ###### Clinical archive system
 When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the 
