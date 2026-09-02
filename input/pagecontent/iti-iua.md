@@ -141,12 +141,16 @@ see [sequence diagrams](sequencediagrams.html).
 
 ### Security Consideration
 
-Portals and primary systems SHALL be identified by the **client_id** registered during onboarding. All requests to the 
-IUA Authorization Server SHALL be authenticated by the digital signatures of the messages send by the IUA Authorization 
-Client. 
+Portals and primary systems SHALL be identified by the **client_id** registered during onboarding. 
+
+The authenticity of requests to the IUA Authorization Server SHALL be verified by a JWK as described in 
+[SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). 
+
+The integrity of requests to the IUA Authorization Server SHALL be verified by a http message signature 
+as specified in [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
 
 Applications implementing the IUA Authorization Client actor SHALL register the combination of the OAuth **client_id**, 
-the URLs and the public key used for message signatures during the onboarding process and keep the data up to date. 
+and the public key used for signing the authentication JWK and the http message signature during the onboarding process. 
 
 Applications implementing the IUA Authorization Server actor shall verify the combination of the OAuth **client_id**, 
 the URLs and the public key of all requests against the registered values and shall reject requests in case of mismatch.
