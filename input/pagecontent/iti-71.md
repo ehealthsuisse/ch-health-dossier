@@ -95,11 +95,11 @@ The scope parameter of the request MAY claim the following attributes:
 
 - There SHALL be a scope with name `purpose_of_use` in token format <sup><a href="#3">3</a></sup>. The token SHALL convey the coded value
   of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), `EMER` (emergency access) 
-  from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5\|NORM`).
+  from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`).
 - There SHALL be a scope with name `subject_role` in token format. The token SHALL convey the coded value of
   the subject’s role. Allowed values are `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative), 
   `PAT` (patient) or `TCU` (clinical archive) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set 
-  (e.g.: `subject_role=urn:oid: 2.16.756.5.30.1.127.3.10.6\|HCP`).
+  (e.g.: `subject_role=urn:oid: 2.16.756.5.30.1.127.3.10.6|HCP`).
 - IUA Authorization Clients may claim other scopes as defined in the 
   [SMART on FHIR specification](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html).
 
@@ -182,7 +182,7 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:313
-Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
+Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
 Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
 Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
@@ -201,7 +201,7 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:376
-Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
+Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
 Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
 Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
@@ -221,7 +221,7 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:340
-Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
+Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
 Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
 Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
