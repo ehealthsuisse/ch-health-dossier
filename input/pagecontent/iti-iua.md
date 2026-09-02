@@ -9,8 +9,8 @@ restrictions to the Internet User Authorization (IUA) Profile [published](https:
 of the Swiss EPR.
 
 This national extension is scoped for client authorization in FHIR based interfaces for primary systems, portals and
-"Digitale Gesundheitsanwendungen (dGA)". It is scoped to convey the information required to identify and authenticate 
-the clients an to enforce the privacy policy settings, when accessing protected resources from the EPR.
+digital health apps. It is scoped to convey the information required to identify and authenticate 
+the clients and to enforce the privacy policy settings, when accessing protected resources from the EPR.
 
 ### Use Cases
 
@@ -26,7 +26,7 @@ information required to access the EPR (e.g., resolve the digital identity to th
 Server responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and 
 documents from the patients EPR.
 
-#### Patient Access from a "Digitale Gesundheitsanwendung (dGA)"
+#### Patient Access from a digital health app
 
 A patient uses a dGA which is integrated to the Swiss EPR using the profiles to access and share data and documents
 with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified Identity

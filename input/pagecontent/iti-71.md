@@ -4,8 +4,8 @@ User Authorization”.
 
 ### Scope
 
-The transaction is used by an IUA Authorization Client (e.g., portal, primary system or "Digitale Gesundheitsanwendung
-(dGA)") to pass claims to the IUA Authorization Server and to retrieve an access token which authorizes access to protected
+The transaction is used by an IUA Authorization Client (e.g., portal, primary system or digital health app 
+to pass claims to the IUA Authorization Server and to retrieve an access token which authorizes access to protected
 resources of the Swiss EPR.
 
 Depending on the claims made by the IUA Authorization Client, two different flavors of access tokens SHALL be provided
@@ -61,7 +61,7 @@ This section specifies the client credential grant flow of the IUA Get Access To
 ###### Trigger Events
 
 A clinical archive system aims to access the EPR to write documents, or a user authenticates in the portal, primary 
-system or in a "Digitale Gesundheitsanwendung (dGA)" to access data and Documents in the EPR. 
+system or in a digital health app to access data and Documents in the EPR. 
 
 ###### Message Semantics
 
@@ -183,8 +183,8 @@ Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:313
 Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
-Signature-Input:[sig1=("@method" "@target-uri" "content-digest");created=1788357101;keyid="ec-signing-key";tag="fapi-2-request"]
-Signature:[sig1=:FTUm8HmB5L+Mz88Hbof2hvML6Uawnq5m162+ZpL1Fbth40N3PfuhQcsUfjZHUiDoXoxitvBo0zclDbWh7KEsOw==:]
+Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
+Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -202,8 +202,8 @@ Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:376
 Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
-Signature-Input:[sig1=("@method" "@target-uri" "content-digest");created=1788357101;keyid="ec-signing-key";tag="fapi-2-request"]
-Signature:[sig1=:FTUm8HmB5L+Mz88Hbof2hvML6Uawnq5m162+ZpL1Fbth40N3PfuhQcsUfjZHUiDoXoxitvBo0zclDbWh7KEsOw==:]
+Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
+Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -222,8 +222,8 @@ Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:340
 Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
-Signature-Input:[sig1=("@method" "@target-uri" "content-digest");created=1788357101;keyid="ec-signing-key";tag="fapi-2-request"]
-Signature:[sig1=:FTUm8HmB5L+Mz88Hbof2hvML6Uawnq5m162+ZpL1Fbth40N3PfuhQcsUfjZHUiDoXoxitvBo0zclDbWh7KEsOw==:]
+Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
+Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -504,7 +504,7 @@ IUA Authorization Server SHALL verify the signature of the token requests as spe
 `RFC 9421 HTTP Message Signatures`.
 
 IUA Authorization Servers SHALL NOT implement any algorithm using a shared key (for example _HMAC_), and they SHALL
-implement at least the algorithm 'RSASSA-PKCS1-v1_5 Using SHA-256'.
+implement at least the algorithm `RSASSA-PKCS1-v1_5 Using SHA-256`.
 
 When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
 the IUA Resource Servers SHALL verify that both are the same.
