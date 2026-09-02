@@ -31,6 +31,8 @@ to be incorporated into the transactions to access protected resources.
 1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.3](https://profiles.ihe.net/ITI/IUA/index.html)
 2. [SMART Application Launch Framework Implementation Guide Release 2.2.0](http://www.hl7.org/fhir/smart-app-launch/)
 
+<!-- TODO add others -->
+
 ### Messages
 
 #### Client Credential Grant Type
@@ -119,11 +121,17 @@ When receiving a Token Request, the IUA Authorization Server SHALL:
 - verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 - verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
 
-###### Clinical archive system
-When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the 
-IUA Authorization Server SHALL
-- verify that the system has been registered during onboarding as a clinical archive system with a principal.   
-- verify that the `principal_id` matches the GLN of the legal responsible person registered during onboarding.
+###### Patients
+When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
+
+###### Representatives
+When receiving a Token Request with `subject_role` set to `REP` or `LREP`, the IUA Authorization Server SHALL:
+- validate the identity token send in the `id_token` claim.
+- verify that the identity token is signed by one of the identity provider accepted for the EPR.
+- read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
@@ -149,38 +157,82 @@ When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authori
   of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
   superior groups and institutions up to the root level.
 - If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
-  professional claimed in the `principal_id` to all groups or institutions including all superior groups 
-  or institutions up to the root level.
+  professional claimed in the `principal_id` to all groups or institutions the healthcare professional is member 
+  of, including all superior groups or institutions up to the root level.
 
-###### Administrator 
+###### Clinical archive systems
+When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the
+IUA Authorization Server SHALL
+- verify that the system has been registered during onboarding as a clinical archive system with a principal.
+- verify that the `principal_id` matches the GLN of the legal responsible person registered during onboarding.
+
+###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
 - validate the identity token send in the `id_token` claim.
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
 - verify the administrator is registered with the same ID in the provider directory.
 
-###### Patient 
-When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
-
-###### Representative 
-When receiving a Token Request with `subject_role` set to `REP`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
-
-###### Legal Representative 
-When receiving a Token Request with `subject_role` set to `LREP`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the legal representative.
-
-
 ##### Message Example
 
-<!-- add message examples -->
+A token request of a patient send from a portal or dGA may look like:
+
+```
+POST /token HTTP/1.1
+Host: epr.auth-server.com
+Content-Type: application/x-www-form-urlencoded
+Content-length:313
+Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
+Signature-Input:[sig1=("@method" "@target-uri" "content-digest");created=1788357101;keyid="ec-signing-key";tag="fapi-2-request"]
+Signature:[sig1=:FTUm8HmB5L+Mz88Hbof2hvML6Uawnq5m162+ZpL1Fbth40N3PfuhQcsUfjZHUiDoXoxitvBo0zclDbWh7KEsOw==:]
+
+grant_type=client_credentials
+&client_id=<client_id>
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=<signed JWT>
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.6|PAT
+&id_token=<signed identity token>
+```
+
+A token request of a healthcare professional for an extended access token may look like:
+
+```
+POST /token HTTP/1.1
+Host: epr.auth-server.com
+Content-Type: application/x-www-form-urlencoded
+Content-length:376
+Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
+Signature-Input:[sig1=("@method" "@target-uri" "content-digest");created=1788357101;keyid="ec-signing-key";tag="fapi-2-request"]
+Signature:[sig1=:FTUm8HmB5L+Mz88Hbof2hvML6Uawnq5m162+ZpL1Fbth40N3PfuhQcsUfjZHUiDoXoxitvBo0zclDbWh7KEsOw==:]
+
+grant_type=client_credentials
+&client_id=<client_id>
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=<signed JWT>
+&id_token=<signed identity token>
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.6|HCP
+&person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO 
+```
+
+A token request of a clinical archive system for a basic access token may look like:
+
+```
+POST /token HTTP/1.1
+Host: epr.auth-server.com
+Content-Type: application/x-www-form-urlencoded
+Content-length:340
+Content-Digest:sha-512=:FmBZg8FQcQ6ysrTxCakw99/6uANKFfMGOLbFodcOHfad5SNalU7YSXLBHLTgp8j/0IyxLJ5GViPj/O0OR6hO7g==:
+Signature-Input:[sig1=("@method" "@target-uri" "content-digest");created=1788357101;keyid="ec-signing-key";tag="fapi-2-request"]
+Signature:[sig1=:FTUm8HmB5L+Mz88Hbof2hvML6Uawnq5m162+ZpL1Fbth40N3PfuhQcsUfjZHUiDoXoxitvBo0zclDbWh7KEsOw==:]
+
+grant_type=client_credentials
+&client_id=<client_id>
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=<signed JWT>
+&principal=<the-principal-name>
+&principal_id=<the-principal-id>
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.6|TCU
+```
 
 
 #### Get Access Token Response
