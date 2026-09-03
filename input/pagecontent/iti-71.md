@@ -28,8 +28,9 @@ to be incorporated into the transactions to access protected resources.
 
 ### Referenced Standards
 
-1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.3](https://profiles.ihe.net/ITI/IUA/index.html)
+1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
 2. [SMART Application Launch Framework Implementation Guide Release 2.2.0](http://www.hl7.org/fhir/smart-app-launch/)
+3. [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
 
 <!-- TODO add others -->
 
@@ -108,8 +109,6 @@ The scope parameter of the request MAY claim the following attributes:
 Note: The parameters need to be url encoded, see message examples.
 
 ###### Expected Actions
-
-<!-- TODO: add the public key for http signature to metadata -->
 
 The IUA Authorization Server SHALL validate the claims as described in the following sections. If the validation 
 succeeds, the IUA Authorization Server SHALL respond with the [Token Response](#get-access-token-response) 
