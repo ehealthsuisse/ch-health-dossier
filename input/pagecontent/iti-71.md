@@ -32,8 +32,6 @@ to be incorporated into the transactions to access protected resources.
 2. [SMART Application Launch Framework Implementation Guide Release 2.2.0](http://www.hl7.org/fhir/smart-app-launch/)
 3. [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
 
-<!-- TODO add others -->
-
 ### Messages
 
 #### Client Credential Grant Type
