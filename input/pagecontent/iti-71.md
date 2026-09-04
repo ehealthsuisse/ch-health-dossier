@@ -1,6 +1,6 @@
-This section describes the national extension for the Swiss EPR to the [Get Access Token [ITI-71]](https://profiles.ihe.net/ITI/IUA/index.html#371-get-access-token-iti-71) transaction
-defined in the IUA profile published in the IHE IT Infrastructure Technical Framework Trial Implementation “Internet
-User Authorization”.
+This section describes the national extension for the Swiss EPR to the [Get Access Token [ITI-71]](https://profiles.ihe.net/ITI/IUA/index.html#371-get-access-token-iti-71) client credential 
+grant type transaction defined in the IUA profile published in the IHE IT Infrastructure Technical Framework Trial 
+Implementation “Internet User Authorization”.
 
 ### Scope
 
@@ -55,14 +55,12 @@ This section specifies the client credential grant flow of the IUA Get Access To
 
 #### Get Access Token Request
 
-##### Client Credential Grant Type
-
-###### Trigger Events
+##### Trigger Events
 
 A clinical archive system aims to access the EPR to write documents, or a user authenticates in the portal, primary 
 system or in a digital health app to access data and Documents in the EPR. 
 
-###### Message Semantics
+##### Message Semantics
 
 The IUA Authorization Client SHALL send an IUA compliant OAuth 2.1 Token Request for the client credential grant
 type with Swiss extensions:
@@ -92,21 +90,20 @@ The Token Request SHALL use the following Swiss extension:
 
 The scope parameter of the request MAY claim the following attributes:
 
-- There SHALL be a scope with name `purpose_of_use` in token format <sup><a href="#3">3</a></sup>. The token SHALL convey the coded value
-  of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), `EMER` (emergency access) 
-  from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`).
-- There SHALL be a scope with name `subject_role` in token format. The token SHALL convey the coded value of
-  the subject’s role. Allowed values are `HCP` (healthcare professional), `ASS` (assistant), `REP` (representative), 
-  `PAT` (patient) or `TCU` (clinical archive) from code system `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set 
-  (e.g.: `subject_role=urn:oid: 2.16.756.5.30.1.127.3.10.6|HCP`).
+- There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)). 
+  The token SHALL convey the coded value of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), 
+  `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set 
+  (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`).
+- There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)). 
+  The token SHALL convey the coded value of the subject’s role. Allowed values are `HCP` (healthcare professional), 
+  `ASS` (assistant), `REP` (representative), `PAT` (patient) or `TCU` (clinical archive) from code system 
+  `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid: 2.16.756.5.30.1.127.3.10.6|HCP`).
 - IUA Authorization Clients may claim other scopes as defined in the 
   [SMART on FHIR specification](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html).
 
-<sup id="3">3</sup>Token format according FHIR [token type](https://www.hl7.org/fhir/search.html#token).
-
 Note: The parameters need to be url encoded, see message examples.
 
-###### Expected Actions
+##### Expected Actions
 
 The IUA Authorization Server SHALL validate the claims as described in the following sections. If the validation 
 succeeds, the IUA Authorization Server SHALL respond with the [Token Response](#get-access-token-response) 
