@@ -456,8 +456,7 @@ The actors SHALL support the `traceparent` header handling, as defined in [Appen
 
 #### Authenticity
 To ensure the authenticity of the request, the IUA Authorization Server SHALL add JWK to the request as defined in 
-[SMART App Launch Client Authentication: Asymmetric] 
-(https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
+[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
 
 IUA Authorization Servers SHALL validate the client authentication JWT by verifying the signature and the claims.
 
