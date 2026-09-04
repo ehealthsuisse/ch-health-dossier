@@ -450,7 +450,11 @@ the IUA Authorization Server SHALL sign the JWT token with its private key and I
 the signature of the JWT token with the Authorization Server's public key. The JWE alternative SHALL not be used.
 
 #### Authenticity
-<!-- TODO: authenticity via JWK -->
+To ensure the authenticity of the request, the IUA Authorization Server SHALL add JWK to the request as defined in 
+[SMART App Launch Client Authentication: Asymmetric] 
+(https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
+
+IUA Authorization Servers SHALL validate the client authentication JWT by verifying the signature and the claims.
 
 #### Integrity 
 To ensure the integrity of the token requests, IUA Authorization Clients SHALL sign requests to the
