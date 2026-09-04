@@ -43,10 +43,10 @@ This section specifies the client credential grant flow of the IUA Get Access To
 
 <br/>
 
-| Step | Action                                                                                                   | Remark                                                  | 
-|------|----------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| Step | Action                                                                                                   | Remark                      | 
+|------|----------------------------------------------------------------------------------------------------------|-----------------------------|
 | 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [MessageSemantics](#client-credential-grant-type-1) | 
-| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-2)           |
+| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-2)|
 {:class="table table-bordered"}
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -449,6 +449,11 @@ alternative of the JWT token as specified in the IUA Trial Implementation. To en
 the IUA Authorization Server SHALL sign the JWT token with its private key and IUA Resource Servers SHALL verify
 the signature of the JWT token with the Authorization Server's public key. The JWE alternative SHALL not be used.
 
+When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
+the IUA Resource Servers SHALL verify that both are the same.
+
+The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+
 #### Authenticity
 To ensure the authenticity of the request, the IUA Authorization Server SHALL add JWK to the request as defined in 
 [SMART App Launch Client Authentication: Asymmetric] 
@@ -506,11 +511,6 @@ IUA Authorization Server SHALL verify the signature of the token requests as spe
 
 IUA Authorization Servers SHALL NOT implement any algorithm using a shared key (for example _HMAC_), and they SHALL
 implement at least the algorithm `RSASSA-PKCS1-v1_5 Using SHA-256`.
-
-When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
-the IUA Resource Servers SHALL verify that both are the same.
-
-The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Security Audit Considerations
 
