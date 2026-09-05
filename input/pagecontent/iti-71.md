@@ -34,9 +34,8 @@ to be incorporated into the transactions to access protected resources.
 
 ### Messages
 
-#### Client Credential Grant Type
-
-This section specifies the client credential grant flow of the IUA Get Access Token transaction.
+This section specifies the national extensions for the client credential grant flow of the IUA Get Access Token 
+[ITI-71] transaction.
 
 <div>{% include IUA_ActorDiagram_ITI-71-cc.svg %}</div>
 <figcaption ID="10">Figure: Sequence diagram of the transaction.</figcaption>
@@ -135,8 +134,6 @@ When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authori
 - query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
 
-<!-- TODO: may use the GLN if present in the id_token -->
-
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
 - validate the identity token send in the `id_token` claim.
@@ -156,7 +153,7 @@ When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authori
 
 ###### Clinical archive systems
 When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the
-IUA Authorization Server SHALL
+IUA Authorization Server SHALL:
 - verify that the system has been registered during onboarding as a clinical archive system with a principal.
 - verify that the `principal_id` matches the GLN of the legal responsible person registered during onboarding.
 
@@ -240,7 +237,7 @@ authorization (i.e., read and write documents).
 ###### JSON Web Token Option
 
 The IUA Authorization Server and IUA Resource Server SHALL support the IUA JWT extension with claims as defined in
-the following Table.
+the following table:
 
 | JWT Claim (Extension)   | Optionality (Basic/ Extended)   | Remark                                                                    |
 |-------------------------|---------------------------------|---------------------------------------------------------------------------|
@@ -282,7 +279,7 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 Groups are the objects used in the access management of the Swiss EPR. Patients and representatives may assign access
 rights to groups which typically are sub-organizations of the institutions, but may also cross institution boundaries,
-e.g., a tumorboard with healthcare professionals from more than one institution.
+e.g., a tumor board with healthcare professionals from more than one institution.
 
 The IUA Authorization Server and IUA Resource Server SHALL support this extension in the JWT access token for a list of
 groups
@@ -447,17 +444,18 @@ the IUA Authorization Server SHALL sign the JWT token with its private key and I
 the signature of the JWT token with the Authorization Server's public key. The JWE alternative SHALL not be used.
 
 When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
-the IUA Resource Servers SHALL verify that both are the same.
+the IUA Resource Servers SHALL verify that both have the same value.
 
 The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Authenticity
-To ensure the authenticity of the request, the IUA Authorization Server SHALL add JWK to the request as defined in 
-[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
 
+To ensure the authenticity of the request, the IUA Authorization Server SHALL add a signed JWT to the request as defined in 
+[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
 IUA Authorization Servers SHALL validate the client authentication JWT by verifying the signature and the claims.
 
-#### Integrity 
+#### Integrity
+
 To ensure the integrity of the token requests, IUA Authorization Clients SHALL sign requests to the
 token endpoint of the IUA Authorization Server with the clients' private key as defined in
 `RFC 9421 HTTP Message Signatures`. The signature SHALL cover the entire request content. The IUA Authorization Server 
@@ -510,5 +508,13 @@ implement at least the algorithm `RSASSA-PKCS1-v1_5 Using SHA-256`.
 
 #### Security Audit Considerations
 
-<!-- TODO and to be discussed: for security reasons and might be reasonable to add a ATNA logs to detect attacks, i.e., failed attempts --> 
 There is no audit event required for this transaction.
+
+### Additional notes
+
+The authors of this specification are aware, that the authenticity of the Get Access Token Request is double-checked, 
+first by validating the http signature of the request and second, when validating the signature of the client-asymmetric 
+authentication JWT. While the http signature is required to ensure the integrity (i.e., to verify that the request is 
+not tampered), the client-asymmetric authentication is kept to be compliant with the 
+[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications
+which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
