@@ -77,8 +77,6 @@ of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-serv
 - client_assertion (required): JWT as defined in [SMART App Launch, Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#client-authentication-asymmetric-public-key).
 <br/>
 
-<!-- TODO: removed the `AUTO` purpose of use -->
-
 The Token Request SHALL use the following Swiss extension:
 - person_id (optional/required): EPR-SPID identifier of the patient’s record and the patient assigning authority formatted in CX syntax, required for requesting extended access token.
 - principal (optional/required): The name of the healthcare professional an assistant or a clinical archive system may act on behalf of.
@@ -131,7 +129,8 @@ When receiving a Token Request with `subject_role` set to `REP` or `LREP`, the I
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
 - validate the identity token send in the `id_token` claim. 
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
+- If the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
+  Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
 - verify the healthcare professional is registered with the same GLN in the provider directory. 
 - query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
@@ -142,7 +141,8 @@ When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authori
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
 - validate the identity token send in the `id_token` claim.
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant.
+- If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
+  Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant.
 - verify the assistant is registered with the same GLN in the provider directory.
 - verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
   `principal_id` claim.
@@ -150,7 +150,7 @@ When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authori
   professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute 
   of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
   superior groups and institutions up to the root level.
-- If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
+- if no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
   professional claimed in the `principal_id` to all groups or institutions the healthcare professional is member 
   of, including all superior groups or institutions up to the root level.
 
