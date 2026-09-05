@@ -19,8 +19,7 @@ by the IUA Authorization Server:
 ### Actor Roles
 
 **Actor:** IUA Authorization Client  
-**Role:** Communicates claims and optional IdP Token to the IUA Authorization Server and receives JWT access
-token.      
+**Role:** Communicates claims and optional IdP Token to the IUA Authorization Server and receives JWT access token.      
 **Actor:** IUA Authorization Server  
 **Role:** Identifies and authenticates the IUA Authorization Client, verifies signatures and claims, authorizes the access 
 on behalf of the user and responds a JWT Access Token to the IUA Authorization Client
@@ -30,7 +29,9 @@ to be incorporated into the transactions to access protected resources.
 
 1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
 2. [SMART Application Launch Framework Implementation Guide Release 2.2.0](http://www.hl7.org/fhir/smart-app-launch/)
-3. [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
+3. [OpenID Connect Core 1.0 incorporating errata set 2](https://openid.net/specs/openid-connect-core-1_0.html)
+4. [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
+
 
 ### Messages
 
@@ -114,19 +115,22 @@ When receiving a Token Request, the IUA Authorization Server SHALL:
 
 ###### Patients
 When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
+- validate the identity token send in the `id_token` claim as described in 
+  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
 
 ###### Representatives
 When receiving a Token Request with `subject_role` set to `REP` or `LREP`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
+- validate the identity token send in the `id_token` claim as described in
+  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
-- validate the identity token send in the `id_token` claim. 
+- validate the identity token send in the `id_token` claim as described in
+  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - If the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
@@ -136,7 +140,8 @@ When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authori
 
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
+- validate the identity token send in the `id_token` claim as described in
+  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant.
@@ -159,7 +164,8 @@ IUA Authorization Server SHALL:
 
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim.
+- validate the identity token send in the `id_token` claim as described in
+  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
 - verify the administrator is registered with the same ID in the provider directory.
