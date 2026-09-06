@@ -5,8 +5,8 @@ IHE ITI Trial Implementation.
 
 This national extension provides means to retrieve EPR compliant access token and to incorporate them to transactions
 to authorize client applications and to evaluate user access rights when accessing protected resources. It adds certain 
-restrictions to the Internet User Authorization (IUA) Profile [published](https://profiles.ihe.net/ITI/IUA/index.html) to be compliant to the ordinances 
-of the Swiss EPR.
+restrictions to the Internet User Authorization (IUA) Profile [published](https://profiles.ihe.net/ITI/IUA/index.html) 
+to be compliant to the ordinances of the Swiss EPR.
 
 This national extension is scoped for client authorization in FHIR based interfaces for primary systems, portals and
 digital health apps. It is scoped to convey the information required to identify and authenticate 
@@ -28,15 +28,15 @@ documents from the patients EPR.
 
 #### Patient Access from a digital health app
 
-A patient uses a dGA which is integrated to the Swiss EPR using the profiles to access and share data and documents
-with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified Identity
-Provider. The dGA sends the identity token and the required claims to the IUA Authorization Server
+A patient uses a digital health app which is integrated to the Swiss EPR using the profiles to access and share data 
+and documents with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified 
+Identity Provider. The digital health app sends the identity token and the required claims to the IUA Authorization Server
 to retrieve an authorization token to access the patients EPR.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to the EPR-SPID). The IUA Authorization
-Server responds an IUA Authorization Token the dGA shall incorporate to all transaction to retrieve the data and
-documents from the patients EPR.
+Server responds an IUA Authorization Token the digital health app shall incorporate to all transaction to retrieve the 
+data and documents from the patients EPR.
 
 #### User Access from a Primary System
 
@@ -95,28 +95,6 @@ option and the Introspection Option SHALL NOT be used.
 
 To support automated client configuration the Authorization Server actor SHALL support the Authorization Metadata option.
 
-This national extension adds the Technical User Option for Actors to comply to the legal requirements of the Swiss EPR.
-
-#### Technical User Option
-
-The Technical User option SHALL be claimed by implementations, which do not require user authentication to 
-write documents to the EPR (i.e.: archive systems or other primary systems storing EPR data and documents, 
-not initiated by a user interaction). Actors SHALL perform the following required transactions (labeled "R") 
-when claiming the Technical User option:
-
-
-| Actor                 | Transaction                       | Optionality |
-|-----------------------|-----------------------------------|-------------|
-| Authorization Client  | Get Access Token                  | R           |
-| Authorization Client  | Get Authorization Server Metadata | O           |
-| Authorization Client  | Incorporate Access Token          | R           |
-| Authorization Server  | Get Access Token                  | R           |
-| Authorization Server  | Get Authorization Server Metadata | R           |
-| Resource Server       | Incorporate Access Token          | R           |
-| Resource Server       | Get Authorization Server Metadata | O           |
-{:class="table table-bordered"}
-
-
 ### Grouping
 
 The actors SHALL be grouped with other actors as follows:
@@ -144,10 +122,9 @@ see [sequence diagrams](sequencediagrams.html).
 Portals and primary systems SHALL be identified by the **client_id** registered during onboarding. 
 
 The authenticity of requests to the IUA Authorization Server SHALL be verified by a JWK as described in 
-[SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). 
-
-The integrity of requests to the IUA Authorization Server SHALL be verified by a http message signature 
-as specified in [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
+[SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). The integrity of requests to the IUA Authorization Server SHALL be 
+verified by a http message signature as specified in [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/). See 
+[Get Access Token](iti-71.html#security-consideration) for details.  
 
 Applications implementing the IUA Authorization Client actor SHALL register the combination of the OAuth **client_id**, 
 and the public key used for signing the authentication JWK and the http message signature during the onboarding process. 

@@ -172,7 +172,7 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 
 ##### Message Example
 
-A token request of a patient send from a portal or dGA may look like:
+A token request of a patient send from a portal or digital health app may look like:
 
 ```
 POST /token HTTP/1.1
