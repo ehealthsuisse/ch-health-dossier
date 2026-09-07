@@ -1,12 +1,12 @@
-This section specifies Swiss national extensions to Internet User Authorization (IUA) Profile [published](https://profiles.ihe.net/ITI/IUA/index.html) as 
-IHE ITI Trial Implementation.
+This section specifies Swiss national extensions to Internet User Authorization (IUA) Profile 
+[published](https://profiles.ihe.net/ITI/IUA/index.html) as IHE ITI Trial Implementation.
 
 ### Scope
 
-This national extension provides means to retrieve EPR compliant access token and to incorporate them to transactions
-to authorize client applications and to evaluate user access rights when accessing protected resources. It adds certain 
-restrictions to the Internet User Authorization (IUA) Profile [published](https://profiles.ihe.net/ITI/IUA/index.html) 
-to be compliant to the ordinances of the Swiss EPR.
+This national extension provides means to retrieve access tokens and to incorporate them to transactions
+to authorize client applications and to evaluate user access rights when accessing protected resources of the 
+Swiss EPR. It therefore defines certain restrictions and extensions to the Internet User Authorization (IUA) 
+Profile [published](https://profiles.ihe.net/ITI/IUA/index.html).
 
 This national extension is scoped for client authorization in FHIR based interfaces for primary systems, portals and
 digital health apps. It is scoped to convey the information required to identify and authenticate 
@@ -99,14 +99,14 @@ To support automated client configuration the Authorization Server actor SHALL s
 
 The actors SHALL be grouped with other actors as follows:
 
-| Actor                        | Actor to be grouped with                                                                                            | Optionality |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------|-------------|
-| Authorization Client         | CT Time Client                                                                                                      | R           |
+| Actor                        | Actor to be grouped with                               | Optionality |
+|------------------------------|--------------------------------------------------------|-------------|
+| Authorization Client         | CT Time Client                                         | R           |
 |                              | ATNA Secure Node with [STX:HTTPS IUA Option](https://profiles.ihe.net/ITI/IUA/index.html#9267-stx-https-iua-option) | R           |
-| Resource server              | CT Time Client                                                                                                      | R           |
+| Resource server              | CT Time Client                                         | R           |
 |                              | ATNA Secure Node with [STX:HTTPS IUA Option](https://profiles.ihe.net/ITI/IUA/index.html#9267-stx-https-iua-option) | R           |
-| Authorization Server         | CT Time Client                                                                                                      | R           |
-| User Authentication Provider | CT Time Client                                                                                                      | R           |
+| Authorization Server         | CT Time Client                                         | R           |
+| User Authentication Provider | CT Time Client                                         | R           |
 {:class="table table-bordered"}
 
 The grouping of actors with IUA Authorization Client and Resource Server actor are defined in the respective profile 
@@ -114,12 +114,11 @@ sections.
 
 ### Process Flow
 
-For the process flow of this profile and its interplay with the other profiles
-see [sequence diagrams](sequencediagrams.html).
+For the process flow of this profile and its interplay with the other profiles see [sequence diagrams](sequencediagrams.html).
 
 ### Security Consideration
 
-Portals and primary systems SHALL be identified by the **client_id** registered during onboarding. 
+IUA Authorization Clients SHALL be identified by the **client_id** registered during onboarding. 
 
 The authenticity of requests to the IUA Authorization Server SHALL be verified by a JWK as described in 
 [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). The integrity of requests to the IUA Authorization Server SHALL be 

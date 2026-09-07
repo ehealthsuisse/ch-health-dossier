@@ -22,12 +22,12 @@ in [NPM format](https://confluence.hl7.org/display/FHIR/NPM+Package+Specificatio
 
 This national extension is motivated by the intention to provide FHIR based profiles for the Swiss Health Dossier by
 extending the IHE FHIR based mobile profiles. The IHE FHIR based mobile profiles use technologies (REST, OAuth, etc.)
-which are widely spread in the developer community and may be used for Web Applications, for example in web based
-primary systems or portals.
+which are widely spread in the developer community and may be used for mobile applications (e.g., digital health apps) 
+and Web Applications, for example in web based primary systems or portals.
 
-This national extension strictly separates the authentication and authorization of the applications use to access the
-Health Dossier on behalf of the user and the authentication and authorization of the user itself. By using this
-separation this national extension closely follows the underlying IUA Trial Implementation and OAuth 2.1:
+This national extension separates authentication and authorization of the applications and the authentication and 
+authorization of the user itself. By using this separation this national extension closely follows the underlying 
+IUA Trial Implementation and OAuth 2.1:
 
 * Client authentication - an application identifies and authenticates to an authorization server.
 * Client authorization - an application is authorized by the user or system policy to access data and documents on
@@ -36,6 +36,8 @@ separation this national extension closely follows the underlying IUA Trial Impl
   registered for the natural person.
 * User authorization - provision of an access token which includes the information required to perform authorization
   decisions and policy enforcement.
+
+<br/>
 
 The scope of this extension covers the following use cases:
 
@@ -56,7 +58,7 @@ national extension:
 Two grouped actors are defined:
 
 - Health App - An application that uses the client actors for connecting to the Health Dossier through the FHIR API.
-  This can be a portal, a primary system or a "Digitale Gesundheitsanwendung" (dGA).
+  This can be a portal, a primary system or a digital health app.
 - Health Dossier API - The FHIR API the Health Dossier offers for connecting clients.
 
 ### Conformance Expectations
@@ -107,14 +109,7 @@ This impacts the FHIR API in the following way:
 3. Information which has to be provided and has no own identity in the Swiss EPR (e.g., as local patient demographics in
    document publishing) are represented as contained resources.
 
-#### authentication and authorization
-
-<!-- TODO only OpenID Connect will be used, no reference to annex 8 -->
-Annex 8 EPRO-FDHA allows two different standards for user authentication with SAML 2.0 and OpenID Connect. For
-client authorization IUA is supported, extended with client authentication by http message signature. This
-implementation guide defines how they can be combined with the security considerations on the different transactions.
-
-#### interoperability specification
+#### Interoperability Specification
 
 This Implementation Guide profiles elements, cardinalities and bindings that are required by the use cases, law and
 ordinances of the Swiss EPR, to ensure that the systems are interoperable. The specification defines the requirements on

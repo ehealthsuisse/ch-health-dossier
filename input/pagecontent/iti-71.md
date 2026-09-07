@@ -456,13 +456,12 @@ The actors SHALL support the `traceparent` header handling, as defined in [Appen
 
 #### Authenticity
 
-To ensure the authenticity of the request, the IUA Authorization Server SHALL add a signed JWT to the request as defined in 
-[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
+To ensure the authenticity of the request, the IUA Authorization Server SHALL add a signed JWT to the request as defined in [SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
 IUA Authorization Servers SHALL validate the client authentication JWT by verifying the signature and the claims.
 
 #### Integrity
 
-To ensure the integrity of the token requests, IUA Authorization Clients SHALL sign requests to the
+To ensure the integrity of token requests, IUA Authorization Clients SHALL sign requests to the
 token endpoint of the IUA Authorization Server with the clients' private key as defined in
 `RFC 9421 HTTP Message Signatures`. The signature SHALL cover the entire request content. The IUA Authorization Server 
 SHALL verify the requests signature with the clients public key exchanged during the client registration process.
