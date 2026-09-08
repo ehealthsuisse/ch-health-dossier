@@ -76,12 +76,22 @@ Description: "CH MHD Profile on CH Core DocumentReference"
 * subject.identifier 1..1
 * subject.identifier only EPRSPIDIdentifier
 * subject ^comment = "Not a contained resource. The identifier points to an existing patient in the XDS Affinity Domain."
-* author only Reference
-* author MS
-* author ^comment = "Contained resource."
-* author ^type.aggregation = #contained
-* authenticator only Reference
-* authenticator ^type.aggregation = #contained
+* author 1.. MS
+* author only Reference($ch-core-practitioner or $ch-core-practitionerrole or $ch-core-organization or Device or $ch-core-patient or $ch-core-relatedperson)
+* author obeys ch-mhd-author-1
+* author ^short = "Who and/or what authored the document"
+* author ^comment = "The author SHALL be identified, either by a logical reference or by a reference to a resource.
+
+A logical reference carries the identifier of the authoring person or institution in `author.identifier`, analogous to
+`subject.identifier` carrying the EPR-SPID. The identifier is not constrained to a single system: a health professional
+or institution is normally identified by its GLN (`urn:oid:2.51.1.3`) and is then resolvable through mCSD, a patient by
+the EPR-SPID (`urn:oid:2.16.756.5.30.1.127.3.10.3`).
+
+A reference to a resource may point to a resource contained in the DocumentReference — use a contained PractitionerRole,
+which in turn references a contained Practitioner and/or Organization, when both the authoring person and the authoring
+institution are known — or to a resource held elsewhere, for example in the mCSD directory."
+* author.type ^short = "The type of the referenced author, e.g. Practitioner or Organization. SHALL be present when a logical reference is used."
+* authenticator only Reference($ch-core-practitioner or $ch-core-practitionerrole or $ch-core-organization)
 * custodian ..0
 * relatesTo MS
 * relatesTo ^comment = "See ITI TF-2c: 3.65.4.1.2.3"
@@ -123,10 +133,6 @@ be the the one to use in ITI-68 transactions to retrieve the document content."
 * context.practiceSetting ^binding.extension.url = "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName"
 * context.practiceSetting ^binding.extension.valueString = "DocumentC80PracticeSetting"
 * context.practiceSetting ^binding.description = "Additional details about where the content was created (e.g. clinical specialty)."
-* context.sourcePatientInfo 1.. MS
-* context.sourcePatientInfo only Reference($ch-core-patient)
-* context.sourcePatientInfo ^comment = "Contained Patient resource with Patient.identifier.use element set to ‘usual’.\r\n\r\nIndicates that the data within the XDS document entry be represented as a contained resource. See Section 4.5.4.4.7"
-* context.sourcePatientInfo ^type.aggregation = #contained
 * context.related ^slicing.discriminator.type = #value
 * context.related ^slicing.discriminator.path = "identifier"
 * context.related ^slicing.rules = #open
@@ -141,6 +147,11 @@ Invariant: ch-mhd
 Description: "The DocumentReference needs to conform to IHE.MHD.Minimal.DocumentReference"
 * severity = #error
 * expression = "conformsTo('https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.DocumentReference')"
+
+Invariant: ch-mhd-author-1
+Description: "The author is identified either by a logical reference (identifier) or by a reference to a resource"
+* severity = #error
+* expression = "identifier.exists() or reference.exists()"
 
 
 Profile: ChFindDocumentReferencesResponse
@@ -309,14 +320,6 @@ InstanceOf: ch-mhd-documentreference
 Title: "DocumentReference for a PDF Document"
 Description: "DocumentReference for a PDF Document"
 Usage: #example
-* contained.resourceType = "Patient"
-* contained.id = "1"
-* contained.name.family = "Doe"
-* contained.name.given = "John"
-* contained.identifier.use = #usual
-* contained.identifier.type = $v2-0203#MR
-* contained.identifier.system = "urn:oid:2.999.1.2.3.4"
-* contained.identifier.value = "8734"
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
@@ -331,6 +334,9 @@ Usage: #example
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-09-24T12:01:30+00:00"
+* author.type = "Practitioner"
+* author.identifier.system = "urn:oid:2.51.1.3"
+* author.identifier.value = "7601000201041"
 * description = "Test PDF"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/pdf
@@ -341,15 +347,6 @@ Usage: #example
 * content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
 * context.facilityType = $sct#264358009 "General practice premises (environment)"
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
-* context.sourcePatientInfo = Reference(1)
-
-Instance: 1
-InstanceOf: Patient
-Usage: #inline
-* identifier.use = #usual
-* identifier.type = $v2-0203#MR
-* identifier.system = "urn:oid:2.999.1.2.3.4"
-* identifier.value = "8734"
 
 Instance: CHMhd1UpdateDocumentMetadataTransactionRequestExample
 InstanceOf: CHMhd1UpdateDocumentMetadataTransactionRequest
@@ -417,14 +414,6 @@ Usage: #inline
 Instance: Inline-Instance-for-BundleProvideDocument-2
 InstanceOf: DocumentReference
 Usage: #inline
-* contained.resourceType = "Patient"
-* contained.id = "1"
-* contained.name.family = "Doe"
-* contained.name.given = "John"
-* contained.identifier.use = #usual
-* contained.identifier.type = $v2-0203#MR
-* contained.identifier.system = "urn:oid:2.999.1.2.3.4"
-* contained.identifier.value = "8734"
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
@@ -439,6 +428,9 @@ Usage: #inline
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-09-24T12:01:30+00:00"
+* author.type = "Practitioner"
+* author.identifier.system = "urn:oid:2.51.1.3"
+* author.identifier.value = "7601000201041"
 * description = "Test PDF"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/pdf
@@ -449,7 +441,6 @@ Usage: #inline
 * content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
 * context.facilityType = $sct#264358009 "General practice premises (environment)"
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
-* context.sourcePatientInfo = Reference(1)
 
 Instance: Inline-Instance-for-BundleProvideDocument-3
 InstanceOf: Binary

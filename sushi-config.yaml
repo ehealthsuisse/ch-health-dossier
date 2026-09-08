@@ -121,6 +121,48 @@ pages:
   changelog.md:
     title: Open Issues / Change Log
 
+menu:
+  Home: index.html
+  Volume 1:
+    Internet User Authorization (IUA): iti-iua.html
+    Patient Demographics Query for mobile (PDQm): iti-pdqm.html
+    Patient Identifier Cross-referencing for mobile (PIXm): iti-pixm.html
+    Mobile Access to Health Documents (MHD): iti-mhd.html
+    RESTful ATNA: iti-restful-atna.html
+    Mobile Care Services Discovery (mCSD): iti-mcsd.html
+    Privacy Policy Query for Mobile (CH:PPQm): ppqm.html
+    Audit Trail Consumption (CH:ATC): ch-atc.html
+  Volume 2:
+    Get Authorization Server Metadata [ITI-103]: iti-103.html
+    Get Access Token [ITI-71]: iti-71.html
+    Incorporate Access Token [ITI-72]: iti-72.html
+    Patient Identity Feed FHIR [ITI-104]: iti-104.html
+    Patient Demographics Match [ITI-119]: iti-119.html
+    Provide Document Bundle [ITI-65]: iti-65.html
+    Find Document References [ITI-67]: iti-67.html
+    Retrieve Document [ITI-68]: iti-68.html
+    Update Document Metadata [CH:MHD-1]: ch-mhd-1.html
+    Record Audit Event [ITI-20]: iti-20.html
+    Find Matching Care Services [ITI-90]: iti-90.html
+    Care Services Feed [ITI-130]: iti-130.html
+    Mobile Privacy Policy Feed [PPQ-3]: ppq-3.html
+    Mobile Privacy Policy Bundle Feed [PPQ-4]: ppq-4.html
+    Mobile Privacy Policy Retrieve [PPQ-5]: ppq-5.html
+    Retrieve Audit Event [ITI-81]: iti-81.html
+  Volume 3:
+    CH:ATC Audit Event Content Profiles: volume3.html
+    DocumentReference: StructureDefinition-ch-mhd-documentreference.html
+  Appendix:
+    Profiles: profiles.html
+    Extensions: extensions.html
+    Terminology: terminology.html
+    Capability Statements: capstatements.html
+    Sequence diagrams: sequencediagrams.html
+    Enforcement of Access Rules: accesscontrol.html
+    Trace Context: tracecontext.html
+    Open Issues / Change Log: changelog.html
+  Artifacts: artifacts.html
+
 resources:
   CapabilityStatement/CH.EPR.App:
     exampleBoolean: false
