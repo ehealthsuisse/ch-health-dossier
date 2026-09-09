@@ -16,6 +16,7 @@ Alias: $bcp47 = urn:ietf:bcp:47
 Alias: $medreg = urn:oid:2.16.756.5.30.1.127.3.5
 Alias: $URI = urn:ietf:rfc:3986
 Alias: $ehealthRole = urn:oid:2.16.756.5.30.1.127.3.10.6
+Alias: $ehealthAgentRole = urn:oid:2.16.756.5.30.1.127.3.10.14
 Alias: $ch-core-documentreference = http://fhir.ch/ig/ch-core/StructureDefinition/ch-core-documentreference
 Alias: $ch-core-patient = http://fhir.ch/ig/ch-core/StructureDefinition/ch-core-patient
 Alias: $ch-core-practitioner = http://fhir.ch/ig/ch-core/StructureDefinition/ch-core-practitioner
