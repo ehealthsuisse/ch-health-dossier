@@ -25,6 +25,10 @@ document from the Document Responder.
 
 ####  Expected Actions
 
+The Document Responder SHALL return a FHIR document as a native FHIR document Bundle resource and SHALL NOT wrap it in a Binary resource. For other data standard MHD behavior applies.
+
+How a FHIR document is published is described in [ITI-65](iti-65.html#publishing-a-fhir-document).
+
 #### CapabilityStatement Resource
 
 The CapabilityStatement resource for the **Document Consumer** is [MHD Document Consumer](CapabilityStatement-CH.MHD.DocumentConsumer.html).
