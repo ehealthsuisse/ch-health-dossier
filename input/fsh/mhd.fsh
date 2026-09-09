@@ -52,6 +52,30 @@ DocumentEntry.originalProviderRole and SubmissionSet.Author.AuthorRole, which st
 (`DADM`) and have no code for the legal representative."
 * valueCoding ^short = "Value of extension"
 
+Extension: ChExtPersonalNote
+Id: ch-ext-personalnote
+Title: "CH Extension Personal Note"
+Description: "Extension Personal Note of the patient on a document"
+Context: DocumentReference
+* url only uri
+* url MS
+* value[x] 1.. MS
+* value[x] only Annotation
+* value[x] ^short = "Personal note of the patient on the document"
+* valueAnnotation.author[x] 1..1 MS
+* valueAnnotation.author[x] only Reference($ch-core-patient)
+* valueAnnotation.author[x] ^short = "The patient the note belongs to"
+* valueAnnotation.author[x] ^comment = "The note is the note of the patient, also when a representative, a legal
+representative or the administration records it on behalf of the patient: who recorded it is visible in the audit
+record. The patient is identified by a logical reference carrying the EPR-SPID in `author.identifier`, analogous to
+`DocumentReference.subject`."
+* valueAnnotation.time 1..1 MS
+* valueAnnotation.time ^short = "When the note was recorded"
+* valueAnnotation.time ^comment = "The time SHALL be set by the Document Source, `DocumentReference.date` is the time the
+document reference was created and `meta.lastUpdated` changes with every metadata update."
+* valueAnnotation.text 1..1 MS
+* valueAnnotation.text ^short = "The text of the note"
+
 Profile: CHMhdDocumentReference
 Parent: $ch-core-documentreference
 Id: ch-mhd-documentreference
@@ -60,8 +84,14 @@ Description: "CH MHD Profile on CH Core DocumentReference"
 * obeys ch-mhd
 * extension contains
      ChExtDeletionStatus named deletionStatus 0..1 MS and
-     ChExtAuthorAuthorRole named originalProviderRole 1..1 MS
+     ChExtAuthorAuthorRole named originalProviderRole 1..1 MS and
+     ChExtPersonalNote named personalNote 0..* MS
 * extension[deletionStatus] ^short = "Deletion status of the document"
+* extension[personalNote] ^short = "Personal note of the patient on the document"
+* extension[personalNote] ^comment = "The patient can record a personal note on a document where they do not agree with
+the author on the correctness of its data, or where the author is no longer practising. The note is recorded with the
+metadata of the document, the document itself and its data stay unchanged. The note is not part of
+`DocumentReference.description`, which carries the comment of the author of the document."
 * extension[originalProviderRole] ^short = "Original ProviderRole: This extra metadata attribute SHALL be set by the Document Source actor to the role value of the current user and SHALL NOT be updated by Update Initiator or Document Administrator actors."
 * masterIdentifier 1.. MS
 * masterIdentifier only $IHE.MHD.UniqueIdIdentifier
@@ -111,10 +141,14 @@ institution are known — or to a resource held elsewhere, for example in the mC
 * content.attachment.data ..0
 * content.attachment.data ^comment = "These HL7 FHIR elements are not used in XDS, therefore would not be present. Document Consumers should be robust to these elements holding values."
 * content.attachment.url 1..1 MS
-* content.attachment.url ^short = "The ITI-68 endpoint to use, or a reference to the Binary resource in the Bundle."
-* content.attachment.url ^comment = "When providing the document, this URL SHALL point to the Binary resource wrapping
-the document content (which SHALL be included in the Bundle). When retrieving the DocumentReference, this URL SHALL
-be the the one to use in ITI-68 transactions to retrieve the document content."
+* content.attachment.url ^short = "The ITI-68 endpoint to use, or a reference to the Binary or the FHIR document Bundle resource in the Bundle."
+* content.attachment.url ^comment = "When providing the document, this URL SHALL point to the resource carrying the
+document content, which SHALL be included in the Bundle: a Binary resource wrapping the document content, or, for a
+FHIR document published with the FHIR Documents Publish Option, the FHIR document Bundle resource itself. When
+retrieving the DocumentReference, this URL SHALL be the the one to use in ITI-68 transactions to retrieve the document
+content."
+* content.attachment.size ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
+* content.attachment.hash ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
 * content.attachment.size MS
 * content.attachment.hash MS
 * content.attachment.title 1..1 MS
@@ -221,6 +255,14 @@ Description: "IHE MHD profile on Provide Document Bundle (ITI-65) transaction fo
 * entry[Documents].request 1.. MS
 * entry[Documents].request.method = #POST
 * entry[Documents].request.method MS
+* entry[FhirDocuments] ^sliceName = "FhirDocuments"
+* entry[FhirDocuments] ^mustSupport = true
+* entry[FhirDocuments] ^short = "A FHIR document, published with the ITI-65 FHIR Documents Publish Option"
+* entry[FhirDocuments].resource 1.. MS
+* entry[FhirDocuments].resource only Bundle
+* entry[FhirDocuments].request 1.. MS
+* entry[FhirDocuments].request.method = #POST
+* entry[FhirDocuments].request.method MS
 * entry[Folders] 0..0 
 * entry[Patient] 0..0
 

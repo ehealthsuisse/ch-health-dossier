@@ -37,13 +37,35 @@ The additional Swiss EPR metadata is defined with:
 The request Bundle SHALL follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)
 Profile ([example: Bundle: BundleProvideDocument](Bundle-BundleProvideDocument.html)).
 
-The `DocumentReference.content.attachment.url` value SHALL point to a Binary resource included in the Bundle (see
+The `DocumentReference.content.attachment.url` value SHALL point to the resource carrying the document content, which
+SHALL be included in the Bundle: a Binary resource, or the FHIR document Bundle resource for a FHIR document published
+with the [ITI-65 FHIR Documents Publish Option](#publishing-a-fhir-document) (see
 [Resolving references in Bundles](https://hl7.org/fhir/R4/bundle.html#references) for how to create a valid reference).
+
+##### Publishing a FHIR document
+
+The Document Source and the Document Recipient SHALL support the ITI-65 FHIR Documents Publish Option (see
+[Actor options](iti-mhd.html#actor-options)). A FHIR document is published as the FHIR document Bundle resource itself,
+carried in the entry of the Provide Document Bundle, and is not converted to a base64 encoded Binary
+resource. `DocumentReference.content.attachment.url` points to that Bundle resource, `contentType` is
+`application/fhir+json` or `application/fhir+xml`, and `size` and `hash` SHALL be absent.
+
+The document is retrieved as a native FHIR document Bundle resource as well, see
+[ITI-68](iti-68.html#expected-actions).
+
+##### Correction of a published document
+
+To correct a document with incorrect data (see the use case [Correction of a published document by a healthcare
+professional](iti-mhd.html#use-cases)), the Document Source publishes the corrected document and points with
+`DocumentReference.relatesTo` of type `replaces` to the document it corrects. The Document Recipient SHALL set the
+`status` of the replaced document to `superseded` and SHALL keep it accessible: a superseded document is no longer
+returned when searching for the current documents, but it can still be found with the `status` search parameter in
+[ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html).
 
 ##### DeletionStatus
 
 The optional metadata about the DeletionStatus of the document is represented in the DocumentReference using the
-extension with the URL [http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-ext-deletionstatus](StructureDefinition-ch-ext-deletionstatus.html).
+extension with the URL [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-deletionstatus](StructureDefinition-ch-ext-deletionstatus.html).
 The values are defined in the ValueSet [DocumentEntry.Ext.EprDeletionStatus](http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.Ext.EprDeletionStatus).
 
 ##### SubmissionSet.Author.AuthorRole
@@ -51,7 +73,7 @@ The values are defined in the ValueSet [DocumentEntry.Ext.EprDeletionStatus](htt
 The SubmissionSet.Author element MAY be used to track the user who made the latest changes to the document metadata.
 If present, the value of the AuthorRole attribute SHALL be taken from the SubmissionSet.Author.AuthorRole value set
 with the OID `2.16.756.5.30.1.127.3.10.1.41`. The required metadata about the AuthorRole of the Author is represented
-in the List for the SubmissionSet using the extension with the URL [http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
+in the List for the SubmissionSet using the extension with the URL [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
 The values are defined in the ValueSet [SubmissionSet.Author.AuthorRole](http://fhir.ch/ig/ch-term/ValueSet/SubmissionSet.Author.AuthorRole).
 
 ##### DocumentEntry.originalProviderRole
@@ -61,7 +83,7 @@ representatives from documents originally provided by healthcare professionals, 
 administrators. The extra metadata attribute SHALL be set by the Document Source actor to the role value of the current
 user and SHALL NOT be updated by Update Initiator or Document Administrator actors. The required metadata about the
 originalProviderRole of the Author is represented in the DocumentReference using the extension with the URL
-[http://fhir.ch/ig/ch-epr-fhir/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
+[http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
 The values are defined in the ValueSet [DocumentEntry.originalProviderRole](http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.originalProviderRole).
 
 #### Provide Document Bundle Response Message
