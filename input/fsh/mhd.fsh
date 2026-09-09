@@ -46,7 +46,10 @@ Context: List, DocumentReference
 * url MS
 * valueCoding 1.. MS
 * valueCoding only Coding
-* valueCoding from $DocumentEntry.originalProviderRole (required)
+* valueCoding from HealthDossierAuthorRole (required)
+* valueCoding ^comment = "Bound to the roles of the electronic health dossier instead of the CH Term value sets
+DocumentEntry.originalProviderRole and SubmissionSet.Author.AuthorRole, which still carry the Document Administrator
+(`DADM`) and have no code for the legal representative."
 * valueCoding ^short = "Value of extension"
 
 Profile: CHMhdDocumentReference
@@ -321,7 +324,7 @@ Title: "DocumentReference for a PDF Document"
 Description: "DocumentReference for a PDF Document"
 Usage: #example
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
-* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
 * masterIdentifier.use = #usual
@@ -399,7 +402,7 @@ Usage: #inline
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
 * extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
-* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
+* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * identifier.use = #usual
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2949"
@@ -415,7 +418,7 @@ Instance: Inline-Instance-for-BundleProvideDocument-2
 InstanceOf: DocumentReference
 Usage: #inline
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
-* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.6#HCP "Healthcare professional"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
 * masterIdentifier.use = #usual
