@@ -37,8 +37,50 @@ A Document Source initiates a FHIR request using Update as defined at [http://hl
 
 A Document Source shall send a request for either the JSON or the XML format as defined in FHIR. A Document Responder shall support the JSON and the XML format.
 
-The Document Source shall be capable of accepting elements specified in profile [CH MHD DocumentReference Comprehensive](StructureDefinition-ch-mhd-documentreference-comprehensive.html).
-The DocumentReference elements which are allowed to be updated are defined in Annex 5.1 1.12. The [Mappings tab](StructureDefinition-ch-mhd-documentreference-comprehensive-mappings.html, indicates the mapping between DocumentReference elements and the XDS elements defined in Annex 5.1 1.12.
+The Document Source shall be capable of accepting elements specified in profile [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html).
+
+The [Mappings tab](StructureDefinition-ch-mhd-documentreference-mappings.html) indicates the mapping between DocumentReference elements and the XDS elements.
+
+##### Metadata which may be updated
+
+Only the metadata listed below may be updated with this transaction, and only by the roles listed for it. Every other
+change of the metadata requires a new version of the document to be published with
+[ITI-65](iti-65.html#correction-of-a-published-document).
+
+{:class="table table-bordered"}
+| Metadata            | Element                                                              | Roles                             |
+|---------------------|----------------------------------------------------------------------|-----------------------------------|
+| Confidentiality code | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
+| Personal note        | extension [PersonalNote](StructureDefinition-ch-ext-personalnote.html)   | `PAT`, `REP`, `LEGREP`, `ADM` |
+| Deletion status      | extension [DeletionStatus](StructureDefinition-ch-ext-deletionstatus.html) | `PAT`, `REP`, `LEGREP`, `ADM`, `HCP`, `ASS` |
+
+<figcaption ID="1">Table 1: Metadata which may be updated, and the roles which may update it.</figcaption>
+
+The roles are the ones of the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system, conveyed in the
+access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). The Document Responder SHALL reject a
+request which updates other metadata, or metadata which the role of the requester is not allowed to update, with an
+OperationOutcome with the error code
+[UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
+
+##### Recording a personal note
+
+A patient can record a personal note on a document where they do not agree with the author on the correctness of its
+data, or where the author is no longer practising (see the use case
+[Patient adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
+the metadata of the document and adding a [PersonalNote](StructureDefinition-ch-ext-personalnote.html) extension, which
+carries the text of the note, the patient it belongs to and the time it was recorded. The document itself and its data
+stay unchanged and no new version of the document is published.
+
+##### Requesting the deletion of a document
+
+A document is deleted when it has been published in the health dossier of the wrong person, and when the patient has
+the document deleted (see the use cases
+[Document published in the health dossier of the wrong person](iti-mhd.html#use-cases) and
+[Patient has a document deleted](iti-mhd.html#use-cases)). The Document Source requests the deletion by updating
+the metadata of the document and setting the
+[DeletionStatus](StructureDefinition-ch-ext-deletionstatus.html) extension to the code
+`urn:e-health-suisse:2019:deletionStatus:deletionRequested` of the code system
+`urn:oid:2.16.756.5.30.1.127.3.10.18`. The document is deleted and is afterwards no longer accessible in the health dossier.
 
 ##### Example
 
@@ -64,7 +106,7 @@ the request in its response message.
 
 1. Verify the submitted and existing DocumentReference have the same values for the identifiers. If these values are not identical, an OperationOutcome with the error code [XDSMetadataIdentifierError](OperationOutcome-MhdOperationOutcomeErrorXdsMetadataIdentifier.html) should be returned.
 2. Verify the submitted and existing DocumentReference reference the same Patient. If these values are not identical, an OperationOutcome with the error code [XDSPatientIDReconciliationError](OperationOutcome-MhdOperationOutcomeErrorXDSPatientIDReconciliationError.html) should be returned.
-3. Check the submitted DocumentReference and determine if it contains only changes to modifiable attributes, as described in Annex 5.1 1.12. If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) should be returned.
+3. Check the submitted DocumentReference and determine if it contains only changes to attributes which the role of the requester may update, as described in [Metadata which may be updated](#metadata-which-may-be-updated). If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) SHALL be returned.
 
 ##### Response Message
 See http://hl7.org/fhir/http.html#update for response.
@@ -72,16 +114,14 @@ See http://hl7.org/fhir/http.html#update for response.
 
 ### Security Consideration
 
-The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with
-server certificates. Transactions across communities SHALL use mTLS.
+The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates. 
 
-The transaction SHALL use client authentication and authorization using one of the following strategies:
-1. Use an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
-2. or, use mutual authentication (mTLS) on the transport layer in combination with a XUA token for authorization from the Get X-User Assertion transaction (Annex 5.1 1.6.4.2). The XUA token SHALL be conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
+The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-Document Responders SHALL be grouped with the Authorization Decision Consumer actor of the CH:ADR profile
-defined in Extension 2.1 to Annex 5 of the ordinances and perform an Authorization Decision Request [CH:ADR] for
-every update document metadata [CH:MHD-1] request in the own community.
+For every Update Document Metadata [CH:MHD-1] request, the Document Responder SHALL enforce the access rules of the
+patient and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
+The Document Responder SHALL reject the request if the requester is not authorized to update the metadata of the
+document concerned.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
