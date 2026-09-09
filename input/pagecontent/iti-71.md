@@ -1,4 +1,4 @@
-This section describes the national extension for the Swiss EPR to the [Get Access Token [ITI-71]](https://profiles.ihe.net/ITI/IUA/index.html#371-get-access-token-iti-71) client credential 
+This section describes the national extension for the Health Dossier to the [Get Access Token [ITI-71]](https://profiles.ihe.net/ITI/IUA/index.html#371-get-access-token-iti-71) client credential 
 grant type transaction defined in the IUA profile published in the IHE IT Infrastructure Technical Framework Trial 
 Implementation “Internet User Authorization”.
 
@@ -6,13 +6,13 @@ Implementation “Internet User Authorization”.
 
 The transaction is used by an IUA Authorization Client (e.g., portal, primary system or digital health app 
 to pass claims to the IUA Authorization Server and to retrieve an access token which authorizes access to protected
-resources of the Swiss EPR.
+resources of the Health Dossier.
 
 Depending on the claims made by the IUA Authorization Client, two different flavors of access tokens SHALL be provided
 by the IUA Authorization Server:
 
 - Basic Access Token – IUA compliant access token authorizing access to the EPR end-points which are NOT protected by
-  the EPR role and attribute based authorization (e.g., for queries to the PIXm endpoints).
+  the EPR role and attribute based authorization (e.g., for queries to the PDQm endpoints).
 - Extended Access Token – IUA compliant access token for the EPR endpoints which are protected by the EPR role and
   attribute based authorization (e.g., for the MHD endpoints).
 
@@ -97,7 +97,7 @@ The scope parameter of the request MAY claim the following attributes:
   `ASS` (assistant), `REP` (representative), `PAT` (patient) or `TCU` (clinical archive) from code system 
   `2.16.756.5.30.1.127.3.10.6` of the CH:EPR value set (e.g.: `subject_role=urn:oid: 2.16.756.5.30.1.127.3.10.6|HCP`).
 - IUA Authorization Clients may claim other scopes as defined in the 
-  [SMART on FHIR specification](https://build.fhir.org/ig/HL7/smart-app-launch/scopes-and-launch-context.html).
+  [SMART on FHIR specification](https://https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html).
 
 Note: The parameters need to be url encoded, see message examples.
 
@@ -283,7 +283,7 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 ###### The JWT ch_group extension
 
-Groups are the objects used in the access management of the Swiss EPR. Patients and representatives may assign access
+Groups are the objects used in the access management of the Health Dossier. Patients and representatives may assign access
 rights to groups which typically are sub-organizations of the institutions, but may also cross institution boundaries,
 e.g., a tumor board with healthcare professionals from more than one institution.
 
@@ -302,7 +302,7 @@ per group with the following attributes:
 
 ###### The JWT ch_delegation extension
 
-Delegation is used in the access management of the Swiss EPR to indicate that a user of role Assistant is acting on
+Delegation is used in the access management of the Health Dossier to indicate that a user of role Assistant is acting on
 behalf of a healthcare professional. The IUA Authorization Server and IUA Resource Server SHALL support this extension
 in the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of.
 
@@ -313,7 +313,7 @@ Principals SHALL be wrapped in an `extensions` object with key `ch_delegation` a
 ##### Expected Actions
 
 The IUA Authorization Client SHALL use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
-transaction, when performing requests to resources of the Swiss EPR.
+transaction, when performing requests to resources of the Health Dossier.
 
 ##### Message Example
 
@@ -323,7 +323,7 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "aud": "http://pixmResourceServerURL.ch",
+  "aud": "http://ResourceServerURL.ch",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,

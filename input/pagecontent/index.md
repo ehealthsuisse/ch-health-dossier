@@ -100,22 +100,21 @@ This impacts the FHIR API in the following way:
 
 1. No addressable patient resources: All references to patients are made by the identifier EPR-SPID since there is no
    national master patient which could be referenced. This is the reason that IHE PIXm and PDQm with the $match
-   transaction have been selected and not IHE MHDS/PMIR. Systems may store the EPR-SPID or may feed
-   their local identifier (localID) and EPR-SPID to the platform to resolve the localID to the EPR-SPID later on.
-   Therefore FHIR APIs require the support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm)
+   transaction have been selected and not IHE MHDS/PMIR. Systems may store the EPR-SPID.
+   Therefore, FHIR APIs require the support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm)
    and the resources are profiled that a logical reference with the EPR-SPID identifier have to be provided.
 2. The same principle applies for health care professionals, they are identified by the GLN number and references to
    them need to include also the logical reference from other resources (e.g. DocumentReference).
-3. Information which has to be provided and has no own identity in the Swiss EPR (e.g., as local patient demographics in
+3. Information which has to be provided and has no own identity in the Health Dossier (e.g., as local patient demographics in
    document publishing) are represented as contained resources.
 
 #### Interoperability Specification
 
 This Implementation Guide profiles elements, cardinalities and bindings that are required by the use cases, law and
-ordinances of the Swiss EPR, to ensure that the systems are interoperable. The specification defines the requirements on
+ordinances of the Health Dossier, to ensure that the systems are interoperable. The specification defines the requirements on
 the API and exchange messages required by law and ordinances. Other elements, cardinalities and bindings are left as-is. E.g., a
 solution can add additional support with search parameters (which the FHIR specifications allows) or add additional
-transactions/profiles, as long as the law and ordinances of the Swiss EPR are respected.
+transactions/profiles, as long as the law and ordinances of the Health Dossier are respected.
 
 ### IP Statements
 

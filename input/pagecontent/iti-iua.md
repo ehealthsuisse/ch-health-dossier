@@ -16,7 +16,7 @@ the clients and to enforce the privacy policy settings, when accessing protected
 
 #### Patient Access from a Portal
 
-A patient uses a portal which is integrated to the Swiss EPR using the profiles to access and share data and documents
+A patient uses a portal which is integrated to the Health Dossier using the profiles to access and share data and documents
 with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified Identity
 Provider. The portal sends the identity token and the required claims to the IUA Authorization Server
 to retrieve an authorization token to access the EPR.
@@ -28,7 +28,7 @@ documents from the patients EPR.
 
 #### Patient Access from a digital health app
 
-A patient uses a digital health app which is integrated to the Swiss EPR using the profiles to access and share data 
+A patient uses a digital health app which is integrated to the Health Dossier using the profiles to access and share data 
 and documents with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified 
 Identity Provider. The digital health app sends the identity token and the required claims to the IUA Authorization Server
 to retrieve an authorization token to access the patients EPR.
@@ -40,7 +40,7 @@ data and documents from the patients EPR.
 
 #### User Access from a Primary System
 
-A healthcare professional uses a primary system which is integrated to the Swiss EPR using the profiles to access and
+A healthcare professional uses a primary system which is integrated to the Health Dossier using the profiles to access and
 share data and documents with her patients or other healthcare professionals. To access documents from the EPR the
 healthcare professional authenticates at a certified identity provider from her primary system, selects the patient
 and switches to the user interface to display the patients documents. The primary system connects to the IUA
@@ -57,7 +57,7 @@ from the patients EPR.
 #### Writing documents from clinical archives
 
 A healthcare professional uses a primary system which stores documents in a clinical archive system. The clinical
-archive system uses specific algorithms to decide which documents shall be stored in the Swiss EPR of the patient.
+archive system uses specific algorithms to decide which documents shall be stored in the Health Dossier of the patient.
 
 The healthcare professional reports medical information of a treatment in her primary system. The primary system creates
 a structured or unstructured document from the data and stores them in the clinical archive system. The clinical archive
@@ -74,7 +74,7 @@ to retrieve the data and documents from the patients EPR.
 ### Actors and Transactions
 
 This national extension enhances the requirements on transactions and the expected actions of the Actors of the IUA Trial
-Implementation to comply to the legal requirements of the Swiss EPR.
+Implementation to comply to the legal requirements of the Health Dossier.
 
 <!-- TODO: update image to use OpenID Connect only -->
 
@@ -87,7 +87,7 @@ transactions between them.
 ### Actor Options
 
 This national extension restricts the Actor options of the IUA Trial Implementation to comply with the legal requirements
-of the Swiss EPR.
+of the Health Dossier.
 
 The IUA Trial Implementation supports three options for the Authorization Token format. In this national extension 
 the JWT option is used and SHALL be supported by the IUA Authorization Server and IUA Resource Server. The SAML Token 
