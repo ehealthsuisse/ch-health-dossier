@@ -88,6 +88,8 @@ pages:
     title: Retrieve ATNA Audit Event [ITI-81]
   ch-mhd-1.md:
     title: Update Document Metadata [CH:MHD-1]
+  ch-mhd-2.md:
+    title: Purge Document [CH:MHD-2]
   iti-20.md:
     title: Record Audit Event [ITI-20]
   iti-90.md:
@@ -144,6 +146,7 @@ menu:
     Find Document References [ITI-67]: iti-67.html
     Retrieve Document [ITI-68]: iti-68.html
     Update Document Metadata [CH:MHD-1]: ch-mhd-1.html
+    Purge Document [CH:MHD-2]: ch-mhd-2.html
     Record Audit Event [ITI-20]: iti-20.html
     Find Matching Care Services [ITI-90]: iti-90.html
     Care Services Feed [ITI-130]: iti-130.html
@@ -423,6 +426,14 @@ resources:
     name: Example of audit event for a [CH:MHD-1] transaction at Responder
     description: This example shows an  made by the Document Responder for a CH:MHD-1 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-responder
+  AuditEvent/ChAuditEventChMhd2SourceExample:
+    name: Example of audit event for a [CH:MHD-2] transaction at Source
+    description: This example shows an audit event made by the Document Source for a CH:MHD-2 transaction.
+    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-purgedocument-audit-source
+  AuditEvent/ChAuditEventChMhd2ResponderExample:
+    name: Example of audit event for a [CH:MHD-2] transaction at Responder
+    description: This example shows an audit event made by the Document Responder for a CH:MHD-2 transaction.
+    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-purgedocument-audit-responder
   AuditEvent/ChAuditEventIti104SourceExample:
     name: Example of audit event for an [ITI-104] transaction at Source
     description: This example shows an  made by the Patient Identity Source for an ITI-104 transaction.

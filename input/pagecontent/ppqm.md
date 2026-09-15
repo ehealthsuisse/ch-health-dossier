@@ -132,8 +132,8 @@ The required actor groupings are shown in Table 2:
 | Actors            | Actor to be grouped with | Optionality | Remark                                                             |
 |-------------------|--------------------------|-------------|--------------------------------------------------------------------|
 | Policy Repository | IUA Resource Server      | R           | -                                                                  |
-| Policy Source     | IUA Authorization Client | R           | Workflow Initiator Option                                          |
-| Policy Consumer   | IUA Authorization Client | R           | Workflow Initiator Option                                          |
+| Policy Source     | IUA Authorization Client | R           | `TCU` not allowed |
+| Policy Consumer   | IUA Authorization Client | R           | `TCU` not allowed |
 {:class="table table-bordered"}
 
 Table 2: CH:PPQm required actors groupings

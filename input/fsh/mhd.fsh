@@ -93,7 +93,10 @@ the author on the correctness of its data, or where the author is no longer prac
 metadata of the document, the document itself and its data stay unchanged. A document carries at most one personal
 note: recording a note on a document which already has one replaces the existing note. The note is not part of
 `DocumentReference.description`, which carries the comment of the author of the document."
-* extension[originalProviderRole] ^short = "Original ProviderRole: This extra metadata attribute SHALL be set by the Document Source actor to the role value of the current user and SHALL NOT be updated by Update Initiator or Document Administrator actors."
+* extension[originalProviderRole] ^short = "Original ProviderRole: role of the user who originally provided the document"
+* extension[originalProviderRole] ^comment = "This extra metadata attribute SHALL be set by the Document Source actor to
+the role value of the current user. It SHALL NOT be changed with Update Document Metadata [CH:MHD-1], the Document
+Responder rejects such a request with an UnmodifiableMetadataError."
 * masterIdentifier 1.. MS
 * masterIdentifier only $IHE.MHD.UniqueIdIdentifier
 * identifier MS
@@ -525,3 +528,49 @@ Usage: #example
 * link.url = "http://example.org/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current"
 * entry.fullUrl = "http://example.org/DocumentReference/DocRefPdf"
 * entry.resource = DocRefPdf
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Purge Document [CH:MHD-2]
+Instance: CHMhdPurge
+InstanceOf: OperationDefinition
+Title: "CH MHD $purge"
+Usage: #definition
+Description: """
+This operation implements the [Purge Document \[CH:MHD-2\]](ch-mhd-2.html) transaction. It irrevocably removes a
+document, the DocumentReference with all its versions and the document it references, from the health dossier of a
+patient. The operation is synchronous.
+"""
+* name = "CHMhdPurge"
+* status = #active
+* kind = #operation
+* affectsState = true
+* resource = #DocumentReference
+* system = false
+* type = false
+* instance = true
+* code = #purge
+* parameter[+]
+  * name = #return
+  * use = #out
+  * min = 1
+  * max = "1"
+  * documentation = "Outcome of the purge. On success an issue with severity information and code informational, otherwise the error which caused the purge to fail."
+  * type = #OperationOutcome
+
+Instance: MhdOperationOutcomePurgeSuccess
+InstanceOf: OperationOutcome
+Title: "MHD OperationOutcome purge success"
+Description: "OperationOutcome that the document has been purged"
+Usage: #example
+* issue[0].severity = #information
+* issue[=].code = #informational
+* issue[=].details.text = "The document and all versions of its metadata have been purged"
+
+Instance: MhdOperationOutcomeErrorPurgeForbidden
+InstanceOf: OperationOutcome
+Title: "MHD OperationOutcome purge error forbidden"
+Description: "Error OperationOutcome that the requester is not allowed to purge the document"
+Usage: #example
+* issue[0].severity = #error
+* issue[=].code = #forbidden
+* issue[=].details.text = "The requester is not allowed to purge the document"

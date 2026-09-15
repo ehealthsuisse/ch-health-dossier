@@ -1,10 +1,10 @@
 This section specifies Swiss national extensions to the Mobile Access to Health Documents (MHD), which is [published](https://profiles.ihe.net/ITI/MHD/index.html) as an IHE ITI Trial Implementation profile.
 
-The national extensions adds an additional transaction from the Document Source to the Document Recipient. 
+The national extension adds two transactions from the Document Source to the Document Responder, [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html) and [Purge Document [CH:MHD-2]](ch-mhd-2.html).
 
 ### Scope  
 An Health App can query, retrieve or publish data to/from the Health Dossier API using the transaction of the MHD profile. 
-An Health App can Update Document Metadata for a published document with this national extension.  
+An Health App can update the metadata of a published document and purge a published document with this national extension.  
 
 ###	Use Cases  
 In addition to the Document Sharing Use Case for MHD the national extension defines the following Use Cases:
@@ -13,7 +13,7 @@ In addition to the Document Sharing Use Case for MHD the national extension defi
 A healthcare professional or a health institution has published a document that contains incorrect data. The correction is made by publishing a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the patient. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
 
 #### Document published in the health dossier of the wrong person
-A healthcare professional or a health institution has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional or the health institution which published it has to request its deletion itself. How the deletion is requested is described in [CH:MHD-1](ch-mhd-1.html#requesting-the-deletion-of-a-document).
+A healthcare professional or a health institution has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional or the health institution which published it has to delete it itself. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
 
 #### Patient changes confidentiality code of a document
 A patient wants to change the confidentiality code of one of his documents. The patient updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. 
@@ -22,7 +22,7 @@ A patient wants to change the confidentiality code of one of his documents. The 
 A patient and the healthcare professional or the health institution which published a document do not agree on the correctness of the data in that document, or the healthcare professional or the health institution which published it is no longer practising. The patient can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
 
 #### Patient deletes a document
-A patient wants a document of their health dossier to be deleted. The patient can have any document deleted, the ones they recorded themselves as well as the ones a healthcare professional or a health institution published, and a deleted document is irrevocably removed and afterwards no longer accessible in the health dossier. How the deletion is requested is described in [CH:MHD-1](ch-mhd-1.html#requesting-the-deletion-of-a-document).
+A patient wants a document of their health dossier to be deleted. The patient can have any document deleted, the ones they recorded themselves as well as the ones a healthcare professional or a health institution published, and a deleted document is irrevocably removed and afterwards no longer accessible in the health dossier. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
 
 ###	Actors and Transactions  
 
@@ -65,9 +65,9 @@ This national extension enforces authentication and authorization for access con
 | Actor                                         | Required Grouping         | Optionality | Remark                                                             |
 |-----------------------------------------------|---------------------------|-------------|--------------------------------------------------------------------|
 | Document Recipient                            | IUA Resource Server       | R           | -                                                                  |
-| Document Responder                            | IUA Authorization Client  | R           | -                                                                  |
-| Document Source                               | IUA Authorization Client  | R           | Workflow Initiator Option or Technical User Option                 |
-| Document Consumer                             | IUA Authorization Client  | R           | Workflow Initiator Option                                          |
+| Document Responder                            | IUA Resource Server       | R           | -                                                                  |
+| Document Source                               | IUA Authorization Client  | R           | `TCU` allowed for [ITI-65](iti-65.html) and [CH:MHD-2](ch-mhd-2.html) |
+| Document Consumer                             | IUA Authorization Client  | R           | `TCU` not allowed |
 
 <figcaption ID="2">Table 2: Grouping of MHD actors required by this national extension.</figcaption>
 

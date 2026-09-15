@@ -28,3 +28,11 @@ in a response.
 
 How the decision is reached, computed by the serving actor itself or obtained from a separate authorization decision
 service, is out of scope of this specification.
+
+#### Technical users
+
+A technical user (`TCU`), e.g. a clinical archive system, requests access tokens without an authenticated natural
+person (see [Get Access Token [ITI-71]](iti-71.html#clinical-archive-systems)). A technical user may only use the
+transactions for which the grouping with the IUA Authorization Client allows `TCU` in the Remark column of the required
+actor groupings of the respective profile. Every actor serving a request of the Health Dossier API SHALL reject a request
+with an access token with the `subject_role` `TCU` for any other transaction.

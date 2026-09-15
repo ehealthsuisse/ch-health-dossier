@@ -71,20 +71,21 @@ The values are defined in the ValueSet [DocumentEntry.Ext.EprDeletionStatus](htt
 ##### SubmissionSet.Author.AuthorRole
 
 The SubmissionSet.Author element MAY be used to track the user who made the latest changes to the document metadata.
-If present, the value of the AuthorRole attribute SHALL be taken from the SubmissionSet.Author.AuthorRole value set
-with the OID `2.16.756.5.30.1.127.3.10.1.41`. The required metadata about the AuthorRole of the Author is represented
-in the List for the SubmissionSet using the extension with the URL [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
-The values are defined in the ValueSet [SubmissionSet.Author.AuthorRole](http://fhir.ch/ig/ch-term/ValueSet/SubmissionSet.Author.AuthorRole).
+If present, the value of the AuthorRole attribute SHALL be taken from the value set
+[CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html). The required metadata about the AuthorRole of
+the Author is represented in the List for the SubmissionSet using the extension with the URL [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
 
 ##### DocumentEntry.originalProviderRole
 
-An extra metadata attribute SHALL be used to distinguish document originally provided by patients or their
-representatives from documents originally provided by healthcare professionals, assistants, technical users or document
-administrators. The extra metadata attribute SHALL be set by the Document Source actor to the role value of the current
-user and SHALL NOT be updated by Update Initiator or Document Administrator actors. The required metadata about the
-originalProviderRole of the Author is represented in the DocumentReference using the extension with the URL
+An extra metadata attribute SHALL be used to distinguish documents originally provided by patients, their
+representatives or legal representatives from documents originally provided by healthcare professionals, assistants,
+technical users or the administration. The extra metadata attribute SHALL be set by the Document Source actor to the
+role value of the current user. It SHALL NOT be changed with
+[Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated), and the Document Responder rejects
+such a request with an UnmodifiableMetadataError. The required metadata about the originalProviderRole of the Author is
+represented in the DocumentReference using the extension with the URL
 [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
-The values are defined in the ValueSet [DocumentEntry.originalProviderRole](http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.originalProviderRole).
+The values are defined in the value set [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html).
 
 #### Provide Document Bundle Response Message
 

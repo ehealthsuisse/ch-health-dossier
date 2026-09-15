@@ -40,8 +40,8 @@ Therefore, actors of this profile must be grouped with actors of other profiles 
 
 | Actor                        | Required Grouping        | Optionality | Remark |
 |------------------------------|--------------------------|-------------|--------|
-| Query Client                 | IUA Authorization Client | R           | -      |
-| Data Source                  | IUA Authorization Client | R           | -      |
+| Query Client                 | IUA Authorization Client | R           | `TCU` not allowed |
+| Data Source                  | IUA Authorization Client | R           | `TCU` not allowed |
 | Directory (with Feed Option) | IUA Resource Server      | R           | -      |
 {:class="table table-bordered"}
 

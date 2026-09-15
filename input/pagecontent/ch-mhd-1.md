@@ -2,7 +2,7 @@ This section corresponds to transaction [CH:MHD-1]. Transaction [CH:MHD-1] is us
 
 ### Scope
 
-The Update Document Metadata [CH:MHD-1] transaction is used to update document metadata from the Document Consumer to the Document Responder.
+The Update Document Metadata [CH:MHD-1] transaction is used to update document metadata from the Document Source to the Document Responder.
 
 ### Actor Roles
 
@@ -30,7 +30,6 @@ The Update Document Metadata Request Message is triggered when a Document Source
 
 ##### Message Semantics
 
-A Document Source initiates a FHIR request using Update as defined at http://hl7.org/fhir/http.html#update on DocumentReference Resources.
 A Document Source initiates a FHIR request using Update as defined at [http://hl7.org/fhir/http.html#update](http://hl7.org/fhir/http.html#update) on DocumentReference Resources, with a standalone HTTP request or a [transaction](https://hl7.org/fhir/R4/http.html#transaction).
 
 
@@ -45,14 +44,14 @@ The [Mappings tab](StructureDefinition-ch-mhd-documentreference-mappings.html) i
 
 Only the metadata listed below may be updated with this transaction, and only by the roles listed for it. Every other
 change of the metadata requires a new version of the document to be published with
-[ITI-65](iti-65.html#correction-of-a-published-document).
+[ITI-65](iti-65.html#correction-of-a-published-document). A document is deleted with
+[Purge Document [CH:MHD-2]](ch-mhd-2.html).
 
 {:class="table table-bordered"}
 | Metadata            | Element                                                              | Roles                             |
 |---------------------|----------------------------------------------------------------------|-----------------------------------|
 | Confidentiality code | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
 | Personal note        | extension [PersonalNote](StructureDefinition-ch-ext-personalnote.html)   | `PAT`, `REP`, `LEGREP`, `ADM` |
-| Deletion status      | extension [DeletionStatus](StructureDefinition-ch-ext-deletionstatus.html) | `PAT`, `REP`, `LEGREP`, `ADM`, `HCP`, `ASS` |
 
 <figcaption ID="1">Table 1: Metadata which may be updated, and the roles which may update it.</figcaption>
 
@@ -72,17 +71,6 @@ carries the text of the note, the patient it belongs to and the time it was reco
 stay unchanged and no new version of the document is published. 
 
 A document carries at most one personal note. 
-
-##### Requesting the deletion of a document
-
-A document is deleted when it has been published in the health dossier of the wrong person, and when the patient has
-the document deleted (see the use cases
-[Document published in the health dossier of the wrong person](iti-mhd.html#use-cases) and
-[Patient has a document deleted](iti-mhd.html#use-cases)). The Document Source requests the deletion by updating
-the metadata of the document and setting the
-[DeletionStatus](StructureDefinition-ch-ext-deletionstatus.html) extension to the code
-`urn:e-health-suisse:2019:deletionStatus:deletionRequested` of the code system
-`urn:oid:2.16.756.5.30.1.127.3.10.18`. The document is deleted and is afterwards no longer accessible in the health dossier.
 
 ##### Example
 
