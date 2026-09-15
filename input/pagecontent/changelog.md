@@ -7,6 +7,8 @@
   * Add support for client-asymmetric authentication specified in FHIR Backend Service authentication section and is used in the European Health Data Space and UMZH Connect.  
   * Removed the SMART on FHIR standalone and EHR launch option. 
   * Removed the specification of the TCU option, since TCU requests are now a usual requests without a identity token of the user. 
+* OpenID Connect
+  * Added the OpenID Connect page (Annex 8) specifying the authorization code flow, identity token, UserInfo and RP-initiated logout for EPR Identity Providers.
 * PDQm
   * Defined mapping for eCH-0215 / 213 (https://github.com/ehealthsuisse/ch-health-dossier/issues/7)
   * Added support for identifying a patient by the minimal demographics and the AHVN13 in ITI-119 to retrieve the EPR-SPID (https://github.com/ehealthsuisse/ch-health-dossier/issues/2)
