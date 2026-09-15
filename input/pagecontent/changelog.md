@@ -54,7 +54,8 @@
     personal note on the document, without a new version of the document. The note is recorded with
     [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note) in the new extension
     [CH Extension Personal Note](StructureDefinition-ch-ext-personalnote.html), which carries an `Annotation` with the
-    text of the note, the patient it belongs to and the time it was recorded; it is not recorded in
+    text of the note, the patient it belongs to and the time it was recorded; a document carries at most one personal
+    note. It is not recorded in
     `DocumentReference.description`, which carries the comment of the author of the document.
     TODO: provide an example for it
   * Stated in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated) which metadata may be updated by which role:

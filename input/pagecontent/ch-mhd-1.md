@@ -69,7 +69,9 @@ data, or where the author is no longer practising (see the use case
 [Patient adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
 the metadata of the document and adding a [PersonalNote](StructureDefinition-ch-ext-personalnote.html) extension, which
 carries the text of the note, the patient it belongs to and the time it was recorded. The document itself and its data
-stay unchanged and no new version of the document is published.
+stay unchanged and no new version of the document is published. 
+
+A document carries at most one personal note. 
 
 ##### Requesting the deletion of a document
 

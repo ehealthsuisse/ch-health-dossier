@@ -85,12 +85,13 @@ Description: "CH MHD Profile on CH Core DocumentReference"
 * extension contains
      ChExtDeletionStatus named deletionStatus 0..1 MS and
      ChExtAuthorAuthorRole named originalProviderRole 1..1 MS and
-     ChExtPersonalNote named personalNote 0..* MS
+     ChExtPersonalNote named personalNote 0..1 MS
 * extension[deletionStatus] ^short = "Deletion status of the document"
 * extension[personalNote] ^short = "Personal note of the patient on the document"
 * extension[personalNote] ^comment = "The patient can record a personal note on a document where they do not agree with
 the author on the correctness of its data, or where the author is no longer practising. The note is recorded with the
-metadata of the document, the document itself and its data stay unchanged. The note is not part of
+metadata of the document, the document itself and its data stay unchanged. A document carries at most one personal
+note: recording a note on a document which already has one replaces the existing note. The note is not part of
 `DocumentReference.description`, which carries the comment of the author of the document."
 * extension[originalProviderRole] ^short = "Original ProviderRole: This extra metadata attribute SHALL be set by the Document Source actor to the role value of the current user and SHALL NOT be updated by Update Initiator or Document Administrator actors."
 * masterIdentifier 1.. MS
