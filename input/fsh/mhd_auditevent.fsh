@@ -39,12 +39,12 @@ Instance:   ChAuditEventIti65RecipientExample
 InstanceOf: ChAuditEventIti65Recipient
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules
-* insert ChExampleAuditEventServerRules
+* insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
 
 RuleSet: ChAuditEventIti65ExampleRules
-* insert ChExampleAuditEventBaseRules(documentSource, documentRecipient)
+* insert ChExampleAuditEventBaseRules(documentSource, documentRecipient, Health Dossier)
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventEntityPatientRules
 * subtype[iti65] = $eventTypeCode#ITI-65 "Provide Document Bundle"
@@ -90,11 +90,11 @@ Instance:   ChAuditEventIti67ResponderExample
 InstanceOf: ChAuditEventIti67Responder
 Usage:      #example
 * insert ChAuditEventIti67ExampleRules
-* insert ChExampleAuditEventServerRules
+* insert ChExampleAuditEventServerRules(Health Dossier)
 
 
 RuleSet: ChAuditEventIti67ExampleRules
-* insert ChExampleAuditEventBaseRules(client, server)
+* insert ChExampleAuditEventBaseRules(client, server, Health Dossier)
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventEntityPatientRules
 * type = $auditEventType#rest
@@ -148,7 +148,7 @@ Instance:   ChAuditEventIti68ResponderExample
 InstanceOf: ChAuditEventIti68Responder
 Usage:      #example
 * insert ChAuditEventIti68ExampleRules
-* insert ChExampleAuditEventServerRules
+* insert ChExampleAuditEventServerRules(Health Dossier)
 
 
 RuleSet: ChAuditEventIti68ExampleRules
@@ -157,7 +157,7 @@ RuleSet: ChAuditEventIti68ExampleRules
 * outcome = #0
 * agent[server]
   * type = DCM#110153 "Source Role ID"
-  * who.display = "Community A"
+  * who.display = "Health Dossier"
   * requestor = false
   * network
     * address = "https://example.org/blah/blah.pdf"
@@ -327,12 +327,12 @@ Instance:   ChAuditEventChMhd1ResponderExample
 InstanceOf: ChAuditEventChMhd1Responder
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
-* insert ChExampleAuditEventServerRules
+* insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
 
 RuleSet: ChAuditEventChMhd1ExampleRules
-* insert ChExampleAuditEventBaseRules(documentSource, documentResponder)
+* insert ChExampleAuditEventBaseRules(documentSource, documentResponder, Health Dossier)
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventEntityPatientRules
 * subtype[chmhd1] = urn:e-health-suisse:event-type-code#CH-MHD-1 "Update Document Metadata"
@@ -430,12 +430,12 @@ Instance:   ChAuditEventChMhd2ResponderExample
 InstanceOf: ChAuditEventChMhd2Responder
 Usage:      #example
 * insert ChAuditEventChMhd2ExampleRules
-* insert ChExampleAuditEventServerRules
+* insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
 
 RuleSet: ChAuditEventChMhd2ExampleRules
-* insert ChExampleAuditEventBaseRules(documentSource, documentResponder)
+* insert ChExampleAuditEventBaseRules(documentSource, documentResponder, Health Dossier)
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventEntityPatientRules
 * action = #D

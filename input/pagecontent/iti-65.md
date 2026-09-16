@@ -53,6 +53,8 @@ resource. `DocumentReference.content.attachment.url` points to that Bundle resou
 The document is retrieved as a native FHIR document Bundle resource as well, see
 [ITI-68](iti-68.html#expected-actions).
 
+Example: [Provide Document Bundle for a FHIR document](Bundle-BundleProvideFhirDocument.html).
+
 ##### Correction of a published document
 
 To correct a document with incorrect data (see the use case [Correction of a published document by a healthcare
@@ -61,6 +63,11 @@ professional](iti-mhd.html#use-cases)), the Document Source publishes the correc
 `status` of the replaced document to `superseded` and SHALL keep it accessible: a superseded document is no longer
 returned when searching for the current documents, but it can still be found with the `status` search parameter in
 [ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html).
+
+Examples: [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html), which
+replaces the document [DocRefPdf](DocumentReference-DocRefPdf.html), and the replaced document
+[as returned by the Document Responder after the correction](DocumentReference-DocRefPdfSuperseded.html), with the
+`status` `superseded`.
 
 ##### DeletionStatus
 

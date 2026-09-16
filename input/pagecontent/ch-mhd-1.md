@@ -70,9 +70,20 @@ the metadata of the document and adding a [PersonalNote](StructureDefinition-ch-
 carries the text of the note, the patient it belongs to and the time it was recorded. The document itself and its data
 stay unchanged and no new version of the document is published. 
 
-A document carries at most one personal note. 
+A document carries at most one personal note. Recording a note on a document which already has one replaces the
+existing note.
 
-##### Example
+Example ([DocumentReference with a personal note](DocumentReference-DocRefPdfPersonalNote.html)):
+
+```http
+PUT [base]/DocumentReference/DocRefPdf HTTP/1.1
+Accept: application/fhir+json
+traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
+
+```
+{% fragment DocumentReference/DocRefPdfPersonalNote JSON %}
+
+##### Example: update of the confidentiality code
 
 ```http
 PUT [base]/DocumentReference/DocRefPdf HTTP/1.1

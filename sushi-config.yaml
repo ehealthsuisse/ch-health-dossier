@@ -327,31 +327,27 @@ resources:
     exampleBoolean: true
   Practitioner/DrPeterPan:
     name: mCSD Practitioner Dr. Peter Pan
-    description: An example of CHmCSDPractitioner that contains the same information as Dr. Peter Pan in the Swiss examples (uid=CommunityA:00000003002,OU=HCProfessional,DC=HPD,O=BAG,C=ch)
+    description: An example of CHmCSDPractitioner that contains the same information as Dr. Peter Pan in the Swiss examples
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Practitioner
-  Organization/CommunityA:
-    name: mCSD Organization Community A
-    description: An example of CHmCSDOrganization that contains the same information as Community A in the Swiss examples (uid=CommunityA,OU=CHCommunity,DC=CPI,O=BAG,C=ch)
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization
   Organization/SpitalX:
     name: mCSD Organization Spital X
-    description: An example of CHmCSDOrganization that contains the same information as Spital X in the Swiss examples (uid=CommunityA:00000001000,OU=HCRegulatedOrganization,DC=HPD,O=BAG,C=ch)
+    description: An example of CHmCSDOrganization that contains the same information as Spital X in the Swiss examples
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization
   Organization/SpitalXDept3:
     name: mCSD Organization Spital X Dept. 3
-    description: An example of CHmCSDOrganization that contains the same information as Spital X, Dept. 3 in the Swiss examples (uid=CommunityA:00000001004,OU=HCRegulatedOrganization,DC=HPD,O=BAG,C=ch)
+    description: An example of CHmCSDOrganization that contains the same information as Spital X, Dept. 3 in the Swiss examples
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization
   Organization/PraxisP:
     name: mCSD Organization Praxis P
-    description: An example of CHmCSDOrganization that contains the same information as Praxis P in the Swiss examples (uid=CommunityA:00000001001,OU=HCRegulatedOrganization,DC=HPD,O=BAG,C=ch)
+    description: An example of CHmCSDOrganization that contains the same information as Praxis P in the Swiss examples
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.Organization
   PractitionerRole/PeterPanSpitalXDept3:
     name: mCSD PractitionerRole Dr. Peter Pan at Spital X Dept. 3
-    description: An example of CHmCSDPractitionerRole that contains the same information as Dr. Peter Pan - Spital X, Dept. 3 Relationship in the Swiss examples (CN=CommunityA:00000001004,OU=Relationship,DC=HPD,O=BAG,C=ch)
+    description: An example of CHmCSDPractitionerRole that contains the same information as Dr. Peter Pan - Spital X, Dept. 3 Relationship in the Swiss examples
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.PractitionerRole
   PractitionerRole/PeterPanPraxisP:
     name: mCSD PractitionerRole Dr. Peter Pan at Praxis P
-    description: An example of CHmCSDPractitionerRole that contains the same information as Dr. Peter Pan - Praxis P Relationship in the Swiss examples (CN=CommunityA:00000001001,OU=Relationship,DC=HPD,O=BAG,C=ch)
+    description: An example of CHmCSDPractitionerRole that contains the same information as Dr. Peter Pan - Praxis P Relationship in the Swiss examples
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH.mCSD.PractitionerRole
   Bundle/FindMatchingCareServicesResponse:
     name: mCSD Find Matching Care Services Response Bundle

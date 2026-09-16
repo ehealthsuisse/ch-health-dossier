@@ -54,7 +54,8 @@ using the IUA profile as described in [IUA](iti-71.html).
 
 ### Examples
 
-The Swiss extension uses [examples from eHealthSuisse](https://ehealthsuisse.ihe-europe.net/test_data/CommunityAdd_A_B_xml.zip):
-<img alt="LDAP examples"
+The examples of this national extension are based on the following structure of health institutions with their
+root and sub-organisations and of health professionals:
+<img alt="Structure of the example health institutions and health professionals"
      style="max-width:100%"
      src="assets/images/ehealthsuisse_HPD_Structure.png" />

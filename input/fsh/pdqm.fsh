@@ -285,12 +285,12 @@ Instance:   ChAuditEventIti119SupplierExample
 InstanceOf: ChAuditEventIti119Supplier
 Usage:      #example
 * insert ChAuditEventIti119ExampleRules
-* insert ChExampleAuditEventServerRules
+* insert ChExampleAuditEventServerRules(MPI)
 * insert ChExampleAuditEventEntityPatientRules
 
 
 RuleSet: ChAuditEventIti119ExampleRules
-* insert ChExampleAuditEventBaseRules(client, server)
+* insert ChExampleAuditEventBaseRules(client, server, MPI)
 * insert ChExampleAuditEventHcpRules
 * type = $auditEventType#rest
 * subtype[anySearch] = $restfulInteraction#search "search"

@@ -34,6 +34,13 @@
     representatives and the administration, and linked the AuthorRole and originalProviderRole to the value set
     [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html) instead of the CH Term value sets.
 * Corrections
+  * The audit event examples of the MHD, PIXm, PDQm, mCSD and PPQm transactions carry the role of the healthcare
+    professional in the code system [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)
+    (`urn:oid:2.16.756.5.30.1.127.3.10.19`) instead of the EPR code system `urn:oid:2.16.756.5.30.1.127.3.10.6`.
+  * The ATNA audit event examples name the server-side actor (audit source and destination agent) after the serving
+    system instead of `Community A`: `Health Dossier` for MHD, `MPI` for PIXm and PDQm, `HPD` for mCSD, `Policy Repository` for PPQm.
+  * Removed the mTLS alternative from the security considerations of [ITI-90](iti-90.html) and [ITI-20](iti-20.html),
+    the transactions are authorized with a basic access token.
   * Fixed the broken links to the message semantics and to the SMART on FHIR scopes in [ITI-71](iti-71.html).
   * The MHD Document Responder is grouped with the IUA Resource Server (was IUA Authorization Client), see
     [MHD](iti-mhd.html#required-actor-groupings).
@@ -48,6 +55,20 @@
   * Removed the ITI-83 PIXm query from the clinical archive diagram, the clinical archive knows the EPR-SPID.
   * Removed the loop over confidentiality codes when publishing documents.
   * Removed the unused diagram sources for the SMART on FHIR standalone launch with the identity provider.
+* mCSD
+  * [Examples](iti-mcsd.html#examples): removed the link to the eHealth Suisse test data (Community A and B) and
+    cropped the picture of the example structure to the health institutions and health professionals, the
+    communities are no longer shown.
+  * Removed the community information from the mCSD examples: the Organization example of Community A and its note
+    that the community itself is not returned, since health institutions and health professionals are no longer
+    related to a community.
+  * Removed the LDAP identifiers (`urn:ietf:rfc:4514`, the DN of the HPD entry) from the profiles
+    [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html),
+    [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) and
+    [CH mCSD PractitionerRole](StructureDefinition-CH.mCSD.PractitionerRole.html), from all mCSD examples and from the
+    LDAP schema mappings, together with the profile LdapIdentifier and the NamingSystem LDAP. Removed the considerations
+    for implementing mCSD with an LDAP backend (HPD) from [ITI-130](iti-130.html). The informative mapping to the LDAP
+    schema of the HPD in the profiles is kept.
 * PDQm
   * Defined mapping for eCH-0215 / 213 (https://github.com/ehealthsuisse/ch-health-dossier/issues/7)
   * Added support for identifying a patient by the minimal demographics and the AHVN13 in ITI-119 to retrieve the EPR-SPID (https://github.com/ehealthsuisse/ch-health-dossier/issues/2)
@@ -71,14 +92,15 @@
     [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html) instead of being converted
     to a base64 encoded Binary resource, see [ITI-65](iti-65.html#publishing-a-fhir-document). Required in
     [ITI-68](iti-68.html#expected-actions) that a FHIR document is returned as a native FHIR document Bundle resource
-    and not wrapped in a Binary resource, in line with the European Health Data API.
-    TODO: provide an example for it
+    and not wrapped in a Binary resource, in line with the European Health Data API. Added the example
+    [Provide Document Bundle for a FHIR document](Bundle-BundleProvideFhirDocument.html).
   * Added the use case [Healthcare professional corrects a published document](iti-mhd.html#use-cases): a
     document with incorrect data is corrected by publishing a new version, the incorrect document is not removed and
     stays accessible; how the corrected document is published is described in
-    [ITI-65](iti-65.html#correction-of-a-published-document).
-    TODO: provide an example for it (corrected document with `DocumentReference.relatesTo` of type `replaces`, replaced
-    document with `status` `superseded`)
+    [ITI-65](iti-65.html#correction-of-a-published-document). Added the examples
+    [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html)
+    (`DocumentReference.relatesTo` of type `replaces`) and
+    [replaced document with status superseded](DocumentReference-DocRefPdfSuperseded.html).
   * Added the transaction [Purge Document [CH:MHD-2]](ch-mhd-2.html) with the synchronous operation
     [`DocumentReference/[id]/$purge`](OperationDefinition-CHMhdPurge.html), modelled after the R6 `Patient/$purge`
     operation, which irrevocably removes a document with all versions of its metadata. It replaces requesting the
@@ -86,7 +108,7 @@
     extension itself is kept for now.
   * Removed the List resource (SubmissionSet) from the Document Consumer CapabilityStatement, since Find Document
     Lists [ITI-66] is not available.
-  * Added the use case [Document published in the health dossier of the wrong person](iti-mhd.html#use-cases): the
+  * Added the use case [Healthcare professional deletes a document published for the wrong person](iti-mhd.html#use-cases): the
     document has to be deleted, and the health professional or health institution which published it deletes it with
     [CH:MHD-2](ch-mhd-2.html).
   * Added the use case [Patient deletes a document](iti-mhd.html#use-cases): the patient can have any document of
@@ -99,8 +121,8 @@
     [CH Extension Personal Note](StructureDefinition-ch-ext-personalnote.html), which carries an `Annotation` with the
     text of the note, the patient it belongs to and the time it was recorded; a document carries at most one personal
     note. It is not recorded in
-    `DocumentReference.description`, which carries the comment of the author of the document.
-    TODO: provide an example for it
+    `DocumentReference.description`, which carries the comment of the author of the document. Added the example
+    [DocumentReference with a personal note](DocumentReference-DocRefPdfPersonalNote.html).
   * Stated in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated) which metadata may be updated by which role:
     the confidentiality code and the personal note by `PAT`, `REP`, `LEGREP` and `ADM`; every other change requires a
     new version of the document. A request updating other metadata, or metadata the role of the requester may not

@@ -12,11 +12,11 @@ In addition to the Document Sharing Use Case for MHD the national extension defi
 #### Healthcare professional corrects a published document
 A healthcare professional or a health institution has published a document that contains incorrect data. The correction is made by publishing a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the patient. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
 
-#### Document published in the health dossier of the wrong person
+#### Healthcare professional deletes a document published for the wrong person
 A healthcare professional or a health institution has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional or the health institution which published it has to delete it itself. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
 
 #### Patient changes confidentiality code of a document
-A patient wants to change the confidentiality code of one of his documents. The patient updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. 
+A patient wants to change the confidentiality code of one of his documents. The patient updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 #### Patient adds a personal note to a document
 A patient and the healthcare professional or the health institution which published a document do not agree on the correctness of the data in that document, or the healthcare professional or the health institution which published it is no longer practising. The patient can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).

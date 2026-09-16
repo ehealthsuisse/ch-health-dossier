@@ -530,6 +530,294 @@ Usage: #example
 * entry.resource = DocRefPdf
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Personal note of the patient [CH:MHD-1]
+
+Instance: DocRefPdfPersonalNote
+InstanceOf: ch-mhd-documentreference
+Title: "DocumentReference with a personal note of the patient"
+Description: "The DocumentReference DocRefPdf as submitted with Update Document Metadata [CH:MHD-1] by the patient to
+record a personal note on the document: the patient does not agree with the author on the correctness of the data. The
+note is carried in the extension CH Extension Personal Note, the document itself is unchanged."
+Usage: #example
+* extension[originalProviderRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* extension[personalNote].valueAnnotation.authorReference.type = "Patient"
+* extension[personalNote].valueAnnotation.authorReference.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* extension[personalNote].valueAnnotation.authorReference.identifier.value = "761337610411353650"
+* extension[personalNote].valueAnnotation.time = "2025-10-03T09:15:00+02:00"
+* extension[personalNote].valueAnnotation.text = "Die im Bericht genannte Penicillin-Allergie ist nicht korrekt, ich habe keine bekannte Allergie. Die Praxis wurde am 2.10.2025 informiert."
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:7261fa25-b36d-4660-a58a-d9df4370e985"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-09-24T12:01:30+00:00"
+* author.type = "Practitioner"
+* author.identifier.system = "urn:oid:2.51.1.3"
+* author.identifier.value = "7601000201041"
+* description = "Test PDF"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #de-CH
+* content.attachment.url = "urn:uuid:d8d1fe44-07e9-4a84-985f-fde97d77d54b"
+* content.attachment.title = "Test PDF"
+* content.attachment.creation = "2025-09-24T12:01:30+00:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#264358009 "General practice premises (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Correction of a published document [ITI-65]
+
+Instance: BundleProvideDocumentCorrection
+InstanceOf: CHMhdProvideDocumentBundle
+Title: "MHD Provide Document Bundle for a corrected document"
+Description: "Provide Document Bundle [ITI-65] with which a healthcare professional publishes the corrected version of
+the document DocRefPdf. The new DocumentReference points with relatesTo of type replaces to the DocumentReference of
+the document it corrects; the Document Recipient sets the status of the replaced document to superseded (see
+DocRefPdfSuperseded) and keeps it accessible."
+Usage: #example
+* meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
+* type = #transaction
+* entry[SubmissionSet].fullUrl = "urn:uuid:3f1a7d2e-8c4b-4e7a-9d21-5b6c0e8f1a44"
+* entry[SubmissionSet].resource = Inline-Instance-for-BundleProvideDocumentCorrection-1
+* entry[SubmissionSet].request.method = #POST
+* entry[SubmissionSet].request.url = "List"
+* entry[DocumentRefs].fullUrl = "urn:uuid:9b2e4c61-0d7f-4a3b-8e15-2c4f6a8d0b73"
+* entry[DocumentRefs].resource = Inline-Instance-for-BundleProvideDocumentCorrection-2
+* entry[DocumentRefs].request.method = #POST
+* entry[DocumentRefs].request.url = "DocumentReference"
+* entry[Documents].fullUrl = "urn:uuid:c7d3e9f0-5a1b-4c2d-9e8f-7a6b5c4d3e21"
+* entry[Documents].resource = Inline-Instance-for-BundleProvideDocumentCorrection-3
+* entry[Documents].request.method = #POST
+* entry[Documents].request.url = "Binary"
+
+Instance: Inline-Instance-for-BundleProvideDocumentCorrection-1
+InstanceOf: List
+Usage: #inline
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
+* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
+* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
+* extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
+* extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* identifier.use = #usual
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2953"
+* status = #current
+* mode = #working
+* code = $MHDlistTypes#submissionset "SubmissionSet as a FHIR List"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-01T08:30:00+02:00"
+* entry.item = Reference(urn:uuid:9b2e4c61-0d7f-4a3b-8e15-2c4f6a8d0b73)
+
+Instance: Inline-Instance-for-BundleProvideDocumentCorrection-2
+InstanceOf: DocumentReference
+Usage: #inline
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2952"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:a4c8e2f6-1b3d-4e5f-8a9c-0d1e2f3a4b5c"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-01T08:30:00+02:00"
+* author.type = "Practitioner"
+* author.identifier.system = "urn:oid:2.51.1.3"
+* author.identifier.value = "7601000201041"
+* relatesTo.code = #replaces
+* relatesTo.target = Reference(DocumentReference/DocRefPdf)
+* description = "Test PDF, corrected version"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #de-CH
+* content.attachment.url = "urn:uuid:c7d3e9f0-5a1b-4c2d-9e8f-7a6b5c4d3e21"
+* content.attachment.title = "Test PDF, corrected version"
+* content.attachment.creation = "2025-10-01T08:30:00+02:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#264358009 "General practice premises (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: Inline-Instance-for-BundleProvideDocumentCorrection-3
+InstanceOf: Binary
+Usage: #inline
+* contentType = #application/pdf
+* data = "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA1OTUgODQyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgNSAwIFIgPj4gPj4gPj4KZW5kb2JqCjQgMCBvYmoKPDwgL0xlbmd0aCA0OSA+PnN0cmVhbQpCVCAvRjEgMTIgVGYgNzIgNzcwIFRkIChDb3JyZWN0ZWQgZG9jdW1lbnQpIFRqIEVUCmVuZHN0cmVhbQplbmRvYmoKNSAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9IZWx2ZXRpY2EgPj4KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI0MSAwMDAwMCBuIAowMDAwMDAwMzM5IDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNiAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKNDA5CiUlRU9GCg=="
+
+Instance: DocRefPdfSuperseded
+InstanceOf: ch-mhd-documentreference
+Title: "DocumentReference of a replaced document (superseded)"
+Description: "The DocumentReference DocRefPdf as returned by the Document Responder after the corrected version of the
+document was published with BundleProvideDocumentCorrection: the status is superseded, the document stays accessible
+and can be found with the status search parameter of Find Document References [ITI-67]."
+Usage: #example
+* extension[originalProviderRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:7261fa25-b36d-4660-a58a-d9df4370e985"
+* status = #superseded
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-09-24T12:01:30+00:00"
+* author.type = "Practitioner"
+* author.identifier.system = "urn:oid:2.51.1.3"
+* author.identifier.value = "7601000201041"
+* description = "Test PDF"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #de-CH
+* content.attachment.url = "http://example.org/fhir/Binary/d8d1fe44-07e9-4a84-985f-fde97d77d54b"
+* content.attachment.title = "Test PDF"
+* content.attachment.creation = "2025-09-24T12:01:30+00:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#264358009 "General practice premises (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Publishing a FHIR document [ITI-65], FHIR Documents Publish Option
+
+Instance: BundleProvideFhirDocument
+InstanceOf: CHMhdProvideDocumentBundle
+Title: "MHD Provide Document Bundle for a FHIR document"
+Description: "Provide Document Bundle [ITI-65] publishing a FHIR document with the ITI-65 FHIR Documents Publish
+Option: the FHIR document Bundle is carried as a resource in the FhirDocuments entry and is not converted to a base64
+encoded Binary resource. DocumentReference.content.attachment.url points to the Bundle entry, contentType is
+application/fhir+json, size and hash are absent."
+Usage: #example
+* meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
+* type = #transaction
+* entry[SubmissionSet].fullUrl = "urn:uuid:5e8b1c2d-3f4a-4b5c-8d6e-7f8a9b0c1d2e"
+* entry[SubmissionSet].resource = Inline-Instance-for-BundleProvideFhirDocument-1
+* entry[SubmissionSet].request.method = #POST
+* entry[SubmissionSet].request.url = "List"
+* entry[DocumentRefs].fullUrl = "urn:uuid:6a9c2d3e-4f5b-4c6d-9e7f-8a9b0c1d2e3f"
+* entry[DocumentRefs].resource = Inline-Instance-for-BundleProvideFhirDocument-2
+* entry[DocumentRefs].request.method = #POST
+* entry[DocumentRefs].request.url = "DocumentReference"
+* entry[FhirDocuments].fullUrl = "urn:uuid:7b0d3e4f-5a6c-4d7e-8f9a-9b0c1d2e3f4a"
+* entry[FhirDocuments].resource = Inline-Instance-for-BundleProvideFhirDocument-3
+* entry[FhirDocuments].request.method = #POST
+* entry[FhirDocuments].request.url = "Bundle"
+
+Instance: Inline-Instance-for-BundleProvideFhirDocument-1
+InstanceOf: List
+Usage: #inline
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
+* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
+* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
+* extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
+* extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* identifier.use = #usual
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2954"
+* status = #current
+* mode = #working
+* code = $MHDlistTypes#submissionset "SubmissionSet as a FHIR List"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-02T14:20:00+02:00"
+* entry.item = Reference(urn:uuid:6a9c2d3e-4f5b-4c6d-9e7f-8a9b0c1d2e3f)
+
+Instance: Inline-Instance-for-BundleProvideFhirDocument-2
+InstanceOf: DocumentReference
+Usage: #inline
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2955"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:b5d9f3a7-2c4e-4f6a-9b0d-1e2f3a4b5c6d"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-02T14:20:00+02:00"
+* author.type = "Practitioner"
+* author.identifier.system = "urn:oid:2.51.1.3"
+* author.identifier.value = "7601000201041"
+* description = "Konsultationsbericht als FHIR Dokument"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/fhir+json
+* content.attachment.language = #de-CH
+* content.attachment.url = "urn:uuid:7b0d3e4f-5a6c-4d7e-8f9a-9b0c1d2e3f4a"
+* content.attachment.title = "Konsultationsbericht"
+* content.attachment.creation = "2025-10-02T14:20:00+02:00"
+* content.format = http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode#urn:ihe:iti:xds:2017:mimeTypeSufficient "MimeType sufficient"
+* context.facilityType = $sct#264358009 "General practice premises (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: Inline-Instance-for-BundleProvideFhirDocument-3
+InstanceOf: Bundle
+Usage: #inline
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2955"
+* type = #document
+* timestamp = "2025-10-02T14:20:00+02:00"
+* entry[0].fullUrl = "urn:uuid:8c1e4f5a-6b7d-4e8f-9a0b-0c1d2e3f4a5b"
+* entry[=].resource = Inline-Instance-for-BundleProvideFhirDocument-Composition
+* entry[+].fullUrl = "urn:uuid:9d2f5a6b-7c8e-4f9a-8b1c-1d2e3f4a5b6c"
+* entry[=].resource = Inline-Instance-for-BundleProvideFhirDocument-Patient
+* entry[+].fullUrl = "urn:uuid:ae3a6b7c-8d9f-4a0b-9c2d-2e3f4a5b6c7d"
+* entry[=].resource = Inline-Instance-for-BundleProvideFhirDocument-Practitioner
+
+Instance: Inline-Instance-for-BundleProvideFhirDocument-Composition
+InstanceOf: Composition
+Usage: #inline
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2955"
+* status = #final
+* type = $sct#371530004 "Clinical consultation report (record artifact)"
+* subject = Reference(urn:uuid:9d2f5a6b-7c8e-4f9a-8b1c-1d2e3f4a5b6c)
+* date = "2025-10-02T14:20:00+02:00"
+* author = Reference(urn:uuid:ae3a6b7c-8d9f-4a0b-9c2d-2e3f4a5b6c7d)
+* title = "Konsultationsbericht"
+* confidentiality = #N
+* section.title = "Beurteilung"
+* section.text.status = #generated
+* section.text.div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Kontrolle nach Sturz, keine Fraktur, Weiterbehandlung symptomatisch.</p></div>"
+
+Instance: Inline-Instance-for-BundleProvideFhirDocument-Patient
+InstanceOf: Patient
+Usage: #inline
+* identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* identifier.value = "761337610411353650"
+* name.family = "Muster"
+* name.given = "Franziska"
+* gender = #female
+* birthDate = "1980-03-15"
+
+Instance: Inline-Instance-for-BundleProvideFhirDocument-Practitioner
+InstanceOf: Practitioner
+Usage: #inline
+* identifier.system = "urn:oid:2.51.1.3"
+* identifier.value = "7601000201041"
+* name.family = "Musterarzt"
+* name.given = "Martina"
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Purge Document [CH:MHD-2]
 Instance: CHMhdPurge
 InstanceOf: OperationDefinition

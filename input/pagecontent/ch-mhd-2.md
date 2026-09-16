@@ -31,7 +31,7 @@ The Purge Document Request Message requests the irrevocable removal of a documen
 The Purge Document Request Message is triggered when a document has to be deleted from the health dossier:
 
 - a healthcare professional or a health institution has published the document in the health dossier of the wrong
-  person (see the use case [Document published in the health dossier of the wrong person](iti-mhd.html#use-cases));
+  person (see the use case [Healthcare professional deletes a document published for the wrong person](iti-mhd.html#use-cases));
 - the patient, or a person acting on their behalf, has the document deleted (see the use case
   [Patient deletes a document](iti-mhd.html#use-cases)).
 
