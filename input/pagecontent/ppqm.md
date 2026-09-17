@@ -1,3 +1,7 @@
+<div markdown="1" class="dragon">
+This part of the specification is subject to change and has not yet been adapted to the proposed [EGDG legislation](index.html#introduction).
+</div>
+
 ### Scope
 According to Swiss EPR regulations, patients shall decide who is authorized to access documents and data in 
 their EPR, and under which circumstances (cf. emergency access). The national integration profile "Privacy Policy 
