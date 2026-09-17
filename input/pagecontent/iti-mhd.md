@@ -39,12 +39,12 @@ The Find Document Lists [[ITI-66]](https://profiles.ihe.net/ITI/MHD/ITI-66.html)
 Options that can be selected for each actor in this profile, are listed in the table below. 
 
 {:class="table table-bordered"}
-| Actor                                         | Option Name               | Optionality  |
-|-----------------------------------------------|---------------------------|-------------|
-| Document Source                               | Health Dossier Metadata   | R           |
-| Document Recipient                            | Health Dossier Metadata   | R           |
-| Document Source                               | ITI-65 FHIR Documents Publish | R       |
-| Document Recipient                            | ITI-65 FHIR Documents Publish | R       |
+| Actor              | Options                                                                                   | Optionality |
+|--------------------|-------------------------------------------------------------------------------------------|-------------|
+| Document Source    | [Health Dossier Metadata](#health-dossier-metadata-option)<br>[ITI-65 FHIR Documents Publish](#iti-65-fhir-documents-publish-option) | R<br>R |
+| Document Recipient | [Health Dossier Metadata](#health-dossier-metadata-option)<br>[ITI-65 FHIR Documents Publish](#iti-65-fhir-documents-publish-option) | R<br>R |
+| Document Consumer  | [Full-Text Search](#full-text-search-option)                                              | O           |
+| Document Responder | [Full-Text Search](#full-text-search-option)                                              | R           |
 
 <figcaption ID="1">Table 1: Actor options.</figcaption>
 
@@ -56,6 +56,10 @@ Metadata as defined in [CH MHD DocumentReference](StructureDefinition-ch-mhd-doc
 #### ITI-65 FHIR Documents Publish Option
 
 The [ITI-65 FHIR Documents Publish Option](https://profiles.ihe.net/ITI/MHD/index.html) SHALL be supported by the Document Source and Document Recipient, so that a FHIR document can be published as a FHIR document Bundle resource and does not have to be converted to a base64 encoded Binary resource. How a FHIR document is published is described in [ITI-65](iti-65.html#publishing-a-fhir-document).
+
+#### Full-Text Search Option
+
+The [Full-Text Search Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13327-full-text-search-option) SHALL be supported by the Document Responder and MAY be supported by the Document Consumer, so that the textual content of the documents can be searched with the `full-text` search parameter in [ITI-67](iti-67.html#full-text-search-option).
 
 ### Required Actor Groupings  
 This national extension enforces authentication and authorization for access control. Therefore actors of this profile SHALL be grouped with actors of other profiles according to the following table: 

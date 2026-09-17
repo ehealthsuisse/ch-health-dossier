@@ -127,6 +127,11 @@
     the confidentiality code and the personal note by `PAT`, `REP`, `LEGREP` and `ADM`; every other change requires a
     new version of the document. A request updating other metadata, or metadata the role of the requester may not
     update, is rejected with an UnmodifiableMetadataError
+  * [#9](https://github.com/ehealthsuisse/ch-health-dossier/issues/9): Required the
+    [Full-Text Search Option](iti-mhd.html#full-text-search-option) for the Document Responder (optional for the Document Consumer);
+    the Document Responder SHALL support the `full-text` search parameter in [ITI-67](iti-67.html#full-text-search-option),
+    added to the MHD Document Consumer and Document Responder CapabilityStatements.
+    Grouped the actor options table per actor. Needs update to the to be published MHD release.
 * Roles
   * Added the CodeSystem [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)
     (`urn:oid:2.16.756.5.30.1.127.3.10.19`) with the roles of the E-GD, succeeding the CH Term code system for eHealth

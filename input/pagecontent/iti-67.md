@@ -36,6 +36,19 @@ Accept: application/fhir+json
 traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 ```
 
+##### Full-Text Search Option
+
+The Document Responder SHALL support the [Full-Text Search Option](https://profiles.ihe.net/ITI/MHD/ITI-67.html#236741211-full-text-search-option)
+with the search parameter `full-text`, which specifies terms or phrases used to search the textual content of the documents
+(see [MHD Actor Options](iti-mhd.html#full-text-search-option)). The Document Consumer MAY use the `full-text` search parameter.
+
+_Find Document Reference_ example **request** with full-text search:
+```http
+GET [base]/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current&full-text=diabetes%20AND%20%22chronic%20pain%22 HTTP/1.1
+Accept: application/fhir+json
+traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
+```
+
 ####  Expected Actions
 
 The Document Responder SHALL process the query to discover the DocumentReference entries that match the search parameters given.
