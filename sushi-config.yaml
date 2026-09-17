@@ -106,6 +106,8 @@ pages:
     title: Volume 3 - CH:ATC Audit Event Content Profiles
   openid-connect.md:
     title: OpenID Connect
+  client-registration.md:
+    title: Client Registration
   appendix.md:
     title: Appendix
   profiles.md:
@@ -159,6 +161,7 @@ menu:
     DocumentReference: StructureDefinition-ch-mhd-documentreference.html
   Appendix:
     OpenID Connect: openid-connect.html
+    Client Registration: client-registration.html
     Profiles: profiles.html
     Extensions: extensions.html
     Terminology: terminology.html
