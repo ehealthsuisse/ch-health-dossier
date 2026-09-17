@@ -7,7 +7,13 @@ An Health App can query, retrieve or publish data to/from the Health Dossier API
 An Health App can update the metadata of a published document and purge a published document with this national extension.  
 
 ###	Use Cases  
-In addition to the Document Sharing Use Case for MHD the national extension defines the following Use Cases:
+The national extension supports the following Use Cases:
+
+#### Publication of documents
+A patient, a healthcare professional or a health institution publishes a document in the health dossier of the patient. The Health App submits the document together with its metadata through the Health Dossier API. How the document is published is described in [ITI-65](iti-65.html).
+
+#### Search and download of documents
+A patient, a healthcare professional or a health institution searches the health dossier of the patient for documents, e.g. by type, date or with a full-text search, and downloads a document found. The result only contains the documents the requester is authorized to access. How documents are searched is described in [ITI-67](iti-67.html) and how a document is downloaded in [ITI-68](iti-68.html).
 
 #### Healthcare professional corrects a published document
 A healthcare professional or a health institution has published a document that contains incorrect data. The correction is made by publishing a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the patient. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
