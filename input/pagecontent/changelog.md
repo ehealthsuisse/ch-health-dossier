@@ -1,6 +1,7 @@
 ### DSTU1 Release 2026-08-xx
 
 #### Resolved Issues
+* Integrated the ch-epr-fhir issues [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456), [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458) and [#460](https://github.com/ehealthsuisse/ch-epr-fhir/issues/460)
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
     the Identity Token in in the *id_token* field of the token request. 
