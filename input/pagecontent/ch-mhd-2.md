@@ -55,7 +55,7 @@ The operation SHALL be invoked as a standalone HTTP request, it SHALL NOT be par
 | Roles                          | Documents which may be purged                                                                 |
 |--------------------------------|-----------------------------------------------------------------------------------------------|
 | `PAT`, `REP`, `LEGREP`, `ADM`  | Any document of the health dossier, the ones recorded by the patient as well as the ones published by a healthcare professional or a health institution |
-| `HCP`, `ASS`, `TCU`            | The documents published by the healthcare professional, or by the health institution, on whose behalf the request is made (`DocumentReference.author`) |
+| `HCP`, `ASS`                  | The documents published by the healthcare professional, or by the health institution, on whose behalf the request is made (`DocumentReference.author`) |
 
 <figcaption ID="1">Table 1: Roles which may purge a document.</figcaption>
 

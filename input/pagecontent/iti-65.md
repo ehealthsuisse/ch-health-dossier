@@ -1,10 +1,10 @@
-This section describes the additional requirements for the Swiss EPR of the [Provide Document Bundle
+This section describes the additional requirements for the Swiss Health Dossier of the [Provide Document Bundle
 [ITI-65]](https://profiles.ihe.net/ITI/MHD/ITI-65.html) transaction defined in the MHD Profile published in the IHE ITI 
 Trial Implementation “Mobile Access to Health Documents”.
 
 ### Scope
 
-In the Swiss EPR the transaction is used by the MHD Document Source to store documents in the EPR.
+In the Swiss Health Dossier the transaction is used by the MHD Document Source to store documents in the Health Dossier.
 
 ### Actor Roles
 

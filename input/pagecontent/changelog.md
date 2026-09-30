@@ -23,8 +23,7 @@
   * Changed the [ITI-71](iti-71.html) token request example of a clinical archive system from a basic to an extended
     access token with `person_id`, since the clinical archive knows the EPR-SPID and no longer queries it with PIXm ITI-83.
   * Replaced the remarks referring to the removed Workflow Initiator Option and Technical User Option in the required
-    actor groupings with the transactions a technical user (`TCU`) may use: ITI-65 and CH:MHD-2 of the MHD Document
-    Source and ITI-20, not allowed for all other IUA Authorization Clients. Added the rule to reject `TCU` access tokens
+    actor groupings with the transactions a technical user (`TCU`) may use: ITI-65, ITI-90, ITI-130, ITI-119, ITI-20, not allowed for all other IUA Authorization Clients. Added the rule to reject `TCU` access tokens
     for other transactions in [Enforcement of Access Rules](accesscontrol.html#technical-users).
   * Updated the `user_id` table of the JWT `ch_epr` extension in [ITI-71](iti-71.html): merged the Document
     Administrator and Policy Administrator into Administration (`ADM`) with the qualifier
