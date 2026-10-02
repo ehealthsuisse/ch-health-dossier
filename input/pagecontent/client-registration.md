@@ -26,8 +26,11 @@ This specification covers two different protocols for client registration:
   with a certificate assigned by the Federal Office of Public Health. This protocol SHALL be used by dossier owner
   to register a digital health application (e.g., a mobile health application).
 
+<!-- During the registration the client receives its `client_id` and exchanges its public key used for the client authentication and the HTTP message signature of the token request. -->
+
 ### Referenced Standards
 - [OAuth 2.0 Dynamic Client Registration Protocol (RFC 7591)](https://www.rfc-editor.org/rfc/rfc7591).
+- [RFC 7517 JSON Web Key](https://www.rfc-editor.org/info/rfc7517/). 
 
 
 ### Sequences
@@ -70,10 +73,65 @@ Figure: Sequence diagram for dGA Client Registration
 
 Table: Sequence for dGA Client Registration
 
-### Dynamic Client Registration
+### Messages
 
-During the registration the client receives its `client_id` and exchanges its public key used for the client
-authentication and the HTTP message signature of the token request.
+#### Client Registration Request
 
+To register, the client sends an HTTP POST to the client registration endpoint with a content 
+type of "application/json". The HTTP payload is a JSON document with the requested client metadata.
+
+The Client Registration Request SHALL contain the following parameters:
+- *client_name*: SHALL be a speaking name of the client application. 
+- *token_ endpoint_ auth_method*: SHALL be `private_key_jwt`. 
+- *grant_types*: SHALL be `client_credentials`. 
+- *scope*: A list of scopes that the client can use when requesting tokens, formatted as a string of space-separated values.
+- *jwks*: A JSON Web Key Set document containing the public keys for client authentication.
+- *accreditation*: The cryptographic key issued by the Federal Office og Public Health for a dGA software product.
+
+##### Message Example
+
+The following listing displays a non-normative example for a Client Registration Request:
+
+```
+POST /register HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer ey23f2.adfj230.af32-developer321
+Host: server.example.com
+
+{
+"client_name": "My Example Client",
+"token_endpoint_auth_method": "client_secret_basic",
+"grant_types": ["client_credentials"], 
+"scope": "read write",
+"jwks": {"keys": [{
+    "e": "AQAB", 
+    "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
+        HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
+        lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
+        RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
+        2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
+        qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
+   "kty": "RSA"
+   }]},
+"accreditation": {"keys": [{
+    "e": "AQAB", 
+    "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
+        HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
+        lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
+        RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
+        2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
+        qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
+    "kty": "RSA"
+   }]}  
+}
+```
+
+<!-- TODO verify other like software statement ... -->
+
+
+#### Client Information Response
+
+<!-- TODO -->
 
 
