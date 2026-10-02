@@ -46,7 +46,7 @@ Figure: Sequence diagram for User Authorized Client Registration
 | 03  | The Identity Provider returns an Identity Token for the authenticated user.                                                          |
 | 04  | The client application builds the Client Registration Request and sends it to the registration endpoint of the authorization server. |
 | 04  | The Authorization Server registers the client application and reponds with a Client Information Response message.                    |
-:class="table table-bordered"}
+{:class="table table-bordered"}
 
 Table: Sequence for User Authorized Client Registration
 
@@ -57,6 +57,7 @@ Table: Sequence for User Authorized Client Registration
 </div>
 Figure: Sequence diagram for dGA Client Registration 
 
+
 | SEQ | Description                                                                                                                          |
 |-----|--------------------------------------------------------------------------------------------------------------------------------------|
 | 01  | The FOPH verifies the dGA software, registers it and issues a certificate to be used for client registration.                        |
@@ -65,7 +66,7 @@ Figure: Sequence diagram for dGA Client Registration
 | 04  | The Identity Provider returns an Identity Token for the authenticated user.                                                          |
 | 05  | The client application builds the Client Registration Request and sends it to the registration endpoint of the authorization server. |
 | 06  | The Authorization Server registers the client application and reponds with a Client Information Response message.                    |
-:class="table table-bordered"}
+{:class="table table-bordered"}
 
 Table: Sequence for dGA Client Registration
 
