@@ -23,6 +23,18 @@ document from the Document Responder.
 
 <div>{% include MHD_ActorDiagram_ITI-68.svg %}</div>
 
+#### Retrieve Document Request Message
+
+The Document Consumer retrieves the document with the URL in `DocumentReference.content.attachment.url` of the
+DocumentReference it received from the Document Responder.
+
+_Retrieve Document_ example **request**:
+```http
+GET https://example.org/Binary/d8d1fe44-07e9-4a84-985f-fde97d77d54b HTTP/1.1
+Accept: application/pdf
+traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
+```
+
 ####  Expected Actions
 
 The Document Responder SHALL return a FHIR document as a native FHIR document Bundle resource and SHALL NOT wrap it in a Binary resource. For other data standard MHD behavior applies.
@@ -56,8 +68,16 @@ The **Document Consumer** SHALL record an audit event according to
 [CH Audit Event for [ITI-68] Document Consumer](StructureDefinition-ChAuditEventIti68Consumer.html)
 ([example](AuditEvent-ChAuditEventIti68ConsumerExample.html)).
 
+The request of this transaction carries only the URL of the document. To record the master identifier, title, type
+and confidentiality code of the document, the Document Consumer SHALL keep the DocumentReference it received before,
+e.g. in the response of [Find Document References [ITI-67]](iti-67.html), from which it took the URL.
+
 ##### Document Responder Audit
 
 The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [ITI-68] Document Responder](StructureDefinition-ChAuditEventIti68Responder.html)
 ([example](AuditEvent-ChAuditEventIti68ResponderExample.html)).
+
+The request of this transaction carries only the URL of the document. To record the master identifier, title, type
+and confidentiality code of the document, the Document Responder SHALL retrieve internally the DocumentReference of
+the document requested.

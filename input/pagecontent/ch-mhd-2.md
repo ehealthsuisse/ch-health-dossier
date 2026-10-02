@@ -109,7 +109,9 @@ HTTP `404 Not Found`.
 Documents which refer to the purged document with `DocumentReference.relatesTo`, e.g. a new version replacing it, are not
 purged, their reference to the purged document can no longer be resolved.
 
-Audit events recorded for the document, including the audit events of this transaction, SHALL NOT be purged.
+Audit events recorded for the document, including the audit events of this transaction, SHALL NOT be purged. The
+audit events of this transaction record only the identifiers of the purged document, not its title, type or
+confidentiality code.
 
 #### Purge Document Response Message
 
@@ -141,10 +143,12 @@ The actors SHALL support the _traceparent_ header handling, as defined in [Appen
 
 The **Document Source** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-2] Document Source](StructureDefinition-ch-mhd-purgedocument-audit-source.html)
-([example](AuditEvent-ChAuditEventChMhd2SourceExample.html)).
+([example](AuditEvent-ChAuditEventChMhd2SourceExample.html), and
+[example of a purge by the patient](AuditEvent-ChAuditEventChMhd2SourcePatientExample.html)).
 
 ##### Document Responder Audit
 
 The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html)
-([example](AuditEvent-ChAuditEventChMhd2ResponderExample.html)).
+([example](AuditEvent-ChAuditEventChMhd2ResponderExample.html), and
+[example of a purge by the patient](AuditEvent-ChAuditEventChMhd2ResponderPatientExample.html)).

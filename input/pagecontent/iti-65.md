@@ -35,7 +35,12 @@ The additional metadata of the Swiss Health Dossier is defined with:
 * [Provider institution](#provider-institution)
 
 The request Bundle SHALL follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)
-Profile ([example: Bundle: BundleProvideDocument](Bundle-BundleProvideDocument.html)).
+Profile. Examples:
+
+- [document provided by a healthcare professional](Bundle-BundleProvideDocument.html)
+- [document provided by an assistant on behalf of a healthcare professional](Bundle-BundleProvideDocumentByAssistant.html)
+- [document provided by a clinical archive system](Bundle-BundleProvideDocumentByArchive.html)
+- [document provided by the patient](Bundle-BundleProvideDocumentByPatient.html)
 
 The `sourceId` extension of the SubmissionSet, which MHD requires, SHALL carry the OID of the application of the
 Document Source which provides the document. It is information only: no right to the document follows from it.
@@ -105,7 +110,8 @@ The author is optional and is given as text, in one of two forms:
 - a single party, i.e. a person, an institution, the patient or a related person: a logical reference with the name
   in `author.display` and the kind of party in `author.type` (`Practitioner`, `Organization`, `Patient` or
   `RelatedPerson`), see the example
-  [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html);
+  [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html)
+  ([Provide Document Bundle](Bundle-BundleProvideDocumentByPatient.html));
 - a person together with the institution the person authored the document for: a reference to a PractitionerRole
   contained in the DocumentReference, which carries the name of the person in `practitioner.display` and the name of
   the institution in `organization.display`, each with the `type`, see the example
@@ -113,7 +119,8 @@ The author is optional and is given as text, in one of two forms:
 
 In both forms the Document Source MAY add an identifier to the name, e.g. the GLN of a healthcare professional, the
 OID of an institution or the EPR-SPID of the patient, see the example
-[document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html).
+[document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html)
+([Provide Document Bundle](Bundle-BundleProvideDocumentByArchive.html)).
 
 A DocumentReference carries at most one author. Where a document has more than one author, e.g. a FHIR document with
 more than one `Composition.author`, the Document Source SHALL give the main author.
@@ -189,10 +196,36 @@ The actors SHALL support the _traceparent_ header handling, as defined in [Appen
 
 The **Document Source** SHALL record an audit event according to
 [CH Audit Event for [ITI-65] Document Source](StructureDefinition-ChAuditEventIti65Source.html) 
-([example](AuditEvent-ChAuditEventIti65SourceExample.html)).
+([example](AuditEvent-ChAuditEventIti65SourceExample.html)). Further examples of the Document Source:
+[new version of a document](AuditEvent-ChAuditEventIti65SourceCorrectionExample.html),
+[FHIR document](AuditEvent-ChAuditEventIti65SourceFhirDocumentExample.html),
+[document provided by an assistant](AuditEvent-ChAuditEventIti65SourceAssistantExample.html),
+[document provided by the patient](AuditEvent-ChAuditEventIti65SourcePatientExample.html),
+[document provided by a clinical archive system](AuditEvent-ChAuditEventIti65SourceArchiveExample.html).
 
 ##### Document Recipient Audit
 
 The **Document Recipient** SHALL record an audit event according to
 [CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html)
-([example](AuditEvent-ChAuditEventIti65RecipientExample.html)).
+([example](AuditEvent-ChAuditEventIti65RecipientExample.html), for the DocumentReference
+[DocRefPdf](DocumentReference-DocRefPdf.html) provided with the
+[Provide Document Bundle](Bundle-BundleProvideDocument.html)).
+
+The audit events record every document provided, with its master identifier, title, type and confidentiality code,
+the user who provided it and, for a healthcare professional, an assistant or a technical user, the provider
+institution. Further examples of the Document Recipient:
+
+- [new version of a document](AuditEvent-ChAuditEventIti65RecipientCorrectionExample.html), which names the document
+  it replaces, for the DocumentReference in the
+  [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html);
+- [FHIR document](AuditEvent-ChAuditEventIti65RecipientFhirDocumentExample.html), for the DocumentReference in the
+  [Provide Document Bundle for a FHIR document](Bundle-BundleProvideFhirDocument.html);
+- [document provided by an assistant](AuditEvent-ChAuditEventIti65RecipientAssistantExample.html), with the
+  healthcare professional as main user and the assistant as delegated user, for the DocumentReference in the
+  [Provide Document Bundle](Bundle-BundleProvideDocumentByAssistant.html);
+- [document provided by the patient](AuditEvent-ChAuditEventIti65RecipientPatientExample.html), for the
+  DocumentReference [DocRefPdfProvidedByPatient](DocumentReference-DocRefPdfProvidedByPatient.html)
+  ([Provide Document Bundle](Bundle-BundleProvideDocumentByPatient.html));
+- [document provided by a clinical archive system](AuditEvent-ChAuditEventIti65RecipientArchiveExample.html), for the
+  DocumentReference [DocRefPdfProvidedByArchive](DocumentReference-DocRefPdfProvidedByArchive.html)
+  ([Provide Document Bundle](Bundle-BundleProvideDocumentByArchive.html)).

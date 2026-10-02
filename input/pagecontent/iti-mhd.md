@@ -19,16 +19,22 @@ A patient, a representative, a healthcare professional or an assistant searches 
 A document was published that contains incorrect data.  A healthcare professional or an assistant publishes a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the patient. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
 
 #### Healthcare professional deletes a document published for the wrong person
-A patient, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional which published it has to delete it itself. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+A patient, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional which published it has to delete it. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
 
 #### Patient changes confidentiality code of a document
-A patient wants to change the confidentiality code of one of his documents. The patient updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
+A patient wants to change the confidentiality code of one of his documents. The patient or a representative updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 #### Patient adds a personal note to a document
-A patient and the healthcare professional which published a document do not agree on the correctness of the data in that document. The patient can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
+A patient and the healthcare professional which published a document do not agree on the correctness of the data in that document. The patient or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
 
 #### Patient deletes a document
-A patient wants to delete a document of their health dossier. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+A patient or a representative wants to delete a document of their health dossier. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+
+**Note**:
+
+Where the use cases above name a representative, this is either a representative the patient has designated or the legal representative of a patient.
+
+The actions of the patient in the use cases above (publication, search and download, change of the confidentiality code, personal note and deletion of a document) can also be performed by an administrator of a community on the mandate of the patient.
 
 ###	Actors and Transactions  
 

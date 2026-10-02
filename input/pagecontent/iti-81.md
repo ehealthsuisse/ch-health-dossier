@@ -40,7 +40,12 @@ For the CH:ATC profile the entity.identifier has to be the EPR-SPID:
 
 #### Message Semantics for Response
 
-The returned AuditEvent FHIR resources in the Bundle shall conform the CH:ATC AuditEvent profile, see [Volume 3 - CH:ATC Audit Event Content Profiles](volume3.html).
+The returned AuditEvent FHIR resources in the Bundle shall conform to the CH:ATC AuditEvent profiles, see [Volume 3 - CH:ATC Audit Event Content Profiles](volume3.html). For the document transactions these are the audit events recorded by the actors serving the requests, see [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions).
+
+The Patient Audit Consumer may restrict the audit events returned to certain types of events with the search parameter `subtype` and the codes of the [audit event types](ch-atc.html#audit-event-types), for example:
+``` http
+http://example.com/ARRservice/AuditEvent?date=ge2020-03-22&date=le2025-03-22&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|5678&subtype=http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierAuditEventType|ATC_DOC_READ
+```
 
 
 #### Security Considerations

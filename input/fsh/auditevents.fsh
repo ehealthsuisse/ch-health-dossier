@@ -7,7 +7,7 @@ Description: "This is the profile for Swiss Audit Events when a transaction is s
 * agent ^slicing.discriminator.type = #value
 * agent ^slicing.discriminator.path = "type"
 * agent ^slicing.rules = #open
-* agent contains mainUser 0..1 and delegatedUser 0..1
+* agent contains mainUser 0..1 and delegatedUser 0..1 and group 0..*
 * entity ^slicing.discriminator.type = #value
 * entity ^slicing.discriminator.path = "type"
 * entity ^slicing.rules = #open
@@ -26,6 +26,7 @@ Token."
   * what.identifier 1..1
     * value 1..1
     * system 1..1
+    * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 
 
 // All rules that apply to the AuditEvents with both Basic and Extended Tokens
@@ -45,6 +46,18 @@ RuleSet: ChAuditEventRules
   * role 1..1
   * altId 1..1
   * name 1..1
+* agent[group]
+  * ^short = "A health institution or group of healthcare professionals the main user is a member of (optional)"
+  * ^comment = "Optional. The groups and institutions of the main user as conveyed in the access token (ch_group), or only the one on whose behalf the main user acts where that is known, e.g. the provider institution of a document which is provided, replaced or purged. Absent when the main user is a patient, a representative, a legal representative or an administrator."
+  * type = $v3RoleClass#PROV "healthcare provider"
+  * role 1..1
+  * role = $ehealthAgentRole#GRP "Group"
+  * who 1..1
+  * who.identifier 1..1
+  * who.identifier only OidIdentifier
+  * who.identifier ^short = "OID of the institution or group"
+  * name 1..1
+  * name ^short = "Name of the institution or group"
 * source
   * site 1..1
   * site ^short = "The OID of the audit source"
@@ -61,19 +74,73 @@ RuleSet: ChAuditEventRules
 
 // Rule Sets for our AuditEvents with basic access tokens
 RuleSet: ChAuditEventBasicRules
-* agent contains mainUser 0..1 and delegatedUser 0..1
+* agent contains mainUser 0..1 and delegatedUser 0..1 and group 0..*
 * insert ChAuditEventRules
 
 
 // Rule Sets for our AuditEvents with extended access tokens
 RuleSet: ChAuditEventExtendedRules
-* agent contains mainUser 1..1 and delegatedUser 0..1
+* agent contains mainUser 1..1 and delegatedUser 0..1 and group 0..*
 * insert ChAuditEventRules
 * agent[mainUser].purposeOfUse 1..1
 * entity[patient] 1..1
   * what.identifier 1..1
     * value 1..1
     * system 1..1
+    * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+
+
+// The type of the event in the audit trail of the patient, as an additional subtype. It is required for the actor
+// serving the request (min 1) and optional for the actor making it (min 0).
+RuleSet: ChAuditEventTypeCodeRules(min, code, display)
+* subtype contains auditTrailType {min}..1
+* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the patient"
+* subtype[auditTrailType] = $healthDossierAuditEventType#{code} "{display}"
+
+
+// As above, where the type is one of the codes of a value set
+RuleSet: ChAuditEventTypeValueSetRules(min, max, valueSet)
+* subtype contains auditTrailType {min}..{max}
+* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the patient"
+* subtype[auditTrailType] from {valueSet} (required)
+
+
+// The document a transaction is about. The slice has to be defined in the profile before applying this rule set.
+// TODO: clarify whether the title and the type of a document are medical data. According to the dispatch on Art. 6
+// EGDG the log data contain no medical data, only references to persons and to the processing operations they
+// initiated. If the title and the type are medical data, only the master identifier of the document can be recorded
+// (as for purged documents, see ChAuditEventDocumentIdentifierEntityRules) and an audit consumer has to read the title
+// and the type from the DocumentReference.
+RuleSet: ChAuditEventDocumentEntityRules(slice)
+* entity[{slice}].what.identifier 1..1
+* entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
+* entity[{slice}].what.identifier.system 1..1
+* entity[{slice}].what.identifier.value 1..1
+* entity[{slice}].name 1..1
+* entity[{slice}].name ^short = "The title of the document, DocumentReference.content.attachment.title"
+* entity[{slice}].name ^comment = "To be clarified: whether the title and the type of a document are medical data which SHALL NOT be recorded in the log data, so that only the master identifier of the document is recorded."
+* entity[{slice}].securityLabel from http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.confidentialityCode
+* entity[{slice}].securityLabel ^short = "The confidentiality code of the document, DocumentReference.securityLabel"
+* entity[{slice}].detail ^slicing.discriminator.type = #value
+* entity[{slice}].detail ^slicing.discriminator.path = "type"
+* entity[{slice}].detail ^slicing.rules = #open
+* entity[{slice}].detail contains documentType 1..1
+* entity[{slice}].detail[documentType] ^short = "The type of the document, DocumentReference.type"
+* entity[{slice}].detail[documentType].type = "documentType"
+* entity[{slice}].detail[documentType].value[x] only string
+* entity[{slice}].detail[documentType].value[x] ^short = "The type of the document as system|code"
+
+
+// The document a transaction is about, where only its identifier is kept (purged documents)
+RuleSet: ChAuditEventDocumentIdentifierEntityRules(slice)
+* entity[{slice}].what.identifier 1..1
+* entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
+* entity[{slice}].what.identifier.system 1..1
+* entity[{slice}].what.identifier.value 1..1
+* entity[{slice}].name ..0
+* entity[{slice}].securityLabel ..0
+* entity[{slice}].description ..0
+* entity[{slice}].detail ..0
 
 
 // Reference mapping from the XUA assertion to the CH Audit Event
@@ -106,6 +173,9 @@ Description: "Access token of a patient, representative, legal representative, h
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
   * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
+* agent[group]
+  * who.identifier -> "extensions.ch_group.id" "One agent for each group recorded"
+  * name           -> "extensions.ch_group.name" "One agent for each group recorded"
 
 
 Mapping: ChJwtDelegationToAuditEventMapping
@@ -122,6 +192,9 @@ Description: "Access token of an assistant acting on behalf of a healthcare prof
   * role         -> "extensions.ihe_iua.subject_role" "ASS"
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
+* agent[group]
+  * who.identifier -> "extensions.ch_group.id" "One agent for each group recorded"
+  * name           -> "extensions.ch_group.name" "One agent for each group recorded"
 
 
 // Rule Sets for examples
@@ -182,3 +255,62 @@ RuleSet: ChExampleAuditEventEntityPatientRules
     * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
   * type = $auditEntityType#1 "Person"
   * role = $objectRole#1 "Patient"
+
+
+// Rules for an extended token for a patient
+RuleSet: ChExampleAuditEventPatRules
+* agent[mainUser]
+  * role = $healthDossierRole#PAT "Patient"
+  * altId = "761337610411353650"
+  * name = "Franziska Muster"
+  * requestor = true
+  * purposeOfUse = $purposeOfUse#NORM "Normal Access"
+
+
+// Rules for an extended token for an assistant acting on behalf of a healthcare professional: the healthcare
+// professional (principal) is the main user, the assistant is the delegated user
+RuleSet: ChExampleAuditEventAssRules
+* agent[mainUser]
+  * role = $healthDossierRole#HCP "Healthcare professional"
+  * altId = "2000000090092"
+  * name = "Martina Musterarzt"
+  * requestor = false
+  * purposeOfUse = $purposeOfUse#NORM "Normal Access"
+* agent[delegatedUser]
+  * type = $v3ParticipationType#PPRF "primary performer"
+  * role = $healthDossierRole#ASS "Assistant"
+  * altId = "2000000090108"
+  * name = "Dagmar Musterassistent"
+  * requestor = true
+
+
+// Rules for an extended token for a technical user (clinical archive system)
+RuleSet: ChExampleAuditEventTcuRules
+* agent[mainUser]
+  * role = $healthDossierRole#TCU "Technical user"
+  * altId = "7601000201041"
+  * name = "Clinical archive system Spital X"
+  * requestor = true
+  * purposeOfUse = $purposeOfUse#AUTO "Automatic Upload"
+
+
+// Rules for the institution or group on whose behalf the main user acts
+RuleSet: ChExampleAuditEventGroupRules(oid, name)
+* agent[group]
+  * type = $v3RoleClass#PROV "healthcare provider"
+  * role = $ehealthAgentRole#GRP "Group"
+  * who.identifier.system = "urn:ietf:rfc:3986"
+  * who.identifier.value = "urn:oid:{oid}"
+  * name = "{name}"
+  * requestor = false
+
+
+// Rules for an entity representing a document, the slice type and role have to be set in the example
+RuleSet: ChExampleAuditEventEntityDocumentRules(slice, uniqueId, title)
+* entity[{slice}]
+  * what.identifier.system = "urn:ietf:rfc:3986"
+  * what.identifier.value = "urn:oid:{uniqueId}"
+  * name = "{title}"
+  * securityLabel = $sct#17621005 "Normal (qualifier value)"
+  * detail[documentType].type = "documentType"
+  * detail[documentType].valueString = "http://snomed.info/sct|419891008"

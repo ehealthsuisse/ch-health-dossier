@@ -883,7 +883,8 @@ Usage: #inline
 Instance: DocRefPdfProvidedByPatient
 InstanceOf: ch-mhd-documentreference
 Title: "DocumentReference for a document provided by the patient"
-Description: "DocumentReference for a report of a treatment abroad which the patient provided herself: the role of the
+Description: "DocumentReference, as returned by the Document Responder, for a report of a treatment abroad which the
+patient provided herself with BundleProvideDocumentByPatient: the role of the
 provider is PAT and there is no provider institution (custodian). The author is the foreign clinic which wrote the
 report, given as text. Only the patient, or a person acting on her behalf, may publish a new version of this document
 or purge it."
@@ -917,7 +918,8 @@ Usage: #example
 Instance: DocRefPdfProvidedByArchive
 InstanceOf: ch-mhd-documentreference
 Title: "DocumentReference for a document provided by a clinical archive system"
-Description: "DocumentReference for a document which the clinical archive system of a health institution provided: the
+Description: "DocumentReference, as returned by the Document Responder, for a document which the clinical archive
+system of a health institution provided with BundleProvideDocumentByArchive: the
 role of the provider is TCU and the provider institution (custodian) is the institution operating the archive system.
 The author is given as a contained PractitionerRole with the name of the authoring person and of the authoring
 institution as text, together with their identifiers. The healthcare professionals and assistants of the provider
@@ -960,6 +962,235 @@ Usage: #example
 * content.attachment.creation = "2025-10-03T16:30:00+02:00"
 * content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
 * context.facilityType = $sct#22232009 "Hospital (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: BundleProvideDocumentByPatient
+InstanceOf: CHMhdProvideDocumentBundle
+Title: "MHD Provide Document Bundle for a document provided by the patient"
+Description: "Provide Document Bundle [ITI-65] with which the patient provides the report of a treatment abroad herself: the role of the provider is PAT and there is no provider institution (custodian). The author is the foreign clinic which wrote the report, given as text. See DocRefPdfProvidedByPatient for the DocumentReference as returned by the Document Responder."
+Usage: #example
+* meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
+* type = #transaction
+* entry[SubmissionSet].fullUrl = "urn:uuid:1e5f8a2b-4c6d-4e7f-9a1b-3c5d7e9f1a2b"
+* entry[SubmissionSet].resource = Inline-Instance-for-BundleProvideDocumentByPatient-1
+* entry[SubmissionSet].request.method = #POST
+* entry[SubmissionSet].request.url = "List"
+* entry[DocumentRefs].fullUrl = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e90"
+* entry[DocumentRefs].resource = Inline-Instance-for-BundleProvideDocumentByPatient-2
+* entry[DocumentRefs].request.method = #POST
+* entry[DocumentRefs].request.url = "DocumentReference"
+* entry[Documents].fullUrl = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e91"
+* entry[Documents].resource = Inline-Instance-for-BundleProvideDocumentCorrection-3
+* entry[Documents].request.method = #POST
+* entry[Documents].request.url = "Binary"
+
+Instance: Inline-Instance-for-BundleProvideDocumentByPatient-1
+InstanceOf: List
+Usage: #inline
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
+* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
+* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
+* extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.7"
+* identifier.use = #usual
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2958"
+* status = #current
+* mode = #working
+* code = $MHDlistTypes#submissionset "SubmissionSet as a FHIR List"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-05T18:40:00+02:00"
+* entry.item = Reference(urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e90)
+
+Instance: Inline-Instance-for-BundleProvideDocumentByPatient-2
+InstanceOf: DocumentReference
+Usage: #inline
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#PAT "Patient"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2956"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e90"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-05T18:40:00+02:00"
+* author.type = "Organization"
+* author.display = "Clinique du Lac, Annecy (France)"
+* description = "Austrittsbericht Behandlung im Ausland"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #fr-CH
+* content.attachment.url = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e91"
+* content.attachment.title = "Austrittsbericht Behandlung im Ausland"
+* content.attachment.creation = "2025-08-14T10:00:00+02:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#22232009 "Hospital (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: BundleProvideDocumentByArchive
+InstanceOf: CHMhdProvideDocumentBundle
+Title: "MHD Provide Document Bundle for a document provided by a clinical archive system"
+Description: "Provide Document Bundle [ITI-65] with which the clinical archive system of a health institution provides a document: the role of the provider is TCU and the provider institution (custodian) is the institution operating the archive system. The author is given as a contained PractitionerRole with the name of the authoring person and of the authoring institution as text, together with their identifiers. See DocRefPdfProvidedByArchive for the DocumentReference as returned by the Document Responder."
+Usage: #example
+* meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
+* type = #transaction
+* entry[SubmissionSet].fullUrl = "urn:uuid:4a7c9e1f-2b3d-4c5e-8f6a-7b8c9d0e1f2a"
+* entry[SubmissionSet].resource = Inline-Instance-for-BundleProvideDocumentByArchive-1
+* entry[SubmissionSet].request.method = #POST
+* entry[SubmissionSet].request.url = "List"
+* entry[DocumentRefs].fullUrl = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e5f"
+* entry[DocumentRefs].resource = Inline-Instance-for-BundleProvideDocumentByArchive-2
+* entry[DocumentRefs].request.method = #POST
+* entry[DocumentRefs].request.url = "DocumentReference"
+* entry[Documents].fullUrl = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e60"
+* entry[Documents].resource = Inline-Instance-for-BundleProvideDocumentCorrection-3
+* entry[Documents].request.method = #POST
+* entry[Documents].request.url = "Binary"
+
+Instance: Inline-Instance-for-BundleProvideDocumentByArchive-1
+InstanceOf: List
+Usage: #inline
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
+* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
+* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
+* extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.8"
+* identifier.use = #usual
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2959"
+* status = #current
+* mode = #working
+* code = $MHDlistTypes#submissionset "SubmissionSet as a FHIR List"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-06T02:15:00+02:00"
+* entry.item = Reference(urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e5f)
+
+Instance: Inline-Instance-for-BundleProvideDocumentByArchive-2
+InstanceOf: DocumentReference
+Usage: #inline
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.identifier.system = "urn:oid:2.51.1.3"
+* contained.practitioner.identifier.value = "7601000201041"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.identifier.system = "urn:ietf:rfc:3986"
+* contained.organization.identifier.value = "urn:oid:2.2.2.2"
+* contained.organization.display = "Spital X, Klinik für Innere Medizin"
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#TCU "Technical user"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2957"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e5f"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-06T02:15:00+02:00"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.2"
+* custodian.display = "Spital X"
+* description = "Austrittsbericht"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #de-CH
+* content.attachment.url = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e60"
+* content.attachment.title = "Austrittsbericht"
+* content.attachment.creation = "2025-10-03T16:30:00+02:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#22232009 "Hospital (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: BundleProvideDocumentByAssistant
+InstanceOf: CHMhdProvideDocumentBundle
+Title: "MHD Provide Document Bundle for a document provided by an assistant"
+Description: "Provide Document Bundle [ITI-65] with which an assistant provides a document on behalf of a healthcare professional: the role of the provider is ASS and the provider institution (custodian) is the institution of the healthcare professional the assistant acts for. The author is the healthcare professional who wrote the document, given as a contained PractitionerRole."
+Usage: #example
+* meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
+* type = #transaction
+* entry[SubmissionSet].fullUrl = "urn:uuid:7d2a4c6e-8f1b-4a3c-9d5e-1f2a3b4c5d6e"
+* entry[SubmissionSet].resource = Inline-Instance-for-BundleProvideDocumentByAssistant-1
+* entry[SubmissionSet].request.method = #POST
+* entry[SubmissionSet].request.url = "List"
+* entry[DocumentRefs].fullUrl = "urn:uuid:8e3b5d7f-9a1c-4b2d-8c4e-6f7a8b9c0d1e"
+* entry[DocumentRefs].resource = Inline-Instance-for-BundleProvideDocumentByAssistant-2
+* entry[DocumentRefs].request.method = #POST
+* entry[DocumentRefs].request.url = "DocumentReference"
+* entry[Documents].fullUrl = "urn:uuid:8e3b5d7f-9a1c-4b2d-8c4e-6f7a8b9c0d1f"
+* entry[Documents].resource = Inline-Instance-for-BundleProvideDocumentCorrection-3
+* entry[Documents].request.method = #POST
+* entry[Documents].request.url = "Binary"
+
+Instance: Inline-Instance-for-BundleProvideDocumentByAssistant-1
+InstanceOf: List
+Usage: #inline
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
+* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
+* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
+* extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
+* identifier.use = #usual
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2961"
+* status = #current
+* mode = #working
+* code = $MHDlistTypes#submissionset "SubmissionSet as a FHIR List"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-07T10:20:00+02:00"
+* entry.item = Reference(urn:uuid:8e3b5d7f-9a1c-4b2d-8c4e-6f7a8b9c0d1e)
+
+Instance: Inline-Instance-for-BundleProvideDocumentByAssistant-2
+InstanceOf: DocumentReference
+Usage: #inline
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Praxis Seeblick, Luzern"
+* extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
+* extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#ASS "Assistant"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2960"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:8e3b5d7f-9a1c-4b2d-8c4e-6f7a8b9c0d1e"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-07T10:20:00+02:00"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
+* description = "Laborbericht"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #de-CH
+* content.attachment.url = "urn:uuid:8e3b5d7f-9a1c-4b2d-8c4e-6f7a8b9c0d1f"
+* content.attachment.title = "Laborbericht"
+* content.attachment.creation = "2025-10-07T10:20:00+02:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#264358009 "General practice premises (environment)"
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
 
 // ---------------------------------------------------------------------------------------------------------------------

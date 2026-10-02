@@ -13,78 +13,140 @@
   <entry>
     <fullUrl value="http://example.com/AuditEvent/1"/>
     <resource>
-      <AuditEvent xmlns="http://hl7.org/fhir">
+      <AuditEvent>
         <id value="1"/>
         <meta>
-          <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent"/>
+          <profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti65Recipient"/>
         </meta>
-        <text>
-          <status value="generated"/>
-          <div xmlns="http://www.w3.org/1999/xhtml">Upload of Record artifact 10.10.2020 18:29 from Julia Helfe-Gern on behalf of Jakob Wieder-Gesund
-          </div>
-        </text>
         <type>
           <system value="http://dicom.nema.org/resources/ontology/DCM"/>
-          <code value="110106"/>
-          <display value="Export"/>
+          <code value="110107"/>
+          <display value="Import"/>
         </type>
         <subtype>
-          <system value="urn:oid:2.16.756.5.30.1.127.3.10.7"/>
+          <system value="urn:ihe:event-type-code"/>
+          <code value="ITI-65"/>
+          <display value="Provide Document Bundle"/>
+        </subtype>
+        <subtype>
+          <system value="http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierAuditEventType"/>
           <code value="ATC_DOC_CREATE"/>
           <display value="Document upload"/>
         </subtype>
-        <action value="C"/>
-        <recorded value="2020-10-10T16:29:00Z"/>
+        <recorded value="2024-10-28T09:43:56Z"/>
         <outcome value="0"/>
-        <purposeOfEvent>
-          <coding>
-            <system value="urn:oid:2.16.756.5.30.1.127.3.10.5"/>
-            <code value="NORM"/>
-            <display value="Normal Access"/>
-          </coding>
-        </purposeOfEvent>
         <agent>
-          <role>
+          <type>
             <coding>
-              <system value="urn:oid:2.16.756.5.30.1.127.3.10.19"/>
-              <code value="PAT"/>
-              <display value="Patient"/>
+              <system value="http://dicom.nema.org/resources/ontology/DCM"/>
+              <code value="110153"/>
+              <display value="Source Role ID"/>
             </coding>
-          </role>
-          <name value="Jakob Wieder-Gesund"/>
+          </type>
+          <who>
+            <display value="My e-Health App"/>
+          </who>
           <requestor value="false"/>
+          <network>
+            <address value="192.168.1.1"/>
+            <type value="2"/>
+          </network>
         </agent>
         <agent>
+          <type>
+            <coding>
+              <system value="http://dicom.nema.org/resources/ontology/DCM"/>
+              <code value="110152"/>
+              <display value="Destination Role ID"/>
+            </coding>
+          </type>
+          <who>
+            <display value="Health Dossier"/>
+          </who>
+          <requestor value="false"/>
+          <network>
+            <address value="https://example.com"/>
+            <type value="5"/>
+          </network>
+        </agent>
+        <agent>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v3-ParticipationType"/>
+              <code value="RESP"/>
+              <display value="responsible party"/>
+            </coding>
+          </type>
           <role>
             <coding>
               <system value="urn:oid:2.16.756.5.30.1.127.3.10.19"/>
-              <code value="REP"/>
-              <display value="Representative"/>
+              <code value="HCP"/>
+              <display value="Healthcare professional"/>
+            </coding>
+          </role>
+          <altId value="2000000090092"/>
+          <name value="Martina Musterarzt"/>
+          <requestor value="true"/>
+          <purposeOfUse>
+            <coding>
+              <system value="urn:oid:2.16.756.5.30.1.127.3.10.5"/>
+              <code value="NORM"/>
+              <display value="Normal Access"/>
+            </coding>
+          </purposeOfUse>
+        </agent>
+        <agent>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v3-RoleClass"/>
+              <code value="PROV"/>
+              <display value="healthcare provider"/>
+            </coding>
+          </type>
+          <role>
+            <coding>
+              <system value="urn:oid:2.16.756.5.30.1.127.3.10.14"/>
+              <code value="GRP"/>
+              <display value="Group"/>
             </coding>
           </role>
           <who>
             <identifier>
-              <system value="urn:oid:2.16.756.5.30.1.127.3.10.3"/>
-              <value value="761322222222222222"/>
+              <system value="urn:ietf:rfc:3986"/>
+              <value value="urn:oid:2.2.2.1"/>
             </identifier>
           </who>
-          <name value="Julia Helfe-Gern"/>
-          <requestor value="true"/>
+          <name value="Praxis Seeblick"/>
+          <requestor value="false"/>
         </agent>
         <source>
+          <site value="2.16.756.4.5.6"/>
           <observer>
-            <identifier>
-              <system value="urn:ietf:rfc:3986"/>
-              <value value="urn:oid:7.8.9.10.11"/>
-            </identifier>
+            <display value="Health Dossier"/>
           </observer>
         </source>
         <entity>
-          <!-- Patient -->
+          <what>
+            <identifier>
+              <value value="00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00"/>
+            </identifier>
+          </what>
+          <type>
+            <system value="http://terminology.hl7.org/CodeSystem/audit-entity-type"/>
+            <code value="4"/>
+            <display value="Other"/>
+          </type>
+          <role>
+            <system value="http://terminology.hl7.org/CodeSystem/object-role"/>
+            <code value="26"/>
+            <display value="Processing Element"/>
+          </role>
+        </entity>
+        <entity>
           <what>
             <identifier>
               <system value="urn:oid:2.16.756.5.30.1.127.3.10.3"/>
-              <value value="761337610469261945"/>
+              <value value="761337610411353650"/>
             </identifier>
           </what>
           <type>
@@ -99,11 +161,10 @@
           </role>
         </entity>
         <entity>
-          <!-- Document -->
           <what>
             <identifier>
-              <system value="urn:ihe:iti:xds:2013:uniqueId" />
-              <value value="1.2.3.4.5"/>
+              <system value="urn:ietf:rfc:3986"/>
+              <value value="urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2949"/>
             </identifier>
           </what>
           <type>
@@ -113,23 +174,36 @@
           </type>
           <role>
             <system value="http://terminology.hl7.org/CodeSystem/object-role"/>
+            <code value="20"/>
+            <display value="Job"/>
+          </role>
+        </entity>
+        <entity>
+          <what>
+            <identifier>
+              <system value="urn:ietf:rfc:3986"/>
+              <value value="urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"/>
+            </identifier>
+          </what>
+          <type>
+            <system value="http://hl7.org/fhir/resource-types"/>
+            <code value="DocumentReference"/>
+            <display value="DocumentReference"/>
+          </type>
+          <role>
+            <system value="http://terminology.hl7.org/CodeSystem/object-role"/>
             <code value="3"/>
             <display value="Report"/>
           </role>
+          <securityLabel>
+            <system value="http://snomed.info/sct"/>
+            <code value="17621005"/>
+            <display value="Normal (qualifier value)"/>
+          </securityLabel>
+          <name value="Test PDF"/>
           <detail>
-            <type value="Repository Unique Id"/>
-            <!-- base64 of OID eg 1.2.3 == -->
-            <valueBase64Binary value="MS4yLjM="/>
-          </detail>
-          <detail>
-            <type value="EprDocumentTypeCode"/>
-            <!-- base64 typeCode 419891008 -->
-            <valueBase64Binary value="NDE5ODkxMDA4"/>
-          </detail>
-          <detail>
-            <type value="title"/>
-            <valueBase64Binary value="QXVzdHJpdHRzYmVyaWNodCB2b24gSnVsaWEgSGVsZmUtR2Vybg=="/>
-            <!-- base64 title Austrittsbericht von Julia Helfe-Gern  -->
+            <type value="documentType"/>
+            <valueString value="http://snomed.info/sct|419891008"/>
           </detail>
         </entity>
       </AuditEvent>
