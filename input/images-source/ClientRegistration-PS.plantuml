@@ -1,0 +1,21 @@
+@startuml
+hide footbox
+
+actor "User" as User
+participant "Authorization Client" as Client
+participant "Identity Provider" as IdP
+participant "Authorization Server" as AuthzServer
+
+autonumber 1 1 "<b>[00]</b>"
+autoactivate on
+
+User -> Client: Register client
+Client -> IdP: Authenticate
+IdP --> Client: AuthN Token
+
+|||
+
+Client -> AuthzServer: Client Registration Request (AutnN Token)
+AuthzServer --> Client: Client Information Response
+
+@enduml

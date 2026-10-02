@@ -1,0 +1,26 @@
+@startuml
+hide footbox
+
+actor "User" as User
+participant "Authorization Client (dGA)" as Client
+participant "Identity Provider" as IdP
+participant "Authorization Server" as AuthzServer
+participant "Federal Office of Public Health" as FOPH
+
+autonumber 1 1 "<b>[00]</b>"
+autoactivate on
+
+FOPH --> Client: Issue certificate (out of band)
+
+... after installation  ...
+
+User -> Client: Register dGA
+Client -> IdP: Authenticate user
+IdP --> Client: AuthN Token
+
+|||
+
+Client -> AuthzServer: Client Registration Request (AutnN Token & Certificate)
+AuthzServer --> Client: Client Information Response
+
+@enduml
