@@ -39,6 +39,18 @@ The base profiles for the Swiss AuditEvents in the EPR are:
 - [CH Audit Event with an Extended Token](StructureDefinition-ChAuditEventExtendedToken.html) when a transaction is 
   secured with an Extended IUA Token.
 
+The user of the transaction is recorded from the access token in up to two agents:
+
+- the main user (`agent[mainUser]`) is the responsible party: the patient, representative, legal representative,
+  healthcare professional, administrator or technical user who made the request. A technical user is identified by
+  the GLN of the legal responsible person of the clinical archive system;
+- where an assistant made the request on behalf of a healthcare professional, i.e. the access token carries the
+  `ch_delegation` extension, the healthcare professional (the principal) is the main user and the assistant is
+  recorded as the delegated user (`agent[delegatedUser]`).
+
+How the claims of the access token map to the two agents is shown in the
+[mappings](StructureDefinition-ChAuditEventBasicToken-mappings.html) of the base profile.
+
 [Audit Example for a Provide Bundle Transaction from source perspective](AuditEvent-ChAuditEventIti65SourceExample.html)
 
 ##### Expected Actions

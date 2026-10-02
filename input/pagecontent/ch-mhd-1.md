@@ -60,6 +60,13 @@ request which updates other metadata, or metadata which the role of the requeste
 OperationOutcome with the error code
 [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
 
+In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
+(extension [originalProviderRole](iti-65.html#documententryoriginalproviderrole)) and the
+[provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
+stay the ones of the document as it was provided, also where a patient, a representative, a legal representative or
+the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
+in the audit event of the transaction.
+
 ##### Recording a personal note
 
 A patient can record a personal note on a document (see use case [Patient adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating

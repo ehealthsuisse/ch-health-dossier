@@ -10,7 +10,7 @@ An Health App can update the metadata of a published document and purge a publis
 The national extension supports the following Use Cases:
 
 #### Publication of documents
-A patient, a representative, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) publishes a document in the health dossier of the patient. The Health App submits the document together with its metadata through the Health Dossier API. How the document is published is described in [ITI-65](iti-65.html).
+A patient, a representative, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) publishes a document in the health dossier of the patient. The Health App submits the document together with its metadata through the Health Dossier API. The metadata distinguishes who authored the document, given as text, from who provided it: the role of the user and, for healthcare professionals, assistants and technical users, the institution on whose behalf the document is provided. How the document is published is described in [ITI-65](iti-65.html).
 
 #### Search and download of documents
 A patient, a representative, a healthcare professional or an assistant searches the health dossier of the patient for documents, e.g. by type, date or with a full-text search, and downloads a document found. The result only contains the documents the requester is authorized to access. How documents are searched is described in [ITI-67](iti-67.html) and how a document is downloaded in [ITI-68](iti-68.html).

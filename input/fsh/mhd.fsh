@@ -28,16 +28,16 @@ Usage: #example
 Extension: ChExtAuthorAuthorRole
 Id: ch-ext-author-authorrole
 Title: "CH Extension Author AuthorRole"
-Description: "Extension Author AuthorRole for SubmissionSet and DocumentEntry"
-Context: List, DocumentReference
+Description: "Extension for the role of the user who originally provided a document (DocumentEntry.originalProviderRole)"
+Context: DocumentReference
 * url only uri
 * url MS
 * valueCoding 1.. MS
 * valueCoding only Coding
 * valueCoding from HealthDossierAuthorRole (required)
 * valueCoding ^comment = "Bound to the roles of the electronic health dossier instead of the CH Term value sets
-DocumentEntry.originalProviderRole and SubmissionSet.Author.AuthorRole, which still carry the Document Administrator
-(`DADM`) and have no code for the legal representative."
+DocumentEntry.originalProviderRole, which still carries the Document Administrator (`DADM`) and has no code for the
+legal representative."
 * valueCoding ^short = "Value of extension"
 
 Extension: ChExtPersonalNote
@@ -69,7 +69,7 @@ Parent: $ch-core-documentreference
 Id: ch-mhd-documentreference
 Title: "CH MHD DocumentReference"
 Description: "CH MHD Profile on CH Core DocumentReference"
-* obeys ch-mhd
+* obeys ch-mhd and ch-mhd-author-2 and ch-mhd-custodian-1
 * extension contains
      ChExtAuthorAuthorRole named originalProviderRole 1..1 MS and
      ChExtPersonalNote named personalNote 0..1 MS
@@ -81,8 +81,10 @@ note: recording a note on a document which already has one replaces the existing
 `DocumentReference.description`, which carries the comment of the author of the document."
 * extension[originalProviderRole] ^short = "Original ProviderRole: role of the user who originally provided the document"
 * extension[originalProviderRole] ^comment = "This extra metadata attribute SHALL be set by the Document Source actor to
-the role value of the current user. It SHALL NOT be changed with Update Document Metadata [CH:MHD-1], the Document
-Responder rejects such a request with an UnmodifiableMetadataError."
+the role value of the current user, the Document Recipient verifies it against the role in the access token. It SHALL
+NOT be changed with Update Document Metadata [CH:MHD-1], the Document Responder rejects such a request with an
+UnmodifiableMetadataError. Together with the provider institution (`custodian`) it determines who may publish a new
+version of the document or purge it."
 * masterIdentifier 1.. MS
 * masterIdentifier only $IHE.MHD.UniqueIdIdentifier
 * identifier MS
@@ -99,23 +101,46 @@ Responder rejects such a request with an UnmodifiableMetadataError."
 * subject.identifier 1..1
 * subject.identifier only EPRSPIDIdentifier
 * subject ^comment = "Not a contained resource. The identifier points to an existing patient in the XDS Affinity Domain."
-* author 1.. MS
-* author only Reference($ch-core-practitioner or $ch-core-practitionerrole or $ch-core-organization or Device or $ch-core-patient or $ch-core-relatedperson)
+* author ..1 MS
+* author only Reference($ch-core-practitioner or $ch-core-practitionerrole or $ch-core-organization or $ch-core-patient or $ch-core-relatedperson)
 * author obeys ch-mhd-author-1
-* author ^short = "Who and/or what authored the document"
-* author ^comment = "The author SHALL be identified, either by a logical reference or by a reference to a resource.
+* author ^short = "Who authored the document, as text"
+* author ^comment = "The author is information for the reader of the document metadata. It is not necessarily the user
+who provided the document, and no right to the document follows from it: the rights follow from the role of the user
+who provided the document (extension originalProviderRole) and from the provider institution (`custodian`). Where a
+document has more than one author, the main author is given.
 
-A logical reference carries the identifier of the authoring person or institution in `author.identifier`, analogous to
-`subject.identifier` carrying the EPR-SPID. The identifier is not constrained to a single system: a health professional
-or institution is normally identified by its GLN (`urn:oid:2.51.1.3`) and is then resolvable through mCSD, a patient by
-the EPR-SPID (`urn:oid:2.16.756.5.30.1.127.3.10.3`).
+The author is conveyed in one of two forms:
 
-A reference to a resource may point to a resource contained in the DocumentReference — use a contained PractitionerRole,
-which in turn references a contained Practitioner and/or Organization, when both the authoring person and the authoring
-institution are known — or to a resource held elsewhere, for example in the mCSD directory."
-* author.type ^short = "The type of the referenced author, e.g. Practitioner or Organization. SHALL be present when a logical reference is used."
+- a single party, i.e. a person, an institution, the patient or a related person: a logical reference with the name in
+  `author.display` and the kind of party in `author.type` (`Practitioner`, `Organization`, `Patient` or
+  `RelatedPerson`);
+- a person together with the institution the person authored the document for: a reference to a PractitionerRole
+  contained in the DocumentReference, which carries the name of the person in `practitioner.display` and the name of
+  the institution in `organization.display`, each with the `type`.
+
+In both forms an identifier MAY be added to the name, e.g. the GLN (`urn:oid:2.51.1.3`) of a health professional, the
+OID of an institution or the EPR-SPID (`urn:oid:2.16.756.5.30.1.127.3.10.3`) of the patient."
+* author.type ^short = "Practitioner | Organization | Patient | RelatedPerson. SHALL be present when the author is not a contained PractitionerRole."
+* author.display ^short = "Name of the author as text. SHALL be present when the author is not a contained PractitionerRole."
+* author.identifier ^short = "Identifier of the author, optional"
 * authenticator only Reference($ch-core-practitioner or $ch-core-practitionerrole or $ch-core-organization)
-* custodian ..0
+* custodian ..1 MS
+* custodian only Reference($ch-core-organization)
+* custodian ^short = "Provider institution: the institution on whose behalf the document was provided"
+* custodian ^comment = "The provider institution is the health institution, or the group of health professionals, on
+whose behalf a healthcare professional, an assistant or a technical user provided the document. It SHALL be present
+when the role of the user who provided the document (extension originalProviderRole) is `HCP`, `ASS` or `TCU`, and
+SHALL be absent otherwise. It is conveyed as a logical reference with the OID of the institution or group in
+`custodian.identifier`. The Document Recipient verifies it against the access token, and it SHALL NOT be changed with
+Update Document Metadata [CH:MHD-1]. It is not necessarily the institution of the author of the document."
+* custodian.reference ..0
+* custodian.type 1..
+* custodian.type = "Organization"
+* custodian.identifier 1..
+* custodian.identifier only OidIdentifier
+* custodian.identifier ^short = "OID of the provider institution"
+* custodian.display ^short = "Name of the provider institution"
 * relatesTo MS
 * relatesTo ^comment = "See ITI TF-2c: 3.65.4.1.2.3"
 * description MS
@@ -176,9 +201,19 @@ Description: "The DocumentReference needs to conform to IHE.MHD.Minimal.Document
 * expression = "conformsTo('https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.DocumentReference')"
 
 Invariant: ch-mhd-author-1
-Description: "The author is identified either by a logical reference (identifier) or by a reference to a resource"
+Description: "The author is either a reference to a contained PractitionerRole, or a logical reference with the name of the author in display and the type Practitioner, Organization, Patient or RelatedPerson"
 * severity = #error
-* expression = "identifier.exists() or reference.exists()"
+* expression = "(reference.exists() and reference.startsWith('#')) or (reference.empty() and display.exists() and type.exists() and (type in ('Practitioner' | 'Organization' | 'Patient' | 'RelatedPerson')))"
+
+Invariant: ch-mhd-author-2
+Description: "A contained PractitionerRole carries the name of the authoring person and/or of the authoring institution in display, each with the type"
+* severity = #error
+* expression = "contained.ofType(PractitionerRole).all((practitioner.exists() or organization.exists()) and practitioner.all(display.exists() and type = 'Practitioner') and organization.all(display.exists() and type = 'Organization'))"
+
+Invariant: ch-mhd-custodian-1
+Description: "The provider institution (custodian) is present if and only if the document was provided by a healthcare professional (HCP), an assistant (ASS) or a technical user (TCU)"
+* severity = #error
+* expression = "extension.where(url = 'http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole').value.ofType(Coding).where(code = 'HCP' or code = 'ASS' or code = 'TCU').exists() = custodian.exists()"
 
 
 Profile: ChFindDocumentReferencesResponse
@@ -280,14 +315,12 @@ Id: ch-mhd-submissionset
 Title: "CH MHD SubmissionSet"
 Description: "CH MHD SubmissionSet"
 * extension 2..
-* extension contains $ch-ext-author-authorrole named authorAuthorRole 0..1 MS
 * extension[designationType].value[x] from $SubmissionSet.contentTypeCode (required)
 * extension[designationType].value[x] ^short = "Fixed code 'Procedure' by the Swiss EPR"
 * extension[designationType] ^sliceName = "designationType"
 * extension[designationType] ^mustSupport = true
 * extension[sourceId] ^sliceName = "sourceId"
 * extension[sourceId] ^mustSupport = true
-* extension[authorAuthorRole] ^short = "The SubmissionSet.Author element MAY be used to track the user who made the latest changes to the document metadata."
 * identifier[uniqueId] MS
 * identifier[entryUUID] MS
 * identifier ^short = "identifier, for uniqueID set use to usual"
@@ -355,6 +388,12 @@ InstanceOf: ch-mhd-documentreference
 Title: "DocumentReference for a PDF Document"
 Description: "DocumentReference for a PDF Document"
 Usage: #example
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Praxis Seeblick, Luzern"
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
@@ -369,9 +408,11 @@ Usage: #example
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-09-24T12:01:30+00:00"
-* author.type = "Practitioner"
-* author.identifier.system = "urn:oid:2.51.1.3"
-* author.identifier.value = "7601000201041"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
 * description = "Test PDF"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/pdf
@@ -409,7 +450,9 @@ Usage: #example
 Instance: BundleProvideDocument
 InstanceOf: CHMhdProvideDocumentBundle
 Title: "MHD Provide Document Bundle for a PDF Document"
-Description: "MHD Provide Document Bundle for a PDF Document"
+Description: "MHD Provide Document Bundle for a PDF Document, provided by a healthcare professional. The author is given
+as a contained PractitionerRole with the name of the authoring person and of the authoring institution as text, the
+provider institution in custodian."
 * meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
 * type = #transaction
 * entry[SubmissionSet].fullUrl = "urn:uuid:68a928c0-df48-4743-a291-bfb0609bbddc"
@@ -433,8 +476,6 @@ Usage: #inline
 * extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
-* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * identifier.use = #usual
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2949"
@@ -449,6 +490,12 @@ Usage: #inline
 Instance: Inline-Instance-for-BundleProvideDocument-2
 InstanceOf: DocumentReference
 Usage: #inline
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Praxis Seeblick, Luzern"
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
@@ -463,9 +510,11 @@ Usage: #inline
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-09-24T12:01:30+00:00"
-* author.type = "Practitioner"
-* author.identifier.system = "urn:oid:2.51.1.3"
-* author.identifier.value = "7601000201041"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
 * description = "Test PDF"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/pdf
@@ -525,6 +574,12 @@ Description: "The DocumentReference DocRefPdf as submitted with Update Document 
 record a personal note on the document: the patient does not agree with the author on the correctness of the data. The
 note is carried in the extension CH Extension Personal Note, the document itself is unchanged."
 Usage: #example
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Praxis Seeblick, Luzern"
 * extension[originalProviderRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * extension[personalNote].valueAnnotation.authorReference.type = "Patient"
 * extension[personalNote].valueAnnotation.authorReference.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
@@ -543,9 +598,11 @@ Usage: #example
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-09-24T12:01:30+00:00"
-* author.type = "Practitioner"
-* author.identifier.system = "urn:oid:2.51.1.3"
-* author.identifier.value = "7601000201041"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
 * description = "Test PDF"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/pdf
@@ -591,8 +648,6 @@ Usage: #inline
 * extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
-* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * identifier.use = #usual
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2953"
@@ -607,6 +662,12 @@ Usage: #inline
 Instance: Inline-Instance-for-BundleProvideDocumentCorrection-2
 InstanceOf: DocumentReference
 Usage: #inline
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Praxis Seeblick, Luzern"
 * extension.url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
 * extension.valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
@@ -621,9 +682,11 @@ Usage: #inline
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-10-01T08:30:00+02:00"
-* author.type = "Practitioner"
-* author.identifier.system = "urn:oid:2.51.1.3"
-* author.identifier.value = "7601000201041"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
 * relatesTo.code = #replaces
 * relatesTo.target = Reference(DocumentReference/DocRefPdf)
 * description = "Test PDF, corrected version"
@@ -650,6 +713,12 @@ Description: "The DocumentReference DocRefPdf as returned by the Document Respon
 document was published with BundleProvideDocumentCorrection: the status is superseded, the document stays accessible
 and can be found with the status search parameter of Find Document References [ITI-67]."
 Usage: #example
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Praxis Seeblick, Luzern"
 * extension[originalProviderRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
@@ -663,9 +732,11 @@ Usage: #example
 * subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 * subject.identifier.value = "761337610411353650"
 * date = "2025-09-24T12:01:30+00:00"
-* author.type = "Practitioner"
-* author.identifier.system = "urn:oid:2.51.1.3"
-* author.identifier.value = "7601000201041"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
 * description = "Test PDF"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/pdf
@@ -711,8 +782,6 @@ Usage: #inline
 * extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* extension[+].url = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole"
-* extension[=].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * identifier.use = #usual
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2954"
@@ -744,6 +813,11 @@ Usage: #inline
 * author.type = "Practitioner"
 * author.identifier.system = "urn:oid:2.51.1.3"
 * author.identifier.value = "7601000201041"
+* author.display = "Dr. med. Martina Musterarzt"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.1"
+* custodian.display = "Praxis Seeblick"
 * description = "Konsultationsbericht als FHIR Dokument"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/fhir+json
@@ -802,6 +876,91 @@ Usage: #inline
 * identifier.value = "7601000201041"
 * name.family = "Musterarzt"
 * name.given = "Martina"
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Author, role of the provider and provider institution
+
+Instance: DocRefPdfProvidedByPatient
+InstanceOf: ch-mhd-documentreference
+Title: "DocumentReference for a document provided by the patient"
+Description: "DocumentReference for a report of a treatment abroad which the patient provided herself: the role of the
+provider is PAT and there is no provider institution (custodian). The author is the foreign clinic which wrote the
+report, given as text. Only the patient, or a person acting on her behalf, may publish a new version of this document
+or purge it."
+Usage: #example
+* extension[originalProviderRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#PAT "Patient"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2956"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e90"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-05T18:40:00+02:00"
+* author.type = "Organization"
+* author.display = "Clinique du Lac, Annecy (France)"
+* description = "Austrittsbericht Behandlung im Ausland"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #fr-CH
+* content.attachment.url = "http://example.org/Binary/2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e91"
+* content.attachment.title = "Austrittsbericht Behandlung im Ausland"
+* content.attachment.creation = "2025-08-14T10:00:00+02:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#22232009 "Hospital (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: DocRefPdfProvidedByArchive
+InstanceOf: ch-mhd-documentreference
+Title: "DocumentReference for a document provided by a clinical archive system"
+Description: "DocumentReference for a document which the clinical archive system of a health institution provided: the
+role of the provider is TCU and the provider institution (custodian) is the institution operating the archive system.
+The author is given as a contained PractitionerRole with the name of the authoring person and of the authoring
+institution as text, together with their identifiers. The healthcare professionals and assistants of the provider
+institution and the archive system may publish a new version of this document."
+Usage: #example
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.identifier.system = "urn:oid:2.51.1.3"
+* contained.practitioner.identifier.value = "7601000201041"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.identifier.system = "urn:ietf:rfc:3986"
+* contained.organization.identifier.value = "urn:oid:2.2.2.2"
+* contained.organization.display = "Spital X, Klinik für Innere Medizin"
+* extension[originalProviderRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#TCU "Technical user"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2957"
+* masterIdentifier.use = #usual
+* identifier.use = #official
+* identifier.system = "urn:ietf:rfc:3986"
+* identifier.value = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e5f"
+* status = #current
+* type = $sct#419891008 "Record artifact"
+* category = $sct#405624007 "Administrative documentation"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-10-06T02:15:00+02:00"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.2"
+* custodian.display = "Spital X"
+* description = "Austrittsbericht"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/pdf
+* content.attachment.language = #de-CH
+* content.attachment.url = "http://example.org/Binary/5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e60"
+* content.attachment.title = "Austrittsbericht"
+* content.attachment.creation = "2025-10-03T16:30:00+02:00"
+* content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
+* context.facilityType = $sct#22232009 "Hospital (environment)"
+* context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Purge Document [CH:MHD-2]

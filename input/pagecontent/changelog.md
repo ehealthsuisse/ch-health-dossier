@@ -31,8 +31,13 @@
     `urn:e-health-suisse:representative-id`, and corrected the swapped administrator qualifiers.
   * [ITI-65](iti-65.html#documententryoriginalproviderrole): the originalProviderRole SHALL NOT be changed with
     CH:MHD-1 (instead of the XDS Metadata Update actors Update Initiator and Document Administrator), added legal
-    representatives and the administration, and linked the AuthorRole and originalProviderRole to the value set
+    representatives and the administration, and linked the originalProviderRole to the value set
     [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html) instead of the CH Term value sets.
+  * Corrected the mapping of the access token to the audit event agents in
+    [CH Audit Event with a Basic Auth Token](StructureDefinition-ChAuditEventBasicToken-mappings.html): for an access
+    token with the `ch_delegation` extension (assistant) the healthcare professional (principal) is the main user
+    and the authenticated assistant is the delegated user; the mapping had the two swapped. A technical user is the
+    main user, identified by the GLN of the legal responsible person. Described the two agents in [ITI-20](iti-20.html).
 * Corrections
   * The audit event examples of the MHD, PIXm, PDQm, mCSD and PPQm transactions carry the role of the healthcare
     professional in the code system [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)
@@ -82,10 +87,30 @@
     new [Appendix: Enforcement of Access Rules](accesscontrol.html), covering the access rules of the patient and of the
     requesting health professional or health institution
   * Added the CH MHD DocumentReference profile to the Volume 3 menu
-  * Required `DocumentReference.author` (1..*) and required it to be identified either by a logical reference carrying
-    the identifier of the authoring person or institution in `author.identifier` — analogous to `subject.identifier`
-    carrying the EPR-SPID, typically a GLN, or an EPR-SPID for a patient author — or by a reference to a resource,
-    contained or held elsewhere (invariant `ch-mhd-author-1`). 
+  * Separated the author of a document from who provided it, in the
+    [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) only, without the SubmissionSet:
+    * `DocumentReference.author` (0..1) is information for the reader and is given as text: either a logical reference
+      with `display` and `type` (Practitioner, Organization, Patient or RelatedPerson), or a contained PractitionerRole
+      with the name of the person and of the institution in `practitioner.display` and `organization.display`; an
+      identifier (GLN, OID, EPR-SPID) may be added (invariants `ch-mhd-author-1` and `ch-mhd-author-2`), see
+      [ITI-65](iti-65.html#author-of-the-document). No right to a document follows from its author.
+    * `DocumentReference.custodian` carries the [provider institution](iti-65.html#provider-institution): the OID of
+      the institution or group on whose behalf the document was provided. It is required for the originalProviderRole
+      `HCP`, `ASS` and `TCU` and absent otherwise (invariant `ch-mhd-custodian-1`).
+    * The Document Recipient verifies the originalProviderRole and the provider institution against the access token
+      in [ITI-65](iti-65.html); both, and the author, cannot be changed with [CH:MHD-1](ch-mhd-1.html).
+    * Stated in [ITI-65](iti-65.html#correction-of-a-published-document) which role may publish a new version of
+      which documents, and keyed the right of `HCP` and `ASS` to purge a document in
+      [CH:MHD-2](ch-mhd-2.html#roles-which-may-purge-a-document) on the provider institution instead of the author.
+    * Removed the extension for the SubmissionSet.Author.AuthorRole from the
+      [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html): the role of the provider is carried in
+      the DocumentReference only.
+    * [ITI-67](iti-67.html): added the search parameter `custodian` to find the documents provided by an institution;
+      the search parameters `author.given` and `author.family` of MHD are not supported, since the author is given as
+      text (deviation from MHD). Replaced `author` by `custodian` in the MHD Document Consumer and Document Responder
+      CapabilityStatements.
+    * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html) and
+      [document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html).
   * Removed DocumentReference.sourcePatientInfo and authorSpeciality requirement
   * Required the ITI-65 FHIR Documents Publish Option for the Document Source and the Document Recipient, so that a
     FHIR document can be published as a FHIR document Bundle resource in the `FhirDocuments` entry of the

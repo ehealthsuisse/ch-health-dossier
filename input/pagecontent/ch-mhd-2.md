@@ -55,14 +55,17 @@ The operation SHALL be invoked as a standalone HTTP request, it SHALL NOT be par
 | Roles                          | Documents which may be purged                                                                 |
 |--------------------------------|-----------------------------------------------------------------------------------------------|
 | `PAT`, `REP`, `LEGREP`, `ADM`  | Any document of the health dossier, the ones recorded by the patient as well as the ones published by a healthcare professional or a health institution |
-| `HCP`, `ASS`                  | The documents published by the healthcare professional, or by the health institution, on whose behalf the request is made (`DocumentReference.author`) |
+| `HCP`, `ASS`                  | The documents whose [provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) is an institution or group the requester is a member of |
+| `TCU`                         | None                                                                                          |
 
 <figcaption ID="1">Table 1: Roles which may purge a document.</figcaption>
 
 <br/>
 
 The roles are the ones of the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system, conveyed in the
-access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)).
+access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). A requester is a member of the provider
+institution when its OID is the one of the organization (`subject_organization_id`) or of one of the groups
+(`ch_group`) in the access token. The author of the document (`DocumentReference.author`) gives no right to purge it.
 
 ##### Example
 
@@ -86,7 +89,8 @@ The Document Responder SHALL process the Purge Document Request Message as follo
    requester is not allowed to access exists.
 2. Verify that the requester is allowed to purge the document, as described in
    [Roles which may purge a document](#roles-which-may-purge-a-document). If the requester is allowed to access the
-   document but not to purge it, e.g. a healthcare professional who is not the author of the document, respond with
+   document but not to purge it, e.g. a healthcare professional who is not a member of the provider institution of the
+   document, respond with
    HTTP `403 Forbidden` and an OperationOutcome with the issue code `forbidden`
    ([example](OperationOutcome-MhdOperationOutcomeErrorPurgeForbidden.html)).
 3. Remove the DocumentReference with all its versions. A logical delete, which keeps the version history, is not sufficient.

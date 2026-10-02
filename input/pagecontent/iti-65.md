@@ -28,13 +28,17 @@ The FHIR `Bundle.meta.profile` shall have the following value:
 
 `https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle`
 
-The additional Swiss EPR metadata is defined with:
+The additional metadata of the Swiss Health Dossier is defined with:
 
-* [SubmissionSet.Author.AuthorRole](#submissionsetauthorauthorrole) (Annex 5.1 1.2.4.3)
-* [DocumentEntry.originalProviderRole ](#documententryoriginalproviderrole) (Annex 5.1 1.2.4.4)
+* [Author of the document](#author-of-the-document)
+* [DocumentEntry.originalProviderRole](#documententryoriginalproviderrole)
+* [Provider institution](#provider-institution)
 
 The request Bundle SHALL follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)
 Profile ([example: Bundle: BundleProvideDocument](Bundle-BundleProvideDocument.html)).
+
+The `sourceId` extension of the SubmissionSet, which MHD requires, SHALL carry the OID of the application of the
+Document Source which provides the document. It is information only: no right to the document follows from it.
 
 The `DocumentReference.content.attachment.url` value SHALL point to the resource carrying the document content, which
 SHALL be included in the Bundle: a Binary resource, or the FHIR document Bundle resource for a FHIR document published
@@ -68,12 +72,51 @@ replaces the document [DocRefPdf](DocumentReference-DocRefPdf.html), and the rep
 [as returned by the Document Responder after the correction](DocumentReference-DocRefPdfSuperseded.html), with the
 `status` `superseded`.
 
-##### SubmissionSet.Author.AuthorRole
+Who may publish a new version of a document depends on the role of the requester, and on the role of the user who
+provided the document to be replaced ([originalProviderRole](#documententryoriginalproviderrole)) and its
+[provider institution](#provider-institution):
 
-The SubmissionSet.Author element MAY be used to track the user who made the latest changes to the document metadata.
-If present, the value of the AuthorRole attribute SHALL be taken from the value set
-[CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html). The required metadata about the AuthorRole of
-the Author is represented in the List for the SubmissionSet using the extension with the URL [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
+{:class="table table-bordered"}
+| Roles                  | Documents of which a new version may be published                                                    |
+|------------------------|------------------------------------------------------------------------------------------------------|
+| `PAT`, `REP`, `LEGREP`, `ADM` | The documents provided by the patient or by a person acting on their behalf, i.e. with the originalProviderRole `PAT`, `REP`, `LEGREP` or `ADM` |
+| `HCP`, `ASS`           | The documents whose provider institution is an institution or group the requester is a member of     |
+| `TCU`                  | The documents with the originalProviderRole `TCU` whose provider institution is the institution the technical user acts for |
+
+<figcaption ID="1">Table 1: Roles which may publish a new version of a document.</figcaption>
+
+The roles are the ones of the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system, conveyed in the
+access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). A patient cannot publish a new version of
+a document provided by a healthcare professional, an assistant or a technical user, but can record a
+[personal note](ch-mhd-1.html#recording-a-personal-note) on it. The Document Recipient SHALL reject a request to
+replace a document which the requester may not replace with HTTP `403 Forbidden` and an OperationOutcome with the issue
+code `forbidden`.
+
+The new version carries its own originalProviderRole and provider institution, the ones of the user who publishes it.
+
+##### Author of the document
+
+The author of a document is information for the reader of the document metadata. The author is not necessarily the
+user who provides the document, e.g. where a patient provides the report of a treatment abroad, or where a clinical
+archive system provides the report of a healthcare professional. 
+
+The author is optional and is given as text, in one of two forms:
+
+- a single party, i.e. a person, an institution, the patient or a related person: a logical reference with the name
+  in `author.display` and the kind of party in `author.type` (`Practitioner`, `Organization`, `Patient` or
+  `RelatedPerson`), see the example
+  [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html);
+- a person together with the institution the person authored the document for: a reference to a PractitionerRole
+  contained in the DocumentReference, which carries the name of the person in `practitioner.display` and the name of
+  the institution in `organization.display`, each with the `type`, see the example
+  [document provided by a healthcare professional](DocumentReference-DocRefPdf.html).
+
+In both forms the Document Source MAY add an identifier to the name, e.g. the GLN of a healthcare professional, the
+OID of an institution or the EPR-SPID of the patient, see the example
+[document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html).
+
+A DocumentReference carries at most one author. Where a document has more than one author, e.g. a FHIR document with
+more than one `Composition.author`, the Document Source SHALL give the main author.
 
 ##### DocumentEntry.originalProviderRole
 
@@ -86,6 +129,33 @@ such a request with an UnmodifiableMetadataError. The required metadata about th
 represented in the DocumentReference using the extension with the URL
 [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-author-authorrole](StructureDefinition-ch-ext-author-authorrole.html).
 The values are defined in the value set [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html).
+
+The Document Recipient SHALL verify that the originalProviderRole equals the role of the requester in the access token
+(`subject_role`, see [Get Access Token [ITI-71]](iti-71.html)), and SHALL reject the request with HTTP `403 Forbidden`
+and an OperationOutcome with the issue code `forbidden` otherwise.
+
+##### Provider institution
+
+The provider institution is the health institution, or the group of healthcare professionals, on whose behalf a
+healthcare professional, an assistant or a technical user provides the document. It is conveyed in
+`DocumentReference.custodian` as a logical reference with the OID of the institution or group in
+`custodian.identifier`.
+
+The Document Source SHALL set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and
+SHALL NOT set it otherwise: a document provided by the patient, a representative, a legal representative or the
+administration has no provider institution.
+
+The Document Recipient SHALL verify that the provider institution is an institution or group the requester is a member
+of, i.e. that its OID is the one of the organization (`subject_organization_id`) or of one of the groups (`ch_group`)
+in the access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)), and SHALL reject the request with
+HTTP `403 Forbidden` and an OperationOutcome with the issue code `forbidden` otherwise.
+
+The provider institution SHALL NOT be changed with
+[Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated). The healthcare professionals and
+assistants who are members of the provider institution may publish a
+[new version](#correction-of-a-published-document) of the document and may [purge](ch-mhd-2.html) it, and may find the
+documents their institution provided with the search parameter `custodian` of
+[Find Document References [ITI-67]](iti-67.html#documents-provided-by-an-institution).
 
 #### Provide Document Bundle Response Message
 

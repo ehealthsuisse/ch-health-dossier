@@ -32,7 +32,7 @@ Token."
 // You have to define the slices in the profile before applying this one
 RuleSet: ChAuditEventRules
 * agent[mainUser]
-  * ^short = "The main user (patient, representative, healthcare professional, or administrator)"
+  * ^short = "The responsible user: the patient, representative, healthcare professional, administrator or technical user who made the request, or the healthcare professional on whose behalf an assistant made it"
   * type = $v3ParticipationType#RESP "responsible party"
   * role 1..1
   * altId 1..1
@@ -40,7 +40,7 @@ RuleSet: ChAuditEventRules
   * purposeOfUse 0..1
   * purposeOfUse from http://fhir.ch/ig/ch-term/ValueSet/EprPurposeOfUse
 * agent[delegatedUser]
-  * ^short = "The person who acted on behalf of the main user (an assistant or technical user)"
+  * ^short = "The assistant who made the request on behalf of the main user. Only present when the access token carries a delegation."
   * type = $v3ParticipationType#PPRF "primary performer"
   * role 1..1
   * altId 1..1
@@ -91,19 +91,37 @@ Title:   "CH XUA Assertion"
   * name         -> "Subject/SubjectConfirmation/SubjectConfirmationData/AttributeStatement/Attribute[@Name=\"urn:oasis:names:tc:xspa:1.0:subject:subject-id\"]/AttributeValue"
 
 
-// Reference mapping from the IUA Extended Token to the CH Audit Event
+// Reference mappings from the IUA Basic/Extended Token to the CH Audit Event.
+// The access token always describes the authenticated user in the ihe_iua and ch_epr extensions. Where that user acts
+// on behalf of a healthcare professional (assistant), the healthcare professional is conveyed in the ch_delegation
+// extension. In the audit event the main user is the responsible party, so the two cases map differently.
+// A technical user (TCU) has no ch_delegation extension: its user_id is the GLN of the legal responsible person.
 Mapping: ChJwtToAuditEventMapping
 Source:  ChAuditEventBasicToken
 Target:  "https://www.bag.admin.ch/epra"
-Title:   "CH JWT Basic/Extended Token"
+Title:   "CH JWT Basic/Extended Token without delegation"
+Description: "Access token of a patient, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the GLN of the legal responsible person of the clinical archive system."
 * agent[mainUser]
   * role         -> "extensions.ihe_iua.subject_role"
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
   * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
-* agent[delegatedUser]
+
+
+Mapping: ChJwtDelegationToAuditEventMapping
+Source:  ChAuditEventBasicToken
+Target:  "https://www.bag.admin.ch/epra"
+Title:   "CH JWT Basic/Extended Token with delegation"
+Description: "Access token of an assistant acting on behalf of a healthcare professional (ch_delegation extension present): the healthcare professional is the main user, the authenticated assistant is the delegated user."
+* agent[mainUser]
+  * role         -> "HCP" "The principal is a healthcare professional, the role is not conveyed in the token"
   * altId        -> "extensions.ch_delegation.principal_id"
   * name         -> "extensions.ch_delegation.principal"
+  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
+* agent[delegatedUser]
+  * role         -> "extensions.ihe_iua.subject_role" "ASS"
+  * altId        -> "extensions.ch_epr.user_id"
+  * name         -> "extensions.ihe_iua.subject_name"
 
 
 // Rule Sets for examples
