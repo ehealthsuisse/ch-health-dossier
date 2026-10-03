@@ -10,7 +10,7 @@ participant "Federal Office of Public Health" as FOPH
 autonumber 1 1 "<b>[00]</b>"
 autoactivate on
 
-FOPH --> Client: Issue certificate (out of band)
+FOPH --> Client: Issue software statement (out of band)
 
 ... after installation  ...
 
