@@ -86,7 +86,17 @@ The Client Registration Request SHALL contain the following parameters:
 - *grant_types*: SHALL be `client_credentials`. 
 - *scope*: A list of scopes that the client can use when requesting tokens, formatted as a string of space-separated values.
 - *jwks*: A JSON Web Key Set document containing the public keys for client authentication.
-- *accreditation*: The cryptographic key issued by the Federal Office og Public Health for a dGA software product.
+- *software_statement*: A signed JSON document with a software statement as defined below. Required for dGA, SHALL not be used otherwise.
+
+The `software_statement` SHALL be used by dGA to present client metadata to the authorization in a way, that the authorization 
+server can verify that it’s issued and signed by the Federal Office of Public Health as part of the dGA admission process. 
+
+The `software_statement` contains the following parameter: 
+- *software_id*: The unique id of the dGA software.
+- *software_version*: The version of the dGA software.
+- *client_name*: The name of the dGA software.
+- *client_uri*: The URL of the vendor's website. 
+- *tos_uri*: The URL of the website displaying the terms of use. 
 
 ##### Message Example
 
@@ -100,11 +110,11 @@ Authorization: Bearer ey23f2.adfj230.af32-developer321
 Host: server.example.com
 
 {
-"client_name": "My Example Client",
-"token_endpoint_auth_method": "client_secret_basic",
-"grant_types": ["client_credentials"], 
-"scope": "read write",
-"jwks": {"keys": [{
+"client_name":"my dGA",
+"token_endpoint_auth_method":"client_secret_basic",
+"grant_types":["client_credentials"], 
+"scope":"read write",
+"jwks":{"keys": [{
     "e": "AQAB", 
     "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
         HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
@@ -114,21 +124,26 @@ Host: server.example.com
         qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
    "kty": "RSA"
    }]},
-"accreditation": {"keys": [{
-    "e": "AQAB", 
-    "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
-        HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
-        lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
-        RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
-        2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
-        qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
-    "kty": "RSA"
-   }]}  
+"software_statement":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb2Z0d2FyZV
+9pZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhp
+biIsImNsaWVudF9uYW1lIjoiU3BlY2lhbCBPQXV0aCBDbGllbnQiLCJjbGllbnRfdXJpIjoiaH
+R0cHM6Ly9leGFtcGxlLm9yZy8iLCJsb2dvX3VyaSI6Imh0dHBzOi8vZXhhbXBsZS5vcmcvbG9n
+by5wbmciLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLy
+J9.X4k7X-JLnOM9rZdVugYgHJBBnq3s9RsugxZQHMfrjCo" 
 }
 ```
 
-<!-- TODO verify other like software statement ... -->
+Where the `software_statement` payload may look like:
 
+```{json}
+{
+"software_id": "84012-39134-3912",
+"software_version": "1.2.5-dolphin",
+"client_name": "Personal Health Assistant App",
+"client_uri": "https://example.org/",
+"tos_uri": "https://example.org/terms-of-service/"
+}
+```
 
 #### Client Information Response
 
