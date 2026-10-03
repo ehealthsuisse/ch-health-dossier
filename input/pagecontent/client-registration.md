@@ -63,7 +63,7 @@ Figure: Sequence diagram for dGA Client Registration
 
 | SEQ | Description                                                                                                                          |
 |-----|--------------------------------------------------------------------------------------------------------------------------------------|
-| 01  | The FOPH verifies the dGA software, registers it and issues a certificate to be used for client registration.                        |
+| 01  | The FOPH verifies the dGA software, registers it and issues a software statement to be used for client registration.                 |
 | 02  | After installing the dGA software, the user initiates dynamic client registration from the client application.                       |
 | 03  | The client application redirects the user to the Identity Provider for user authentication.                                          |
 | 04  | The Identity Provider returns an Identity Token for the authenticated user.                                                          |
