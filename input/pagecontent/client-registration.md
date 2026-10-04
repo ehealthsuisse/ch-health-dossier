@@ -81,11 +81,12 @@ To register, the client sends an HTTP POST to the client registration endpoint w
 type of "application/json". The HTTP payload is a JSON document with the requested client metadata.
 
 The Client Registration Request SHALL contain the following parameters:
-- *client_name*: SHALL be a speaking name of the client application. 
+- *client_name*: SHALL be a human-readable name of the client to be presented to the end-user. 
 - *token_ endpoint_ auth_method*: SHALL be `private_key_jwt`. 
 - *grant_types*: SHALL be `client_credentials`. 
-- *scope*: A list of scopes that the client can use when requesting tokens, formatted as a string of space-separated values.
-- *jwks*: A JSON Web Key Set document containing the public keys for client authentication.
+- *scope*: SHALL be the list of scopes that the client can use when requesting tokens, formatted as a string of space-separated values.
+- *jwks*: SHALL be the JSON Web Key Set document containing the public keys for client authentication.
+- *id_token*: SHALL be the signed JWT with the identity token issued by the Identity provider. 
 - *software_statement*: A signed JSON document with a software statement as defined below. Required for dGA, SHALL not be used otherwise.
 
 The `software_statement` SHALL be used by dGA to present client metadata to the authorization in a way, that the authorization 
@@ -96,7 +97,9 @@ The `software_statement` contains the following parameter:
 - *software_version*: The version of the dGA software.
 - *client_name*: The name of the dGA software.
 - *client_uri*: The URL of the vendor's website. 
-- *tos_uri*: The URL of the website displaying the terms of use. 
+- *tos_uri*: The URL of the website displaying the terms of use.
+- *issuer*: The identifier of the Federal Office for Public Health. 
+- *iat*: The time the statement is issued by the Federal Office for Public Health.
 
 ##### Message Example
 
@@ -124,6 +127,15 @@ Host: server.example.com
         qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
    "kty": "RSA"
    }]},
+"id_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vY2xp
+ZW50LXNpbXVsYXRvci5vcmciLCJzdWIiOiJCZWFyZXIiLCJhdWQiOiJteS1jbGllbnQtaWQtM
+TIzIiwiZXhwIjoxNzkxMDk1NTk3LCJpYXQiOjE3OTEwOTQ5OTcsIm5vbmNlIjoibi0wUzZfV3
+pBMk1qIiwibmFtZSI6Ik1hcnRpbmEgTXVzdGVybWFubiJ9.tZ9z6QtAPUHdWnWabAAdcS4tVO
+sMlJ86Wokrsd9pSvh7p2FLhyOiRXaPb8_LJIQbwf-EGk2Qlm6O2-7yG8ZMam7grdqvt7Z7liQ
+IK3UFQ4-1lszeYfXgpKSWWzVcvU1a6vW2qK3OdkdoBdf-oe9Md1_wCs8qIBUUr6lZeBrki8EM
+yMjrzqY9VcSoREYH_u8FM6Tq6quGe_91an4SDjOuPqJ6qFWDJR6tnNabt87hqLO4-Bp_UOWWw
+rhmb0yv0MSIhvdiKGXLneCt1KlnYOMQctiXvOolF2RXHNrDGmHN0Vb07P6U2y4itk58pqhcKN
+fuyL86hckdFN4gDxj17Y-NRA",
 "software_statement":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb2Z0d2FyZV
 9pZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhp
 biIsImNsaWVudF9uYW1lIjoiU3BlY2lhbCBPQXV0aCBDbGllbnQiLCJjbGllbnRfdXJpIjoiaH
@@ -141,7 +153,9 @@ Where the `software_statement` payload may look like:
 "software_version": "1.2.5-dolphin",
 "client_name": "Personal Health Assistant App",
 "client_uri": "https://example.org/",
-"tos_uri": "https://example.org/terms-of-service/"
+"tos_uri": "https://example.org/terms-of-service/", 
+"issuer": "OID of the FOPH", 
+"iat": "1788874695"
 }
 ```
 
