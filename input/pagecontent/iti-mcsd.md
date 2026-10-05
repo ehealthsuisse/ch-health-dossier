@@ -49,6 +49,26 @@ Therefore, actors of this profile must be grouped with actors of other profiles 
 
 <br/>
 
+### Communities and military health institutions
+
+The access rules of the health dossier depend on two kinds of organizations in the directory (see
+[Enforcement of Access Rules](accesscontrol.html)). They are marked with an additional coding of `Organization.type`
+from the code system [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html), next to the
+type of the health institution:
+
+- `community`: a community managing health dossiers. Its administration (`ADM`) acts only on the health dossiers it
+  manages; the IUA Authorization Server verifies the community of an administrator in the directory
+  (see [ITI-71](iti-71.html#administrators)) ([example](Organization-Community.html)).
+- `military`: a military health institution. Its health professionals may record data only with the consent of the
+  holder (Art. 14 para. 2 EGDG, see [CH:PPQm](ppqm.html#consent-military-recording))
+  ([example](Organization-MilitaryHealthInstitution.html)).
+
+<div markdown="1" class="stu-note">
+To be clarified: how the administrators of a community are registered in the directory as its members. The
+[CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a GLN and a qualification, while an
+administrator is identified by the administrator ID of the identity provider (`urn:e-health-suisse:administrator-id`).
+</div>
+
 ### Security Consideration
 
 This national extension enforces authentication and authorization of access to the _Care Services Selective Supplier_

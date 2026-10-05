@@ -116,3 +116,59 @@ examples"
 * address[=].state = "SG"
 * address[=].postalCode = "9000"
 * address[=].country = "CH"
+
+
+// Organization types of the electronic health dossier (E-GD) which the access rules depend on: the community managing
+// health dossiers (Art. 15 and 31 EGDG), whose administration acts on the dossiers it manages, and the military health
+// institution, whose health professionals may record data only with the consent of the holder (Art. 14 para. 2 EGDG).
+// They are carried as an additional coding of Organization.type, next to the type of the health institution.
+
+CodeSystem: HealthDossierOrganizationType
+Id: HealthDossierOrganizationType
+Title: "CH Health Dossier Organization Type"
+Description: "The types of organizations in the directory of health professionals and health institutions which the
+access rules of the electronic health dossier (E-GD) depend on."
+* ^caseSensitive = true
+* ^experimental = false
+* ^content = #complete
+* #community "Community" "A community managing health dossiers, whose administration acts on the health dossiers it manages (Art. 15 and 31 EGDG)."
+* #community ^designation[+].language = #de-CH
+* #community ^designation[=].value = "Gemeinschaft"
+* #military "Military health institution" "A military health institution, whose health professionals may record data only with the consent of the holder (Art. 14 para. 2 EGDG)."
+* #military ^designation[+].language = #de-CH
+* #military ^designation[=].value = "Militärische Gesundheitseinrichtung"
+
+
+ValueSet: HealthDossierOrganizationTypeVS
+Id: HealthDossierOrganizationType
+Title: "CH Health Dossier Organization Type Value Set"
+Description: "The types of organizations in the directory of health professionals and health institutions which the
+access rules of the electronic health dossier (E-GD) depend on."
+* ^experimental = false
+* include codes from system HealthDossierOrganizationType
+
+
+Instance: CHmCSDOrganizationCommunity
+InstanceOf: CHmCSDOrganization
+Title: "CH mCSD Organization: Community"
+Description: "An example of a community managing health dossiers, marked with the organization type community."
+* id = "Community"
+* identifier[OID].system = "urn:ietf:rfc:3986"
+* identifier[OID].value = "urn:oid:2.999.1"
+* active = true
+* type[+].coding = HealthDossierOrganizationType#community "Community"
+* name = "Community managing the health dossier"
+
+
+Instance: CHmCSDOrganizationMilitary
+InstanceOf: CHmCSDOrganization
+Title: "CH mCSD Organization: Military Health Institution"
+Description: "An example of a military health institution, marked with the organization type military next to the type
+of the health institution."
+* id = "MilitaryHealthInstitution"
+* identifier[OID].system = "urn:ietf:rfc:3986"
+* identifier[OID].value = "urn:oid:2.999.3"
+* active = true
+* type[+].coding = $sct#22232009 "Hospital"
+* type[+].coding = HealthDossierOrganizationType#military "Military health institution"
+* name = "Military health institution"

@@ -241,4 +241,15 @@
     (`ATC_POL_...`, with the new `ATC_POL_ENA_INDIRECT_AUT` and `ATC_POL_DIS_INDIRECT_AUT`; `ATC_POL_DEF_CONFLEVEL`,
     `ATC_POL_INCL_BLACKLIST` and `ATC_POL_EXL_BLACKLIST` dropped). Removed the CH:ATC Policy Audit Event profile, its
     value set and examples; ITI-81 returns the PPQ-3 audit events of the Policy Repository instead.
+* Access rules
+  * [Enforcement of Access Rules](accesscontrol.html): added the rights by law and the rights by consent, the rules for
+    the confidentiality levels, the emergency access, the administration of the community, digital health
+    applications and military health professionals.
+  * [ITI-71](iti-71.html#administrators): an administrator claims the community in `group_id`; the IUA Authorization
+    Server verifies it in the directory and conveys it in `subject_organization_id`, now required for `ADM`. Added the
+    verification of the consent for [digital health applications](iti-71.html#digital-health-applications) and the
+    `client_id` claim.
+  * [mCSD](iti-mcsd.html#communities-and-military-health-institutions): added the code system
+    [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) to mark communities and
+    military health institutions, with examples.
 * Fork from [CH EPR FHIR](https://fhir.ch/ig/ch-epr-fhir/5.0.0/), rename to CH Health Dossier

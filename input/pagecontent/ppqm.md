@@ -387,13 +387,16 @@ This national extension enforces authentication and authorization of access usin
    may give a representative; the requirements catalogue does not list them.
 7. **Administration of the community.** Open in the requirements catalogue: whether the administration of the
    community is generally authorized (role right, as in Table 4) or per support case of the holder (a consent per
-   mandate). The access token has to carry the verified organization of the administration (ITI-71).
+   mandate). The access token carries the verified community of the administration ([ITI-71](iti-71.html#administrators));
+   how administrators are registered in the directory as members of their community is open (see
+   [mCSD](iti-mcsd.html#communities-and-military-health-institutions)).
 8. **Digital health application.** The requirements catalogue lets a digital health application grant access rights,
    beyond the reading and recording of data foreseen by Art. 11 para. 2 let. c EGDG. The identifier type of the client
-   ID (`urn:e-health-suisse:dga-client-id`) has to be aligned with the client registration (issue #11).
-9. **Military recording.** Enforcement requires that military health professionals and health institutions are
-   marked as such in the directory; Art. 14 para. 2 EGDG allows the consent to be stored in a military system instead.
-   The requirements catalogue does not list this consent.
+   ID (`urn:e-health-suisse:dga-client-id`), the registration of an application with the actions of its admission and
+   the mapping of the actions to scopes have to be aligned with the client registration (issue #11).
+9. **Military recording.** Military health institutions are marked in the directory with the organization type
+   `military` ([mCSD](iti-mcsd.html#communities-and-military-health-institutions)). Art. 14 para. 2 EGDG allows the
+   consent to be stored in a military system instead. The requirements catalogue does not list this consent.
 10. **Legal basis in `policy.uri`.** The consents reference the profile of their consent type as their rules (R4
     requires `policy` or `policyRule`). Once the EGDG and its ordinances are enacted, the legal basis may be referenced
     instead.

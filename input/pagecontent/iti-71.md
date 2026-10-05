@@ -83,7 +83,8 @@ The Token Request SHALL use the following Swiss extension:
 - principal (optional/required): The name of the healthcare professional an assistant or a clinical archive system may act on behalf of.
 - principal_id (optional/required): The GLN of the healthcare professional an assistant or a clinical archive system may act on behalf of.
 - group (optional): The name of the organization or group a healthcare professional or assistant may act on behalf of.
-- group_id (optional): The OID of the organization or group a healthcare professional or assistant is acting on behalf of.
+- group_id (optional/required): The OID of the organization or group a healthcare professional or assistant is acting
+  on behalf of. Required for an administrator (`ADM`): the OID of the community the administrator acts for.
 - id_token (optional/required): Signed JWT associated with the current user's authenticated session at the Identity Provider,
   the [Identity Token](openid-connect.html#identity-token) as specified in [OpenID Connect](openid-connect.html). 
 <br/>
@@ -174,6 +175,26 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
 - read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
 - verify the administrator is registered with the same ID in the provider directory.
+- verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
+  type `community` of [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html)), and that the
+  administrator is registered as its member.
+- convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
+  the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
+  by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
+
+###### Digital health applications
+When receiving a Token Request with `subject_role` set to `PAT` from an IUA Authorization Client registered as a digital
+health application (see [Client Registration](client-registration.html)), the IUA Authorization Server SHALL, in
+addition to the verifications for [patients](#patients):
+- verify that a [digital health application](ppqm.html#consent-digital-health-application) consent of the patient
+  (`person_id`) with the `client_id` of the application as grantee is in effect.
+- issue the access token only for the actions granted in that consent.
+- record the time of the request, so that the consent can be deleted after three months without access (see the
+  [Policy Repository rules](ppq-3.html#policy-repository-rules)).
+
+The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the
+actors serving the requests can identify the application and restrict the requests to the actions of the consent (see
+[Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).
 
 ##### Message Example
 
@@ -276,7 +297,7 @@ the following table:
 |-------------------------|---------------------------------|---------------------------------------------------------------------------|
 | subject_name            | R/R                             | The username as text.                                                     | 
 | subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
-| subject_organization_id | O/O                             | The OID of the user’s organization in URN notation.                       |
+| subject_organization_id | O/O                             | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community. |
 | subject_role            | R/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
 | purpose_of_use          | R/R                             | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
 | person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
