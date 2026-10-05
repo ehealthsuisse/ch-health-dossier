@@ -1,0 +1,53 @@
+@startuml
+!include design.plantuml.txt
+
+actor user as "Healthcare \nProfessional"
+
+box "Healthcare Professional Portal or Primary System" #BFCAD2
+	participant app as "App GUI"
+	participant pdqmconsumer as "Patient Demographics\nConsumer (PDQm)"
+	participant AuthorizationClient as "Authorization Client\n(IUA)"
+end box
+
+box "Community Components" #FFEFDE
+	participant mp_AuthorizationServer as "Authorization Server\n(IUA)"
+	participant mp_pdqm_supplier as "Patient Demographics\nSupplier (PDQm)"
+end box
+
+' Sequence starts
+user -[#black]> app: get EPR-SPID of patient\n[name, sex, birth date, AHVN13]
+activate app
+
+' Get metadata
+app -> mp_AuthorizationServer: GET /.well-known/smart-configuration
+activate mp_AuthorizationServer
+app <- mp_AuthorizationServer: Conformance statement incl. OAuth 2.1 endpoints
+deactivate mp_AuthorizationServer
+
+' Get Access Token (Basic)
+app -[#black]> AuthorizationClient: Get Access Token
+activate AuthorizationClient
+AuthorizationClient -> mp_AuthorizationServer: [ITI-71] Get Access Token\n[Basic access token]
+activate mp_AuthorizationServer
+AuthorizationClient <- mp_AuthorizationServer: [ITI-71] Get Access Token Response\n[Basic access token]
+deactivate mp_AuthorizationServer
+app <[#black]- AuthorizationClient:
+deactivate AuthorizationClient
+
+' Patient Demographics Match (PDQm) with AHVN13
+app -[#black]> pdqmconsumer: match patient\nwith basic access token
+activate pdqmconsumer
+pdqmconsumer -> mp_pdqm_supplier: [ITI-119] Patient Demographics Match\nPOST Patient/$match [name, sex, birth date,\nAHVN13 urn:oid:2.16.756.5.32]\nwith basic access token
+activate mp_pdqm_supplier
+mp_pdqm_supplier -[#black]> mp_pdqm_supplier: match patient by\ndemographics and AHVN13
+pdqmconsumer <- mp_pdqm_supplier: [ITI-119] Patient Demographics Match Response\n[Patient with EPR-SPID]
+deactivate mp_pdqm_supplier
+app <[#black]- pdqmconsumer:
+deactivate pdqmconsumer
+
+app -[#black]> app: store EPR-SPID for\nsubsequent requests
+
+user <[#black]- app
+deactivate app
+
+@enduml
