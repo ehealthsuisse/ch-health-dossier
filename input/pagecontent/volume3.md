@@ -86,7 +86,8 @@ patient is built from the audit events which the Policy Repository records for t
 | --- | --- | --- | --- |
 | Consent added | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html) | [indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html) |
 | Consent updated | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | [emergency access excluded](AuditEvent-ChAuditEventPpq3UpdateExample.html) |
-| Consent deleted | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), Policy Repository rules | [CH Audit Event for [PPQ-3] Delete privacy policy](StructureDefinition-ChAuditEventPpq3Delete.html) | [access right revoked](AuditEvent-ChAuditEventPpq3DeleteExample.html) |
+| Consent deleted | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), Policy Repository rules caused by a request | [CH Audit Event for [PPQ-3] Delete privacy policy](StructureDefinition-ChAuditEventPpq3Delete.html) | [access right revoked](AuditEvent-ChAuditEventPpq3DeleteExample.html) |
+| Consent deleted by the Policy Repository without a user | [Policy Repository rules](ppq-3.html#policy-repository-rules) | [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html) | [digital health application expired](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html) |
 
 _Table 6: Audit events of the consent transactions_
 

@@ -41,31 +41,37 @@ RuleSet: ChAuditEventPpq3Rules
 * subtype contains ppq3 1..1
 * subtype[ppq3] = urn:e-health-suisse:event-type-code#PPQ-3 "Mobile Privacy Policy Feed"
 * entity[data] ^short = "The consent being created, updated or deleted"
-  * what.identifier 1..1
-    * ^short = "The business identifier of the consent, Consent.identifier"
-    * value 1..1
-    * system 1..1
-    * system = "urn:ietf:rfc:3986"
-  // About the role: the CH:PPQ-1 profile specifies the role as "Security Resource" (13), but BALP currently only
-  // allows 3, 4 and 20 for that slice.
-  // https://profiles.ihe.net/ITI/BALP/1.1.4/ValueSet-RestObjectRoles.html
-  * role = $objectRole#4 "Domain Resource"
-  * name 0..1
-  * name ^short = "The grantee as displayed, Consent.provision.actor.reference.display"
-  * detail ^slicing.discriminator.type = #value
-  * detail ^slicing.discriminator.path = "type"
-  * detail ^slicing.rules = #open
-  * detail contains consentType 1..1 and grantee 0..1 and validityEnd 0..1
-  * detail[consentType].type = "consentType"
-  * detail[consentType].value[x] only string
-  * detail[consentType] ^short = "The consent type as system|code, Consent.category"
-  * detail[grantee].type = "grantee"
-  * detail[grantee].value[x] only string
-  * detail[grantee] ^short = "The grantee as identifier type|value, Consent.provision.actor.reference.identifier"
-  * detail[validityEnd].type = "validityEnd"
-  * detail[validityEnd].value[x] only string
-  * detail[validityEnd] ^short = "The end of the validity as yyyy-mm-dd, Consent.provision.period.end"
+// About the role: the CH:PPQ-1 profile specifies the role as "Security Resource" (13), but BALP currently only
+// allows 3, 4 and 20 for that slice.
+// https://profiles.ihe.net/ITI/BALP/1.1.4/ValueSet-RestObjectRoles.html
+* insert ChAuditEventConsentEntityRules
 * entity[patient] ^short = "The patient whose consents are being managed"
+
+
+// The consent a PPQ-3 audit event or a deletion by the Policy Repository is about. The slice data has to be defined
+// in the profile before applying this rule set.
+RuleSet: ChAuditEventConsentEntityRules
+* entity[data].what.identifier 1..1
+* entity[data].what.identifier ^short = "The business identifier of the consent, Consent.identifier"
+* entity[data].what.identifier.value 1..1
+* entity[data].what.identifier.system 1..1
+* entity[data].what.identifier.system = "urn:ietf:rfc:3986"
+* entity[data].role = $objectRole#4 "Domain Resource"
+* entity[data].name 0..1
+* entity[data].name ^short = "The grantee as displayed, Consent.provision.actor.reference.display"
+* entity[data].detail ^slicing.discriminator.type = #value
+* entity[data].detail ^slicing.discriminator.path = "type"
+* entity[data].detail ^slicing.rules = #open
+* entity[data].detail contains consentType 1..1 and grantee 0..1 and validityEnd 0..1
+* entity[data].detail[consentType].type = "consentType"
+* entity[data].detail[consentType].value[x] only string
+* entity[data].detail[consentType] ^short = "The consent type as system|code, Consent.category"
+* entity[data].detail[grantee].type = "grantee"
+* entity[data].detail[grantee].value[x] only string
+* entity[data].detail[grantee] ^short = "The grantee as identifier type|value, Consent.provision.actor.reference.identifier"
+* entity[data].detail[validityEnd].type = "validityEnd"
+* entity[data].detail[validityEnd].value[x] only string
+* entity[data].detail[validityEnd] ^short = "The end of the validity as yyyy-mm-dd, Consent.provision.period.end"
 
 
 Instance:   ChAuditEventPpq3CreateExample
@@ -137,6 +143,94 @@ Usage:      #example
   * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|access"
   * detail[grantee].valueString = "urn:oasis:names:tc:xspa:1.0:subject:organization-id|urn:oid:2.16.10.89.214"
   * detail[validityEnd].valueString = "2026-11-30"
+
+
+// Deletion of a consent by the Policy Repository itself, without a user: the authorization of a digital health
+// application expired after three months without access, or the health dossier was dissolved on request or on the
+// death of the holder. Deletions caused by the request of a user (delegations of a revoked access right, the consents
+// of the holder when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that
+// request instead. There is no REST request, so the profile is not based on the BALP Delete profiles.
+
+Profile:     ChAuditEventPpq3RepositoryDelete
+Parent:      ChAuditEventBasicToken
+Id:          ChAuditEventPpq3RepositoryDelete
+Title:       "CH Audit Event for the deletion of a consent by the Policy Repository"
+Description: "This profile is used to define the CH Audit Event of the Policy Repository when it deletes a consent
+itself, without the request of a user: the authorization of a digital health application expired after three months
+without access, or the health dossier was dissolved on request or on the death of the holder. The Policy Repository
+is the initiating agent; there is no user."
+* type = DCM#110110 "Patient Record"
+* action = #D
+* subtype ^slicing.discriminator.type = #value
+* subtype ^slicing.discriminator.path = "$this"
+* subtype ^slicing.rules = #open
+* insert ChAuditEventTypeCodeRules(1, ATC_POL_REMOVE_AUT_PART_AL, Remove authorization for participants to access level/date)
+* agent[mainUser] 0..0
+* agent[delegatedUser] 0..0
+* agent[group] 0..0
+* agent contains repository 1..1
+* agent[repository] ^short = "The Policy Repository, which deleted the consent itself"
+* agent[repository].type = DCM#110150 "Application"
+* agent[repository].who 1..1
+* agent[repository].who.identifier 1..1
+* agent[repository].who.identifier only OidIdentifier
+* agent[repository].who.identifier ^short = "The OID of the Policy Repository, as in source.site"
+* agent[repository].who.display 1..1
+* agent[repository].requestor = true
+* entity contains patient 1..1 and data 1..1
+* entity[patient].type = $auditEntityType#1 "Person"
+* entity[patient].role = $objectRole#1 "Patient"
+* entity[patient].what.identifier 1..1
+* entity[patient].what.identifier.value 1..1
+* entity[patient].what.identifier.system 1..1
+* entity[patient].what.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* entity[patient] ^short = "The patient whose consent was deleted"
+* entity[data].type = $auditEntityType#2 "System Object"
+* entity[data] ^short = "The consent deleted"
+* insert ChAuditEventConsentEntityRules
+* entity[data].detail contains deletionReason 1..1
+* entity[data].detail[deletionReason].type = "deletionReason"
+* entity[data].detail[deletionReason].value[x] only string
+* entity[data].detail[deletionReason] ^short = "Why the Policy Repository deleted the consent: inactivity | dissolution | death"
+* entity[data].detail[deletionReason] obeys ch-ppqm-deletion-reason
+
+Invariant:   ch-ppqm-deletion-reason
+Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the holder)"
+Expression:  "value.ofType(string) in ('inactivity' | 'dissolution' | 'death')"
+Severity:    #error
+
+
+Instance:   ChAuditEventPpq3RepositoryDeleteExample
+InstanceOf: ChAuditEventPpq3RepositoryDelete
+Title:      "Audit Event of the Policy Repository: digital health application expired"
+Description: "Audit event of the Policy Repository: the authorization of the diabetes diary is deleted after three
+months without access."
+Usage:      #example
+* insert ChExampleAuditEventServerRules(Policy Repository)
+* insert ChExampleAuditEventEntityPatientRules
+* recorded = "2027-01-02T02:00:00Z"
+* outcome = #0
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_POL_REMOVE_AUT_PART_AL "Remove authorization for participants to access level/date"
+* agent[repository]
+  * type = DCM#110150 "Application"
+  * who.identifier.system = "urn:ietf:rfc:3986"
+  * who.identifier.value = "urn:oid:2.16.756.4.5.6"
+  * who.display = "Policy Repository"
+  * requestor = true
+* entity[data]
+  * type = $auditEntityType#2 "System Object"
+  * role = $objectRole#4 "Domain Resource"
+  * what.identifier.system = "urn:ietf:rfc:3986"
+  * what.identifier.value = "urn:uuid:111f1e4b-4c0c-4cf5-9882-646dccc81273"
+  * name = "Diabetes diary"
+  * detail[consentType].type = "consentType"
+  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|digital-health-application"
+  * detail[grantee].type = "grantee"
+  * detail[grantee].valueString = "urn:e-health-suisse:dga-client-id|diabetes-diary-app"
+  * detail[validityEnd].type = "validityEnd"
+  * detail[validityEnd].valueString = "2027-09-30"
+  * detail[deletionReason].type = "deletionReason"
+  * detail[deletionReason].valueString = "inactivity"
 
 
 RuleSet: ChAuditEventPpq3ExampleRules

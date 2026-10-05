@@ -22,6 +22,7 @@
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Create"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Update"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Delete"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3RepositoryDelete"/>
             <interaction>
                 <code value="search-type"/>
                 <documentation value="ITI-81"/>

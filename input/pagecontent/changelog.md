@@ -241,6 +241,10 @@
     (`ATC_POL_...`, with the new `ATC_POL_ENA_INDIRECT_AUT` and `ATC_POL_DIS_INDIRECT_AUT`; `ATC_POL_DEF_CONFLEVEL`,
     `ATC_POL_INCL_BLACKLIST` and `ATC_POL_EXL_BLACKLIST` dropped). Removed the CH:ATC Policy Audit Event profile, its
     value set and examples; ITI-81 returns the PPQ-3 audit events of the Policy Repository instead.
+  * Added [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)
+    for the consents the Policy Repository deletes without a user (digital health application without access for
+    three months, dissolution, death), with the Policy Repository as initiating agent and the reason of the deletion.
+    Deletions caused by the request of a user are recorded with that user and the `traceparent` of the request.
 * Access rules
   * [Enforcement of Access Rules](accesscontrol.html): added the rights by law and the rights by consent, the rules for
     the confidentiality levels, the emergency access, the administration of the community, digital health

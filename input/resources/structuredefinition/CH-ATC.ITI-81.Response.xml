@@ -109,6 +109,7 @@
 				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Create" />
 				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Update" />
 				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Delete" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3RepositoryDelete" />
 			</type>
 			<mustSupport value="true" />
 		</element>

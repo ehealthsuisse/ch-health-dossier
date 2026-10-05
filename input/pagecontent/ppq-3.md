@@ -167,8 +167,8 @@ OperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if t
 
 #### Policy Repository rules
 
-After persisting or deleting a consent, the Policy Repository SHALL apply the following rules. Consents the Policy
-Repository deletes itself are recorded in the audit trail of the holder like a deletion with PPQ-3 (see
+After persisting or deleting a consent, the Policy Repository SHALL apply the following rules. The consents the
+Policy Repository deletes or updates itself are recorded in the audit trail of the holder (see
 [Security Audit Considerations](#security-audit-considerations)).
 
 | Event | Rule |
@@ -210,6 +210,18 @@ SHALL record the type of the event in the audit trail as a subtype, and the cons
 the validity of the consent as details of the consent entity
 ([example for an indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html),
 [example for the exclusion of emergency access](AuditEvent-ChAuditEventPpq3UpdateExample.html),
-[example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)). It SHALL record an audit event
-according to the Delete profile for every consent it deletes under the
-[Policy Repository rules](#policy-repository-rules).
+[example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)).
+
+The Policy Repository SHALL also record an audit event for every consent it deletes or updates itself under the
+[Policy Repository rules](#policy-repository-rules):
+
+- where the rule is applied because of the request of a user, according to the Delete or Update profile above, with
+  the user of that request as main user and the `traceparent` of that request: the delegations derived from a revoked
+  access right, the consents of the holder deleted when a legal representative is set up, and the access rights
+  updated when a document is purged;
+- where no user is involved, according to
+  [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html),
+  with the Policy Repository as initiating agent and the reason of the deletion
+  ([example for a digital health application without access for three months](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):
+  `inactivity` for a digital health application without access for three months, `dissolution` and `death` for the
+  consents deleted when the health dossier is dissolved.
