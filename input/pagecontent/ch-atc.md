@@ -191,5 +191,31 @@ with the search parameter `subtype`.
 | `ATC_DOC_UPDATE_NOTE`            | Personal note on a document recorded       | [CH:MHD-1](ch-mhd-1.html)                     |
 | `ATC_DOC_DELETE`                 | Document removal                           | [CH:MHD-2](ch-mhd-2.html)                     |
 
+### Audit trail of the consent transactions
+
+For the consent transactions the audit trail of a patient is built from the audit events which the Policy Repository
+records for [PPQ-3](ppq-3.html#security-audit-considerations) and [PPQ-4](ppq-4.html), and for the consents it deletes
+itself under the [Policy Repository rules](ppq-3.html#policy-repository-rules), e.g. the delegations derived from a
+revoked access right. These audit events replace the Policy Audit Event Content Profile of CH:ATC.
+
+The audit events record the consent concerned with its identifier (`Consent.identifier`), its consent type
+(`Consent.category`), its grantee with identifier and display (`Consent.provision.actor.reference`) and the end of its
+validity (`Consent.provision.period.end`), as details of the consent entity. The user who added, updated or deleted the
+consent is the main user of the audit event.
+
+The audit events carry the type of the event in the audit trail of the patient as a subtype, from the code system
+[CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html). The Policy Repository SHALL record
+it, the Policy Source MAY record it:
+
+{:class="table table-bordered"}
+| Consent type | Consent added | Consent updated | Consent deleted |
+|---|---|---|---|
+| [Emergency access](ppqm.html#consent-emergency-access) | `ATC_POL_ENA_EMER_USE` (permit) or `ATC_POL_DIS_EMER_USE` (deny) | `ATC_POL_ENA_EMER_USE` (permit) or `ATC_POL_DIS_EMER_USE` (deny) | `ATC_POL_REMOVE_AUT_PART_AL` |
+| [Indirect authorization setting](ppqm.html#consent-indirect-authorization-setting) | `ATC_POL_ENA_INDIRECT_AUT` (permit) or `ATC_POL_DIS_INDIRECT_AUT` (deny) | `ATC_POL_ENA_INDIRECT_AUT` (permit) or `ATC_POL_DIS_INDIRECT_AUT` (deny) | `ATC_POL_REMOVE_AUT_PART_AL` |
+| All other consent types | `ATC_POL_CREATE_AUT_PART_AL` | `ATC_POL_UPDATE_AUT_PART_AL` | `ATC_POL_REMOVE_AUT_PART_AL` |
+{:class="table table-bordered"}
+
+The emergency access and the indirect authorization setting are only deleted when the health dossier is dissolved.
+
 ### Security Considerations
 This national extension enforces authentication and authorization of access using the IUA profile as described in [IUA](iti-iua.html).

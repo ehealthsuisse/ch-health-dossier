@@ -223,10 +223,6 @@ resources:
     name: CH EPR FHIR HumanName
     description: The human name WITHOUT the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR
     exampleBoolean: false
-  StructureDefinition/PolicyAuditEvent:
-    name: Profile on PolicyAuditEvent for CH ATC
-    description: This profile defines the content of the policy audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
   StructureDefinition/AccessAuditTrailEvent:
     name: Profile on AccessAuditTrailEvent for CH ATC
     description: This profile defines the content of the access audit trail event which a community has to provide for a patients audit trail.
@@ -239,10 +235,6 @@ resources:
     name: Retrieve CH ATC ATNA Audit Event [ITI-81] Response
     description: This profile defines the response to the [ITI-81] query. The response is a search set including all audit events which a community has to provide for a patients audit trail.
     exampleBoolean: false
-  ValueSet/PolicyAuditEventType:
-    name: PolicyAuditEventType
-    description: PolicyAuditEventType
-    exampleBoolean: false
   ValueSet/AccessAuditTrailEventType:
     name: AccessAuditTrailEventType
     description: AccessAuditTrailEventType
@@ -251,14 +243,6 @@ resources:
     name: HpdAuditEventType
     description: HpdAuditEventType
     exampleBoolean: false
-  AuditEvent/atc-pol-create-acc-right:
-    name: CH ATC - Create Access Right for Healthcare professional
-    description: CH ATC - Create Access Right for Healthcare professional
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent
-  AuditEvent/atc-pol-create-rep:
-    name: CH ATC - Create Access Right for a representative
-    description: CH ATC - Create Access Right a representative
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent
   AuditEvent/atc-log-read:
     name: CH ATC - Access of Audit Trail Repository
     description: CH ATC - Access of Audit Trail Repository
@@ -406,15 +390,15 @@ resources:
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti119Supplier
   AuditEvent/ChAuditEventPpq3CreateExample:
     name: Example of audit event for a [PPQ-3] create transaction
-    description: This example shows an  made by the Policy Source for a PPQ-3 transaction that added a new Consent.
+    description: This example shows an AuditEvent made by the Policy Source for a PPQ-3 transaction that added an indirect authorization.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Create
   AuditEvent/ChAuditEventPpq3UpdateExample:
     name: Example of audit event for a [PPQ-3] update transaction
-    description: This example shows an  made by the Policy Repository for a PPQ-3 transaction that updated an existing Consent.
+    description: This example shows an AuditEvent made by the Policy Repository for a PPQ-3 transaction that excluded the emergency access.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Update
   AuditEvent/ChAuditEventPpq3DeleteExample:
     name: Example of audit event for a [PPQ-3] delete transaction
-    description: This example shows an AuditEvent made by the Policy Source for a PPQ-3 transaction that deleted a Consent.
+    description: This example shows an AuditEvent made by the Policy Source for a PPQ-3 transaction that revoked an access right.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Delete
   Bundle/ChAuditEventPpq4Example:
     name: Example of bundle of audit events for a [PPQ-4] transaction

@@ -19,7 +19,9 @@
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-responder"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-purgedocument-audit-responder"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/HpdAuditEvent"/>
-            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Create"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Update"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Delete"/>
             <interaction>
                 <code value="search-type"/>
                 <documentation value="ITI-81"/>

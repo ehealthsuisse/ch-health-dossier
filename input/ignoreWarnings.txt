@@ -45,7 +45,6 @@ The link '#_ftnref5.1' for "[5.1]" cannot be resolved (valid targets: 41 targets
 The link '#_ftnref5.2' for "[5.2]" cannot be resolved (valid targets: 41 targets)
 The link '#_ftnref5.3' for "[5.3]" cannot be resolved (valid targets: 41 targets)
 The link 'StructureDefinition-DocumentAuditEvent-definitions.html#AuditEvent.entity:Document.detail:%
-The link 'StructureDefinition-PolicyAuditEvent-definitions.html#AuditEvent.entity:Resource.detail:%
 
 # Defined in the parent profile
 The slice 'UpdateDocumentRefs' on path 'Bundle.entry' is not marked as 'must-support' which is not consistent with the element that defines the slicing, where 'must-support' is true

@@ -234,4 +234,11 @@
     type.
   * Replaced the security considerations of PPQ-3, PPQ-4 and PPQ-5 with the extended access token of IUA; removed the
     XUA/mTLS alternative and the grouping of the Policy Repository with CH:ADR.
+  * Built the audit trail of the consents from the audit events of the Policy Repository, see
+    [Audit trail of the consent transactions](ch-atc.html#audit-trail-of-the-consent-transactions): the PPQ-3 audit
+    events carry the type of the event in the audit trail as subtype, and record the consent type, the grantee and the
+    end of the validity. Added the policy types to [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html)
+    (`ATC_POL_...`, with the new `ATC_POL_ENA_INDIRECT_AUT` and `ATC_POL_DIS_INDIRECT_AUT`; `ATC_POL_DEF_CONFLEVEL`,
+    `ATC_POL_INCL_BLACKLIST` and `ATC_POL_EXL_BLACKLIST` dropped). Removed the CH:ATC Policy Audit Event profile, its
+    value set and examples; ITI-81 returns the PPQ-3 audit events of the Policy Repository instead.
 * Fork from [CH EPR FHIR](https://fhir.ch/ig/ch-epr-fhir/5.0.0/), rename to CH Health Dossier

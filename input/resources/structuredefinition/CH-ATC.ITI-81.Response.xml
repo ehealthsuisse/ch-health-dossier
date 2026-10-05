@@ -93,7 +93,7 @@
 		<element id="Bundle.entry:PolicyAuditEvent">
 			<path value="Bundle.entry" />
 			<sliceName value="PolicyAuditEvent" />
-			<short value="AuditEvent" />
+			<short value="Audit event of a consent transaction, as recorded by the Policy Repository" />
 			<min value="0" />
 			<max value="*" />
 		</element>
@@ -106,7 +106,9 @@
             <min value="1" />
 			<type>
 				<code value="AuditEvent" />
-				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Create" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Update" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Delete" />
 			</type>
 			<mustSupport value="true" />
 		</element>

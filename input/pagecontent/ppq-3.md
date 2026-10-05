@@ -168,7 +168,8 @@ OperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if t
 #### Policy Repository rules
 
 After persisting or deleting a consent, the Policy Repository SHALL apply the following rules. Consents the Policy
-Repository deletes itself are recorded in the audit trail of the holder like a deletion with PPQ-3.
+Repository deletes itself are recorded in the audit trail of the holder like a deletion with PPQ-3 (see
+[Security Audit Considerations](#security-audit-considerations)).
 
 | Event | Rule |
 |---|---|
@@ -202,3 +203,13 @@ transaction according to:
 - [CH Audit Event for [PPQ-3] **Create** Privacy Policy](StructureDefinition-ChAuditEventPpq3Create.html)
 - [CH Audit Event for [PPQ-3] **Update** Privacy Policy](StructureDefinition-ChAuditEventPpq3Update.html)
 - [CH Audit Event for [PPQ-3] **Delete** Privacy Policy](StructureDefinition-ChAuditEventPpq3Delete.html)
+
+The audit events of the Policy Repository build the audit trail of the patient, see
+[Audit trail of the consent transactions](ch-atc.html#audit-trail-of-the-consent-transactions). The Policy Repository
+SHALL record the type of the event in the audit trail as a subtype, and the consent type, the grantee and the end of
+the validity of the consent as details of the consent entity
+([example for an indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html),
+[example for the exclusion of emergency access](AuditEvent-ChAuditEventPpq3UpdateExample.html),
+[example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)). It SHALL record an audit event
+according to the Delete profile for every consent it deletes under the
+[Policy Repository rules](#policy-repository-rules).
