@@ -22,6 +22,9 @@
     IUA actor diagram accordingly.
   * Changed the [ITI-71](iti-71.html) token request example of a clinical archive system from a basic to an extended
     access token with `person_id`, since the clinical archive knows the EPR-SPID and no longer queries it with PIXm ITI-83.
+    Added a token request example of a clinical archive system for a basic access token (without `person_id`), e.g. to
+    record its audit events with ITI-20, and made the `scope` parameter with the `purpose_of_use` and `subject_role`
+    scopes required for extended access tokens only, in line with the optional claims of the basic access token.
   * Replaced the remarks referring to the removed Workflow Initiator Option and Technical User Option in the required
     actor groupings with the transactions a technical user (`TCU`) may use: ITI-65 and CH:MHD-2 of the MHD Document
     Source and ITI-20, not allowed for all other IUA Authorization Clients. Added the rule to reject `TCU` access tokens
