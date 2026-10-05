@@ -29,7 +29,7 @@ Usage: #definition
 * rest.resource[=].searchParam[+].name = "identifier"
 * rest.resource[=].searchParam[=].type = #token
 * rest.resource[=].searchParam[=].documentation = "PPQ-5 — Query by Policy Set ID"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsent"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent"
 * rest.resource[+].type = #Bundle
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmFeedRequestBundle"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmRetrieveResponseBundle"
@@ -68,7 +68,7 @@ Usage: #definition
 * rest.resource[=].searchParam[+].name = "identifier"
 * rest.resource[=].searchParam[=].type = #token
 * rest.resource[=].searchParam[=].documentation = "PPQ-5 — Query by Policy Set ID"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmConsent"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent"
 * rest.resource[+].type = #Bundle
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmFeedRequestBundle"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PpqmRetrieveResponseBundle"

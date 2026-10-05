@@ -18,7 +18,7 @@ The Policy Consumer sends this message to retrieve existing policy sets from the
 
 The request body SHALL be empty.
 
-The _Policy Repository_ shall support the following search parameters on the [Consent](StructureDefinition-PpqmConsent.html) resource:
+The _Policy Repository_ shall support the following search parameters on the [Consent](StructureDefinition-ch-ppqm-consent.html) resource:
 
 | Parameter            | Type   | Path                       | Description                                                          |
 |----------------------|--------|----------------------------|----------------------------------------------------------------------|

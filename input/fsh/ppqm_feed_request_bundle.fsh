@@ -11,7 +11,7 @@ Description: "Bundle for Mobile Privacy Policy Bundle Feed requests"
 
 * entry             1..*
 * entry             obeys ch-epr-ppqm-constistent-ids
-* entry.resource    only PpqmConsent
+* entry.resource    only ChPpqmConsent
 
 * entry.request                 obeys ch-epr-ppqm-url-format
 * entry.request.method          from PpqmFeedRequestHttpMethod (required)
@@ -37,62 +37,55 @@ Expression:     "(
 Severity:       #error
 
 Invariant:      ch-epr-ppqm-constistent-ids
-Description:    "For PUT, policy set ID in the embedded resource shall be the same as in the entry URL"
-Expression:     "(request.method != 'PUT') or (resource.identifier.where(
-                    type.coding.exists((system = 'http://fhir.ch/ig/ch-health-dossier/CodeSystem/PpqmConsentIdentifierType') and (code = 'policySetId'))
-                ).value.lower() = request.url.substring(19).lower())"       // 19 is the length of "Consent?identifier="
+Description:    "For PUT, the consent identifier in the embedded resource shall be the same as in the entry URL"
+Expression:     "(request.method != 'PUT') or (resource.identifier.value.lower() = request.url.substring(19).lower())"       // 19 is the length of "Consent?identifier="
 Severity:       #error
 
 
 Instance: PpqmFeedRequestBundleAdd
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (POST)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method POST -- add new policy sets"
+Description: "CH:PPQm Feed Request Bundle for HTTP method POST -- add the consents created when the health dossier is
+opened"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
 * entry[+].request.method = #POST
 * entry[=].request.url = "Consent"
-* entry[=].resource = PpqmConsentTemplate201Example
+* entry[=].resource = PpqmConsentOpeningExample
 * entry[+].request.method = #POST
 * entry[=].request.url = "Consent"
-* entry[=].resource = PpqmConsentTemplate202Example
+* entry[=].resource = PpqmConsentEmergencyAccessExample
 * entry[+].request.method = #POST
 * entry[=].request.url = "Consent"
-* entry[=].resource = PpqmConsentTemplate203Example
+* entry[=].resource = PpqmConsentIndirectAuthorizationSettingExample
 
 
 Instance: PpqmFeedRequestBundleUpdate
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (PUT)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method PUT -- conditionally update policy sets"
+Description: "CH:PPQm Feed Request Bundle for HTTP method PUT -- the holder excludes emergency access and updates the
+access right of a health institution"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
 * entry[+].request.method = #PUT
-* entry[=].request.url = "Consent?identifier=urn:uuid:f1e1ed8e-0582-4e47-a76e-5e8f6cc0908f"
-* entry[=].resource = PpqmConsentTemplate301Example
+* entry[=].request.url = "Consent?identifier=urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
+* entry[=].resource = PpqmConsentEmergencyAccessExcludedExample
 * entry[+].request.method = #PUT
-* entry[=].request.url = "Consent?identifier=urn:uuid:c23c862a-b297-43c7-875b-d933982c9756"
-* entry[=].resource = PpqmConsentTemplate302Example
-* entry[+].request.method = #PUT
-* entry[=].request.url = "Consent?identifier=urn:uuid:f663289d-4cc4-41d7-a01d-213e18e1f722"
-* entry[=].resource = PpqmConsentTemplate303Example
-* entry[+].request.method = #PUT
-* entry[=].request.url = "Consent?identifier=urn:uuid:f1e1ed8e-0582-4e47-a76e-5e8f6cc09304"
-* entry[=].resource = PpqmConsentTemplate304Example
+* entry[=].request.url = "Consent?identifier=urn:uuid:79761ad4-0630-4614-8ce6-e6451e158d78"
+* entry[=].resource = PpqmConsentAccessInstitutionExample
 
 
 Instance: PpqmFeedRequestBundleDelete
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (DELETE)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method DELETE -- delete policy sets"
+Description: "CH:PPQm Feed Request Bundle for HTTP method DELETE -- the holder revokes an access right and the
+authorization of a digital health application"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
 * entry[+].request.method = #DELETE
-* entry[=].request.url = "Consent?identifier=urn:uuid:f1e1ed8e-0582-4e47-a76e-5e8f6cc0908f"
+* entry[=].request.url = "Consent?identifier=urn:uuid:79761ad4-0630-4614-8ce6-e6451e158d78"
 * entry[+].request.method = #DELETE
-* entry[=].request.url = "Consent?identifier=urn:uuid:c23c862a-b297-43c7-875b-d933982c9756"
-* entry[+].request.method = #DELETE
-* entry[=].request.url = "Consent?identifier=urn:uuid:f663289d-4cc4-41d7-a01d-213e18e1f722"
+* entry[=].request.url = "Consent?identifier=urn:uuid:111f1e4b-4c0c-4cf5-9882-646dccc81273"
 
 
 Instance: PpqmFeedResponseBundle

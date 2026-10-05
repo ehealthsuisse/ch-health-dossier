@@ -200,4 +200,27 @@
     ValueSet [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html), replacing the CH Term value set
     DocumentEntry.originalProviderRole; the group of health professionals (`GRP`) is not part of it, since a group
     cannot be the author of a document (the canonical url changed anyway, but it is also a breaking change)
+* Confidentiality code
+  * Added the value set [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html) with
+    the two levels of the E-GD, "allgemein" (SNOMED CT `Normal`) and "privat" (SNOMED CT `Restricted`), succeeding the
+    three levels of the CH Term value set DocumentEntry.confidentialityCode; `Secret` is not used any more. Bound
+    `DocumentReference.securityLabel` of the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html),
+    the confidentiality code of the document in the audit events and `Consent.provision.securityLabel` of CH:PPQm to it,
+    and described it in [ITI-65](iti-65.html#confidentiality-code). The codes are not decided yet (issue #12).
+* PPQm
+  * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalogue of the E-GD authorization system: a
+    Consent records one decision of the holder per consent type, instead of the image of an EPR policy set template.
+    Separated the rights by law from the rights by consent, described a use case per consent type and added the
+    authorization of the transactions by consent type and role.
+  * Replaced the profile `PpqmConsent` and the template profiles 201-304 with the base profile
+    [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) and one profile per consent type: opening, emergency
+    access, access for a health professional, group or health institution, indirect authorization, indirect
+    authorization setting, delegation, representative, legal representative, digital health application and recording
+    by military health professionals, each with an example. Breaking change.
+  * Added the code systems [CH Health Dossier Consent Type](CodeSystem-HealthDossierConsentType.html) and
+    [CH Health Dossier Consent Action](CodeSystem-HealthDossierConsentAction.html), and the client ID of a digital
+    health application as actor identifier type. The emergency access applies to the level "allgemein" only; the default provide level (template 203) and the purposes of use
+    `AUTO` and `DICOM_AUTO` are dropped.
+  * Removed the code systems and value sets of the policy set templates and the referenced policy sets, the consent
+    identifier type, the XACML mapping and the section on the relation to CH:PPQ.
 * Fork from [CH EPR FHIR](https://fhir.ch/ig/ch-epr-fhir/5.0.0/), rename to CH Health Dossier

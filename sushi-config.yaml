@@ -348,27 +348,6 @@ resources:
   Bundle/PpqmRetrieveResponseBundle:
     name: PPQm Retrieve Response Bundle
     description: CH:PPQm Retrieve Response Bundle
-  Consent/PpqmConsentTemplate201Example:
-    name: PPQm Consent for template 201
-    description: CH:PPQm Consent for template 201 -- Full access for the patient
-  Consent/PpqmConsentTemplate202Example:
-    name: PPQm Consent for template 202
-    description: CH:PPQm Consent for template 202 -- Read access in emergency mode
-  Consent/PpqmConsentTemplate203Example:
-    name: PPQm Consent for template 203
-    description: CH:PPQm Consent for template 203 -- Default provide level
-  Consent/PpqmConsentTemplate301Example:
-    name: PPQm Consent for template 301
-    description: CH:PPQm Consent for template 301 -- Read access for a healthcare professional, without delegation
-  Consent/PpqmConsentTemplate302Example:
-    name: PPQm Consent for template 302
-    description: CH:PPQm Consent for template 302 -- Read access for a group of healthcare professionals
-  Consent/PpqmConsentTemplate303Example:
-    name: PPQm Consent for template 303
-    description: CH:PPQm Consent for template 303 -- Full access for a representative
-  Consent/PpqmConsentTemplate304Example:
-    name: PPQm Consent for template 304
-    description: CH:PPQm Consent for template 304 -- Read access for a healthcare professional, with delegation
   AuditEvent/ChAuditEventIti65SourceExample:
     name: Example of audit event for an [ITI-65] transaction at Source
     description: This example shows an  made by the Document Source for an ITI-65 transaction.

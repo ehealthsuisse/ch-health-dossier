@@ -27,7 +27,7 @@ The request SHALL be sent to `[baseUrl]`.
 Upon receiving the HTTP `POST` request, the Policy Repository SHALL:
 - Validate the Bundle resource contained in the request body.
 - On each request entry, perform the operation specified the attribute `entry.request.method` on the embedded or
-referenced [PpqmConsent](StructureDefinition-PpqmConsent.html) resource:
+referenced [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) resource:
   - "POST" — add policy set.
   - "PUT" — update policy set if it is already present, otherwise add it.
   - "DELETE" — delete policy set.

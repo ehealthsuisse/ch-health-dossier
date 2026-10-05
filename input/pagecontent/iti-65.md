@@ -32,6 +32,7 @@ The additional metadata of the Swiss Health Dossier is defined with:
 
 * [Author of the document](#author-of-the-document)
 * [DocumentEntry.originalProviderRole](#documententryoriginalproviderrole)
+* [Confidentiality code](#confidentiality-code)
 * [Provider institution](#provider-institution)
 
 The request Bundle SHALL follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)
@@ -140,6 +141,16 @@ The values are defined in the value set [CH Health Dossier Author Role](ValueSet
 The Document Recipient SHALL verify that the originalProviderRole equals the role of the requester in the access token
 (`subject_role`, see [Get Access Token [ITI-71]](iti-71.html)), and SHALL reject the request with HTTP `403 Forbidden`
 and an OperationOutcome with the issue code `forbidden` otherwise.
+
+##### Confidentiality code
+
+The confidentiality code of the document (`DocumentReference.securityLabel`) SHALL be one of the two confidentiality
+levels of the health dossier defined in the value set
+[CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "allgemein" or "privat".
+Health professionals and health institutions with an access right may read documents of the level "allgemein".
+Documents of the level "privat" can only be read by the holder, and by those to whom the holder released them (see
+[CH:PPQm](ppqm.html#consent-types)). The patient, a representative, a legal representative or the administration may
+change the confidentiality code with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated).
 
 ##### Provider institution
 

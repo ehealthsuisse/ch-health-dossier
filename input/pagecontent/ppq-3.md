@@ -17,7 +17,7 @@ The Policy Source uses HTTP method `POST` to submit a single new privacy policy 
 #### Request Message
 
 The request body SHALL represent a single Consent resource compliant to the
-[PpqmConsent](StructureDefinition-PpqmConsent.html) profile.
+[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile.
 
 The request SHALL be sent to `[baseUrl]/Consent`.
 
@@ -47,7 +47,7 @@ The Policy Source uses HTTP method `PUT` to submit a new or update an existing s
 #### Request Message
 
 The request body SHALL represent a single Consent resource compliant to the
-[PpqmConsent](StructureDefinition-PpqmConsent.html) profile.
+[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile.
 
 The request SHALL be sent to `[baseUrl]/Consent?identifier=[uuid]`.
 

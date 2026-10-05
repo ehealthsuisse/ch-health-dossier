@@ -49,7 +49,7 @@ change of the metadata requires a new version of the document to be published wi
 {:class="table table-bordered"}
 | Metadata            | Element                                                              | Roles                             |
 |---------------------|----------------------------------------------------------------------|-----------------------------------|
-| Confidentiality code | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
+| [Confidentiality code](iti-65.html#confidentiality-code) | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
 | Personal note        | extension [PersonalNote](StructureDefinition-ch-ext-personalnote.html)   | `PAT`, `REP`, `LEGREP`, `ADM` |
 
 <figcaption ID="1">Table 1: Metadata which may be updated, and the roles which may update it.</figcaption>
