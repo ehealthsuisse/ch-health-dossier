@@ -398,4 +398,6 @@ This national extension enforces authentication and authorization of access usin
     requires `policy` or `policyRule`). Once the EGDG and its ordinances are enacted, the legal basis may be referenced
     instead.
 11. **Selected private documents.** Whether a release of a document of the level "privat" extends to its new versions
-    (Art. 8 para. 2 EGDG), and what happens to the release when the document is deleted or set to "allgemein".
+    (Art. 8 para. 2 EGDG), and what happens to the release when the document is set to "allgemein". The R4 search
+    parameter `data` only covers the root provision, so finding the access rights that release a document with
+    [PPQ-5](ppq-5.html) would need a search parameter of this guide.

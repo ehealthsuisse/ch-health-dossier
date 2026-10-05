@@ -223,4 +223,15 @@
     `AUTO` and `DICOM_AUTO` are dropped.
   * Removed the code systems and value sets of the policy set templates and the referenced policy sets, the consent
     identifier type, the XACML mapping and the section on the relation to CH:PPQ.
+  * [PPQ-3](ppq-3.html) and [PPQ-4](ppq-4.html): added the expected actions common to all HTTP methods, the
+    authorization by consent type and role with the performer of the consent, the validation rules by consent type and
+    the Policy Repository rules (legal representative, delegations of a deleted access right, digital health
+    application after three months without access, purged documents, dissolution). PPQ-4 validates the rules against
+    the consents as they are after all entries, and processes the Bundle as a whole.
+  * [PPQ-5](ppq-5.html): added the search parameters `category`, `actor:identifier`, `period` and
+    `source-reference:identifier`, made `patient:identifier` required, and filtered the response by the consents the
+    requester may retrieve. Updated the CapabilityStatements with the search parameters and the profiles per consent
+    type.
+  * Replaced the security considerations of PPQ-3, PPQ-4 and PPQ-5 with the extended access token of IUA; removed the
+    XUA/mTLS alternative and the grouping of the Policy Repository with CH:ADR.
 * Fork from [CH EPR FHIR](https://fhir.ch/ig/ch-epr-fhir/5.0.0/), rename to CH Health Dossier
