@@ -64,9 +64,12 @@ type of the health institution:
   ([example](Organization-MilitaryHealthInstitution.html)).
 
 <div markdown="1" class="stu-note">
-To be clarified: how the administrators of a community are registered in the directory as its members. The
-[CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a GLN and a qualification, while an
-administrator is identified by the administrator ID of the identity provider (`urn:e-health-suisse:administrator-id`).
+To be clarified: how the administrators of a community are identified and registered in the directory as its members.
+The [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a GLN and a qualification, which an
+administrator may not have. The identity provider only delivers the subject identifier (`sub`) of the identity token;
+the IUA Authorization Server resolves it to an administrator ID, which it conveys in the access token with the
+qualifier `urn:e-health-suisse:administrator-id` (see [ITI-71](iti-71.html#the-jwt-ch_epr-extension)). Where this
+administrator ID comes from, and how it is linked to the `sub` of the identity provider, is not defined yet.
 </div>
 
 ### Security Consideration

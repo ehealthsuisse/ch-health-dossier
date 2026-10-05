@@ -253,6 +253,9 @@
     Server verifies it in the directory and conveys it in `subject_organization_id`, now required for `ADM`. Added the
     verification of the consent for [digital health applications](iti-71.html#digital-health-applications) and the
     `client_id` claim.
+  * [ITI-71](iti-71.html#the-jwt-ch_epr-extension): the `user_id` of representatives, legal representatives and the
+    administration is a representative or administrator ID resolved from the `sub` of the identity token (was
+    "IdP-ID"); how these IDs are defined is open.
   * [mCSD](iti-mcsd.html#communities-and-military-health-institutions): added the code system
     [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) to mark communities and
     military health institutions, with examples.

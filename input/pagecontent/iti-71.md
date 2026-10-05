@@ -320,13 +320,22 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 | Patient (`PAT`)                 | EPR-SPID | urn:e-health-suisse:2015:epr-spid     |                                                                      |
 | Healthcare Professional (`HCP`) | GLN      | urn:gs1:gln                           |                                                                      |
 | Assistant (`ASS`)               | GLN      | urn:gs1:gln                           |                                                                      |
-| Representative (`REP`)          | IdP-ID   | urn:e-health-suisse:representative-id |                                                                      |
-| Legal Representative (`LEGREP`) | IdP-ID   | urn:e-health-suisse:representative-id |                                                                      |
-| Administration (`ADM`)          | IdP-ID   | urn:e-health-suisse:administrator-id  |                                                                      |
+| Representative (`REP`)          | Representative ID (resolved from `sub`) | urn:e-health-suisse:representative-id |                                         |
+| Legal Representative (`LEGREP`) | Representative ID (resolved from `sub`) | urn:e-health-suisse:representative-id |                                         |
+| Administration (`ADM`)          | Administrator ID (resolved from `sub`)  | urn:e-health-suisse:administrator-id  |                                         |
 | Clinical Archive System (`TCU`) | GLN      | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding |
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
+
+<div markdown="1" class="stu-note">
+To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
+`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For patients and healthcare
+professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
+representatives, legal representatives and the administration no such identifier is defined: where the representative
+ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
+identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
+</div>
 
 <br/>
 
