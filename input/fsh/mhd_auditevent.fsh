@@ -390,6 +390,23 @@ Expression: "$this.who = %resource.source.observer"
 Severity: #error
 
 
+// The document whose metadata is updated: the master identifier and, where the confidentiality code was changed, the
+// new confidentiality code
+RuleSet: ChAuditEventChMhd1DocumentEntityRules
+* insert ChAuditEventDocumentIdentifierRules(documentReference)
+* entity[documentReference] ^comment = "The title and the type of the document SHALL NOT be recorded, the confidentiality code only where it was changed."
+* entity[documentReference].securityLabel 0..1
+* entity[documentReference].securityLabel from http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.confidentialityCode (required)
+* entity[documentReference].securityLabel ^short = "The new confidentiality code of the document, DocumentReference.securityLabel after the update, only where the confidentiality code was changed (ATC_DOC_UPDATE_CONFIDENTIALITY)"
+* obeys ch-mhd-1-audit-confidentiality
+
+
+Invariant:   ch-mhd-1-audit-confidentiality
+Description: "The new confidentiality code of the document is recorded if and only if the audit event has the subtype ATC_DOC_UPDATE_CONFIDENTIALITY"
+Expression:  "subtype.where(system = 'http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierAuditEventType' and code = 'ATC_DOC_UPDATE_CONFIDENTIALITY').exists() = entity.where(type.code = '2' and role.code = '3').securityLabel.exists()"
+Severity:    #error
+
+
 Profile:     ChAuditEventChMhd1Source
 Parent:      AuditEvent
 Id:          ch-mhd-updatedocumentmetadata-audit-source
@@ -445,7 +462,7 @@ Source'."
 * entity[documentReference].what.reference 1..1
 * entity[patient] ^short = "Patient"
 * entity[documentReference] ^short = "The document whose metadata is updated"
-* insert ChAuditEventDocumentEntityRules(documentReference)
+* insert ChAuditEventChMhd1DocumentEntityRules
 * insert ChAuditEventExtendedRules
 * insert ChAuditEventTypeValueSetRules(0, 2, HealthDossierUpdateDocumentAuditEventType)
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
@@ -507,7 +524,7 @@ Responder'."
 * entity[documentReference].what.reference 1..1
 * entity[patient] ^short = "Patient"
 * entity[documentReference] ^short = "The document whose metadata is updated"
-* insert ChAuditEventDocumentEntityRules(documentReference)
+* insert ChAuditEventChMhd1DocumentEntityRules
 * insert ChAuditEventExtendedRules
 * insert ChAuditEventTypeValueSetRules(1, 2, HealthDossierUpdateDocumentAuditEventType)
 * subtype[auditTrailType] ^comment = "One subtype for each kind of metadata the request changed: both codes where a request changes the confidentiality code and records a personal note."
@@ -565,6 +582,7 @@ Usage:      #example
 
 RuleSet: ChAuditEventChMhd1ConfidentialityExampleRules
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_UPDATE_CONFIDENTIALITY "Confidentiality code of a document changed"
+* entity[documentReference].securityLabel = $sct#17621005 "Normal (qualifier value)"
 
 
 RuleSet: ChAuditEventChMhd1ExampleRules

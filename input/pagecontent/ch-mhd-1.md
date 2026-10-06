@@ -145,13 +145,14 @@ The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html)
 ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)).
 
-The audit events record the document whose metadata is updated with its master identifier (not its title, type or
-confidentiality code), and the user who updated it. What was updated is recorded as a subtype of the audit event, see
+The audit events record the document whose metadata is updated with its master identifier (not its title or type),
+and the user who updated it. What was updated is recorded as a subtype of the audit event, see
 [audit event types](ch-atc.html#audit-event-types):
 
 - `ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed
-  ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The confidentiality code before and after the
-  update SHALL NOT be recorded in the audit event;
+  ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity SHALL carry the new
+  confidentiality code (`entity.securityLabel`), the one before the update is not recorded. The new confidentiality
+  code is recorded if and only if the audit event has this subtype;
 - `ATC_DOC_UPDATE_NOTE` where a personal note was recorded or replaced
   ([example](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html)). The text of the note SHALL NOT be
   recorded in the audit event.

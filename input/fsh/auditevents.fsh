@@ -108,13 +108,18 @@ RuleSet: ChAuditEventTypeValueSetRules(min, max, valueSet)
 // The document a transaction is about. Only its master identifier is recorded, not its title, type or
 // confidentiality code. The slice has to be defined in the profile before applying this rule set.
 RuleSet: ChAuditEventDocumentEntityRules(slice)
+* insert ChAuditEventDocumentIdentifierRules({slice})
+* entity[{slice}] ^comment = "Only the master identifier of the document is recorded: the title, the type and the confidentiality code of the document SHALL NOT be recorded."
+* entity[{slice}].securityLabel ..0
+
+
+// The master identifier of the document, without title and type
+RuleSet: ChAuditEventDocumentIdentifierRules(slice)
 * entity[{slice}].what.identifier 1..1
 * entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
 * entity[{slice}].what.identifier.system 1..1
 * entity[{slice}].what.identifier.value 1..1
-* entity[{slice}] ^comment = "Only the master identifier of the document is recorded: the title, the type and the confidentiality code of the document SHALL NOT be recorded."
 * entity[{slice}].name ..0
-* entity[{slice}].securityLabel ..0
 * entity[{slice}].description ..0
 
 

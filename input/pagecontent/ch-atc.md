@@ -167,8 +167,10 @@ carry its information: the user and, for an assistant, the healthcare profession
 
 The audit events of the document transactions record the document concerned only with its master identifier
 (`DocumentReference.masterIdentifier`). The title, the type and the confidentiality code of the document SHALL NOT be
-recorded in the audit events. An audit consumer which displays them in the audit trail of a patient reads them from
-the DocumentReference; for a purged document only the master identifier is available.
+recorded in the audit events, with one exception: where the confidentiality code of a document was changed
+(`ATC_DOC_UPDATE_CONFIDENTIALITY`, see [CH:MHD-1](ch-mhd-1.html#security-audit-considerations)), the new
+confidentiality code is recorded. An audit consumer which displays the title or the type in the audit trail of a
+patient reads them from the DocumentReference; for a purged document only the master identifier is available.
 
 #### Audit event types
 

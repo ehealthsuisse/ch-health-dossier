@@ -112,7 +112,7 @@
     * Audit events of the document transactions ([ITI-65](iti-65.html), [ITI-68](iti-68.html),
       [CH:MHD-1](ch-mhd-1.html), [CH:MHD-2](ch-mhd-2.html)): the document is recorded only with its master identifier,
       not its title, type or confidentiality code (for ITI-65 one entity per document, naming the replaced document
-      for a new version), with the role `Report` instead of `Job` in CH:MHD-1 and
+      for a new version; for a change of the confidentiality code in CH:MHD-1 the new confidentiality code), with the role `Report` instead of `Job` in CH:MHD-1 and
       CH:MHD-2. Added the optional agent `group` (0..*) for the institutions or groups of the main user to the CH audit event
       profiles, fixed the system of the patient identifier to the EPR-SPID for transactions with an extended access
       token, and added audit event examples for all document transaction examples (see [ITI-20](iti-20.html) and
