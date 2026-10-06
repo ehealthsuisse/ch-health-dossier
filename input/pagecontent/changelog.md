@@ -207,6 +207,8 @@
     `DocumentReference.securityLabel` of the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html),
     the confidentiality code of the document in the audit events and `Consent.provision.securityLabel` of CH:PPQm to it,
     and described it in [ITI-65](iti-65.html#confidentiality-code). The codes are not decided yet (issue #12).
+  * The pages name the two levels by their SNOMED CT concepts, "normal" and "restricted", instead of the EGDG terms
+    "allgemein" and "privat"; [ITI-65](iti-65.html#confidentiality-code) gives the mapping.
 * PPQm
   * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalogue of the E-GD authorization system: a
     Consent records one decision of the holder per consent type, instead of the image of an EPR policy set template.
@@ -219,7 +221,7 @@
     by military health professionals, each with an example. Breaking change.
   * Added the code systems [CH Health Dossier Consent Type](CodeSystem-HealthDossierConsentType.html) and
     [CH Health Dossier Consent Action](CodeSystem-HealthDossierConsentAction.html), and the client ID of a digital
-    health application as actor identifier type. The emergency access applies to the level "allgemein" only; the default provide level (template 203) and the purposes of use
+    health application as actor identifier type. The emergency access applies to the level "normal" only; the default provide level (template 203) and the purposes of use
     `AUTO` and `DICOM_AUTO` are dropped.
   * Removed the code systems and value sets of the policy set templates and the referenced policy sets, the consent
     identifier type, the XACML mapping and the section on the relation to CH:PPQ.
@@ -228,6 +230,13 @@
     the Policy Repository rules (legal representative, delegations of a deleted access right, digital health
     application after three months without access, purged documents, dissolution). PPQ-4 validates the rules against
     the consents as they are after all entries, and processes the Bundle as a whole.
+  * The Policy Repository adds the [opening](ppqm.html#consent-opening), the emergency access and the indirect
+    authorization setting itself when the Register E-GD records the opening, automatic (canton as performer) or
+    voluntary, and records it with
+    [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html).
+    The administration may only retrieve the opening. The opening requires the community managing the health dossier
+    in `organization`, which SHALL be the one of the Register E-GD, and carries no `source[x]`. The PPQ-4 add example now shows a request of the
+    holder.
   * [PPQ-5](ppq-5.html): added the search parameters `category`, `actor:identifier`, `period` and
     `source-reference:identifier`, made `patient:identifier` required, and filtered the response by the consents the
     requester may retrieve. Updated the CapabilityStatements with the search parameters and the profiles per consent

@@ -45,19 +45,16 @@ Severity:       #error
 Instance: PpqmFeedRequestBundleAdd
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (POST)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method POST -- add the consents created when the health dossier is
-opened"
+Description: "CH:PPQm Feed Request Bundle for HTTP method POST -- the holder grants an access right to a health
+institution and appoints a representative"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
 * entry[+].request.method = #POST
 * entry[=].request.url = "Consent"
-* entry[=].resource = PpqmConsentOpeningExample
+* entry[=].resource = PpqmConsentAccessInstitutionExample
 * entry[+].request.method = #POST
 * entry[=].request.url = "Consent"
-* entry[=].resource = PpqmConsentEmergencyAccessExample
-* entry[+].request.method = #POST
-* entry[=].request.url = "Consent"
-* entry[=].resource = PpqmConsentIndirectAuthorizationSettingExample
+* entry[=].resource = PpqmConsentRepresentativeExample
 
 
 Instance: PpqmFeedRequestBundleUpdate

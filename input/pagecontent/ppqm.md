@@ -1,8 +1,3 @@
-<div markdown="1" class="dragon">
-This part of the specification is being adapted to the proposed [EGDG legislation](index.html#introduction) and the
-requirements catalogue of the E-GD authorization system. It is subject to change, see the [open issues](#open-issues).
-</div>
-
 ### Scope
 
 The holder of an electronic health dossier (E-GD) decides who may access the health dossier and under which
@@ -29,10 +24,6 @@ The EGDG separates the rights that follow from the law from the rights the holde
 The opening of the health dossier is recorded as a consent too: the rights by law of health professionals and the
 community follow from its existence.
 
-The following are not consents of the health dossier: the request of the holder that data of a specific treatment is
-not recorded (Art. 11 para. 4 EGDG, declared towards the health professional), the objection to the automatic opening
-(recorded in the Register E-GD), and the channel the holder chooses for notifications.
-
 ### Consent Types
 
 Every Consent conforms to the [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile
@@ -41,11 +32,11 @@ of its consent type, given in `Consent.category` (see [HealthDossierConsentType]
 | Consent type | Profile | Decided by (`performer`) | Grantee (`provision.actor`) | Content |
 |---|---|---|---|---|
 | [Opening](#consent-opening) | [Opening](StructureDefinition-ch-ppqm-consent-opening.html) | Holder, legal representative, canton or community | Holder | Full access of the holder |
-| [Emergency access](#consent-emergency-access) | [Emergency Access](StructureDefinition-ch-ppqm-consent-emergency-access.html) | Holder, representative, legal representative | All health professionals | Permit or deny reading "allgemein" in an emergency |
-| [Access](#consent-access) | [Access](StructureDefinition-ch-ppqm-consent-access.html) | Holder, legal representative | Health professional, group or health institution | Read "allgemein", selected "privat" documents, optional end date and right to pass on |
-| [Indirect authorization](#consent-indirect-authorization) | [Indirect Authorization](StructureDefinition-ch-ppqm-consent-indirect-authorization.html) | Holder, outside the health dossier | Health professional, group or health institution | Read "allgemein", with evidence |
+| [Emergency access](#consent-emergency-access) | [Emergency Access](StructureDefinition-ch-ppqm-consent-emergency-access.html) | Holder, representative, legal representative | All health professionals | Permit or deny reading "normal" in an emergency |
+| [Access](#consent-access) | [Access](StructureDefinition-ch-ppqm-consent-access.html) | Holder, legal representative | Health professional, group or health institution | Read "normal", selected "restricted" documents, optional end date and right to pass on |
+| [Indirect authorization](#consent-indirect-authorization) | [Indirect Authorization](StructureDefinition-ch-ppqm-consent-indirect-authorization.html) | Holder, outside the health dossier | Health professional, group or health institution | Read "normal", with evidence |
 | [Indirect authorization setting](#consent-indirect-authorization-setting) | [Indirect Authorization Setting](StructureDefinition-ch-ppqm-consent-indirect-authorization-setting.html) | Holder, representative, legal representative | All health professionals | Permit or deny the indirect authorization |
-| [Delegation](#consent-delegation) | [Delegation](StructureDefinition-ch-ppqm-consent-delegation.html) | Health professional, group or health institution holding an access right | Health professional, group or health institution | Read "allgemein" until an end date |
+| [Delegation](#consent-delegation) | [Delegation](StructureDefinition-ch-ppqm-consent-delegation.html) | Health professional, group or health institution holding an access right | Health professional, group or health institution | Read "normal" until an end date |
 | [Representative](#consent-representative) | [Representative](StructureDefinition-ch-ppqm-consent-representative.html) | Holder | Representative | Confidentiality levels and actions set by the holder |
 | [Legal representative](#consent-legal-representative) | [Legal Representative](StructureDefinition-ch-ppqm-consent-legal-representative.html) | Community or authority | Legal representative | All rights of the holder, except appointing a representative |
 | [Digital health application](#consent-digital-health-application) | [Digital Health Application](StructureDefinition-ch-ppqm-consent-digital-health-application.html) | Holder, legal representative | Digital health application | Actions (scopes) until an end date |
@@ -63,8 +54,8 @@ Common rules of all consent types:
   audit event of the transaction (see [PPQ-3](ppq-3.html#security-audit-considerations)).
 - `provision.period` limits the validity. A Consent without period is valid until it is deleted. A Consent is revoked
   by deleting it.
-- The confidentiality levels a grantee may read are listed in `provision.securityLabel`: "allgemein" or "privat" (see
-  [HealthDossierConfidentialityCode](ValueSet-HealthDossierConfidentialityCode.html)). Documents of the level "privat"
+- The confidentiality levels a grantee may read are listed in `provision.securityLabel`: "normal" or "restricted" (see
+  [HealthDossierConfidentialityCode](ValueSet-HealthDossierConfidentialityCode.html)). Documents of the level "restricted"
   released individually are listed in a nested `provision.provision` with `data.meaning = instance`.
 - The further rights granted are listed in `provision.action` (see
   [HealthDossierConsentAction](CodeSystem-HealthDossierConsentAction.html)).
@@ -79,12 +70,13 @@ The health dossier is opened automatically by the canton when the holder does no
 the holder or the legal representative with explicit consent (Art. 20-22 EGDG). The Register E-GD records the
 opening and the community managing the health dossier.
 
-When the opening is registered, the following consents are added in one Mobile Privacy Policy Bundle Feed (PPQ-4)
-transaction:
+When the Register E-GD records the opening, the Policy Repository adds the following consents itself, with the
+person or authority who opened the health dossier as `performer` (the holder or the legal representative for a
+voluntary opening, the canton for an automatic opening, see
+[Policy Repository rules](ppq-3.html#policy-repository-rules)):
 
 - [Opening](StructureDefinition-ch-ppqm-consent-opening.html) with the holder as grantee and the community managing
-  the health dossier in `organization`; for a voluntary opening the signed consent may be attached in `source[x]`
-  ([example](Consent-PpqmConsentOpeningExample.html)),
+  the health dossier in `organization` ([example](Consent-PpqmConsentOpeningExample.html)),
 - [Emergency access](#consent-emergency-access) with type permit
   ([example](Consent-PpqmConsentEmergencyAccessExample.html)),
 - [Indirect authorization setting](#consent-indirect-authorization-setting) with type permit
@@ -96,7 +88,7 @@ holder, the Policy Repository deletes all consents of the holder.
 #### Emergency access {#consent-emergency-access}
 
 In a medical emergency, health professionals, their assistants and the members of groups and health institutions may
-read the documents of the confidentiality level "allgemein" without an access right, with the purpose of use
+read the documents of the confidentiality level "normal" without an access right, with the purpose of use
 emergency (Art. 13 para. 3 EGDG). The holder may exclude emergency access at any time, and allow it again (Art. 11
 para. 2 let. b EGDG).
 
@@ -113,20 +105,20 @@ activated, once for a sequence of emergency accesses of the same health professi
 #### Access for a health professional, group or health institution {#consent-access}
 
 The holder authorizes a health professional, a group of health professionals or a health institution to read the
-documents of the confidentiality level "allgemein" (Art. 11 para. 2 let. a, Art. 13 para. 1 EGDG). The holder
+documents of the confidentiality level "normal" (Art. 11 para. 2 let. a, Art. 13 para. 1 EGDG). The holder
 authenticates in the portal, opens the access settings, searches the health professional, group or health institution
 in the directory and selects it. The holder optionally sets an end date, selects whether the grantee may pass on the
-access right, and selects documents of the confidentiality level "privat" the grantee may read as well.
+access right, and selects documents of the confidentiality level "restricted" the grantee may read as well.
 
 The portal adds an [Access](StructureDefinition-ch-ppqm-consent-access.html) consent with the Mobile Privacy Policy
 Feed (PPQ-3) or the Mobile Privacy Policy Bundle Feed (PPQ-4) transaction, with:
 
 - the GLN of the health professional, or the organization ID of the group or health institution, as grantee,
 - the action `read`, and `delegate` if the grantee may pass on the access right,
-- the level "allgemein" in `provision.securityLabel`,
-- a nested provision per selected document of the level "privat".
+- the level "normal" in `provision.securityLabel`,
+- a nested provision per selected document of the level "restricted".
 
-Examples: [health professional with a private document and the right to pass on](Consent-PpqmConsentAccessHcpExample.html),
+Examples: [health professional with a restricted document and the right to pass on](Consent-PpqmConsentAccessHcpExample.html),
 [health institution for a hospital stay](Consent-PpqmConsentAccessInstitutionExample.html).
 
 Every health professional and assistant registered in the directory as member of an authorized group or health
@@ -145,7 +137,7 @@ Privacy Policy Feed (PPQ-3) transaction ([example](Consent-PpqmConsentIndirectAu
 - the holder as `performer` and the time the consent was given in `dateTime`,
 - the health professional, or the group or health institution, the consent was given to as grantee; not the assistant
   who records it,
-- the action `read` and the level "allgemein",
+- the action `read` and the level "normal",
 - evidence of the consent: a scan of the signed form or the signature captured on a tablet in `source[x]`, or a
   verification with the holder (e.g. a one-time code sent to the holder) in `verification`.
 
@@ -166,7 +158,7 @@ transaction. A representative may change the setting if the holder granted the a
 #### Delegation {#consent-delegation}
 
 A health professional holding an access right with the action `delegate` passes the right to read the documents of the
-confidentiality level "allgemein" on to another health professional, group or health institution for a limited
+confidentiality level "normal" on to another health professional, group or health institution for a limited
 period, e.g. for a second opinion or a substitution. The same applies to the members of an authorized group or health
 institution and their assistants.
 
@@ -265,29 +257,30 @@ The consent grants no right to read; reading requires an [access right](#consent
 ### Who May Record and Retrieve Which Consent
 
 The Policy Repository authorizes each request by the consent type and the role of the user in the access token, as
-shown in Table 4. C = create, U = update, D = delete, R = retrieve.
+shown in Table 4. C = create, R = retrieve, U = update, D = delete.
 
 | Consent type | `PAT` | `REP` | `LEGREP` | `HCP` | `ASS` | `ADM` |
 |---|---|---|---|---|---|---|
-| Opening | R | R | R | – | – | C D R (1) |
-| Emergency access | U R | U R (2) | U R | – | – | U R (3) |
-| Access | C U D R (4) | R | C U D R | R (5) | R (5) | C U D R (3) |
-| Indirect authorization | D R | D R | D R | C R (6) | C R (6) | R |
-| Indirect authorization setting | U R | U R (2) | U R | – | – | U R (3) |
-| Delegation | D R | D R | D R | C U D R (7) | C U D R (7) | R |
-| Representative | C U D R | R (8) | – | – | – | C U D R (3) |
-| Legal representative | – | – | R | – | – | C U D R |
-| Digital health application | C U D R | – | C U D R | – | – | R |
-| Military recording | C U D R | – | C U D R | R (5) | – | C U D R (3) |
+| Opening | <samp>  R    </samp> | <samp>  R    </samp> | <samp>  R    </samp> | – | – | <samp>  R    </samp> (1) |
+| Emergency access | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
+| Access | <samp>C R U D</samp> (4) | <samp>  R    </samp> | <samp>C R U D</samp> | <samp>  R    </samp> (5) | <samp>  R    </samp> (5) | <samp>C R U D</samp> (3) |
+| Indirect authorization | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R    </samp> (6) | <samp>C R    </samp> (6) | <samp>  R    </samp> |
+| Indirect authorization setting | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
+| Delegation | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R U D</samp> (7) | <samp>C R U D</samp> (7) | <samp>  R    </samp> |
+| Representative | <samp>C R U D</samp> | <samp>  R    </samp> (8) | – | – | – | <samp>C R U D</samp> (3) |
+| Legal representative | – | – | <samp>  R    </samp> | – | – | <samp>C R U D</samp> |
+| Digital health application | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>  R    </samp> |
+| Military recording | <samp>C R U D</samp> | – | <samp>C R U D</samp> | <samp>  R    </samp> (5) | – | <samp>C R U D</samp> (3) |
 {:class="table table-bordered"}
 
 Table 4: Authorization of the CH:PPQm transactions by consent type and role
 
 Notes:
 
-1. When the health dossier is opened or dissolved (see [Opening](#consent-opening)).
-2. If the holder granted the representative the action `configure-emergency-access` or
-   `configure-indirect-authorization`.
+1. The Policy Repository adds the opening, the emergency access and the indirect authorization setting itself when the
+   health dossier is opened, and deletes all consents when it is dissolved (see [Opening](#consent-opening)).
+2. If the holder granted the representative the action for the respective setting: `configure-emergency-access` for
+   the emergency access, `configure-indirect-authorization` for the indirect authorization setting.
 3. On the mandate of the holder (Art. 15 para. 1 EGDG).
 4. Also a digital health application acting for the holder, with the action `manage-access`.
 5. Consents in which the health professional, or a group or health institution the health professional or assistant
@@ -369,38 +362,37 @@ This national extension enforces authentication and authorization of access usin
 1. **Settings created at the opening.** Emergency access and the indirect authorization setting are created with type
    permit at the opening and toggled between permit and deny by update, rather than existing only as a deny while the
    holder excludes. To be confirmed.
-2. **Confidentiality codes.** The codes of the two levels "allgemein" and "privat" are not decided (issue #12).
-   [HealthDossierConfidentialityCode](ValueSet-HealthDossierConfidentialityCode.html), used for documents, consents
-   and audit events alike, uses SNOMED CT `Normal` for "allgemein" and `Restricted` for "privat"; `Secret` would match
-   the default visibility of "privat" (holder only) as well. The value set should move to CH Term.
-3. **Emergency access overridden by an access right.** The requirements catalogue asks that such an access is not
+2. **Emergency access overridden by an access right.** The requirements catalogue asks that such an access is not
    logged as emergency access. The audit events of this guide record the purpose of use of the access token as
    declared by the user; whether the serving actor may record a different purpose of use is to be decided.
-4. **Indirect authorization.** Open in the requirements catalogue: whether further rights than reading "allgemein"
-   follow, the period of validity, and the form of the evidence. Open as well: whether existing indirect
+3. **Indirect authorization.** Open in the requirements catalogue: whether further rights than reading "normal"
+   follow, and the form of the evidence. Open as well: the period of validity, and whether existing indirect
    authorizations lose their effect when the holder excludes the indirect authorization.
-5. **Legal representative.** The requirements catalogue revokes the access rights of the holder and deletes the
+4. **Legal representative.** The requirements catalogue revokes the access rights of the holder and deletes the
    consents of the holder when a legal representative is set up. This matches Art. 12 para. 1 EGDG (holder under 14 or
    lacking capacity of judgement), but not Art. 12 para. 2 EGDG, under which a holder from 14 years exercises the
    rights in parallel with the legal representative until majority.
-6. **Representative.** The Botschaft names granting access rights and dissolving the health dossier as rights a holder
+5. **Representative.** The Botschaft names granting access rights and dissolving the health dossier as rights a holder
    may give a representative; the requirements catalogue does not list them.
-7. **Administration of the community.** Open in the requirements catalogue: whether the administration of the
+6. **Administration of the community.** Open in the requirements catalogue: whether the administration of the
    community is generally authorized (role right, as in Table 4) or per support case of the holder (a consent per
    mandate). The access token carries the verified community of the administration ([ITI-71](iti-71.html#administrators));
    how administrators are registered in the directory as members of their community is open (see
    [mCSD](iti-mcsd.html#communities-and-military-health-institutions)).
-8. **Digital health application.** The requirements catalogue lets a digital health application grant access rights,
+7. **Digital health application.** The requirements catalogue lets a digital health application grant access rights,
    beyond the reading and recording of data foreseen by Art. 11 para. 2 let. c EGDG. The identifier type of the client
    ID (`urn:e-health-suisse:dga-client-id`), the registration of an application with the actions of its admission and
    the mapping of the actions to scopes have to be aligned with the client registration (issue #11).
-9. **Military recording.** Military health institutions are marked in the directory with the organization type
+8. **Military recording.** Military health institutions are marked in the directory with the organization type
    `military` ([mCSD](iti-mcsd.html#communities-and-military-health-institutions)). Art. 14 para. 2 EGDG allows the
    consent to be stored in a military system instead. The requirements catalogue does not list this consent.
-10. **Legal basis in `policy.uri`.** The consents reference the profile of their consent type as their rules (R4
+9. **Legal basis in `policy.uri`.** The consents reference the profile of their consent type as their rules (R4
     requires `policy` or `policyRule`). Once the EGDG and its ordinances are enacted, the legal basis may be referenced
     instead.
-11. **Selected private documents.** Whether a release of a document of the level "privat" extends to its new versions
-    (Art. 8 para. 2 EGDG), and what happens to the release when the document is set to "allgemein". The R4 search
+10. **Selected restricted documents.** Whether a release of a document of the level "restricted" extends to its new versions
+    (Art. 8 para. 2 EGDG), and what happens to the release when the document is set to "normal". The R4 search
     parameter `data` only covers the root provision, so finding the access rights that release a document with
     [PPQ-5](ppq-5.html) would need a search parameter of this guide.
+11. **Change of the managing community.** Whether the EGDG allows the community managing a health dossier to change,
+    and who then updates `organization` of the [opening](#consent-opening), which the authorization of the
+    administration relies on.

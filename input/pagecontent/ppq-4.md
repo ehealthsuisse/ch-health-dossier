@@ -1,7 +1,7 @@
 ### Scope
 
 This transaction is used by the Policy Source to add, update, or delete a set of consents of a health dossier, e.g.
-the consents added when the health dossier is opened. The only HTTP method which SHALL be supported is `POST`.
+when the holder grants an access right and appoints a representative at the same time. The only HTTP method which SHALL be supported is `POST`.
 
 ### HTTP Method POST
 
@@ -19,7 +19,7 @@ as an ACID transaction.
 
 The request body SHALL represent a single Bundle resource compliant to the
 [PpqmFeedRequestBundle](StructureDefinition-PpqmFeedRequestBundle.html) profile
-([example for the opening](Bundle-PpqmFeedRequestBundleAdd.html)).
+([example for an access right and a representative](Bundle-PpqmFeedRequestBundleAdd.html)).
 
 The request SHALL be sent to `[baseUrl]`.
 
@@ -34,7 +34,7 @@ Upon receiving the HTTP `POST` request, the Policy Repository SHALL:
   - "PUT" — update the consent if it is already present, otherwise add it.
   - "DELETE" — delete the consent.
 - Validate the rules of [PPQ-3](ppq-3.html#validation) against the consents of the patient as they are after all
-  entries of the Bundle, e.g. an emergency access added in the same Bundle as the opening.
+  entries of the Bundle.
 - Process the Bundle as a whole: if one entry fails, no entry SHALL be persisted.
 - Create a PPQ-4 response according to the transaction outcome.
 

@@ -146,9 +146,10 @@ and an OperationOutcome with the issue code `forbidden` otherwise.
 
 The confidentiality code of the document (`DocumentReference.securityLabel`) SHALL be one of the two confidentiality
 levels of the health dossier defined in the value set
-[CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "allgemein" or "privat".
-Health professionals and health institutions with an access right may read documents of the level "allgemein".
-Documents of the level "privat" can only be read by the holder, and by those to whom the holder released them (see
+[CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "normal" (SNOMED CT
+`17621005` Normal, "allgemein" in the EGDG) or "restricted" (SNOMED CT `263856008` Restricted, "privat" in the EGDG).
+Health professionals and health institutions with an access right may read documents of the level "normal".
+Documents of the level "restricted" can only be read by the holder, and by those to whom the holder released them (see
 [CH:PPQm](ppqm.html#consent-types)). The patient, a representative, a legal representative or the administration may
 change the confidentiality code with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated).
 

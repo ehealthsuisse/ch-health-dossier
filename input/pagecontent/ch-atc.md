@@ -194,8 +194,8 @@ with the search parameter `subtype`.
 ### Audit trail of the consent transactions
 
 For the consent transactions the audit trail of a patient is built from the audit events which the Policy Repository
-records for [PPQ-3](ppq-3.html#security-audit-considerations) and [PPQ-4](ppq-4.html), and for the consents it deletes
-or updates itself under the [Policy Repository rules](ppq-3.html#policy-repository-rules). These audit events replace
+records for [PPQ-3](ppq-3.html#security-audit-considerations) and [PPQ-4](ppq-4.html), and for the consents it adds,
+deletes or updates itself under the [Policy Repository rules](ppq-3.html#policy-repository-rules). These audit events replace
 the Policy Audit Event Content Profile of CH:ATC.
 
 A consent the Policy Repository deletes because of the request of a user, e.g. a delegation derived from a revoked
@@ -204,6 +204,9 @@ the holder sees it as a consequence of that request. A consent it deletes withou
 digital health application after three months without access and the consents of a dissolved health dossier, is
 recorded with the Policy Repository as initiating agent and the reason of the deletion
 ([CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)).
+The consents the Policy Repository adds when the health dossier is opened are recorded with the Policy Repository as
+initiating agent as well
+([CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html)).
 
 The audit events record the consent concerned with its identifier (`Consent.identifier`), its consent type
 (`Consent.category`), its grantee with identifier and display (`Consent.provision.actor.reference`) and the end of its

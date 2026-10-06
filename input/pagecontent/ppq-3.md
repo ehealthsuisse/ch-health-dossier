@@ -130,7 +130,7 @@ Policy Repository SHALL verify that:
 | `PAT`, also a digital health application acting for the holder | The holder (EPR-SPID = `person_id`) |
 | `REP`, `LEGREP` | The representative or legal representative (representative ID = `user_id`) |
 | `HCP`, `ASS` | [Indirect authorization](ppqm.html#consent-indirect-authorization): the holder. [Delegation](ppqm.html#consent-delegation): the health professional (GLN of the health professional the request is made for), or the group or health institution (`group_id`) |
-| `ADM` | [Opening](ppqm.html#consent-opening), [legal representative](ppqm.html#consent-legal-representative): the community or authority. Other consent types, on mandate: the holder |
+| `ADM` | [Legal representative](ppqm.html#consent-legal-representative): the community or authority. Other consent types, on mandate: the holder |
 {:class="table table-bordered"}
 
 Table 1: Performer of the consent by the role of the requester
@@ -151,7 +151,7 @@ profile and the profile of its consent type, and SHALL verify the following rule
 | Consent type | Rule |
 |---|---|
 | All | Except for the opening, a consent can only be added while an [opening](ppqm.html#consent-opening) of the patient is in effect. The identifier, the consent type and the patient of a consent SHALL NOT be changed. |
-| [Opening](ppqm.html#consent-opening), [emergency access](ppqm.html#consent-emergency-access), [indirect authorization setting](ppqm.html#consent-indirect-authorization-setting) | At most one consent of each of these types per patient. The emergency access and the indirect authorization setting SHALL NOT be deleted; they are updated to the type permit or deny. The opening is only deleted when the health dossier is dissolved. |
+| [Opening](ppqm.html#consent-opening), [emergency access](ppqm.html#consent-emergency-access), [indirect authorization setting](ppqm.html#consent-indirect-authorization-setting) | At most one consent of each of these types per patient. They are only added and deleted by the Policy Repository, when the health dossier is opened or dissolved (see [Policy Repository rules](#policy-repository-rules)); the emergency access and the indirect authorization setting are updated to the type permit or deny. The `organization` of the opening SHALL be the community managing the health dossier in the Register E-GD. |
 | [Access](ppqm.html#consent-access) | The documents released in nested provisions SHALL be documents of the patient. |
 | [Indirect authorization](ppqm.html#consent-indirect-authorization) | The [indirect authorization setting](ppqm.html#consent-indirect-authorization-setting) of the patient SHALL be of type permit. |
 | [Delegation](ppqm.html#consent-delegation) | The access right in `sourceReference` SHALL be in effect, SHALL grant the action `delegate`, and SHALL have the performer of the delegation, or a group or health institution the performer is a member of, as grantee. The end date of the delegation SHALL NOT be later than the end date of the access right. |
@@ -167,12 +167,13 @@ OperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if t
 
 #### Policy Repository rules
 
-After persisting or deleting a consent, the Policy Repository SHALL apply the following rules. The consents the
-Policy Repository deletes or updates itself are recorded in the audit trail of the holder (see
+After persisting or deleting a consent, or on an event of the Register E-GD, the Policy Repository SHALL apply the
+following rules. The consents the Policy Repository adds, updates or deletes itself are recorded in the audit trail of the holder (see
 [Security Audit Considerations](#security-audit-considerations)).
 
 | Event | Rule |
 |---|---|
+| The health dossier is opened in the Register E-GD, automatically or voluntarily | The [opening](ppqm.html#consent-opening), the [emergency access](ppqm.html#consent-emergency-access) and the [indirect authorization setting](ppqm.html#consent-indirect-authorization-setting) are added, with the type permit, the community managing the health dossier in `organization` and the person or authority who opened the health dossier as `performer`. |
 | A [legal representative](ppqm.html#consent-legal-representative) is added | The access rights of the holder are revoked while the legal representative is in effect, and all consents with the holder as `performer` are deleted. |
 | An [indirect authorization](ppqm.html#consent-indirect-authorization) is added | The holder is notified. |
 | An [access right](ppqm.html#consent-access) is deleted, or its validity ends | The [delegations](ppqm.html#consent-delegation) derived from it are deleted. |
@@ -212,16 +213,20 @@ the validity of the consent as details of the consent entity
 [example for the exclusion of emergency access](AuditEvent-ChAuditEventPpq3UpdateExample.html),
 [example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)).
 
-The Policy Repository SHALL also record an audit event for every consent it deletes or updates itself under the
+The Policy Repository SHALL also record an audit event for every consent it adds, deletes or updates itself under the
 [Policy Repository rules](#policy-repository-rules):
 
 - where the rule is applied because of the request of a user, according to the Delete or Update profile above, with
   the user of that request as main user and the `traceparent` of that request: the delegations derived from a revoked
   access right, the consents of the holder deleted when a legal representative is set up, and the access rights
   updated when a document is purged;
-- where no user is involved, according to
-  [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html),
-  with the Policy Repository as initiating agent and the reason of the deletion
+- where no user is involved, with the Policy Repository as initiating agent: the consents added when the health dossier
+  is opened according to
+  [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html)
+  ([example for the emergency access](AuditEvent-ChAuditEventPpq3RepositoryCreateExample.html)), and the consents
+  deleted according to
+  [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)
+  with the reason of the deletion
   ([example for a digital health application without access for three months](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):
   `inactivity` for a digital health application without access for three months, `dissolution` and `death` for the
   consents deleted when the health dossier is dissolved.

@@ -145,31 +145,23 @@ Usage:      #example
   * detail[validityEnd].valueString = "2026-11-30"
 
 
-// Deletion of a consent by the Policy Repository itself, without a user: the authorization of a digital health
-// application expired after three months without access, or the health dossier was dissolved on request or on the
-// death of the holder. Deletions caused by the request of a user (delegations of a revoked access right, the consents
-// of the holder when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that
-// request instead. There is no REST request, so the profile is not based on the BALP Delete profiles.
+// Consents the Policy Repository adds or deletes itself, without a user: the consents added when the Register E-GD
+// records the opening of the health dossier, the authorization of a digital health application expired after three
+// months without access, and the consents deleted when the health dossier was dissolved on request or on the death of
+// the holder. Deletions caused by the request of a user (delegations of a revoked access right, the consents of the
+// holder when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that request
+// instead. There is no REST request, so the profiles are not based on the BALP profiles.
 
-Profile:     ChAuditEventPpq3RepositoryDelete
-Parent:      ChAuditEventBasicToken
-Id:          ChAuditEventPpq3RepositoryDelete
-Title:       "CH Audit Event for the deletion of a consent by the Policy Repository"
-Description: "This profile is used to define the CH Audit Event of the Policy Repository when it deletes a consent
-itself, without the request of a user: the authorization of a digital health application expired after three months
-without access, or the health dossier was dissolved on request or on the death of the holder. The Policy Repository
-is the initiating agent; there is no user."
+RuleSet: ChAuditEventPpq3RepositoryRules
 * type = DCM#110110 "Patient Record"
-* action = #D
 * subtype ^slicing.discriminator.type = #value
 * subtype ^slicing.discriminator.path = "$this"
 * subtype ^slicing.rules = #open
-* insert ChAuditEventTypeCodeRules(1, ATC_POL_REMOVE_AUT_PART_AL, Remove authorization for participants to access level/date)
 * agent[mainUser] 0..0
 * agent[delegatedUser] 0..0
 * agent[group] 0..0
 * agent contains repository 1..1
-* agent[repository] ^short = "The Policy Repository, which deleted the consent itself"
+* agent[repository] ^short = "The Policy Repository, which added or deleted the consent itself"
 * agent[repository].type = DCM#110150 "Application"
 * agent[repository].who 1..1
 * agent[repository].who.identifier 1..1
@@ -184,10 +176,37 @@ is the initiating agent; there is no user."
 * entity[patient].what.identifier.value 1..1
 * entity[patient].what.identifier.system 1..1
 * entity[patient].what.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
-* entity[patient] ^short = "The patient whose consent was deleted"
+* entity[patient] ^short = "The patient whose consent was added or deleted"
 * entity[data].type = $auditEntityType#2 "System Object"
-* entity[data] ^short = "The consent deleted"
 * insert ChAuditEventConsentEntityRules
+
+
+Profile:     ChAuditEventPpq3RepositoryCreate
+Parent:      ChAuditEventBasicToken
+Id:          ChAuditEventPpq3RepositoryCreate
+Title:       "CH Audit Event for the addition of a consent by the Policy Repository"
+Description: "This profile is used to define the CH Audit Event of the Policy Repository when it adds a consent itself,
+without the request of a user: the opening, the emergency access and the indirect authorization setting added when
+the Register E-GD records the opening of the health dossier. The Policy Repository is the initiating agent; there is
+no user."
+* insert ChAuditEventPpq3RepositoryRules
+* action = #C
+* insert ChAuditEventTypeValueSetRules(1, 1, HealthDossierAddConsentAuditEventType)
+* entity[data] ^short = "The consent added"
+
+
+Profile:     ChAuditEventPpq3RepositoryDelete
+Parent:      ChAuditEventBasicToken
+Id:          ChAuditEventPpq3RepositoryDelete
+Title:       "CH Audit Event for the deletion of a consent by the Policy Repository"
+Description: "This profile is used to define the CH Audit Event of the Policy Repository when it deletes a consent
+itself, without the request of a user: the authorization of a digital health application expired after three months
+without access, or the health dossier was dissolved on request or on the death of the holder. The Policy Repository
+is the initiating agent; there is no user."
+* insert ChAuditEventPpq3RepositoryRules
+* action = #D
+* insert ChAuditEventTypeCodeRules(1, ATC_POL_REMOVE_AUT_PART_AL, Remove authorization for participants to access level/date)
+* entity[data] ^short = "The consent deleted"
 * entity[data].detail contains deletionReason 1..1
 * entity[data].detail[deletionReason].type = "deletionReason"
 * entity[data].detail[deletionReason].value[x] only string
@@ -198,6 +217,32 @@ Invariant:   ch-ppqm-deletion-reason
 Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the holder)"
 Expression:  "value.ofType(string) in ('inactivity' | 'dissolution' | 'death')"
 Severity:    #error
+
+
+Instance:   ChAuditEventPpq3RepositoryCreateExample
+InstanceOf: ChAuditEventPpq3RepositoryCreate
+Title:      "Audit Event of the Policy Repository: emergency access added at the opening"
+Description: "Audit event of the Policy Repository: the Register E-GD records the automatic opening of the health
+dossier, and the Policy Repository adds the emergency access with type permit."
+Usage:      #example
+* insert ChExampleAuditEventServerRules(Policy Repository)
+* insert ChExampleAuditEventEntityPatientRules
+* recorded = "2026-10-01T07:00:00Z"
+* outcome = #0
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_POL_ENA_EMER_USE "Enabling Emergency Access"
+* agent[repository]
+  * type = DCM#110150 "Application"
+  * who.identifier.system = "urn:ietf:rfc:3986"
+  * who.identifier.value = "urn:oid:2.16.756.4.5.6"
+  * who.display = "Policy Repository"
+  * requestor = true
+* entity[data]
+  * type = $auditEntityType#2 "System Object"
+  * role = $objectRole#4 "Domain Resource"
+  * what.identifier.system = "urn:ietf:rfc:3986"
+  * what.identifier.value = "urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
+  * detail[consentType].type = "consentType"
+  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access"
 
 
 Instance:   ChAuditEventPpq3RepositoryDeleteExample

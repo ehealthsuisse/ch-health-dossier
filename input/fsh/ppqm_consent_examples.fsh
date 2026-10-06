@@ -1,6 +1,7 @@
 // Examples of the CH:PPQm Consent profiles, one per consent type, for the holder with the EPR-SPID 761337610411353650.
 //
-// Organizations of the examples: the community managing the health dossier (urn:oid:2.999.1), the Auryn-Spital
+// Organizations of the examples: the community managing the health dossier (urn:oid:2.999.1), the canton
+// (urn:oid:2.999.2), the Auryn-Spital
 // (urn:oid:2.16.10.89.201), the Fuchur-Klinik (urn:oid:2.16.10.89.214) and a military health institution
 // (urn:oid:2.999.3). Health professionals: Dr. Bastian Bux (GLN 7601002469531) and Dr. Gisi Gmork (GLN 7601000394385).
 
@@ -17,6 +18,11 @@ RuleSet: PpqmConsentExamplePerformerCommunity
 * performer.identifier.value = "urn:oid:2.999.1"
 * performer.display = "Community managing the health dossier"
 
+RuleSet: PpqmConsentExamplePerformerCanton
+* performer.identifier.type.coding = $URI#urn:oasis:names:tc:xspa:1.0:subject:organization-id
+* performer.identifier.value = "urn:oid:2.999.2"
+* performer.display = "Canton"
+
 RuleSet: PpqmConsentExampleGranteeBux
 * provision.actor.role = $healthDossierRole#HCP
 * provision.actor.reference.identifier.type.coding = $URI#urn:gs1:gln
@@ -28,8 +34,8 @@ RuleSet: PpqmConsentExampleGranteeBux
 Instance: PpqmConsentOpeningExample
 InstanceOf: ChPpqmConsentOpening
 Title: "PPQm Consent: Opening"
-Description: "The health dossier was opened automatically, without objection of the holder. The community managing
-the health dossier records the opening."
+Description: "The health dossier was opened automatically by the canton, without objection of the holder. The Policy
+Repository added the consent when the Register E-GD recorded the opening."
 Usage: #example
 * text.status = #generated
 * text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Opening of the health dossier. The holder has full access.</p></div>"
@@ -37,7 +43,7 @@ Usage: #example
 * category = HealthDossierConsentType#opening
 * insert PpqmConsentExampleHolder
 * dateTime = "2026-10-01T09:00:00+02:00"
-* insert PpqmConsentExamplePerformerCommunity
+* insert PpqmConsentExamplePerformerCanton
 * organization.identifier.value = "urn:oid:2.999.1"
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-opening"
 * provision.type = #permit
@@ -50,8 +56,8 @@ Usage: #example
 Instance: PpqmConsentEmergencyAccessExample
 InstanceOf: ChPpqmConsentEmergencyAccess
 Title: "PPQm Consent: Emergency Access allowed"
-Description: "Emergency access setting created when the health dossier was opened: all health professionals and
-health institutions may read documents of the confidentiality level 'allgemein' in an emergency."
+Description: "Emergency access setting added by the Policy Repository when the health dossier was opened: all health
+professionals and health institutions may read documents of the confidentiality level 'allgemein' in an emergency."
 Usage: #example
 * text.status = #generated
 * text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Emergency access allowed: documents of the level 'allgemein' can be read in an emergency.</p></div>"
@@ -59,7 +65,7 @@ Usage: #example
 * category = HealthDossierConsentType#emergency-access
 * insert PpqmConsentExampleHolder
 * dateTime = "2026-10-01T09:00:00+02:00"
-* insert PpqmConsentExamplePerformerCommunity
+* insert PpqmConsentExamplePerformerCanton
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access"
 * provision.type = #permit
 * provision.action = HealthDossierConsentAction#read
@@ -89,8 +95,8 @@ Usage: #example
 Instance: PpqmConsentIndirectAuthorizationSettingExample
 InstanceOf: ChPpqmConsentIndirectAuthorizationSetting
 Title: "PPQm Consent: Indirect Authorization allowed"
-Description: "Indirect authorization setting created when the health dossier was opened: health professionals and
-health institutions may confirm a consent the holder gave outside the health dossier."
+Description: "Indirect authorization setting added by the Policy Repository when the health dossier was opened: health
+professionals and health institutions may confirm a consent the holder gave outside the health dossier."
 Usage: #example
 * text.status = #generated
 * text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Indirect authorization allowed.</p></div>"
@@ -98,7 +104,7 @@ Usage: #example
 * category = HealthDossierConsentType#indirect-authorization-setting
 * insert PpqmConsentExampleHolder
 * dateTime = "2026-10-01T09:00:00+02:00"
-* insert PpqmConsentExamplePerformerCommunity
+* insert PpqmConsentExamplePerformerCanton
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-indirect-authorization-setting"
 * provision.type = #permit
 

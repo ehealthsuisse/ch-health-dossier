@@ -206,8 +206,8 @@ professionals, health institutions and the community follow from the existence o
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-opening"
 * performer only Reference(Patient or RelatedPerson or Organization)
 * performer ^short = "The holder or the legal representative for a voluntary opening, the canton or the community for an automatic opening"
-* source[x] only Attachment or Reference(DocumentReference)
-* source[x] ^short = "The signed consent of a voluntary opening"
+* organization 1..1
+* source[x] 0..0
 * verification 0..0
 * provision.type = #permit
 * provision.period 0..0

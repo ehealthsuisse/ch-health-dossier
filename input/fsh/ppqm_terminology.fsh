@@ -5,7 +5,7 @@ CodeSystem: HealthDossierConsentType
 Id: HealthDossierConsentType
 Title: "CH Health Dossier Consent Type"
 Description: "The types of consent of the electronic health dossier (E-GD). Each type corresponds to one decision of the
-holder, or of a person acting for the holder, foreseen by the EGDG and the requirements catalogue of the E-GD, and to one
+holder, or of a person acting for the holder, foreseen by the EGDG or the requirements catalogue of the E-GD, and to one
 Consent profile of CH:PPQm."
 * ^caseSensitive = true
 * ^experimental = false
