@@ -211,8 +211,8 @@ The **Document Recipient** SHALL record an audit event according to
 [DocRefPdf](DocumentReference-DocRefPdf.html) provided with the
 [Provide Document Bundle](Bundle-BundleProvideDocument.html)).
 
-The audit events record every document provided, with its master identifier, title, type and confidentiality code,
-the user who provided it and, for a healthcare professional, an assistant or a technical user, the provider
+The audit events record every document provided with its master identifier (not its title, type or confidentiality
+code), the user who provided it and, for a healthcare professional, an assistant or a technical user, the provider
 institution. Further examples of the Document Recipient:
 
 - [new version of a document](AuditEvent-ChAuditEventIti65RecipientCorrectionExample.html), which names the document

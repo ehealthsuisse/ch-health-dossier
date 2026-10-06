@@ -68,9 +68,8 @@ The **Document Consumer** SHALL record an audit event according to
 [CH Audit Event for [ITI-68] Document Consumer](StructureDefinition-ChAuditEventIti68Consumer.html)
 ([example](AuditEvent-ChAuditEventIti68ConsumerExample.html)).
 
-The request of this transaction carries only the URL of the document. To record the master identifier, title, type
-and confidentiality code of the document, the Document Consumer SHALL keep the DocumentReference it received before,
-e.g. in the response of [Find Document References [ITI-67]](iti-67.html), from which it took the URL.
+The request of this transaction carries only the URL of the document. To record the master identifier of the
+document, the Document Consumer SHALL keep the DocumentReference it received before, e.g. in the response of [Find Document References [ITI-67]](iti-67.html), from which it took the URL.
 
 ##### Document Responder Audit
 
@@ -78,6 +77,5 @@ The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [ITI-68] Document Responder](StructureDefinition-ChAuditEventIti68Responder.html)
 ([example](AuditEvent-ChAuditEventIti68ResponderExample.html)).
 
-The request of this transaction carries only the URL of the document. To record the master identifier, title, type
-and confidentiality code of the document, the Document Responder SHALL retrieve internally the DocumentReference of
-the document requested.
+The request of this transaction carries only the URL of the document. To record the master identifier of the
+document, the Document Responder SHALL retrieve internally the DocumentReference of the document requested.

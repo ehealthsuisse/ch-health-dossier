@@ -105,42 +105,17 @@ RuleSet: ChAuditEventTypeValueSetRules(min, max, valueSet)
 * subtype[auditTrailType] from {valueSet} (required)
 
 
-// The document a transaction is about. The slice has to be defined in the profile before applying this rule set.
-// TODO: clarify whether the title and the type of a document are medical data. According to the dispatch on Art. 6
-// EGDG the log data contain no medical data, only references to persons and to the processing operations they
-// initiated. If the title and the type are medical data, only the master identifier of the document can be recorded
-// (as for purged documents, see ChAuditEventDocumentIdentifierEntityRules) and an audit consumer has to read the title
-// and the type from the DocumentReference.
+// The document a transaction is about. Only its master identifier is recorded, not its title, type or
+// confidentiality code. The slice has to be defined in the profile before applying this rule set.
 RuleSet: ChAuditEventDocumentEntityRules(slice)
 * entity[{slice}].what.identifier 1..1
 * entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
 * entity[{slice}].what.identifier.system 1..1
 * entity[{slice}].what.identifier.value 1..1
-* entity[{slice}].name 1..1
-* entity[{slice}].name ^short = "The title of the document, DocumentReference.content.attachment.title"
-* entity[{slice}].name ^comment = "To be clarified: whether the title and the type of a document are medical data which SHALL NOT be recorded in the log data, so that only the master identifier of the document is recorded."
-* entity[{slice}].securityLabel from http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.confidentialityCode
-* entity[{slice}].securityLabel ^short = "The confidentiality code of the document, DocumentReference.securityLabel"
-* entity[{slice}].detail ^slicing.discriminator.type = #value
-* entity[{slice}].detail ^slicing.discriminator.path = "type"
-* entity[{slice}].detail ^slicing.rules = #open
-* entity[{slice}].detail contains documentType 1..1
-* entity[{slice}].detail[documentType] ^short = "The type of the document, DocumentReference.type"
-* entity[{slice}].detail[documentType].type = "documentType"
-* entity[{slice}].detail[documentType].value[x] only string
-* entity[{slice}].detail[documentType].value[x] ^short = "The type of the document as system|code"
-
-
-// The document a transaction is about, where only its identifier is kept (purged documents)
-RuleSet: ChAuditEventDocumentIdentifierEntityRules(slice)
-* entity[{slice}].what.identifier 1..1
-* entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
-* entity[{slice}].what.identifier.system 1..1
-* entity[{slice}].what.identifier.value 1..1
+* entity[{slice}] ^comment = "Only the master identifier of the document is recorded: the title, the type and the confidentiality code of the document SHALL NOT be recorded."
 * entity[{slice}].name ..0
 * entity[{slice}].securityLabel ..0
 * entity[{slice}].description ..0
-* entity[{slice}].detail ..0
 
 
 // Reference mapping from the XUA assertion to the CH Audit Event
@@ -306,11 +281,7 @@ RuleSet: ChExampleAuditEventGroupRules(oid, name)
 
 
 // Rules for an entity representing a document, the slice type and role have to be set in the example
-RuleSet: ChExampleAuditEventEntityDocumentRules(slice, uniqueId, title)
+RuleSet: ChExampleAuditEventEntityDocumentRules(slice, uniqueId)
 * entity[{slice}]
   * what.identifier.system = "urn:ietf:rfc:3986"
   * what.identifier.value = "urn:oid:{uniqueId}"
-  * name = "{title}"
-  * securityLabel = $sct#17621005 "Normal (qualifier value)"
-  * detail[documentType].type = "documentType"
-  * detail[documentType].valueString = "http://snomed.info/sct|419891008"

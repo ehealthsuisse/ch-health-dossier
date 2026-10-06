@@ -110,22 +110,19 @@
       text (deviation from MHD). Replaced `author` by `custodian` in the MHD Document Consumer and Document Responder
       CapabilityStatements.
     * Audit events of the document transactions ([ITI-65](iti-65.html), [ITI-68](iti-68.html),
-      [CH:MHD-1](ch-mhd-1.html), [CH:MHD-2](ch-mhd-2.html)): the document is recorded with its master identifier,
-      title, type and confidentiality code (for ITI-65 one entity per document, naming the replaced document for a
-      new version; for CH:MHD-2 the identifiers only), with the role `Report` instead of `Job` in CH:MHD-1 and
+      [CH:MHD-1](ch-mhd-1.html), [CH:MHD-2](ch-mhd-2.html)): the document is recorded only with its master identifier,
+      not its title, type or confidentiality code (for ITI-65 one entity per document, naming the replaced document
+      for a new version), with the role `Report` instead of `Job` in CH:MHD-1 and
       CH:MHD-2. Added the optional agent `group` (0..*) for the institutions or groups of the main user to the CH audit event
       profiles, fixed the system of the patient identifier to the EPR-SPID for transactions with an extended access
       token, and added audit event examples for all document transaction examples (see [ITI-20](iti-20.html) and
       [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions)).
-      To be clarified: whether the title and the type of a document are medical data and only the master identifier
-      may be recorded.
     * Added the code system [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html),
       successor of the Audit Trail Consumption event types of the EPR: `ATC_DOC_UPDATE` is split into
       `ATC_DOC_UPDATE_CONFIDENTIALITY` and `ATC_DOC_UPDATE_NOTE`, and `ATC_DOC_NEW_VERSION` is added. The audit
       events of the document transactions carry the type as an additional subtype, required for the actor serving
       the request, so that an audit consumer can filter on it (see
-      [audit event types](ch-atc.html#audit-event-types)). For CH:MHD-1 the confidentiality code before the update
-      is recorded as a detail of the document.
+      [audit event types](ch-atc.html#audit-event-types)).
     * Removed the CH:ATC Document Audit Event Content Profile (profile `DocumentAuditEvent`, value set
       `DocumentAuditEventType`, identifier profile `ch-atc-uniqueid-identifier` and the examples `atc-doc-*`): the
       audit trail of a patient is built from the audit events of the document transactions, see

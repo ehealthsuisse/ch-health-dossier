@@ -195,16 +195,6 @@
             <code value="3"/>
             <display value="Report"/>
           </role>
-          <securityLabel>
-            <system value="http://snomed.info/sct"/>
-            <code value="17621005"/>
-            <display value="Normal (qualifier value)"/>
-          </securityLabel>
-          <name value="Test PDF"/>
-          <detail>
-            <type value="documentType"/>
-            <valueString value="http://snomed.info/sct|419891008"/>
-          </detail>
         </entity>
       </AuditEvent>
     </resource>

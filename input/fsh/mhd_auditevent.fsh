@@ -35,6 +35,9 @@ RuleSet: ChAuditEventIti65Rules
 * entity[document].what 1..1
 * entity[document].what.reference ^short = "The URL of the DocumentReference, if known"
 * insert ChAuditEventDocumentEntityRules(document)
+* entity[document].detail ^slicing.discriminator.type = #value
+* entity[document].detail ^slicing.discriminator.path = "type"
+* entity[document].detail ^slicing.rules = #open
 * entity[document].detail contains replaces 0..1
 * entity[document].detail[replaces] ^short = "The master identifier (uniqueId) of the document which this document replaces, for a new version of a document"
 * entity[document].detail[replaces].type = "replaces"
@@ -50,7 +53,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2951, Test PDF)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2951)
 * insert ChExampleAuditEventClientRules
 * type = DCM#110106 "Export"
 
@@ -64,7 +67,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2951, Test PDF)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2951)
 * insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
@@ -80,7 +83,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_NEW_VERSION "New version of a document"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2952, Test PDF\, corrected version)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2952)
 * entity[document].detail[replaces].type = "replaces"
 * entity[document].detail[replaces].valueString = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
 * insert ChExampleAuditEventClientRules
@@ -98,7 +101,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_NEW_VERSION "New version of a document"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2952, Test PDF\, corrected version)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2952)
 * entity[document].detail[replaces].type = "replaces"
 * entity[document].detail[replaces].valueString = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
 * insert ChExampleAuditEventServerRules(Health Dossier)
@@ -114,7 +117,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2955, Konsultationsbericht)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2955)
 * insert ChExampleAuditEventClientRules
 * type = DCM#110106 "Export"
 
@@ -128,7 +131,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2955, Konsultationsbericht)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2955)
 * insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
@@ -142,7 +145,7 @@ Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2958)
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventPatRules
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2956, Austrittsbericht Behandlung im Ausland)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2956)
 * insert ChExampleAuditEventClientRules
 * type = DCM#110106 "Export"
 
@@ -156,7 +159,7 @@ Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2958)
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventPatRules
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2956, Austrittsbericht Behandlung im Ausland)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2956)
 * insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
@@ -172,7 +175,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventTcuRules
 * insert ChExampleAuditEventGroupRules(2.2.2.2, Spital X)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2957, Austrittsbericht)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2957)
 * insert ChExampleAuditEventClientRules
 * type = DCM#110106 "Export"
 
@@ -188,7 +191,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventTcuRules
 * insert ChExampleAuditEventGroupRules(2.2.2.2, Spital X)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2957, Austrittsbericht)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2957)
 * insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
@@ -204,7 +207,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventAssRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2960, Laborbericht)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2960)
 * insert ChExampleAuditEventClientRules
 * type = DCM#110106 "Export"
 
@@ -220,7 +223,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
 * insert ChExampleAuditEventAssRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
-* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2960, Laborbericht)
+* insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2960)
 * insert ChExampleAuditEventServerRules(Health Dossier)
 * type = DCM#110107 "Import"
 
@@ -368,7 +371,7 @@ RuleSet: ChAuditEventIti68ExampleRules
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityPatientRules
-* insert ChExampleAuditEventEntityDocumentRules(data, 1.3.6.1.4.1.12559.11.13.2.1.2951, Test PDF)
+* insert ChExampleAuditEventEntityDocumentRules(data, 1.3.6.1.4.1.12559.11.13.2.1.2951)
 * type = $auditEventType#rest
 * subtype[anyRead] = $restfulInteraction#read "read"
 * subtype[iti68] = $eventTypeCode#ITI-68 "Retrieve Document"
@@ -443,10 +446,6 @@ Source'."
 * entity[patient] ^short = "Patient"
 * entity[documentReference] ^short = "The document whose metadata is updated"
 * insert ChAuditEventDocumentEntityRules(documentReference)
-* entity[documentReference].detail contains previousConfidentialityCode 0..1
-* entity[documentReference].detail[previousConfidentialityCode] ^short = "The confidentiality code of the document before the update as system|code, where the confidentiality code was changed. The confidentiality code after the update is recorded in securityLabel."
-* entity[documentReference].detail[previousConfidentialityCode].type = "previousConfidentialityCode"
-* entity[documentReference].detail[previousConfidentialityCode].value[x] only string
 * insert ChAuditEventExtendedRules
 * insert ChAuditEventTypeValueSetRules(0, 2, HealthDossierUpdateDocumentAuditEventType)
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
@@ -509,10 +508,6 @@ Responder'."
 * entity[patient] ^short = "Patient"
 * entity[documentReference] ^short = "The document whose metadata is updated"
 * insert ChAuditEventDocumentEntityRules(documentReference)
-* entity[documentReference].detail contains previousConfidentialityCode 0..1
-* entity[documentReference].detail[previousConfidentialityCode] ^short = "The confidentiality code of the document before the update as system|code, where the confidentiality code was changed. The confidentiality code after the update is recorded in securityLabel."
-* entity[documentReference].detail[previousConfidentialityCode].type = "previousConfidentialityCode"
-* entity[documentReference].detail[previousConfidentialityCode].value[x] only string
 * insert ChAuditEventExtendedRules
 * insert ChAuditEventTypeValueSetRules(1, 2, HealthDossierUpdateDocumentAuditEventType)
 * subtype[auditTrailType] ^comment = "One subtype for each kind of metadata the request changed: both codes where a request changes the confidentiality code and records a personal note."
@@ -536,8 +531,7 @@ Instance:   ChAuditEventChMhd1ResponderExample
 InstanceOf: ChAuditEventChMhd1Responder
 Title:       "Audit Event for [CH:MHD-1] Document Responder: confidentiality code changed"
 Description: "Audit event of the Document Responder for the update of the confidentiality code of the document
-DocRefPdf by the patient: the document entity carries the confidentiality code after the update in securityLabel and
-the one before the update as a detail."
+DocRefPdf by the patient. The confidentiality code itself is not recorded in the audit event."
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
 * insert ChAuditEventChMhd1ConfidentialityExampleRules
@@ -571,15 +565,13 @@ Usage:      #example
 
 RuleSet: ChAuditEventChMhd1ConfidentialityExampleRules
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_UPDATE_CONFIDENTIALITY "Confidentiality code of a document changed"
-* entity[documentReference].detail[previousConfidentialityCode].type = "previousConfidentialityCode"
-* entity[documentReference].detail[previousConfidentialityCode].valueString = "http://snomed.info/sct|263856008"
 
 
 RuleSet: ChAuditEventChMhd1ExampleRules
 * insert ChExampleAuditEventBaseRules(documentSource, documentResponder, Health Dossier)
 * insert ChExampleAuditEventPatRules
 * insert ChExampleAuditEventEntityPatientRules
-* insert ChExampleAuditEventEntityDocumentRules(documentReference, 1.3.6.1.4.1.12559.11.13.2.1.2951, Test PDF)
+* insert ChExampleAuditEventEntityDocumentRules(documentReference, 1.3.6.1.4.1.12559.11.13.2.1.2951)
 * subtype[chmhd1] = urn:e-health-suisse:event-type-code#CH-MHD-1 "Update Document Metadata"
 * agent[documentResponder].network.address = "http://example.org"
 * entity[documentReference]
@@ -635,8 +627,9 @@ RuleSet: ChAuditEventChMhd2Rules
 * entity[documentReference].what only Reference(DocumentReference)
 * entity[documentReference].what.reference 1..1
 * entity[patient] ^short = "Patient"
-* entity[documentReference] ^short = "The purged document. Only its identifiers are recorded: the title, the type and the confidentiality code of a purged document SHALL NOT be recorded."
-* insert ChAuditEventDocumentIdentifierEntityRules(documentReference)
+* entity[documentReference] ^short = "The purged document"
+* insert ChAuditEventDocumentEntityRules(documentReference)
+* entity[documentReference].detail ..0
 * insert ChAuditEventExtendedRules
 * agent[documentSource] ^short = "The 'Document Source' actor (EPR application)"
 * agent[documentResponder] ^short = "The 'Document Responder' actor (Health Dossier API)"
