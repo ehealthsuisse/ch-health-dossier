@@ -117,8 +117,6 @@
       profiles, fixed the system of the patient identifier to the EPR-SPID for transactions with an extended access
       token, and added audit event examples for all document transaction examples (see [ITI-20](iti-20.html) and
       [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions)).
-      To be clarified: whether the title and the type of a document are medical data and only the master identifier
-      may be recorded.
     * Added the code system [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html),
       successor of the Audit Trail Consumption event types of the EPR: `ATC_DOC_UPDATE` is split into
       `ATC_DOC_UPDATE_CONFIDENTIALITY` and `ATC_DOC_UPDATE_NOTE`, and `ATC_DOC_NEW_VERSION` is added. The audit

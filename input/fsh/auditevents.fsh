@@ -105,12 +105,8 @@ RuleSet: ChAuditEventTypeValueSetRules(min, max, valueSet)
 * subtype[auditTrailType] from {valueSet} (required)
 
 
-// The document a transaction is about. The slice has to be defined in the profile before applying this rule set.
-// TODO: clarify whether the title and the type of a document are medical data. According to the dispatch on Art. 6
-// EGDG the log data contain no medical data, only references to persons and to the processing operations they
-// initiated. If the title and the type are medical data, only the master identifier of the document can be recorded
-// (as for purged documents, see ChAuditEventDocumentIdentifierEntityRules) and an audit consumer has to read the title
-// and the type from the DocumentReference.
+// The document a transaction is about, with its master identifier, title, type and confidentiality code. The slice
+// has to be defined in the profile before applying this rule set.
 RuleSet: ChAuditEventDocumentEntityRules(slice)
 * entity[{slice}].what.identifier 1..1
 * entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
@@ -118,7 +114,7 @@ RuleSet: ChAuditEventDocumentEntityRules(slice)
 * entity[{slice}].what.identifier.value 1..1
 * entity[{slice}].name 1..1
 * entity[{slice}].name ^short = "The title of the document, DocumentReference.content.attachment.title"
-* entity[{slice}].name ^comment = "To be clarified: whether the title and the type of a document are medical data which SHALL NOT be recorded in the log data, so that only the master identifier of the document is recorded."
+* entity[{slice}].securityLabel 1..1
 * entity[{slice}].securityLabel from http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.confidentialityCode
 * entity[{slice}].securityLabel ^short = "The confidentiality code of the document, DocumentReference.securityLabel"
 * entity[{slice}].detail ^slicing.discriminator.type = #value
