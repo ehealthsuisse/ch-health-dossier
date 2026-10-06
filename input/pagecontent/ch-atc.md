@@ -165,11 +165,17 @@ generated for the audit trail. These audit events replace the Document Audit Eve
 carry its information: the user and, for an assistant, the healthcare professional on whose behalf the assistant acts (see
 [ITI-20](iti-20.html)), the patient, the document and the type of the event.
 
-The audit events of the document transactions SHALL record the document concerned with its master identifier
-(`DocumentReference.masterIdentifier`), title (`DocumentReference.content.attachment.title`), type
-(`DocumentReference.type`) and confidentiality code (`DocumentReference.securityLabel`), so that the audit trail of a
-patient can be built from the audit events of the actors serving the requests without reading the DocumentReference.
-For a purged document only the identifiers are recorded.
+The audit events of the document transactions record the document concerned with its master identifier
+(`DocumentReference.masterIdentifier`), title, type and confidentiality code, so that the audit trail of a patient
+can be built from the audit events of the actors serving the requests. For a purged document only the identifiers are
+recorded.
+
+<div markdown="1" class="stu-note">
+To be clarified: according to the dispatch on Art. 6 EGDG the log data contain no medical data, only references to
+persons and to the processing operations they initiated. If the title and the type of a document are considered
+medical data, the audit events will record only the master identifier of the document, as they do for a purged
+document, and an audit consumer reads the title and the type from the DocumentReference.
+</div>
 
 #### Audit event types
 
