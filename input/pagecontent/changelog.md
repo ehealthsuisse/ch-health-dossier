@@ -56,6 +56,7 @@
   * Removed the ITI-83 PIXm query from the clinical archive diagram, the clinical archive knows the EPR-SPID.
   * Removed the loop over confidentiality codes when publishing documents.
   * Removed the unused diagram sources for the SMART on FHIR standalone launch with the identity provider.
+  * Renamed the participant group "Community Components" to "Health Dossier Information System".
 * mCSD
   * [Examples](iti-mcsd.html#examples): removed the link to the eHealth Suisse test data (Community A and B) and
     cropped the picture of the example structure to the health institutions and health professionals, the

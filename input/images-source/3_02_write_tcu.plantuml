@@ -7,7 +7,7 @@ box "Clinical Archive" #BFCAD2
   participant AuthorizationClient as "Authorization Client\n(IUA)"
 end box
 
-box "Community Components" #FFEFDE
+box "Health Dossier Information System" #FFEFDE
 	participant mp_AuthorizationServer as "Authorization Server\n(IUA)"
 	participant mp_doc_recipient as "Document Recipient\n(MHD)"
 end box
