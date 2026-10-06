@@ -13,7 +13,11 @@
         <resource>
             <type value="AuditEvent"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/AccessAuditTrailEvent"/>
-            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti65Recipient"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti67Responder"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti68Responder"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-responder"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-purgedocument-audit-responder"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/HpdAuditEvent"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent"/>
             <interaction>

@@ -223,10 +223,6 @@ resources:
     name: CH EPR FHIR HumanName
     description: The human name WITHOUT the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR
     exampleBoolean: false
-  StructureDefinition/DocumentAuditEvent:
-    name: Profile on DocumentAuditEvent for CH ATC
-    description: This profile defines the content of the document audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
   StructureDefinition/PolicyAuditEvent:
     name: Profile on PolicyAuditEvent for CH ATC
     description: This profile defines the content of the policy audit events which a community has to provide for a patients audit trail.
@@ -243,14 +239,6 @@ resources:
     name: Retrieve CH ATC ATNA Audit Event [ITI-81] Response
     description: This profile defines the response to the [ITI-81] query. The response is a search set including all audit events which a community has to provide for a patients audit trail.
     exampleBoolean: false
-  StructureDefinition/ch-atc-uniqueid-identifier:
-    name: Identifier for XDSDocumentEntry.uniqueId
-    description: Identifier for XDSDocumentEntry.uniqueId
-    exampleBoolean: false
-  ValueSet/DocumentAuditEventType:
-    name: DocumentAuditEventType
-    description: DocumentAuditEventType
-    exampleBoolean: false
   ValueSet/PolicyAuditEventType:
     name: PolicyAuditEventType
     description: PolicyAuditEventType
@@ -263,14 +251,6 @@ resources:
     name: HpdAuditEventType
     description: HpdAuditEventType
     exampleBoolean: false
-  AuditEvent/atc-doc-create-rep-pat:
-    name: CH ATC - Creation of a Document
-    description: CH ATC - Creation of a Document for a patient by a representative of this patient
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent
-  AuditEvent/atc-doc-read-ass-hpc:
-    name: CH ATC - Retrieveal of a Document
-    description: CH ATC - Retrieveal of a Document from a patient by an assitant for a healthcare professional
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent
   AuditEvent/atc-pol-create-acc-right:
     name: CH ATC - Create Access Right for Healthcare professional
     description: CH ATC - Create Access Right for Healthcare professional
@@ -283,10 +263,6 @@ resources:
     name: CH ATC - Access of Audit Trail Repository
     description: CH ATC - Access of Audit Trail Repository
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/AccessAuditTrailEvent
-  AuditEvent/atc-doc-search:
-    name: CH ATC - Audit Event for Document Search
-    description: CH ATC - Audit Event for Document Search
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent
   AuditEvent/atc-hpd-group-entry-notify:
     name: CH ATC - Audit Event for Group Entry Audit Event Content Profile
     description: CH ATC - AuditEvent of Healthcare professional which has been added to a group and patient has been notified

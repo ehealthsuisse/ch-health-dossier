@@ -49,6 +49,28 @@ Accept: application/fhir+json
 traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 ```
 
+##### Documents provided by an institution
+
+The Document Responder SHALL support the search parameter `custodian` with the modifier `:identifier`, which finds the
+documents provided on behalf of an institution or group (see
+[Provider institution](iti-65.html#provider-institution)).
+
+_Find Document Reference_ example **request** for the documents provided by an institution:
+```http
+GET [base]/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current&custodian:identifier=urn:ietf:rfc:3986|urn:oid:2.2.2.1 HTTP/1.1
+Accept: application/fhir+json
+traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
+```
+
+##### Search for the author of a document
+
+The author of a document is given as text (see [Author of the document](iti-65.html#author-of-the-document)). The
+search parameters `author.given` and `author.family` of the
+[Find Document References [ITI-67]](https://profiles.ihe.net/ITI/MHD/ITI-67.html) transaction of MHD are therefore not
+supported: the Document Consumer SHALL NOT use them, and the Document Responder is not required to process them. This
+is a deviation from MHD. A document can be found by the name of its author with the
+[Full-Text Search Option](#full-text-search-option), where the name is part of the textual content of the document.
+
 ####  Expected Actions
 
 The Document Responder SHALL process the query to discover the DocumentReference entries that match the search parameters given.

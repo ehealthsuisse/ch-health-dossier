@@ -73,10 +73,10 @@ administrator roles `DADM` and `PADM`."
 ValueSet: HealthDossierAuthorRole
 Id: HealthDossierAuthorRole
 Title: "CH Health Dossier Author Role"
-Description: "The role of the author of a document or of a submission set. Successor of the CH Term value sets
-DocumentEntry.originalProviderRole (Annex 3 EPDV-EDI §2.14) and SubmissionSet.Author.AuthorRole (§2.16): the Document
-Administrator (`DADM`) is replaced by `ADM`, and `LEGREP` is added. Unlike HealthDossierParticipant this value set does
-not contain the group of health professionals (`GRP`), which cannot be the author of a document."
+Description: "The role of the user who provided a document. Successor of the CH Term value set
+DocumentEntry.originalProviderRole (Annex 3 EPDV-EDI §2.14): the Document Administrator (`DADM`) is replaced by `ADM`,
+and `LEGREP` is added. Unlike HealthDossierParticipant this value set does not contain the group of health
+professionals (`GRP`), which cannot provide a document."
 * ^experimental = false
 
 * include codes from system HealthDossierRole
