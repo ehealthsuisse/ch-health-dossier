@@ -16,6 +16,7 @@ health insurance card), but not by the EPR-SPID.
 The Health App therefore performs a [Patient Demographics Match [ITI-119]](iti-119.html) with the minimal set of demographics
 (name, sex, birth date) and the AHVN13 of the patient as a search identifier
 and receives the EPR-SPID of the matching patient in the response.
+See the [sequence diagram](sequencediagrams.html#retrieve-the-epr-spid-of-a-patient-known-by-its-ahvn13).
 
 ###	Actors and Transactions, Content Specifications  
 This national extension adds restrictions to the amount of query results if too many are found. Otherwise there are no extensions or restrictions to the profile actors and the transaction. 
