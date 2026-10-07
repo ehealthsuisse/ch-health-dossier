@@ -64,10 +64,11 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 
 ##### Search for the author of a document
 
-The author of a document is given as text (see [Author of the document](iti-65.html#author-of-the-document)). The
-search parameters `author.given` and `author.family` of the
-[Find Document References [ITI-67]](https://profiles.ihe.net/ITI/MHD/ITI-67.html) transaction of MHD are therefore not
-supported: the Document Consumer SHALL NOT use them, and the Document Responder is not required to process them. This
+The author of a document is mostly given as text, and only where the Document Source has it as structured data in
+contained resources (see [Author of the document](iti-65.html#author-of-the-document)). The search parameters
+`author.given` and `author.family` of the
+[Find Document References [ITI-67]](https://profiles.ihe.net/ITI/MHD/ITI-67.html) transaction of MHD, which would only
+find the authors given as structured data, are therefore not supported: the Document Consumer SHALL NOT use them, and the Document Responder is not required to process them. This
 is a deviation from MHD. A document can be found by the name of its author with the
 [Full-Text Search Option](#full-text-search-option), where the name is part of the textual content of the document.
 

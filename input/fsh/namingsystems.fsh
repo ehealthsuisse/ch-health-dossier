@@ -25,16 +25,3 @@ Usage: #definition
 * uniqueId.value = "urn:ihe:event-type-code" 
 * uniqueId.preferred = true
 
-
-Instance: IheItiXds2013UniqueId
-InstanceOf: NamingSystem
-Usage: #definition
-* name = "IheItiXds2013UniqueId"
-* status = #active
-* kind = #identifier // codesystem | identifier | root
-* date = "2025-05-13"
-* responsible = "IHE International"
-* description = "NamingSystem for uniqueId from IHE."
-* uniqueId.type = #uri //oid | uuid | uri | other
-* uniqueId.value = "urn:ihe:iti:xds:2013:uniqueId" 
-* uniqueId.preferred = true

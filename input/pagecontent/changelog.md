@@ -33,10 +33,11 @@
     Administrator and Policy Administrator into Administration (`ADM`) with the qualifier
     `urn:e-health-suisse:administrator-id`, added the Legal Representative (`LEGREP`) with the qualifier
     `urn:e-health-suisse:representative-id`, and corrected the swapped administrator qualifiers.
-  * [ITI-65](iti-65.html#documententryoriginalproviderrole): the originalProviderRole SHALL NOT be changed with
-    CH:MHD-1 (instead of the XDS Metadata Update actors Update Initiator and Document Administrator), added legal
-    representatives and the administration, and linked the originalProviderRole to the value set
-    [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html) instead of the CH Term value sets.
+  * [ITI-65](iti-65.html#provider-role): renamed the extension CH Extension Author AuthorRole
+    (`ch-ext-author-authorrole`) to [CH Extension Provider Role](StructureDefinition-ch-ext-provider-role.html). The
+    provider role SHALL NOT be changed with CH:MHD-1, added legal representatives and the administration, and linked
+    the provider role to the value set
+    [CH Health Dossier Provider Role](ValueSet-HealthDossierProviderRole.html) instead of the CH Term value sets.
   * Corrected the mapping of the access token to the audit event agents in
     [CH Audit Event with a Basic Auth Token](StructureDefinition-ChAuditEventBasicToken-mappings.html): for an access
     token with the `ch_delegation` extension (assistant) the healthcare professional (principal) is the main user
@@ -55,6 +56,9 @@
     [MHD](iti-mhd.html#required-actor-groupings).
   * Corrected the scope of [CH:MHD-1](ch-mhd-1.html) (Document Source instead of Document Consumer) and removed a
     duplicated sentence.
+  * Renamed the error codes of [CH:MHD-1](ch-mhd-1.html#expected-actions) `XDSMetadataIdentifierError` and
+    `XDSPatientIDReconciliationError` to `MetadataIdentifierError` and `PatientIDReconciliationError`.
+  * Removed the unused NamingSystem `IheItiXds2013UniqueId` (`urn:ihe:iti:xds:2013:uniqueId`).
   * Distinct titles for the PPQm code systems and value sets with the same title.
 * OpenID Connect
   * Added the OpenID Connect page (Annex 8) specifying the authorization code flow, identity token, UserInfo and RP-initiated logout for EPR Identity Providers.
@@ -95,15 +99,17 @@
   * Added the CH MHD DocumentReference profile to the Volume 3 menu
   * Separated the author of a document from who provided it, in the
     [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) only, without the SubmissionSet:
-    * `DocumentReference.author` (0..1) is information for the reader and is given as text: either a logical reference
-      with `display` and `type` (Practitioner, Organization, Patient or RelatedPerson), or a contained PractitionerRole
-      with the name of the person and of the institution in `practitioner.display` and `organization.display`; an
-      identifier (GLN, OID, EPR-SPID) may be added (invariants `ch-mhd-author-1` and `ch-mhd-author-2`), see
+    * `DocumentReference.author` (0..1) is information for the reader and is given in one of three forms: a logical
+      reference with `display` and `type` (Practitioner, Organization, Patient or RelatedPerson), a contained
+      PractitionerRole with the name of the person and of the institution as text in `practitioner.display` and
+      `organization.display`, or a contained PractitionerRole referencing a contained Practitioner (structured name
+      with given name, family name and title) and a contained Organization (name and address); an identifier (GLN,
+      OID, EPR-SPID) may be added (invariants `ch-mhd-author-1`, `ch-mhd-author-2` and `ch-mhd-author-3`), see
       [ITI-65](iti-65.html#author-of-the-document). No right to a document follows from its author.
     * `DocumentReference.custodian` carries the [provider institution](iti-65.html#provider-institution): the OID of
-      the institution or group on whose behalf the document was provided. It is required for the originalProviderRole
+      the institution or group on whose behalf the document was provided. It is required for the provider role
       `HCP`, `ASS` and `TCU` and absent otherwise (invariant `ch-mhd-custodian-1`).
-    * The Document Recipient verifies the originalProviderRole and the provider institution against the access token
+    * The Document Recipient verifies the provider role and the provider institution against the access token
       in [ITI-65](iti-65.html); both, and the author, cannot be changed with [CH:MHD-1](ch-mhd-1.html).
     * Stated in [ITI-65](iti-65.html#correction-of-a-published-document) which role may publish a new version of
       which documents, and keyed the right of `HCP` and `ASS` to purge a document in
@@ -112,8 +118,8 @@
       [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html): the role of the provider is carried in
       the DocumentReference only.
     * [ITI-67](iti-67.html): added the search parameter `custodian` to find the documents provided by an institution;
-      the search parameters `author.given` and `author.family` of MHD are not supported, since the author is given as
-      text (deviation from MHD). Replaced `author` by `custodian` in the MHD Document Consumer and Document Responder
+      the search parameters `author.given` and `author.family` of MHD are not supported, since the author is mostly
+      given as text (deviation from MHD). Replaced `author` by `custodian` in the MHD Document Consumer and Document Responder
       CapabilityStatements.
     * Audit events of the document transactions ([ITI-65](iti-65.html), [ITI-68](iti-68.html),
       [CH:MHD-1](ch-mhd-1.html), [CH:MHD-2](ch-mhd-2.html)): the document is recorded only with its master identifier,
@@ -135,8 +141,10 @@
       [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions). The response of [ITI-81](iti-81.html) and the
       Patient Audit Record Repository CapabilityStatement refer to the audit event profiles of the Document Recipient
       and Document Responder instead, and ITI-81 can be filtered on the audit event types with `subtype`.
-    * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html) and
-      [document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html), each with
+    * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html)
+      (author as a contained PractitionerRole with the names of the foreign doctor and clinic as text),
+      [document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html) and
+      [author as structured data](DocumentReference-DocRefPdfStructuredAuthor.html), each with
       its Provide Document Bundle, and the Provide Document Bundle for a document provided by an assistant with
       its audit events (healthcare professional as main user, assistant as delegated user).
   * Removed DocumentReference.sourcePatientInfo and authorSpeciality requirement
@@ -196,14 +204,13 @@
   * Replaced the ValueSet `EprParticipant` with [CH Health Dossier Participant](ValueSet-HealthDossierParticipant.html),
     which combines the roles above with the group of health professionals (`GRP`), and repointed the bindings of
     `AuditEvent.agent.role` and `AuditEvent.entity.role` in the ATC audit event profiles to it
-  * Rebound the extension [CH Extension Author AuthorRole](StructureDefinition-ch-ext-author-authorrole.html) to the new
-    ValueSet [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html), replacing the CH Term value set
-    DocumentEntry.originalProviderRole; the group of health professionals (`GRP`) is not part of it, since a group
-    cannot be the author of a document (the canonical url changed anyway, but it is also a breaking change)
+  * Rebound the extension [CH Extension Provider Role](StructureDefinition-ch-ext-provider-role.html) to the new
+    ValueSet [CH Health Dossier Provider Role](ValueSet-HealthDossierProviderRole.html); the group of health
+    professionals (`GRP`) is not part of it, since a group cannot provide a document (the canonical url changed anyway, but it is also a breaking change)
 * Confidentiality code
   * Added the value set [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html) with
-    the two levels of the E-GD, "allgemein" (SNOMED CT `Normal`) and "privat" (SNOMED CT `Restricted`), succeeding the
-    three levels of the CH Term value set DocumentEntry.confidentialityCode; `Secret` is not used any more. Bound
+    the two levels of the E-GD, "allgemein" (SNOMED CT `Normal`) and "privat" (SNOMED CT `Restricted`); `Secret` is not
+    used any more. Bound
     `DocumentReference.securityLabel` of the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html),
     the confidentiality code of the document in the audit events and `Consent.provision.securityLabel` of CH:PPQm to it,
     and described it in [ITI-65](iti-65.html#confidentiality-code). The codes are not decided yet (issue #12).

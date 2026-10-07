@@ -38,8 +38,6 @@ A Document Source shall send a request for either the JSON or the XML format as 
 
 The Document Source shall be capable of accepting elements specified in profile [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html).
 
-The [Mappings tab](StructureDefinition-ch-mhd-documentreference-mappings.html) indicates the mapping between DocumentReference elements and the XDS elements.
-
 ##### Metadata which may be updated
 
 Only the metadata listed below may be updated with this transaction, and only by the roles listed for it. Every other
@@ -61,7 +59,7 @@ OperationOutcome with the error code
 [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
 
 In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
-(extension [originalProviderRole](iti-65.html#documententryoriginalproviderrole)) and the
+([provider role](iti-65.html#provider-role)) and the
 [provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
 stay the ones of the document as it was provided, also where a patient, a representative, a legal representative or
 the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
@@ -109,8 +107,8 @@ Any error that occurs during the processing of the Update Document Metadata Requ
 no change made to the existing DocumentReference. The Document Responder shall return the status and any error codes incurred during the processing of
 the request in its response message. 
 
-1. Verify the submitted and existing DocumentReference have the same values for the identifiers. If these values are not identical, an OperationOutcome with the error code [XDSMetadataIdentifierError](OperationOutcome-MhdOperationOutcomeErrorXdsMetadataIdentifier.html) should be returned.
-2. Verify the submitted and existing DocumentReference reference the same Patient. If these values are not identical, an OperationOutcome with the error code [XDSPatientIDReconciliationError](OperationOutcome-MhdOperationOutcomeErrorXDSPatientIDReconciliationError.html) should be returned.
+1. Verify the submitted and existing DocumentReference have the same values for the identifiers. If these values are not identical, an OperationOutcome with the error code [MetadataIdentifierError](OperationOutcome-MhdOperationOutcomeErrorMetadataIdentifierError.html) should be returned.
+2. Verify the submitted and existing DocumentReference reference the same Patient. If these values are not identical, an OperationOutcome with the error code [PatientIDReconciliationError](OperationOutcome-MhdOperationOutcomeErrorPatientIDReconciliationError.html) should be returned.
 3. Check the submitted DocumentReference and determine if it contains only changes to attributes which the role of the requester may update, as described in [Metadata which may be updated](#metadata-which-may-be-updated). If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) SHALL be returned.
 
 ##### Response Message

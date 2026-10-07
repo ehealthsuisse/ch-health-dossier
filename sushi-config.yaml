@@ -280,11 +280,11 @@ resources:
     description: Error OperationOutcome that the updated DocumentReference changed
       unmodifiable metadata
     exampleBoolean: true
-  OperationOutcome/MhdOperationOutcomeErrorXDSPatientIDReconciliationError:
+  OperationOutcome/MhdOperationOutcomeErrorPatientIDReconciliationError:
     name: MHD OperationOutcome DocumentReference update error patient id reconciliation
     description: Error OperationOutcome that the updated DocumentReference references not the same patient
     exampleBoolean: true
-  OperationOutcome/MhdOperationOutcomeErrorXdsMetadataIdentifier:
+  OperationOutcome/MhdOperationOutcomeErrorMetadataIdentifierError:
     name: MHD OperationOutcome DocumentReference update error identifiers
     description: Error OperationOutcome that the updated DocumentReference has not same values for the identifiers
     exampleBoolean: true
