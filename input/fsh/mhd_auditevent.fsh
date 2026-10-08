@@ -396,7 +396,7 @@ RuleSet: ChAuditEventChMhd1DocumentEntityRules
 * insert ChAuditEventDocumentIdentifierRules(documentReference)
 * entity[documentReference] ^comment = "The title and the type of the document SHALL NOT be recorded, the confidentiality code only where it was changed."
 * entity[documentReference].securityLabel 0..1
-* entity[documentReference].securityLabel from http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.confidentialityCode (required)
+* entity[documentReference].securityLabel from HealthDossierConfidentialityCode (required)
 * entity[documentReference].securityLabel ^short = "The new confidentiality code of the document, DocumentReference.securityLabel after the update, only where the confidentiality code was changed (ATC_DOC_UPDATE_CONFIDENTIALITY)"
 * obeys ch-mhd-1-audit-confidentiality
 

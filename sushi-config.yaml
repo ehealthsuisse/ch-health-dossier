@@ -104,6 +104,8 @@ pages:
     title: Mobile Privacy Policy Retrieve [PPQ-5]
   volume3.md:
     title: Volume 3 - CH:ATC Audit Event Content Profiles
+  ppqm-consent.md:
+    title: CH PPQm Consent
   openid-connect.md:
     title: OpenID Connect
   client-registration.md:
@@ -158,6 +160,7 @@ menu:
     Retrieve Audit Event [ITI-81]: iti-81.html
   Volume 3:
     CH:ATC Audit Event Content Profiles: volume3.html
+    CH PPQm Consent: ppqm-consent.html
     DocumentReference: StructureDefinition-ch-mhd-documentreference.html
   Appendix:
     OpenID Connect: openid-connect.html
@@ -223,54 +226,6 @@ resources:
     name: CH EPR FHIR HumanName
     description: The human name WITHOUT the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR
     exampleBoolean: false
-  StructureDefinition/PolicyAuditEvent:
-    name: Profile on PolicyAuditEvent for CH ATC
-    description: This profile defines the content of the policy audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  StructureDefinition/AccessAuditTrailEvent:
-    name: Profile on AccessAuditTrailEvent for CH ATC
-    description: This profile defines the content of the access audit trail event which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  StructureDefinition/HpdAuditEvent:
-    name: Profile on HpdAuditEvent for CH ATC
-    description: This profile defines the content of the HPD audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  StructureDefinition/CH-ATC.ITI-81.Response:
-    name: Retrieve CH ATC ATNA Audit Event [ITI-81] Response
-    description: This profile defines the response to the [ITI-81] query. The response is a search set including all audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  ValueSet/PolicyAuditEventType:
-    name: PolicyAuditEventType
-    description: PolicyAuditEventType
-    exampleBoolean: false
-  ValueSet/AccessAuditTrailEventType:
-    name: AccessAuditTrailEventType
-    description: AccessAuditTrailEventType
-    exampleBoolean: false
-  ValueSet/HpdAuditEventType:
-    name: HpdAuditEventType
-    description: HpdAuditEventType
-    exampleBoolean: false
-  AuditEvent/atc-pol-create-acc-right:
-    name: CH ATC - Create Access Right for Healthcare professional
-    description: CH ATC - Create Access Right for Healthcare professional
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent
-  AuditEvent/atc-pol-create-rep:
-    name: CH ATC - Create Access Right for a representative
-    description: CH ATC - Create Access Right a representative
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/PolicyAuditEvent
-  AuditEvent/atc-log-read:
-    name: CH ATC - Access of Audit Trail Repository
-    description: CH ATC - Access of Audit Trail Repository
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/AccessAuditTrailEvent
-  AuditEvent/atc-hpd-group-entry-notify:
-    name: CH ATC - Audit Event for Group Entry Audit Event Content Profile
-    description: CH ATC - AuditEvent of Healthcare professional which has been added to a group and patient has been notified
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/HpdAuditEvent
-  Bundle/ch-atc-iti-81-response-sample:
-    name: CH ATC - Reponse Audit Trail
-    description: CH ATC - Reponse Audit Trail
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH-ATC.ITI-81.Response
   Patient/PatientPIXmFeed:
     name: PIXm Patient Feed
     description: Example PIXm Patient for Feed
@@ -296,11 +251,11 @@ resources:
     description: Error OperationOutcome that the updated DocumentReference changed
       unmodifiable metadata
     exampleBoolean: true
-  OperationOutcome/MhdOperationOutcomeErrorXDSPatientIDReconciliationError:
+  OperationOutcome/MhdOperationOutcomeErrorPatientIDReconciliationError:
     name: MHD OperationOutcome DocumentReference update error patient id reconciliation
     description: Error OperationOutcome that the updated DocumentReference references not the same patient
     exampleBoolean: true
-  OperationOutcome/MhdOperationOutcomeErrorXdsMetadataIdentifier:
+  OperationOutcome/MhdOperationOutcomeErrorMetadataIdentifierError:
     name: MHD OperationOutcome DocumentReference update error identifiers
     description: Error OperationOutcome that the updated DocumentReference has not same values for the identifiers
     exampleBoolean: true
@@ -348,27 +303,6 @@ resources:
   Bundle/PpqmRetrieveResponseBundle:
     name: PPQm Retrieve Response Bundle
     description: CH:PPQm Retrieve Response Bundle
-  Consent/PpqmConsentTemplate201Example:
-    name: PPQm Consent for template 201
-    description: CH:PPQm Consent for template 201 -- Full access for the patient
-  Consent/PpqmConsentTemplate202Example:
-    name: PPQm Consent for template 202
-    description: CH:PPQm Consent for template 202 -- Read access in emergency mode
-  Consent/PpqmConsentTemplate203Example:
-    name: PPQm Consent for template 203
-    description: CH:PPQm Consent for template 203 -- Default provide level
-  Consent/PpqmConsentTemplate301Example:
-    name: PPQm Consent for template 301
-    description: CH:PPQm Consent for template 301 -- Read access for a healthcare professional, without delegation
-  Consent/PpqmConsentTemplate302Example:
-    name: PPQm Consent for template 302
-    description: CH:PPQm Consent for template 302 -- Read access for a group of healthcare professionals
-  Consent/PpqmConsentTemplate303Example:
-    name: PPQm Consent for template 303
-    description: CH:PPQm Consent for template 303 -- Full access for a representative
-  Consent/PpqmConsentTemplate304Example:
-    name: PPQm Consent for template 304
-    description: CH:PPQm Consent for template 304 -- Read access for a healthcare professional, with delegation
   AuditEvent/ChAuditEventIti65SourceExample:
     name: Example of audit event for an [ITI-65] transaction at Source
     description: This example shows an  made by the Document Source for an ITI-65 transaction.
@@ -427,15 +361,15 @@ resources:
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti119Supplier
   AuditEvent/ChAuditEventPpq3CreateExample:
     name: Example of audit event for a [PPQ-3] create transaction
-    description: This example shows an  made by the Policy Source for a PPQ-3 transaction that added a new Consent.
+    description: This example shows an AuditEvent made by the Policy Source for a PPQ-3 transaction that added an indirect authorization.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Create
   AuditEvent/ChAuditEventPpq3UpdateExample:
     name: Example of audit event for a [PPQ-3] update transaction
-    description: This example shows an  made by the Policy Repository for a PPQ-3 transaction that updated an existing Consent.
+    description: This example shows an AuditEvent made by the Policy Repository for a PPQ-3 transaction that excluded the emergency access.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Update
   AuditEvent/ChAuditEventPpq3DeleteExample:
     name: Example of audit event for a [PPQ-3] delete transaction
-    description: This example shows an AuditEvent made by the Policy Source for a PPQ-3 transaction that deleted a Consent.
+    description: This example shows an AuditEvent made by the Policy Source for a PPQ-3 transaction that revoked an access right.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq3Delete
   Bundle/ChAuditEventPpq4Example:
     name: Example of bundle of audit events for a [PPQ-4] transaction

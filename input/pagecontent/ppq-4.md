@@ -1,7 +1,7 @@
 ### Scope
 
-This transaction is used by the Policy Source to add, update, or delete a set of privacy policies. The only HTTP
-method which SHALL be supported is `POST`.
+This transaction is used by the Policy Source to add, update, or delete a set of consents of a health dossier, e.g.
+when the patient grants an access right and appoints a representative at the same time. The only HTTP method which SHALL be supported is `POST`.
 
 ### HTTP Method POST
 
@@ -12,13 +12,14 @@ method which SHALL be supported is `POST`.
 
 #### Trigger Event
 
-The Policy Source uses HTTP method `POST` to perform an operation on a set of privacy policies in the Policy Repository,
+The Policy Source uses HTTP method `POST` to perform an operation on a set of consents in the Policy Repository,
 as an ACID transaction.
 
 #### Request Message
 
 The request body SHALL represent a single Bundle resource compliant to the
-[PpqmFeedRequestBundle](StructureDefinition-PpqmFeedRequestBundle.html) profile.
+[PpqmFeedRequestBundle](StructureDefinition-PpqmFeedRequestBundle.html) profile
+([example for an access right and a representative](Bundle-PpqmFeedRequestBundleAdd.html)).
 
 The request SHALL be sent to `[baseUrl]`.
 
@@ -26,11 +27,15 @@ The request SHALL be sent to `[baseUrl]`.
 
 Upon receiving the HTTP `POST` request, the Policy Repository SHALL:
 - Validate the Bundle resource contained in the request body.
-- On each request entry, perform the operation specified the attribute `entry.request.method` on the embedded or
-referenced [PpqmConsent](StructureDefinition-PpqmConsent.html) resource:
-  - "POST" — add policy set.
-  - "PUT" — update policy set if it is already present, otherwise add it.
-  - "DELETE" — delete policy set.
+- On each request entry, perform the operation specified the attribute `entry.request.method` on the embedded
+  [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) resource, with the authorization, validation and
+  Policy Repository rules of [PPQ-3](ppq-3.html#expected-actions-common-to-all-http-methods):
+  - "POST" — add the consent.
+  - "PUT" — update the consent if it is already present, otherwise add it.
+  - "DELETE" — delete the consent.
+- Validate the rules of [PPQ-3](ppq-3.html#validation) against the consents of the patient as they are after all
+  entries of the Bundle.
+- Process the Bundle as a whole: if one entry fails, no entry SHALL be persisted.
 - Create a PPQ-4 response according to the transaction outcome.
 
 #### Response Message
@@ -43,13 +48,10 @@ The PPQ-4 response SHALL be created according to the section
 The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with
 server certificates.
 
-The transaction SHALL use client authentication and authorization using one of the following strategies:
-1. Use an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
-2. or, use mutual authentication (mTLS) on the transport layer in combination with a XUA token for authorization from the Get X-User Assertion transaction (Annex 5.1 1.6.4.2). The XUA token SHALL be conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
-
-The Policy Repository actor shall be grouped with CH:ADR, i.e. the Policy Repository shall use the CH:ADR Authorization
-Decision Request transaction to authorize the transaction and enforce the authorization decision retrieved from CH:ADR
-Authorization Decision Response.
+The transaction SHALL use client authentication and authorization using an extended access token defined in
+[IUA](iti-71.html) conveyed as defined in the
+[Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
+transaction.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
