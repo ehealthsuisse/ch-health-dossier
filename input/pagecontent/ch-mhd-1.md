@@ -145,7 +145,7 @@ The **Document Responder** SHALL record an audit event according to
 
 The audit events record the document whose metadata is updated with its master identifier (not its title or type),
 and the user who updated it. What was updated is recorded as a subtype of the audit event, see
-[audit event types](ch-atc.html#audit-event-types):
+[audit event types](volume3.html#audit-trail-consumption-event-types):
 
 - `ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed
   ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity SHALL carry the new

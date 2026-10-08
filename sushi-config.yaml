@@ -223,38 +223,6 @@ resources:
     name: CH EPR FHIR HumanName
     description: The human name WITHOUT the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR
     exampleBoolean: false
-  StructureDefinition/AccessAuditTrailEvent:
-    name: Profile on AccessAuditTrailEvent for CH ATC
-    description: This profile defines the content of the access audit trail event which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  StructureDefinition/HpdAuditEvent:
-    name: Profile on HpdAuditEvent for CH ATC
-    description: This profile defines the content of the HPD audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  StructureDefinition/CH-ATC.ITI-81.Response:
-    name: Retrieve CH ATC ATNA Audit Event [ITI-81] Response
-    description: This profile defines the response to the [ITI-81] query. The response is a search set including all audit events which a community has to provide for a patients audit trail.
-    exampleBoolean: false
-  ValueSet/AccessAuditTrailEventType:
-    name: AccessAuditTrailEventType
-    description: AccessAuditTrailEventType
-    exampleBoolean: false
-  ValueSet/HpdAuditEventType:
-    name: HpdAuditEventType
-    description: HpdAuditEventType
-    exampleBoolean: false
-  AuditEvent/atc-log-read:
-    name: CH ATC - Access of Audit Trail Repository
-    description: CH ATC - Access of Audit Trail Repository
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/AccessAuditTrailEvent
-  AuditEvent/atc-hpd-group-entry-notify:
-    name: CH ATC - Audit Event for Group Entry Audit Event Content Profile
-    description: CH ATC - AuditEvent of Healthcare professional which has been added to a group and patient has been notified
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/HpdAuditEvent
-  Bundle/ch-atc-iti-81-response-sample:
-    name: CH ATC - Reponse Audit Trail
-    description: CH ATC - Reponse Audit Trail
-    exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/CH-ATC.ITI-81.Response
   Patient/PatientPIXmFeed:
     name: PIXm Patient Feed
     description: Example PIXm Patient for Feed

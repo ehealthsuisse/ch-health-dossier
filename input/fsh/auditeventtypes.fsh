@@ -10,6 +10,9 @@
 // emergency access. The default confidentiality level (`ATC_POL_DEF_CONFLEVEL`) and the exclusion list
 // (`ATC_POL_INCL_BLACKLIST`, `ATC_POL_EXL_BLACKLIST`) are dropped, and the setting of the indirect authorization is
 // added.
+//
+// The access to the audit trail (`ATC_LOG_READ`) keeps its code; it is recorded by the Patient Audit Record Repository
+// for Retrieve ATNA Audit Event [ITI-81].
 
 CodeSystem: HealthDossierAuditEventType
 Id: HealthDossierAuditEventType
@@ -19,7 +22,7 @@ the patient. Successor of the Audit Trail Consumption event types of the EPR (`u
 the codes whose meaning is unchanged keep their value, the document update is split into the change of the
 confidentiality code and the recording of a personal note, and the new version of a document is added. For the
 consents, the default confidentiality level and the exclusion list are dropped, and the setting of the indirect
-authorization is added."
+authorization is added. The access to the audit trail keeps its code."
 * ^caseSensitive = true
 * ^experimental = false
 * ^content = #complete
@@ -154,6 +157,16 @@ authorization is added."
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[=].value = "Exclure l'octroi indirect de droits d'accès"
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[+].language = #it-CH
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[=].value = "Escludere il conferimento indiretto di diritti d'accesso"
+
+* #ATC_LOG_READ "Accessing the Patient Audit Record Repository" "The audit trail of the health dossier was retrieved."
+* #ATC_LOG_READ ^designation[+].language = #de-CH
+* #ATC_LOG_READ ^designation[=].value = "Auf die patientenbezogene Auditprotokoll-Ablage zugreifen"
+* #ATC_LOG_READ ^designation[+].language = #fr-CH
+* #ATC_LOG_READ ^designation[=].value = "En cours d’accès au dépôt de contrôle des dossiers de patients"
+* #ATC_LOG_READ ^designation[+].language = #it-CH
+* #ATC_LOG_READ ^designation[=].value = "Accesso all'Audit Record Repository del paziente"
+* #ATC_LOG_READ ^designation[+].language = #rm-CH
+* #ATC_LOG_READ ^designation[=].value = "Access al deposit da controlla dals dossiers da pazients"
 
 
 ValueSet: HealthDossierDocumentAuditEventType
