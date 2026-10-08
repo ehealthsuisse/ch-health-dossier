@@ -186,7 +186,7 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 When receiving a Token Request with `subject_role` set to `PAT` from an IUA Authorization Client registered as a digital
 health application (see [Client Registration](client-registration.html)), the IUA Authorization Server SHALL, in
 addition to the verifications for [patients](#patients):
-- verify that a [digital health application](ppqm.html#consent-digital-health-application) consent of the patient
+- verify that a [digital health application](ppqm-consent.html#consent-digital-health-application) consent of the patient
   (`person_id`) with the `client_id` of the application as grantee is in effect.
 - issue the access token only for the actions granted in that consent.
 - record the time of the request, so that the consent can be deleted after three months without access (see the

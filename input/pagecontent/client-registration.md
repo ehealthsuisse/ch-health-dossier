@@ -15,6 +15,6 @@ TODO: registration of a client with [OAuth 2.0 Dynamic Client Registration Proto
 ### Digital Health Applications
 
 TODO: a digital health application admitted by the FDHA (Art. 16 EGDG) is registered as such, with the actions of its
-admission. The IUA Authorization Server uses this registration to verify the consent of the holder for the
+admission. The IUA Authorization Server uses this registration to verify the consent of the patient for the
 application (see [ITI-71](iti-71.html#digital-health-applications)), and the actions of the consent SHALL be within
 the actions of the admission (see [PPQ-3](ppq-3.html#validation)).

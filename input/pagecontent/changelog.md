@@ -1,6 +1,7 @@
 ### DSTU1 Release 2026-08-xx
 
 #### Resolved Issues
+* Replaced the term "holder" with "patient" in all pages, profiles, code systems and examples.
 * Integrated the ch-epr-fhir issues [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456), [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458) and [#460](https://github.com/ehealthsuisse/ch-epr-fhir/issues/460)
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
@@ -128,17 +129,17 @@
       CH:MHD-2. Added the optional agent `group` (0..*) for the institutions or groups of the main user to the CH audit event
       profiles, fixed the system of the patient identifier to the EPR-SPID for transactions with an extended access
       token, and added audit event examples for all document transaction examples (see [ITI-20](iti-20.html) and
-      [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions)).
+      [CH:ATC](volume3.html#audit-trail-of-the-document-transactions)).
     * Added the code system [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html),
       successor of the Audit Trail Consumption event types of the EPR: `ATC_DOC_UPDATE` is split into
       `ATC_DOC_UPDATE_CONFIDENTIALITY` and `ATC_DOC_UPDATE_NOTE`, and `ATC_DOC_NEW_VERSION` is added. The audit
       events of the document transactions carry the type as an additional subtype, required for the actor serving
       the request, so that an audit consumer can filter on it (see
-      [audit event types](ch-atc.html#audit-event-types)).
+      [audit event types](volume3.html#audit-trail-consumption-event-types)).
     * Removed the CH:ATC Document Audit Event Content Profile (profile `DocumentAuditEvent`, value set
       `DocumentAuditEventType`, identifier profile `ch-atc-uniqueid-identifier` and the examples `atc-doc-*`): the
       audit trail of a patient is built from the audit events of the document transactions, see
-      [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions). The response of [ITI-81](iti-81.html) and the
+      [CH:ATC](volume3.html#audit-trail-of-the-document-transactions). The response of [ITI-81](iti-81.html) and the
       Patient Audit Record Repository CapabilityStatement refer to the audit event profiles of the Document Recipient
       and Document Responder instead, and ITI-81 can be filtered on the audit event types with `subtype`.
     * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html)
@@ -199,7 +200,7 @@
     roles (`urn:oid:2.16.756.5.30.1.127.3.10.6`): the two administrator roles Document Administrator (`DADM`) and
     Policy Administrator (`PADM`) are replaced by the single role `ADM` (Administration), and `LEGREP` (Gesetzliche
     Vertretung) is added for the legal representative of a minor or of a person lacking capacity of judgement, as
-    distinct from a representative designated by the holder (`REP`). The OID still has to be registered with
+    distinct from a representative designated by the patient (`REP`). The OID still has to be registered with
     eHealth Suisse
   * Replaced the ValueSet `EprParticipant` with [CH Health Dossier Participant](ValueSet-HealthDossierParticipant.html),
     which combines the roles above with the group of health professionals (`GRP`), and repointed the bindings of
@@ -218,9 +219,12 @@
     "allgemein" and "privat"; [ITI-65](iti-65.html#confidentiality-code) gives the mapping.
 * PPQm
   * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalogue of the E-GD authorization system: a
-    Consent records one decision of the holder per consent type, instead of the image of an EPR policy set template.
+    Consent records one decision of the patient per consent type, instead of the image of an EPR policy set template.
     Separated the rights by law from the rights by consent, described a use case per consent type and added the
     authorization of the transactions by consent type and role.
+  * [CH:PPQm](ppqm.html) in Volume 1 gives an overview of the consent types only; the rights by law and by consent, the
+    common rules, the use case per consent type and the authorization by consent type and role moved to the new
+    Volume 3 page [CH PPQm Consent](ppqm-consent.html).
   * Replaced the profile `PpqmConsent` and the template profiles 201-304 with the base profile
     [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) and one profile per consent type: opening, emergency
     access, access for a health professional, group or health institution, indirect authorization, indirect
@@ -237,13 +241,13 @@
     the Policy Repository rules (legal representative, delegations of a deleted access right, digital health
     application after three months without access, purged documents, dissolution). PPQ-4 validates the rules against
     the consents as they are after all entries, and processes the Bundle as a whole.
-  * The Policy Repository adds the [opening](ppqm.html#consent-opening), the emergency access and the indirect
+  * The Policy Repository adds the [opening](ppqm-consent.html#consent-opening), the emergency access and the indirect
     authorization setting itself when the Register E-GD records the opening, automatic (canton as performer) or
     voluntary, and records it with
     [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html).
     The administration may only retrieve the opening. The opening requires the community managing the health dossier
     in `organization`, which SHALL be the one of the Register E-GD, and carries no `source[x]`. The PPQ-4 add example now shows a request of the
-    holder.
+    patient.
   * [PPQ-5](ppq-5.html): added the search parameters `category`, `actor:identifier`, `period` and
     `source-reference:identifier`, made `patient:identifier` required, and filtered the response by the consents the
     requester may retrieve. Updated the CapabilityStatements with the search parameters and the profiles per consent
@@ -251,7 +255,7 @@
   * Replaced the security considerations of PPQ-3, PPQ-4 and PPQ-5 with the extended access token of IUA; removed the
     XUA/mTLS alternative and the grouping of the Policy Repository with CH:ADR.
   * Built the audit trail of the consents from the audit events of the Policy Repository, see
-    [Audit trail of the consent transactions](ch-atc.html#audit-trail-of-the-consent-transactions): the PPQ-3 audit
+    [Audit trail of the consent transactions](volume3.html#audit-trail-of-the-consent-transactions): the PPQ-3 audit
     events carry the type of the event in the audit trail as subtype, and record the consent type, the grantee and the
     end of the validity. Added the policy types to [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html)
     (`ATC_POL_...`, with the new `ATC_POL_ENA_INDIRECT_AUT` and `ATC_POL_DIS_INDIRECT_AUT`; `ATC_POL_DEF_CONFLEVEL`,
@@ -261,6 +265,37 @@
     for the consents the Policy Repository deletes without a user (digital health application without access for
     three months, dissolution, death), with the Policy Repository as initiating agent and the reason of the deletion.
     Deletions caused by the request of a user are recorded with that user and the `traceparent` of the request.
+* CH:ATC
+  * [ITI-81](iti-81.html#expected-actions): the Patient Audit Record Repository returns the audit events masked: the
+    time reduced to the day (`period` as date, `recorded` at the start of the day in Swiss local time), an assistant
+    only with the role `ASS`, without the technical details (client and server agents, `traceparent`, query), and
+    marked with `ABSTRED` and `REDACTED` in `meta.security`. Audit events identical after the masking are returned only
+    once, before paging; `date` and the sort are evaluated on the masked values. Removed the filtering of duplicates by
+    the Patient Audit Consumer.
+  * [CH:ATC](ch-atc.html): removed the EPR specifics (communities, reference community, Aggregate Audit Message
+    Option, groupings with CH:CPI and CH:ADR) and the figures; the actors are grouped with IUA as in the other
+    profiles (`TCU` not allowed for the Patient Audit Consumer). Added the use cases of the legal representative and
+    the administration. [ITI-81](iti-81.html) requires the extended access token of IUA; removed the XUA/mTLS
+    alternative.
+  * Removed the HPD Group Entry Audit Event Content Profile (profile `HpdAuditEvent`, value set `HpdAuditEventType`,
+    audit event type `ATC_HPD_GROUP_ENTRY_NOTIFY` and the example `atc-hpd-group-entry-notify`): the patient has no
+    right to information about changes in the members of a group of healthcare professionals.
+  * Replaced the Access Audit Trail Content Profile (profile `AccessAuditTrailEvent`, value set
+    `AccessAuditTrailEventType` and the example `atc-log-read`) with
+    [CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html),
+    recorded by the Patient Audit Record Repository for every ITI-81 request, and added
+    [CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html) for the
+    Patient Audit Consumer, as for the other transactions. Added `ATC_LOG_READ` to
+    [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html).
+  * Added [CH Audit Trail Event](StructureDefinition-ChAuditTrailEvent.html) for the masked audit events of the
+    [ITI-81](iti-81.html) response (day in `period`, `recorded` at the start of the day, assistant only with the role,
+    no client and server agents, no `traceparent` and query, only successful requests) and replaced the response Bundle
+    profile [Retrieve ATNA Audit Event [ITI-81] Response](StructureDefinition-CH-ATC.ITI-81.Response.html) and its
+    example, now in FSH, with it. The search parameters are evaluated on the masked audit events; removed the list of
+    search parameters the Patient Audit Consumer shall not use.
+  * Moved the audit trail of the document and consent transactions and the audit event types from CH:ATC to
+    [Volume 3](volume3.html), and merged the tables of the event types and of the audit event profiles into one table
+    with the transaction, the audit event profile and an example per type, as in CH EPR FHIR.
 * Access rules
   * [Enforcement of Access Rules](accesscontrol.html): added the rights by law and the rights by consent, the rules for
     the confidentiality levels, the emergency access, the administration of the community, digital health

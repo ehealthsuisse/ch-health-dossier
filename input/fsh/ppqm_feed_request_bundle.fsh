@@ -45,7 +45,7 @@ Severity:       #error
 Instance: PpqmFeedRequestBundleAdd
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (POST)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method POST -- the holder grants an access right to a health
+Description: "CH:PPQm Feed Request Bundle for HTTP method POST -- the patient grants an access right to a health
 institution and appoints a representative"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
@@ -60,7 +60,7 @@ Usage: #example
 Instance: PpqmFeedRequestBundleUpdate
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (PUT)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method PUT -- the holder excludes emergency access and updates the
+Description: "CH:PPQm Feed Request Bundle for HTTP method PUT -- the patient excludes emergency access and updates the
 access right of a health institution"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
@@ -75,7 +75,7 @@ Usage: #example
 Instance: PpqmFeedRequestBundleDelete
 InstanceOf: PpqmFeedRequestBundle
 Title: "PPQm Feed Request Bundle (DELETE)"
-Description: "CH:PPQm Feed Request Bundle for HTTP method DELETE -- the holder revokes an access right and the
+Description: "CH:PPQm Feed Request Bundle for HTTP method DELETE -- the patient revokes an access right and the
 authorization of a digital health application"
 Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction

@@ -60,7 +60,7 @@ type of the health institution:
   manages; the IUA Authorization Server verifies the community of an administrator in the directory
   (see [ITI-71](iti-71.html#administrators)) ([example](Organization-Community.html)).
 - `military`: a military health institution. Its health professionals may record data only with the consent of the
-  holder (Art. 14 para. 2 EGDG, see [CH:PPQm](ppqm.html#consent-military-recording))
+  patient (Art. 14 para. 2 EGDG, see [CH:PPQm](ppqm-consent.html#consent-military-recording))
   ([example](Organization-MilitaryHealthInstitution.html)).
 
 <div markdown="1" class="stu-note">

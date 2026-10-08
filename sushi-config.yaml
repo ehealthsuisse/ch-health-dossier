@@ -104,6 +104,8 @@ pages:
     title: Mobile Privacy Policy Retrieve [PPQ-5]
   volume3.md:
     title: Volume 3 - CH:ATC Audit Event Content Profiles
+  ppqm-consent.md:
+    title: CH PPQm Consent
   openid-connect.md:
     title: OpenID Connect
   client-registration.md:
@@ -158,6 +160,7 @@ menu:
     Retrieve Audit Event [ITI-81]: iti-81.html
   Volume 3:
     CH:ATC Audit Event Content Profiles: volume3.html
+    CH PPQm Consent: ppqm-consent.html
     DocumentReference: StructureDefinition-ch-mhd-documentreference.html
   Appendix:
     OpenID Connect: openid-connect.html

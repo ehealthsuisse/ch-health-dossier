@@ -5,36 +5,36 @@ CodeSystem: HealthDossierConsentType
 Id: HealthDossierConsentType
 Title: "CH Health Dossier Consent Type"
 Description: "The types of consent of the electronic health dossier (E-GD). Each type corresponds to one decision of the
-holder, or of a person acting for the holder, foreseen by the EGDG or the requirements catalogue of the E-GD, and to one
+patient, or of a person acting for the patient, foreseen by the EGDG or the requirements catalogue of the E-GD, and to one
 Consent profile of CH:PPQm."
 * ^caseSensitive = true
 * ^experimental = false
 * ^content = #complete
 
-* #opening "Opening of the health dossier" "The health dossier was opened, and the holder has full access to it (Art.
+* #opening "Opening of the health dossier" "The health dossier was opened, and the patient has full access to it (Art.
 11 para. 1, Art. 20-22 EGDG)."
 * #opening ^designation[+].language = #de-CH
 * #opening ^designation[=].value = "Eröffnung des E-GD"
 
 * #emergency-access "Emergency access" "Health professionals and health institutions may access the health dossier in
-a medical emergency without a granted right (Art. 11 para. 2 let. b, Art. 13 para. 3 EGDG). The holder may exclude and
+a medical emergency without a granted right (Art. 11 para. 2 let. b, Art. 13 para. 3 EGDG). The patient may exclude and
 allow it again at any time."
 * #emergency-access ^designation[+].language = #de-CH
 * #emergency-access ^designation[=].value = "Notfallzugriff"
 
-* #access "Access for a health professional, group or health institution" "The holder grants a health professional, a
+* #access "Access for a health professional, group or health institution" "The patient grants a health professional, a
 group of health professionals or a health institution access to the health dossier (Art. 11 para. 2 let. a, Art. 13
 para. 1 EGDG)."
 * #access ^designation[+].language = #de-CH
 * #access ^designation[=].value = "Berechtigung von Gesundheitsfachpersonen, Gruppen und Gesundheitseinrichtungen"
 
 * #indirect-authorization "Indirect authorization" "A health professional or health institution confirms in the health
-dossier a consent the holder gave outside the health dossier (Art. 11 para. 3, Art. 13 para. 2 EGDG)."
+dossier a consent the patient gave outside the health dossier (Art. 11 para. 3, Art. 13 para. 2 EGDG)."
 * #indirect-authorization ^designation[+].language = #de-CH
 * #indirect-authorization ^designation[=].value = "Indirekte Erteilung von Zugriffsrechten"
 
 * #indirect-authorization-setting "Indirect authorization setting" "Whether health professionals and health
-institutions may confirm a consent the holder gave outside the health dossier (Art. 11 para. 3 EGDG). The holder may
+institutions may confirm a consent the patient gave outside the health dossier (Art. 11 para. 3 EGDG). The patient may
 exclude and allow it again at any time."
 * #indirect-authorization-setting ^designation[+].language = #de-CH
 * #indirect-authorization-setting ^designation[=].value = "Zulassung der indirekten Erteilung von Zugriffsrechten"
@@ -44,22 +44,22 @@ health professional, group or health institution, within the limits of the acces
 * #delegation ^designation[+].language = #de-CH
 * #delegation ^designation[=].value = "Weitergabe des Zugriffsrechts"
 
-* #representative "Representative" "The holder appoints a representative and sets the representative's rights (Art. 11
+* #representative "Representative" "The patient appoints a representative and sets the representative's rights (Art. 11
 para. 5 EGDG)."
 * #representative ^designation[+].language = #de-CH
 * #representative ^designation[=].value = "Vertretung"
 
-* #legal-representative "Legal representative" "A legal representative exercises the rights of the holder (Art. 12
+* #legal-representative "Legal representative" "A legal representative exercises the rights of the patient (Art. 12
 EGDG)."
 * #legal-representative ^designation[+].language = #de-CH
 * #legal-representative ^designation[=].value = "Gesetzliche Stellvertretung"
 
-* #digital-health-application "Digital health application" "The holder authorizes a digital health application to
-access the health dossier on the holder's behalf (Art. 11 para. 2 let. c, Art. 16 EGDG)."
+* #digital-health-application "Digital health application" "The patient authorizes a digital health application to
+access the health dossier on the patient's behalf (Art. 11 para. 2 let. c, Art. 16 EGDG)."
 * #digital-health-application ^designation[+].language = #de-CH
 * #digital-health-application ^designation[=].value = "Digitale Gesundheitsanwendung"
 
-* #military-recording "Recording by military health professionals" "The holder consents that military health
+* #military-recording "Recording by military health professionals" "The patient consents that military health
 professionals and health institutions record data in the health dossier (Art. 14 para. 2 EGDG)."
 * #military-recording ^designation[+].language = #de-CH
 * #military-recording ^designation[=].value = "Erfassung durch Gesundheitsfachpersonen der Armee"
@@ -98,12 +98,12 @@ grantee may read are not an action: they are given in `Consent.provision.securit
 * #edit-metadata ^designation[+].language = #de-CH
 * #edit-metadata ^designation[=].value = "Vertraulichkeitsstufe ändern und Kommentar erfassen"
 
-* #read-demographics "Read personal data" "View the personal data of the holder in the index of holders."
+* #read-demographics "Read personal data" "View the personal data of the patient in the index of patients."
 * #read-demographics ^designation[+].language = #de-CH
 * #read-demographics ^designation[=].value = "Personendaten im Index einsehen"
 
-* #edit-contact "Add contact data" "Add contact data (address, e-mail, phone) to the personal data of the holder in the
-index of holders."
+* #edit-contact "Add contact data" "Add contact data (address, e-mail, phone) to the personal data of the patient in the
+index of patients."
 * #edit-contact ^designation[+].language = #de-CH
 * #edit-contact ^designation[=].value = "Kontaktdaten im Index ergänzen"
 
@@ -125,7 +125,7 @@ professionals and health institutions and allow it again."
 * #configure-indirect-authorization ^designation[=].value = "Indirekte Erteilung von Zugriffsrechten ausschliessen bzw. zulassen"
 
 * #manage-access "Manage access rights" "Grant and revoke access rights of health professionals, groups and health
-institutions on behalf of the holder."
+institutions on behalf of the patient."
 * #manage-access ^designation[+].language = #de-CH
 * #manage-access ^designation[=].value = "Gesundheitsfachpersonen, Gruppen und Gesundheitseinrichtungen berechtigen"
 
@@ -146,7 +146,7 @@ Description: "The actions a consent of the electronic health dossier (E-GD) may 
 ValueSet: HealthDossierConsentAccessAction
 Id: HealthDossierConsentAccessAction
 Title: "CH Health Dossier Consent Action for Health Professionals"
-Description: "The actions the holder may grant a health professional, group or health institution."
+Description: "The actions the patient may grant a health professional, group or health institution."
 * ^experimental = false
 * HealthDossierConsentAction#read "Read documents"
 * HealthDossierConsentAction#delegate "Pass on the access right"
@@ -155,8 +155,8 @@ Description: "The actions the holder may grant a health professional, group or h
 ValueSet: HealthDossierConsentRepresentativeAction
 Id: HealthDossierConsentRepresentativeAction
 Title: "CH Health Dossier Consent Action for Representatives"
-Description: "The actions the holder may grant a representative. A representative may always view the directory of
-health professionals and health institutions and the personal data of the holder in the index of holders, without a
+Description: "The actions the patient may grant a representative. A representative may always view the directory of
+health professionals and health institutions and the personal data of the patient in the index of patients, without a
 grant."
 * ^experimental = false
 * HealthDossierConsentAction#read "Read documents"
@@ -171,8 +171,8 @@ grant."
 ValueSet: HealthDossierConsentDigitalHealthApplicationAction
 Id: HealthDossierConsentDigitalHealthApplicationAction
 Title: "CH Health Dossier Consent Action for Digital Health Applications"
-Description: "The actions the holder may grant a digital health application. They are the scopes the IUA Authorization
-Server may issue to the digital health application acting for the holder."
+Description: "The actions the patient may grant a digital health application. They are the scopes the IUA Authorization
+Server may issue to the digital health application acting for the patient."
 * ^experimental = false
 * HealthDossierConsentAction#read "Read documents"
 * HealthDossierConsentAction#record "Record documents"

@@ -148,8 +148,8 @@ Usage:      #example
 // Consents the Policy Repository adds or deletes itself, without a user: the consents added when the Register E-GD
 // records the opening of the health dossier, the authorization of a digital health application expired after three
 // months without access, and the consents deleted when the health dossier was dissolved on request or on the death of
-// the holder. Deletions caused by the request of a user (delegations of a revoked access right, the consents of the
-// holder when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that request
+// the patient. Deletions caused by the request of a user (delegations of a revoked access right, the consents of the
+// patient when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that request
 // instead. There is no REST request, so the profiles are not based on the BALP profiles.
 
 RuleSet: ChAuditEventPpq3RepositoryRules
@@ -201,7 +201,7 @@ Id:          ChAuditEventPpq3RepositoryDelete
 Title:       "CH Audit Event for the deletion of a consent by the Policy Repository"
 Description: "This profile is used to define the CH Audit Event of the Policy Repository when it deletes a consent
 itself, without the request of a user: the authorization of a digital health application expired after three months
-without access, or the health dossier was dissolved on request or on the death of the holder. The Policy Repository
+without access, or the health dossier was dissolved on request or on the death of the patient. The Policy Repository
 is the initiating agent; there is no user."
 * insert ChAuditEventPpq3RepositoryRules
 * action = #D
@@ -214,7 +214,7 @@ is the initiating agent; there is no user."
 * entity[data].detail[deletionReason] obeys ch-ppqm-deletion-reason
 
 Invariant:   ch-ppqm-deletion-reason
-Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the holder)"
+Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the patient)"
 Expression:  "value.ofType(string) in ('inactivity' | 'dissolution' | 'death')"
 Severity:    #error
 

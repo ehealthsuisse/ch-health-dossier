@@ -14,7 +14,7 @@ Title: "CH Health Dossier Confidentiality Code"
 Description: "The two confidentiality levels of the electronic health dossier (E-GD), \"allgemein\" and \"privat\"
 (Botschaft EGDG, ch. 4.1 \"Vereinfachung der Vertraulichkeitsstufen\"). Health professionals and health institutions
 with a right to view may read data of the level \"allgemein\". Data of the level \"privat\" can only be viewed by the
-holder, unless the holder releases them to individual health professionals or health institutions, or to a
+patient, unless the patient releases them to individual health professionals or health institutions, or to a
 representative. Used for the confidentiality code of a document (`DocumentReference.securityLabel`), the confidentiality levels a consent grants
 (`Consent.provision.securityLabel`), and the confidentiality code of a document in the audit events."
 * ^experimental = false

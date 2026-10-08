@@ -1,6 +1,6 @@
 ### Scope
 
-This transaction is used by the Policy Consumer to retrieve the consents of a health dossier, e.g. to show the holder
+This transaction is used by the Policy Consumer to retrieve the consents of a health dossier, e.g. to show the patient
 the access rights granted, or to show a health professional the access rights it may pass on. The only HTTP method
 which SHALL be supported is `GET`.
 
@@ -44,7 +44,7 @@ Upon receiving the HTTP `GET` request, the Policy Repository SHALL:
 - Authorize the request: the patient of the request SHALL be the patient of the access token (`person_id`), and for
   the role `ADM` the community of the administration (`subject_organization_id`) SHALL manage the health dossier.
 - Return only the consents the requester may retrieve, as defined in
-  [Who May Record and Retrieve Which Consent](ppqm.html#who-may-record-and-retrieve-which-consent). Consents the
+  [Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent). Consents the
   requester may not retrieve SHALL NOT be included in the response, and their number SHALL NOT be disclosed.
 - Create a PPQ-5 response according to the transaction outcome.
 

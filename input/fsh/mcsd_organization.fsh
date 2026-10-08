@@ -120,7 +120,7 @@ examples"
 
 // Organization types of the electronic health dossier (E-GD) which the access rules depend on: the community managing
 // health dossiers (Art. 15 and 31 EGDG), whose administration acts on the dossiers it manages, and the military health
-// institution, whose health professionals may record data only with the consent of the holder (Art. 14 para. 2 EGDG).
+// institution, whose health professionals may record data only with the consent of the patient (Art. 14 para. 2 EGDG).
 // They are carried as an additional coding of Organization.type, next to the type of the health institution.
 
 CodeSystem: HealthDossierOrganizationType
@@ -134,7 +134,7 @@ access rules of the electronic health dossier (E-GD) depend on."
 * #community "Community" "A community managing health dossiers, whose administration acts on the health dossiers it manages (Art. 15 and 31 EGDG)."
 * #community ^designation[+].language = #de-CH
 * #community ^designation[=].value = "Gemeinschaft"
-* #military "Military health institution" "A military health institution, whose health professionals may record data only with the consent of the holder (Art. 14 para. 2 EGDG)."
+* #military "Military health institution" "A military health institution, whose health professionals may record data only with the consent of the patient (Art. 14 para. 2 EGDG)."
 * #military ^designation[+].language = #de-CH
 * #military ^designation[=].value = "Militärische Gesundheitseinrichtung"
 

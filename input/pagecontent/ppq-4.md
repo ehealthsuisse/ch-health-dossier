@@ -1,7 +1,7 @@
 ### Scope
 
 This transaction is used by the Policy Source to add, update, or delete a set of consents of a health dossier, e.g.
-when the holder grants an access right and appoints a representative at the same time. The only HTTP method which SHALL be supported is `POST`.
+when the patient grants an access right and appoints a representative at the same time. The only HTTP method which SHALL be supported is `POST`.
 
 ### HTTP Method POST
 
