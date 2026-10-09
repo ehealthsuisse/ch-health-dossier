@@ -26,12 +26,9 @@ This specification covers two different protocols for client registration:
   with a certificate assigned by the Federal Office of Public Health. This protocol SHALL be used by dossier owner
   to register a digital health application (e.g., a mobile health application).
 
-<!-- During the registration the client receives its `client_id` and exchanges its public key used for the client authentication and the HTTP message signature of the token request. -->
-
 ### Referenced Standards
 - [OAuth 2.0 Dynamic Client Registration Protocol (RFC 7591)](https://www.rfc-editor.org/rfc/rfc7591).
-- [RFC 7517 JSON Web Key](https://www.rfc-editor.org/info/rfc7517/). 
-
+- [RFC 7517 JSON Web Key](https://www.rfc-editor.org/info/rfc7517/).
 
 ### Sequences
 
@@ -77,6 +74,8 @@ Table: Sequence for dGA Client Registration
 
 #### Client Registration Request
 
+##### Message Semantics
+
 To register, the client sends an HTTP POST to the client registration endpoint with a content 
 type of "application/json". The HTTP payload is a JSON document with the requested client metadata.
 
@@ -89,8 +88,8 @@ The Client Registration Request SHALL contain the following parameters:
 - *id_token*: SHALL be the signed JWT with the identity token issued by the Identity provider. 
 - *software_statement*: A signed JSON document with a software statement as defined below. Required for dGA, SHALL not be used otherwise.
 
-The `software_statement` SHALL be used by dGA to present client metadata to the authorization in a way, that the authorization 
-server can verify that it’s issued and signed by the Federal Office of Public Health as part of the dGA admission process. 
+The `software_statement` SHALL be used by dGA to present client metadata in a way, that the authorization server can 
+verify that it’s issued and signed by the Federal Office of Public Health as part of the dGA admission process. 
 
 The `software_statement` contains the following parameter: 
 - *software_id*: The unique id of the dGA software.
@@ -98,8 +97,24 @@ The `software_statement` contains the following parameter:
 - *client_name*: The name of the dGA software.
 - *client_uri*: The URL of the vendor's website. 
 - *tos_uri*: The URL of the website displaying the terms of use.
-- *issuer*: The identifier of the Federal Office for Public Health. 
-- *iat*: The time the statement is issued by the Federal Office for Public Health.
+- *iss*: The identifier of the Federal Office for Public Health `2.16.756.5.30.1.129`. 
+- *iat*: The unix time stamp the statement was issued by the Federal Office for Public Health.
+- *exp*: The unix time stamp of the date the software statement expires. 
+
+##### Expected Actions
+
+<!-- TODO -->
+
+Verify the `id_token` attributes. 
+
+Verify the `id_token` signature. 
+
+Verify that the `id_token` is issued by a accepted identity provider. 
+
+Assign a unique `client_id` for the client app and register the app with the `client_id` and the metadata.
+
+If present, verify that the `software_statement` was issued by the  Federal Office of Public Health as 
+part of the dGA admission process and that the current time does not exceed the token expiration date.
 
 ##### Message Example
 
@@ -114,7 +129,7 @@ Host: server.example.com
 
 {
 "client_name":"my dGA",
-"token_endpoint_auth_method":"client_secret_basic",
+"token_endpoint_auth_method":"private_key_jwt",
 "grant_types":["client_credentials"], 
 "scope":"read write",
 "jwks":{"keys": [{
@@ -128,20 +143,21 @@ Host: server.example.com
    "kty": "RSA"
    }]},
 "id_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vY2xp
-ZW50LXNpbXVsYXRvci5vcmciLCJzdWIiOiJCZWFyZXIiLCJhdWQiOiJteS1jbGllbnQtaWQtM
-TIzIiwiZXhwIjoxNzkxMDk1NTk3LCJpYXQiOjE3OTEwOTQ5OTcsIm5vbmNlIjoibi0wUzZfV3
-pBMk1qIiwibmFtZSI6Ik1hcnRpbmEgTXVzdGVybWFubiJ9.tZ9z6QtAPUHdWnWabAAdcS4tVO
-sMlJ86Wokrsd9pSvh7p2FLhyOiRXaPb8_LJIQbwf-EGk2Qlm6O2-7yG8ZMam7grdqvt7Z7liQ
-IK3UFQ4-1lszeYfXgpKSWWzVcvU1a6vW2qK3OdkdoBdf-oe9Md1_wCs8qIBUUr6lZeBrki8EM
-yMjrzqY9VcSoREYH_u8FM6Tq6quGe_91an4SDjOuPqJ6qFWDJR6tnNabt87hqLO4-Bp_UOWWw
-rhmb0yv0MSIhvdiKGXLneCt1KlnYOMQctiXvOolF2RXHNrDGmHN0Vb07P6U2y4itk58pqhcKN
-fuyL86hckdFN4gDxj17Y-NRA",
-"software_statement":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb2Z0d2FyZV
-9pZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhp
-biIsImNsaWVudF9uYW1lIjoiU3BlY2lhbCBPQXV0aCBDbGllbnQiLCJjbGllbnRfdXJpIjoiaH
-R0cHM6Ly9leGFtcGxlLm9yZy8iLCJsb2dvX3VyaSI6Imh0dHBzOi8vZXhhbXBsZS5vcmcvbG9n
-by5wbmciLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLy
-J9.X4k7X-JLnOM9rZdVugYgHJBBnq3s9RsugxZQHMfrjCo" 
+  ZW50LXNpbXVsYXRvci5vcmciLCJzdWIiOiJCZWFyZXIiLCJhdWQiOiJteS1jbGllbnQtaWQtM
+  TIzIiwiZXhwIjoxNzkxMDk1NTk3LCJpYXQiOjE3OTEwOTQ5OTcsIm5vbmNlIjoibi0wUzZfV3
+  pBMk1qIiwibmFtZSI6Ik1hcnRpbmEgTXVzdGVybWFubiJ9.tZ9z6QtAPUHdWnWabAAdcS4tVO
+  sMlJ86Wokrsd9pSvh7p2FLhyOiRXaPb8_LJIQbwf-EGk2Qlm6O2-7yG8ZMam7grdqvt7Z7liQ
+  IK3UFQ4-1lszeYfXgpKSWWzVcvU1a6vW2qK3OdkdoBdf-oe9Md1_wCs8qIBUUr6lZeBrki8EM
+  yMjrzqY9VcSoREYH_u8FM6Tq6quGe_91an4SDjOuPqJ6qFWDJR6tnNabt87hqLO4-Bp_UOWWw
+  rhmb0yv0MSIhvdiKGXLneCt1KlnYOMQctiXvOolF2RXHNrDGmHN0Vb07P6U2y4itk58pqhcKN
+  fuyL86hckdFN4gDxj17Y-NRA",
+"software_statement":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb2Z0d2FyZV
+  9pZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGh
+  pbiIsImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbHRoIEFzc2lzdGFudCBBcHAiLCJjbGll
+  bnRfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtc
+  GxlLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6IjIuMTYuNzU2LjUuMzAuMS4xMjkiLC
+  JpYXQiOiIxNzg4ODc0Njk1IiwiZXhwIjoiMTg5OTk3NDY5NSJ9.j1YYOVjS9UMzjymbUUw5ve
+  V0BB2xqK4rrwJNp6nDTqs" 
 }
 ```
 
@@ -154,13 +170,45 @@ Where the `software_statement` payload may look like:
 "client_name": "Personal Health Assistant App",
 "client_uri": "https://example.org/",
 "tos_uri": "https://example.org/terms-of-service/", 
-"issuer": "OID of the FOPH", 
-"iat": "1788874695"
+"iss": "2.16.756.5.30.1.129", 
+"iat": 1788874695, 
+"exp": 1899974695
 }
 ```
 
 #### Client Information Response
 
-<!-- TODO -->
+##### Message Semantics
 
+Upon a successful registration request, the Authorization Server generates a new client ID an returns it to the
+client along with metadata associated with the client.
+
+The Client Information Response SHALL contain the following parameters:
+- *client_id*: SHALL be a unique ID assigned by the Authorization Server. 
+- *client_id_issued_at*: SHALL be the unix time stamp the `client_id` is issued by the Authorization Server.
+- *token_ endpoint_ auth_method*: SHALL be `private_key_jwt`.
+- *grant_types*: SHALL be `client_credentials`.
+- *scope*: SHALL be the list of scopes that the client can use when requesting tokens, formatted as a string of space-separated values.
+
+
+##### Expected Actions
+
+The Authorization Client SHALL register the `client_id` and the response metadata and use the information for the 
+future Token Requests to the Authorization Server.  
+
+##### Message Example
+
+The following listing displays a non-normative example for a Client Information Response:
+
+```
+HTTP/1.1 201 Created
+Content-Type: application/json
+{
+"client_id": "a7cf91c3-f0d5-4a22-81c9-5231c8650cc1",
+"client_id_issued_at": 1791540118,
+"token_endpoint_auth_method": "private_key_jwt",
+"grant_types": ["client_credentials"],
+"scope": "foo bar"
+}
+```
 
