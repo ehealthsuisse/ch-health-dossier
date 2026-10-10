@@ -155,17 +155,13 @@ Host: server.example.com
   Rwi__HAkY8bNGnZmrJaTIDh75SN7rZPSTyphwLC-0hH49r0AGZh20VP4WovVMTRuNsptOMgUs
   0-0UKxiNdyLaFzzELY0LBrIbQsTlwCIh63CFNWVLb8E93HNUgzEeImm7BVYv3ynBQtRNVdbjr
   b4aFCg1zI7MeSZ4bj2FDlS4Q9PZlHyL6vsGP642BG67Ai48pTR_w",
-"software_statement":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb2Z0d2FyZV9p
-  ZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhpb
-  iIsImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbHRoIEFzc2lzdGFudCBBcHAiLCJjbGllbn
-  RfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGx
-  lLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6IjIuMTYuNzU2LjUuMzAuMS4xMjkiLCJp
-  YXQiOjE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NX0.uWal3hRgns3g6tIdH_C3uKS2IFh4h
-  jXNZ_BWjC9pHHzklrk1XSPfLfPbiyfMJ5GeOkhghz_vHhmkQnbtZmSq9TzA4j42C_uV0tX3Yx
-  A2OqcTOXQCWxaX6TZupPlftoI9G1QXXMEmaoxfEC90baCOulhSKkV9L-sARKJUdPeKegml9o8
-  wBaZDhvS80U1fIC6LrG2D7p9oHvjFS8BuMVdF0GfueQhncCPkz7Mbn4Mqlyh0srpFsFE8vaOb
-  qZ1w3QKEGBJpfYeVRV9hqBh9XIYLZwgReEb7WXH6kkGqoDArQlUadi8ihewiTuzY8qGrjbark
-  1m64as6bq3OOLFbMeo2RA" 
+"software_statement":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0
+  NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTc5MTY0NTA1N
+  30.VN3Yh2nVujqLIELAlIFilHKcavsfrzYj0AwQ51_wz6PGDqFX1GGd8hRt01sxzZ6yZJ3vu0
+  gQ6Voe9AK9LcZnxLeoByjMiotHwpDUriCbs0d8v0wwi4gcYAoh67c_joFR9RRRHCf2abyrHWa
+  uhRDrHuxwRgib8IX3w3-fxU5yAQgzxgzTPDW_c5BBm9FxTJgS1eSjdIlhMiK1aqAvpeRdjMwm
+  B9JItnhAtikJ1xqVHHy0I-xdukBJyYOm5sG3RbH3EqW5o_9nHJYK472892XkkxLC7Cl5QMWpP
+  zH2qhVtXlTxplPacYMIy7jjfM9XNnuq8c_XJtd14o3H9d9qppVaew" 
 }
 ```
 
@@ -193,13 +189,11 @@ client together with the metadata associated with the client.
 
 The Client Information Response SHALL contain the following parameters:
 - *client_id*: SHALL be a unique ID assigned by the Authorization Server.
-- *client_name*: SHALL be the client name from the request.  
 - *client_id_issued_at*: SHALL be the Unix timestamp at which the Authorization Server issued the `client_id`.
 - *token_endpoint_auth_method*: SHALL be `private_key_jwt`.
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
   space-separated values.
-- *jwks*: SHALL be the JSON Web Key from the request.
 
 ##### Expected Actions
 
@@ -218,21 +212,10 @@ Pragma: no-cache
 
 {
 "client_id": "a7cf91c3-f0d5-4a22-81c9-5231c8650cc1",
-"client_name":"Personal Health Assistant App",
 "client_id_issued_at": 1791540118,
 "token_endpoint_auth_method": "private_key_jwt",
 "grant_types": ["client_credentials"],
-"scope": "foo bar", 
-"jwks":{"keys": [{
-    "e": "AQAB", 
-    "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
-        HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
-        lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
-        RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
-        2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
-        qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
-   "kty": "RSA"
-   }]}
+"scope": "foo bar"
 }
 ```
 
