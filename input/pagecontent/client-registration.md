@@ -106,20 +106,17 @@ The `software_statement` contains the following parameter:
 
 ##### Expected Actions
 
-<!-- TODO -->
+Upon receiving the registration request, the Authorization Server SHALL verify the `id_token` attributes and 
+the signature. The Authorization Server SHALL confirm that the `id_token` was issued by 
+an accepted identity provider. 
 
-Verify the `id_token` attributes. 
+If a `software_statement` is present, the Authorization Server SHALL verify that it has been issued by the 
+Federal Office of Public Health as part of the dGA admission process. The Authorization Server SHALL check 
+the signature and that the current time must not exceed its expiration date. 
 
-Verify the `id_token` signature. 
-
-Verify that the `id_token` is issued by an accepted identity provider. 
-
-Assign a unique `client_id` for the client app and register the app with the `client_id` and the metadata.
-
-If present, verify that the `software_statement` was issued by the Federal Office of Public Health as 
-part of the dGA admission process and that the current time does not exceed the expiration date.
-
-Verify the `software_statement` signature. 
+Once these checks succeed, the Authorization Server SHALL assign a unique `client_id` is assigned to the 
+client app, and the app is registered with that `client_id`, the user id from the `id_token` and 
+the public keys for client authentication.
 
 ##### Message Example
 
@@ -197,8 +194,8 @@ The Client Information Response SHALL contain the following parameters:
 
 ##### Expected Actions
 
-The Authorization Client SHALL register the `client_id` and the response metadata and use the information for the 
-future Token Requests to the Authorization Server.  
+The Authorization Client SHALL store the `client_id` and the metadata returned in the registration response, and 
+SHALL use them for all subsequent Token Requests to the Authorization Server.
 
 ##### Message Example
 
