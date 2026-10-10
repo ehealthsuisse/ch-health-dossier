@@ -33,16 +33,18 @@ Each category is described as a content profile. These content profiles are base
 The AuditEvent Resource has [mapping rules to the DICOM audit message format](http://hl7.org/fhir/R4/auditevent-mappings.html#dicom), which allows to map to ATNA.
 
 ### Audit Trail Consumption Event Types
-The following Audit Trail Consumption Event Types are defined and shall be supported, see [EprAuditTrailConsumptionEventTypes](http://fhir.ch/ig/ch-term/ValueSet/EprAuditTrailConsumptionEventType) from [Codesystem 2.16.756.5.30.1.127.3.10.7](https://fhir.ch/ig/ch-term/CodeSystem-2.16.756.5.30.1.127.3.10.7.html).
+The following Audit Trail Consumption Event Types are defined and shall be supported, see [EprAuditTrailConsumptionEventTypes](http://fhir.ch/ig/ch-term/ValueSet/EprAuditTrailConsumptionEventType) from [Codesystem 2.16.756.5.30.1.127.3.10.7](https://fhir.ch/ig/ch-term/CodeSystem-2.16.756.5.30.1.127.3.10.7.html). The types of the document management (`ATC_DOC_...`) are defined in the code system [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html) instead, which succeeds the document types of that code system.
 
 {:class="table table-bordered"}
 | Type | Description | Profile Ref | Opt Community |
 | --- | --- | --- | --- |
-| ATC_DOC_CREATE | Document upload | [Document Audit Event Content Profile](#document-audit-event-content-profile) | R |
-| ATC_DOC_READ | Document retrieval | [Document Audit Event Content Profile](#document-audit-event-content-profile) | R |
-| ATC_DOC_UPDATE | Document or Document Metadata update | [Document Audit Event Content Profile](#document-audit-event-content-profile) | R |
-| ATC_DOC_DELETE | Document removal | [Document Audit Event Content Profile](#document-audit-event-content-profile) | R |
-| ATC_DOC_SEARCH | Document search | [Document Audit Event Content Profile](#document-audit-event-content-profile) | R |
+| ATC_DOC_CREATE | Document upload | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
+| ATC_DOC_NEW_VERSION | New version of a document | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
+| ATC_DOC_READ | Document retrieval | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
+| ATC_DOC_UPDATE_CONFIDENTIALITY | Confidentiality code of a document changed | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
+| ATC_DOC_UPDATE_NOTE | Personal note on a document recorded | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
+| ATC_DOC_DELETE | Document removal | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
+| ATC_DOC_SEARCH | Document search | [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions) | R |
 | ATC_POL_CREATE_AUT_PART_AL | Authorize participants to access level/date | [Policy Audit Event Content Profile](#policy-audit-event-content-profile) | R, (NP if not reference community) |
 | ATC_POL_UPDATE_AUT_PART_AL | Update access level/date of authorized participants | [Policy Audit Event Content Profile](#policy-audit-event-content-profile) | R, (NP: if not reference community) |
 | ATC_POL_REMOVE_AUT_PART_AL | Remove authorization for participants | [Policy Audit Event Content Profile](#policy-audit-event-content-profile) | R, (NP: if not reference community) |
@@ -59,239 +61,20 @@ _Table 4: Audit Trail Consumption Event Types_
 
 ### Document Audit Event Content Profile
 
-This content profile describes Audit Event related to Document Management. The following Data Elements shall be provided:
+There is no separate content profile for the audit events of the document management anymore. The audit trail of a
+patient is built from the audit events which the actors serving the requests record for the document transactions
+themselves, see [Audit trail of the document transactions](ch-atc.html#audit-trail-of-the-document-transactions):
 
 {:class="table table-bordered"}
-<table>
-	<tbody>
-		<tr>
-			<td>
-				<p><strong>Data Element</strong></p>
-			</td>
-			<td>
-				<p><strong>Description</strong></p>
-			</td>
-			<td>
-				<p><strong>Property/Value</strong></p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Event Type</p>
-			</td>
-			<td colspan="2">
-				<p>
-                    Document upload<br />
-                    Document retrieval<br />
-                    Document or Document Metadata update<br />
-                    Document removal<br />
-				    Document search
-                </p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Event Date and Time</p>
-			</td>
-			<td>
-				<p>&nbsp;</p>
-			</td>
-			<td>
-				<p>FHIR instant</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Participants</p>
-			</td>
-			<td>
-				<p>&nbsp;</p>
-			</td>
-			<td>
-				<p>&nbsp;</p>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="6">
-				<p>Initiator</p>
-			</td>
-			<td>
-				<p>Patient</p>
-			</td>
-			<td>
-				<p>Name</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Representative of patient</p>
-			</td>
-			<td>
-				<p>Name<br />UAP-ID or EPR-SPID</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Authorized Healthcare Professional</p>
-			</td>
-			<td>
-				<p>Name<br />GLN</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Assistant of a Healthcare Professional</p>
-			</td>
-			<td>
-				<p>Name<br />GLN<sup><a name="_ftnref5.1" href="#_ftn5.1">[5.1]</a></sup></p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Technical User</p>
-			</td>
-			<td>
-				<p>Name<br />Identifier</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Document Administrator</p>
-			</td>
-			<td>
-				<p>Name<br />UAP-ID</p>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2">
-				<p>Responsible<sup><a name="_ftnref5.2" href="#_ftn5.2">[5.2]</a></sup></p>
-			</td>
-			<td>
-				<p>Patient</p>
-			</td>
-			<td>
-				<p>Name</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Healthcare Professional</p>
-			</td>
-			<td>
-				<p>Name<br />GLN</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Groups where Healthcare Professional is member</p>
-			</td>
-			<td>
-				<p>&nbsp;</p>
-			</td>
-			<td>
-				<p>Name of Group<br />OID</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Purpose of Use</p>
-			</td>
-			<td>
-				<p>&nbsp;</p>
-			</td>
-			<td>
-				<p>NORM, EMER, AUTO, DICOM_AUTO</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>Patient</p>
-			</td>
-			<td>
-				<p>Involved patient</p>
-			</td>
-			<td>
-				<p>EPR-SPID</p>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="3">
-				<p>Document<sup><a name="_ftnref5.3" href="#_ftn5.3">[5.3]</a></sup></p>
-			</td>
-			<td>
-				<p>type of document</p>
-			</td>
-			<td>
-				<p>typeCode<sup><a name="_ftnref5.4" href="#_ftn5.4">[5.4]</a></sup> (SNOMED CT code)</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>reference to document</p>
-			</td>
-			<td>
-				<p>
-                    <a href="https://profiles.ihe.net/ITI/TF/Volume3/ch-4.2.html#4.2.3.2.26">uniqueId</a><br />
-                    <a href="https://profiles.ihe.net/ITI/TF/Volume3/ch-4.2.html#4.2.3.2.18">repositoryUniqueId</a><br />
-                </p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p>title of document</p>
-			</td>
-			<td>
-				<p>
-                    <a href="https://profiles.ihe.net/ITI/TF/Volume3/ch-4.2.html#4.2.3.2.24">title</a>
-                </p>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<p><sup><a href="#_ftnref5.1" name="_ftn5.1">[5.1]</a></sup> if known, optional by XUA</p>
-<p><sup><a href="#_ftnref5.2" name="_ftn5.2">[5.2]</a></sup> If different from Initiator (Representative of patient acting on behalf of a patient then patient is responsible).</p>
-<p><sup><a href="#_ftnref5.3" name="_ftn5.3">[5.3]</a></sup> Required for Document upload, Document retrieval, Document or Document Metadata update and Document removal but not for Document search.</p>
-<p><sup><a href="#_ftnref5.4" name="_ftn5.4">[5.4]</a></sup> Annex 3 EPRO-FDHA, chapter 2.6 type of document (2.16.756.5.30.1.127.3.10.1.27).</p>
+| Event | Transaction | Audit event profile | Example |
+| --- | --- | --- | --- |
+| Document upload, new version of a document | [ITI-65](iti-65.html) | [CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html) | [upload](AuditEvent-ChAuditEventIti65RecipientExample.html), [new version](AuditEvent-ChAuditEventIti65RecipientCorrectionExample.html) |
+| Document search | [ITI-67](iti-67.html) | [CH Audit Event for [ITI-67] Document Responder](StructureDefinition-ChAuditEventIti67Responder.html) | [search](AuditEvent-ChAuditEventIti67ResponderExample.html) |
+| Document retrieval | [ITI-68](iti-68.html) | [CH Audit Event for [ITI-68] Document Responder](StructureDefinition-ChAuditEventIti68Responder.html) | [retrieval](AuditEvent-ChAuditEventIti68ResponderExample.html) |
+| Confidentiality code changed, personal note recorded | [CH:MHD-1](ch-mhd-1.html) | [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html) | [confidentiality code](AuditEvent-ChAuditEventChMhd1ResponderExample.html), [personal note](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html) |
+| Document removal | [CH:MHD-2](ch-mhd-2.html) | [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html) | [removal](AuditEvent-ChAuditEventChMhd2ResponderExample.html) |
 
-_Table 5: Document Audit Event Data Elements_
-
-This profile defines the content of the document audit events which a community has to provide for a patient's audit trail. This profile builds on AuditEvent ([http://hl7.org/fhir/R4/auditevent.html](http://hl7.org/fhir/R4/auditevent.html)).   
-* [StructureDefinition for Document Audit Event Profile](StructureDefinition-DocumentAuditEvent.html)
-
-The mapping from the Document Audit Event Resource to the Data Elements is as follows:   
-* [Mapping for Document Audit Event Profile](StructureDefinition-DocumentAuditEvent-mappings.html)
-
-
-#### Example of a Document Audit Event: Document upload
-
-{:class="table table-bordered"}
-| Event | Upload |
-| Resource title of Document | Austrittsbericht von Julia Helfe-Gern |
-| Resource: type of Document | Sonstige Dokumentation (SNOMED CT: 419891008) |
-| Resource: reference to Document | uniqueID |
-| Event Date and Time | 10.10.2020 18:29 |
-| Participant, Initiator | Julia Helfe-Gern |
-| Participant, Responsible | representing Jakob Wieder-Gesund |
-
-_Table 6: Uploading a Record Artifact by a patient representative (atc-doc-create-rep-pat)_
-
-* Example for Document Audit Event Profile: [XML](AuditEvent-atc-doc-create-rep-pat.xml.html), [JSON](AuditEvent-atc-doc-create-rep-pat.json.html)
-
-
-#### Example of a Document Audit Event: Document search
-
-{:class="table table-bordered"}
-| Event | Search for documents |
-| Event Date and Time | 10.10.2020 18:49 |
-| Participant, Initiator | David Mustermann |
-| Participant, Responsible | representing Dr. med. Sabine Musterfrau |
-| Participant, Group | Kardiologie Universitätsspital Musterstadt |
-| Purpose of event | Emergency Access |
-
-_Table 7: Example of a Document Audit Event: Document search_
-
-* Example for Document Audit Event Profile: [XML](AuditEvent-atc-doc-search.xml.html), [JSON](AuditEvent-atc-doc-search.json.html)
-
+_Table 5: Audit events of the document transactions_
 
 ### Policy Audit Event Content Profile
 

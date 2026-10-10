@@ -22,9 +22,12 @@
     IUA actor diagram accordingly.
   * Changed the [ITI-71](iti-71.html) token request example of a clinical archive system from a basic to an extended
     access token with `person_id`, since the clinical archive knows the EPR-SPID and no longer queries it with PIXm ITI-83.
+    Added a token request example of a clinical archive system for a basic access token (without `person_id`), e.g. to
+    record its audit events with ITI-20. The `scope` parameter with the `purpose_of_use` and `subject_role` scopes is
+    required for both basic and extended access tokens, and the `subject_role` and `purpose_of_use` claims are required
+    in the basic access token too.
   * Replaced the remarks referring to the removed Workflow Initiator Option and Technical User Option in the required
-    actor groupings with the transactions a technical user (`TCU`) may use: ITI-65 and CH:MHD-2 of the MHD Document
-    Source and ITI-20, not allowed for all other IUA Authorization Clients. Added the rule to reject `TCU` access tokens
+    actor groupings with the transactions a technical user (`TCU`) may use: ITI-65, ITI-90, ITI-130, ITI-119, ITI-20, not allowed for all other IUA Authorization Clients. Added the rule to reject `TCU` access tokens
     for other transactions in [Enforcement of Access Rules](accesscontrol.html#technical-users).
   * Updated the `user_id` table of the JWT `ch_epr` extension in [ITI-71](iti-71.html): merged the Document
     Administrator and Policy Administrator into Administration (`ADM`) with the qualifier
@@ -32,8 +35,13 @@
     `urn:e-health-suisse:representative-id`, and corrected the swapped administrator qualifiers.
   * [ITI-65](iti-65.html#documententryoriginalproviderrole): the originalProviderRole SHALL NOT be changed with
     CH:MHD-1 (instead of the XDS Metadata Update actors Update Initiator and Document Administrator), added legal
-    representatives and the administration, and linked the AuthorRole and originalProviderRole to the value set
+    representatives and the administration, and linked the originalProviderRole to the value set
     [CH Health Dossier Author Role](ValueSet-HealthDossierAuthorRole.html) instead of the CH Term value sets.
+  * Corrected the mapping of the access token to the audit event agents in
+    [CH Audit Event with a Basic Auth Token](StructureDefinition-ChAuditEventBasicToken-mappings.html): for an access
+    token with the `ch_delegation` extension (assistant) the healthcare professional (principal) is the main user
+    and the authenticated assistant is the delegated user; the mapping had the two swapped. A technical user is the
+    main user, identified by the GLN of the legal responsible person. Described the two agents in [ITI-20](iti-20.html).
 * Corrections
   * The audit event examples of the MHD, PIXm, PDQm, mCSD and PPQm transactions carry the role of the healthcare
     professional in the code system [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)
@@ -56,6 +64,7 @@
   * Removed the ITI-83 PIXm query from the clinical archive diagram, the clinical archive knows the EPR-SPID.
   * Removed the loop over confidentiality codes when publishing documents.
   * Removed the unused diagram sources for the SMART on FHIR standalone launch with the identity provider.
+  * Renamed the participant group "Community Components" to "Health Dossier Information System".
 * mCSD
   * [Examples](iti-mcsd.html#examples): removed the link to the eHealth Suisse test data (Community A and B) and
     cropped the picture of the example structure to the health institutions and health professionals, the
@@ -73,6 +82,7 @@
 * PDQm
   * Defined mapping for eCH-0215 / 213 (https://github.com/ehealthsuisse/ch-health-dossier/issues/7)
   * Added support for identifying a patient by the minimal demographics and the AHVN13 in ITI-119 to retrieve the EPR-SPID (https://github.com/ehealthsuisse/ch-health-dossier/issues/2)
+  * Added a sequence diagram for retrieving the EPR-SPID of a patient by the minimal demographics and the AHVN13
 * PIXm
     * Removed ITI-83 Query (no local-id cross-referencing) 
     * Restricted ITI-104 Feed to allow only update of contact information (revise message), requires extended access token
@@ -83,10 +93,52 @@
     new [Appendix: Enforcement of Access Rules](accesscontrol.html), covering the access rules of the patient and of the
     requesting health professional or health institution
   * Added the CH MHD DocumentReference profile to the Volume 3 menu
-  * Required `DocumentReference.author` (1..*) and required it to be identified either by a logical reference carrying
-    the identifier of the authoring person or institution in `author.identifier` — analogous to `subject.identifier`
-    carrying the EPR-SPID, typically a GLN, or an EPR-SPID for a patient author — or by a reference to a resource,
-    contained or held elsewhere (invariant `ch-mhd-author-1`). 
+  * Separated the author of a document from who provided it, in the
+    [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) only, without the SubmissionSet:
+    * `DocumentReference.author` (0..1) is information for the reader and is given as text: either a logical reference
+      with `display` and `type` (Practitioner, Organization, Patient or RelatedPerson), or a contained PractitionerRole
+      with the name of the person and of the institution in `practitioner.display` and `organization.display`; an
+      identifier (GLN, OID, EPR-SPID) may be added (invariants `ch-mhd-author-1` and `ch-mhd-author-2`), see
+      [ITI-65](iti-65.html#author-of-the-document). No right to a document follows from its author.
+    * `DocumentReference.custodian` carries the [provider institution](iti-65.html#provider-institution): the OID of
+      the institution or group on whose behalf the document was provided. It is required for the originalProviderRole
+      `HCP`, `ASS` and `TCU` and absent otherwise (invariant `ch-mhd-custodian-1`).
+    * The Document Recipient verifies the originalProviderRole and the provider institution against the access token
+      in [ITI-65](iti-65.html); both, and the author, cannot be changed with [CH:MHD-1](ch-mhd-1.html).
+    * Stated in [ITI-65](iti-65.html#correction-of-a-published-document) which role may publish a new version of
+      which documents, and keyed the right of `HCP` and `ASS` to purge a document in
+      [CH:MHD-2](ch-mhd-2.html#roles-which-may-purge-a-document) on the provider institution instead of the author.
+    * Removed the extension for the SubmissionSet.Author.AuthorRole from the
+      [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html): the role of the provider is carried in
+      the DocumentReference only.
+    * [ITI-67](iti-67.html): added the search parameter `custodian` to find the documents provided by an institution;
+      the search parameters `author.given` and `author.family` of MHD are not supported, since the author is given as
+      text (deviation from MHD). Replaced `author` by `custodian` in the MHD Document Consumer and Document Responder
+      CapabilityStatements.
+    * Audit events of the document transactions ([ITI-65](iti-65.html), [ITI-68](iti-68.html),
+      [CH:MHD-1](ch-mhd-1.html), [CH:MHD-2](ch-mhd-2.html)): the document is recorded only with its master identifier,
+      not its title, type or confidentiality code (for ITI-65 one entity per document, naming the replaced document
+      for a new version; for a change of the confidentiality code in CH:MHD-1 the new confidentiality code), with the role `Report` instead of `Job` in CH:MHD-1 and
+      CH:MHD-2. Added the optional agent `group` (0..*) for the institutions or groups of the main user to the CH audit event
+      profiles, fixed the system of the patient identifier to the EPR-SPID for transactions with an extended access
+      token, and added audit event examples for all document transaction examples (see [ITI-20](iti-20.html) and
+      [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions)).
+    * Added the code system [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html),
+      successor of the Audit Trail Consumption event types of the EPR: `ATC_DOC_UPDATE` is split into
+      `ATC_DOC_UPDATE_CONFIDENTIALITY` and `ATC_DOC_UPDATE_NOTE`, and `ATC_DOC_NEW_VERSION` is added. The audit
+      events of the document transactions carry the type as an additional subtype, required for the actor serving
+      the request, so that an audit consumer can filter on it (see
+      [audit event types](ch-atc.html#audit-event-types)).
+    * Removed the CH:ATC Document Audit Event Content Profile (profile `DocumentAuditEvent`, value set
+      `DocumentAuditEventType`, identifier profile `ch-atc-uniqueid-identifier` and the examples `atc-doc-*`): the
+      audit trail of a patient is built from the audit events of the document transactions, see
+      [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions). The response of [ITI-81](iti-81.html) and the
+      Patient Audit Record Repository CapabilityStatement refer to the audit event profiles of the Document Recipient
+      and Document Responder instead, and ITI-81 can be filtered on the audit event types with `subtype`.
+    * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html) and
+      [document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html), each with
+      its Provide Document Bundle, and the Provide Document Bundle for a document provided by an assistant with
+      its audit events (healthcare professional as main user, assistant as delegated user).
   * Removed DocumentReference.sourcePatientInfo and authorSpeciality requirement
   * Required the ITI-65 FHIR Documents Publish Option for the Document Source and the Document Recipient, so that a
     FHIR document can be published as a FHIR document Bundle resource in the `FhirDocuments` entry of the

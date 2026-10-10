@@ -7,7 +7,7 @@ Description: "This is the profile for Swiss Audit Events when a transaction is s
 * agent ^slicing.discriminator.type = #value
 * agent ^slicing.discriminator.path = "type"
 * agent ^slicing.rules = #open
-* agent contains mainUser 0..1 and delegatedUser 0..1
+* agent contains mainUser 0..1 and delegatedUser 0..1 and group 0..*
 * entity ^slicing.discriminator.type = #value
 * entity ^slicing.discriminator.path = "type"
 * entity ^slicing.rules = #open
@@ -26,13 +26,14 @@ Token."
   * what.identifier 1..1
     * value 1..1
     * system 1..1
+    * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 
 
 // All rules that apply to the AuditEvents with both Basic and Extended Tokens
 // You have to define the slices in the profile before applying this one
 RuleSet: ChAuditEventRules
 * agent[mainUser]
-  * ^short = "The main user (patient, representative, healthcare professional, or administrator)"
+  * ^short = "The responsible user: the patient, representative, healthcare professional, administrator or technical user who made the request, or the healthcare professional on whose behalf an assistant made it"
   * type = $v3ParticipationType#RESP "responsible party"
   * role 1..1
   * altId 1..1
@@ -40,11 +41,23 @@ RuleSet: ChAuditEventRules
   * purposeOfUse 0..1
   * purposeOfUse from http://fhir.ch/ig/ch-term/ValueSet/EprPurposeOfUse
 * agent[delegatedUser]
-  * ^short = "The person who acted on behalf of the main user (an assistant or technical user)"
+  * ^short = "The assistant who made the request on behalf of the main user. Only present when the access token carries a delegation."
   * type = $v3ParticipationType#PPRF "primary performer"
   * role 1..1
   * altId 1..1
   * name 1..1
+* agent[group]
+  * ^short = "A health institution or group of healthcare professionals the main user is a member of (optional)"
+  * ^comment = "Optional. The groups and institutions of the main user as conveyed in the access token (ch_group), or only the one on whose behalf the main user acts where that is known, e.g. the provider institution of a document which is provided, replaced or purged. Absent when the main user is a patient, a representative, a legal representative or an administrator."
+  * type = $v3RoleClass#PROV "healthcare provider"
+  * role 1..1
+  * role = $ehealthAgentRole#GRP "Group"
+  * who 1..1
+  * who.identifier 1..1
+  * who.identifier only OidIdentifier
+  * who.identifier ^short = "OID of the institution or group"
+  * name 1..1
+  * name ^short = "Name of the institution or group"
 * source
   * site 1..1
   * site ^short = "The OID of the audit source"
@@ -61,19 +74,53 @@ RuleSet: ChAuditEventRules
 
 // Rule Sets for our AuditEvents with basic access tokens
 RuleSet: ChAuditEventBasicRules
-* agent contains mainUser 0..1 and delegatedUser 0..1
+* agent contains mainUser 0..1 and delegatedUser 0..1 and group 0..*
 * insert ChAuditEventRules
 
 
 // Rule Sets for our AuditEvents with extended access tokens
 RuleSet: ChAuditEventExtendedRules
-* agent contains mainUser 1..1 and delegatedUser 0..1
+* agent contains mainUser 1..1 and delegatedUser 0..1 and group 0..*
 * insert ChAuditEventRules
 * agent[mainUser].purposeOfUse 1..1
 * entity[patient] 1..1
   * what.identifier 1..1
     * value 1..1
     * system 1..1
+    * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+
+
+// The type of the event in the audit trail of the patient, as an additional subtype. It is required for the actor
+// serving the request (min 1) and optional for the actor making it (min 0).
+RuleSet: ChAuditEventTypeCodeRules(min, code, display)
+* subtype contains auditTrailType {min}..1
+* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the patient"
+* subtype[auditTrailType] = $healthDossierAuditEventType#{code} "{display}"
+
+
+// As above, where the type is one of the codes of a value set
+RuleSet: ChAuditEventTypeValueSetRules(min, max, valueSet)
+* subtype contains auditTrailType {min}..{max}
+* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the patient"
+* subtype[auditTrailType] from {valueSet} (required)
+
+
+// The document a transaction is about. Only its master identifier is recorded, not its title, type or
+// confidentiality code. The slice has to be defined in the profile before applying this rule set.
+RuleSet: ChAuditEventDocumentEntityRules(slice)
+* insert ChAuditEventDocumentIdentifierRules({slice})
+* entity[{slice}] ^comment = "Only the master identifier of the document is recorded: the title, the type and the confidentiality code of the document SHALL NOT be recorded."
+* entity[{slice}].securityLabel ..0
+
+
+// The master identifier of the document, without title and type
+RuleSet: ChAuditEventDocumentIdentifierRules(slice)
+* entity[{slice}].what.identifier 1..1
+* entity[{slice}].what.identifier ^short = "The master identifier (uniqueId) of the document, DocumentReference.masterIdentifier"
+* entity[{slice}].what.identifier.system 1..1
+* entity[{slice}].what.identifier.value 1..1
+* entity[{slice}].name ..0
+* entity[{slice}].description ..0
 
 
 // Reference mapping from the XUA assertion to the CH Audit Event
@@ -91,19 +138,43 @@ Title:   "CH XUA Assertion"
   * name         -> "Subject/SubjectConfirmation/SubjectConfirmationData/AttributeStatement/Attribute[@Name=\"urn:oasis:names:tc:xspa:1.0:subject:subject-id\"]/AttributeValue"
 
 
-// Reference mapping from the IUA Extended Token to the CH Audit Event
+// Reference mappings from the IUA Basic/Extended Token to the CH Audit Event.
+// The access token always describes the authenticated user in the ihe_iua and ch_epr extensions. Where that user acts
+// on behalf of a healthcare professional (assistant), the healthcare professional is conveyed in the ch_delegation
+// extension. In the audit event the main user is the responsible party, so the two cases map differently.
+// A technical user (TCU) has no ch_delegation extension: its user_id is the GLN of the legal responsible person.
 Mapping: ChJwtToAuditEventMapping
 Source:  ChAuditEventBasicToken
 Target:  "https://www.bag.admin.ch/epra"
-Title:   "CH JWT Basic/Extended Token"
+Title:   "CH JWT Basic/Extended Token without delegation"
+Description: "Access token of a patient, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the GLN of the legal responsible person of the clinical archive system."
 * agent[mainUser]
   * role         -> "extensions.ihe_iua.subject_role"
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
   * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
-* agent[delegatedUser]
+* agent[group]
+  * who.identifier -> "extensions.ch_group.id" "One agent for each group recorded"
+  * name           -> "extensions.ch_group.name" "One agent for each group recorded"
+
+
+Mapping: ChJwtDelegationToAuditEventMapping
+Source:  ChAuditEventBasicToken
+Target:  "https://www.bag.admin.ch/epra"
+Title:   "CH JWT Basic/Extended Token with delegation"
+Description: "Access token of an assistant acting on behalf of a healthcare professional (ch_delegation extension present): the healthcare professional is the main user, the authenticated assistant is the delegated user."
+* agent[mainUser]
+  * role         -> "HCP" "The principal is a healthcare professional, the role is not conveyed in the token"
   * altId        -> "extensions.ch_delegation.principal_id"
   * name         -> "extensions.ch_delegation.principal"
+  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
+* agent[delegatedUser]
+  * role         -> "extensions.ihe_iua.subject_role" "ASS"
+  * altId        -> "extensions.ch_epr.user_id"
+  * name         -> "extensions.ihe_iua.subject_name"
+* agent[group]
+  * who.identifier -> "extensions.ch_group.id" "One agent for each group recorded"
+  * name           -> "extensions.ch_group.name" "One agent for each group recorded"
 
 
 // Rule Sets for examples
@@ -164,3 +235,58 @@ RuleSet: ChExampleAuditEventEntityPatientRules
     * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
   * type = $auditEntityType#1 "Person"
   * role = $objectRole#1 "Patient"
+
+
+// Rules for an extended token for a patient
+RuleSet: ChExampleAuditEventPatRules
+* agent[mainUser]
+  * role = $healthDossierRole#PAT "Patient"
+  * altId = "761337610411353650"
+  * name = "Franziska Muster"
+  * requestor = true
+  * purposeOfUse = $purposeOfUse#NORM "Normal Access"
+
+
+// Rules for an extended token for an assistant acting on behalf of a healthcare professional: the healthcare
+// professional (principal) is the main user, the assistant is the delegated user
+RuleSet: ChExampleAuditEventAssRules
+* agent[mainUser]
+  * role = $healthDossierRole#HCP "Healthcare professional"
+  * altId = "2000000090092"
+  * name = "Martina Musterarzt"
+  * requestor = false
+  * purposeOfUse = $purposeOfUse#NORM "Normal Access"
+* agent[delegatedUser]
+  * type = $v3ParticipationType#PPRF "primary performer"
+  * role = $healthDossierRole#ASS "Assistant"
+  * altId = "2000000090108"
+  * name = "Dagmar Musterassistent"
+  * requestor = true
+
+
+// Rules for an extended token for a technical user (clinical archive system)
+RuleSet: ChExampleAuditEventTcuRules
+* agent[mainUser]
+  * role = $healthDossierRole#TCU "Technical user"
+  * altId = "7601000201041"
+  * name = "Clinical archive system Spital X"
+  * requestor = true
+  * purposeOfUse = $purposeOfUse#AUTO "Automatic Upload"
+
+
+// Rules for the institution or group on whose behalf the main user acts
+RuleSet: ChExampleAuditEventGroupRules(oid, name)
+* agent[group]
+  * type = $v3RoleClass#PROV "healthcare provider"
+  * role = $ehealthAgentRole#GRP "Group"
+  * who.identifier.system = "urn:ietf:rfc:3986"
+  * who.identifier.value = "urn:oid:{oid}"
+  * name = "{name}"
+  * requestor = false
+
+
+// Rules for an entity representing a document, the slice type and role have to be set in the example
+RuleSet: ChExampleAuditEventEntityDocumentRules(slice, uniqueId)
+* entity[{slice}]
+  * what.identifier.system = "urn:ietf:rfc:3986"
+  * what.identifier.value = "urn:oid:{uniqueId}"

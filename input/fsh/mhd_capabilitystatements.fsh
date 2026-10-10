@@ -31,10 +31,10 @@ Usage: #definition
 * rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated"
 * rest.resource[=].searchParam[=].type = #date
 * rest.resource[=].searchParam[=].documentation = "When the resource version last changed"
-* rest.resource[=].searchParam[+].name = "author"
-* rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-author"
+* rest.resource[=].searchParam[+].name = "custodian"
+* rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-custodian"
 * rest.resource[=].searchParam[=].type = #reference
-* rest.resource[=].searchParam[=].documentation = "Who and/or what authored the document"
+* rest.resource[=].searchParam[=].documentation = "Provider institution: the institution on whose behalf the document was provided. Searched with the modifier :identifier and the OID of the institution."
 * rest.resource[=].searchParam[+].name = "category"
 * rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-category"
 * rest.resource[=].searchParam[=].type = #token
@@ -132,10 +132,10 @@ Usage: #definition
 * rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated"
 * rest.resource[=].searchParam[=].type = #date
 * rest.resource[=].searchParam[=].documentation = "When the resource version last changed"
-* rest.resource[=].searchParam[+].name = "author"
-* rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-author"
+* rest.resource[=].searchParam[+].name = "custodian"
+* rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-custodian"
 * rest.resource[=].searchParam[=].type = #reference
-* rest.resource[=].searchParam[=].documentation = "Who and/or what authored the document"
+* rest.resource[=].searchParam[=].documentation = "Provider institution: the institution on whose behalf the document was provided. Searched with the modifier :identifier and the OID of the institution."
 * rest.resource[=].searchParam[+].name = "category"
 * rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/DocumentReference-category"
 * rest.resource[=].searchParam[=].type = #token

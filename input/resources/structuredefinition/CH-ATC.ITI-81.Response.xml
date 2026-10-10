@@ -69,7 +69,7 @@
 		<element id="Bundle.entry:DocumentAuditEvent">
 			<path value="Bundle.entry" />
 			<sliceName value="DocumentAuditEvent" />
-			<short value="AuditEvent" />
+			<short value="Audit event of a document transaction, as recorded by the actor serving the request" />
 			<min value="0" />
 			<max value="*" />
 		</element>
@@ -82,7 +82,11 @@
 			<min value="1" />
 			<type>
 				<code value="AuditEvent" />
-				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/DocumentAuditEvent" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti65Recipient" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti67Responder" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti68Responder" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-responder" />
+				<profile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-purgedocument-audit-responder" />
 			</type>
 			<mustSupport value="true" />
 		</element>

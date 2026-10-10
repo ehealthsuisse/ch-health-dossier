@@ -66,7 +66,8 @@ The IUA Authorization Client SHALL send an IUA compliant OAuth 2.1 Token Request
 type with Swiss extensions:
 - grant_type (required): The value of the parameter shall be `client_credentials`.
 - client_id (required): The ID the IUA Authorization Client is registered at the IUA Authorization Server.
-- scope (required): The scope claimed by the IUA Authorization Client, as defined in the table below.
+- scope (required): The scope claimed by the IUA Authorization Client, as defined below. Required for requesting
+  both basic and extended access tokens.
 - resource (optional): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 <br/>
@@ -89,11 +90,13 @@ The Token Request SHALL use the following Swiss extension:
 
 The scope parameter of the request MAY claim the following attributes:
 
-- There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)). 
+- There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token))
+  for both basic and extended access tokens.
   The token SHALL convey the coded value of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), 
   `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set 
   (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`).
-- There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)). 
+- There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token))
+  for both basic and extended access tokens.
   The token SHALL convey the coded value of the subject’s role. Allowed values are `PAT` (patient), `REP` (representative),
   `LEGREP` (legal representative), `HCP` (healthcare professional), `ASS` (assistant), `TCU` (technical user, clinical
   archive) or `ADM` (administration) from the code system [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)
@@ -213,6 +216,27 @@ grant_type=client_credentials
 &person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO 
 ```
 
+A token request of a clinical archive system for a basic access token, which is requested without `person_id`, e.g.
+to record its audit events with [Record Audit Event [ITI-20]](iti-20.html), may look like:
+
+```
+POST /token HTTP/1.1
+Host: epr.auth-server.com
+Content-Type: application/x-www-form-urlencoded
+Content-length:276
+Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
+Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
+Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
+
+grant_type=client_credentials
+&client_id=<client_id>
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=<signed JWT>
+&principal=<the-principal-name>
+&principal_id=<the-principal-id>
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU
+```
+
 A token request of a clinical archive system for an extended access token may look like:
 
 ```
@@ -253,8 +277,8 @@ the following table:
 | subject_name            | R/R                             | The username as text.                                                     | 
 | subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
 | subject_organization_id | O/O                             | The OID of the user’s organization in URN notation.                       |
-| subject_role            | O/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
-| purpose_of_use          | O/R                             | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
+| subject_role            | R/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
+| purpose_of_use          | R/R                             | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
 | person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
 {:class="table table-bordered"}
 
@@ -270,14 +294,15 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 <br/>
 
-| user role               | user_id  | user_id_qualifier                             |
-|-------------------------|----------|-----------------------------------------------|
-| Patient (`PAT`)                   | EPR-SPID | urn:e-health-suisse:2015:epr-spid             |
-| Healthcare Professional (`HCP`)   | GLN      | urn:gs1:gln                                   |
-| Assistant (`ASS`)                 | GLN      | urn:gs1:gln                                   |
-| Representative (`REP`)            | IdP-ID   | urn:e-health-suisse:representative-id         |
-| Legal Representative (`LEGREP`)   | IdP-ID   | urn:e-health-suisse:representative-id         |
-| Administration (`ADM`)            | IdP-ID   | urn:e-health-suisse:administrator-id          |
+| user role                       | user_id  | user_id_qualifier                     | Remark                                                               |
+|---------------------------------|----------|---------------------------------------|----------------------------------------------------------------------|
+| Patient (`PAT`)                 | EPR-SPID | urn:e-health-suisse:2015:epr-spid     |                                                                      |
+| Healthcare Professional (`HCP`) | GLN      | urn:gs1:gln                           |                                                                      |
+| Assistant (`ASS`)               | GLN      | urn:gs1:gln                           |                                                                      |
+| Representative (`REP`)          | IdP-ID   | urn:e-health-suisse:representative-id |                                                                      |
+| Legal Representative (`LEGREP`) | IdP-ID   | urn:e-health-suisse:representative-id |                                                                      |
+| Administration (`ADM`)          | IdP-ID   | urn:e-health-suisse:administrator-id  |                                                                      |
+| Clinical Archive System (`TCU`) | GLN      | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding |
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>

@@ -60,9 +60,16 @@ request which updates other metadata, or metadata which the role of the requeste
 OperationOutcome with the error code
 [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
 
+In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
+(extension [originalProviderRole](iti-65.html#documententryoriginalproviderrole)) and the
+[provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
+stay the ones of the document as it was provided, also where a patient, a representative, a legal representative or
+the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
+in the audit event of the transaction.
+
 ##### Recording a personal note
 
-A patient can record a personal note on a document (see use case [Patient adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
+A patient, or a representative, a legal representative or an administrator acting on behalf of the patient, can record a personal note on a document (see use case [Patient adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
 the metadata of the document and adding a [PersonalNote](StructureDefinition-ch-ext-personalnote.html) extension, which
 carries the text of the note, the patient it belongs to and the time it was recorded. The document itself and its data
 stay unchanged and no new version of the document is published. 
@@ -129,12 +136,27 @@ The actors SHALL support the _traceparent_ header handling, as defined in [Appen
 
 The **Document Source** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-1] Document Source](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-source.html)
-([example](AuditEvent-ChAuditEventChMhd1SourceExample.html)).
+([example for a changed confidentiality code](AuditEvent-ChAuditEventChMhd1SourceExample.html),
+[example for a personal note](AuditEvent-ChAuditEventChMhd1SourcePersonalNoteExample.html)).
 
 ##### Document Responder Audit
 
 The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html)
 ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)).
+
+The audit events record the document whose metadata is updated with its master identifier (not its title or type),
+and the user who updated it. What was updated is recorded as a subtype of the audit event, see
+[audit event types](ch-atc.html#audit-event-types):
+
+- `ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed
+  ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity SHALL carry the new
+  confidentiality code (`entity.securityLabel`), the one before the update is not recorded. The new confidentiality
+  code is recorded if and only if the audit event has this subtype;
+- `ATC_DOC_UPDATE_NOTE` where a personal note was recorded or replaced
+  ([example](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html)). The text of the note SHALL NOT be
+  recorded in the audit event.
+
+An audit event carries both subtypes where a request changes the confidentiality code and records a personal note.
 
 For a [transaction](StructureDefinition-ch-mhd-1-updatedocumentmetadatatransactionrequest.html) instead of a direct PUT interaction, the actors SHALL also be able to record audit events for each Update Document Metadata Request Message in the Bundle.

@@ -156,5 +156,40 @@ This profile supports the following Use Cases:
   <li>A patient representative can request a protocol of the activities related to the patients delegated EPR.</li>
 </ol>
 
+### Audit trail of the document transactions
+
+For the document transactions the audit trail of a patient is built from the audit events which the actors serving
+the requests record for the transactions themselves ([ITI-65](iti-65.html), [ITI-67](iti-67.html),
+[ITI-68](iti-68.html), [CH:MHD-1](ch-mhd-1.html) and [CH:MHD-2](ch-mhd-2.html)), and no separate audit event has to be
+generated for the audit trail. These audit events replace the Document Audit Event Content Profile of CH:ATC and
+carry its information: the user and, for an assistant, the healthcare professional on whose behalf the assistant acts (see
+[ITI-20](iti-20.html)), the patient, the document and the type of the event.
+
+The audit events of the document transactions record the document concerned only with its master identifier
+(`DocumentReference.masterIdentifier`). The title, the type and the confidentiality code of the document SHALL NOT be
+recorded in the audit events, with one exception: where the confidentiality code of a document was changed
+(`ATC_DOC_UPDATE_CONFIDENTIALITY`, see [CH:MHD-1](ch-mhd-1.html#security-audit-considerations)), the new
+confidentiality code is recorded. An audit consumer which displays the title or the type in the audit trail of a
+patient reads them from the DocumentReference; for a purged document only the master identifier is available.
+
+#### Audit event types
+
+The audit events of the document transactions carry, in addition to the code of the transaction, the type of the
+event in the audit trail of the patient as a subtype (`AuditEvent.subtype`), from the code system
+[CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html). The actor serving the request SHALL
+record it, the actor making the request MAY record it. An audit consumer can filter the audit events on these types
+with the search parameter `subtype`.
+
+{:class="table table-bordered"}
+| Audit event type                 | Event                                      | Transaction                                   |
+|----------------------------------|--------------------------------------------|-----------------------------------------------|
+| `ATC_DOC_CREATE`                 | Document upload                            | [ITI-65](iti-65.html)                         |
+| `ATC_DOC_NEW_VERSION`            | New version of a document                  | [ITI-65](iti-65.html#correction-of-a-published-document) |
+| `ATC_DOC_SEARCH`                 | Document search                            | [ITI-67](iti-67.html)                         |
+| `ATC_DOC_READ`                   | Document retrieval                         | [ITI-68](iti-68.html)                         |
+| `ATC_DOC_UPDATE_CONFIDENTIALITY` | Confidentiality code of a document changed | [CH:MHD-1](ch-mhd-1.html)                     |
+| `ATC_DOC_UPDATE_NOTE`            | Personal note on a document recorded       | [CH:MHD-1](ch-mhd-1.html)                     |
+| `ATC_DOC_DELETE`                 | Document removal                           | [CH:MHD-2](ch-mhd-2.html)                     |
+
 ### Security Considerations
 This national extension enforces authentication and authorization of access using the IUA profile as described in [IUA](iti-iua.html).
