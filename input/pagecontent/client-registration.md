@@ -18,9 +18,9 @@ Server requires, such as the requested scopes and the public keys used for clien
 This specification covers two variants of dynamic client registration. In both, the request is authorized by a natural
 person who is authenticated at an Identity Provider accepted for the Swiss Health Dossier.
 
-* **User Authorized Client Registration:** SHALL be used by healthcare professionals or assistants to register
+- *User Authorized Client Registration:* SHALL be used by healthcare professionals or assistants to register
   a primary system or a clinical archive system.
-* **dGA Client Registration:** SHALL be used by dossier owners to register a digital health application
+- *dGA Client Registration:* SHALL be used by dossier owners to register a digital health application
   (dGA, e.g., a mobile health application). In addition, the dGA is identified by a software statement issued by the
   Federal Office of Public Health (FOPH).
 
@@ -118,8 +118,8 @@ register the application with this `client_id`, the user ID from the `id_token`,
 including the public keys for client authentication.
 
 If a check fails, the Authorization Server SHALL reject the request with an error response as defined in
-[RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`,
-`invalid_software_statement` or `unapproved_software_statement`.
+[RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`, `invalid_software_statement` or 
+`unapproved_software_statement`.
 
 ##### Message Example
 
