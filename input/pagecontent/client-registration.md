@@ -224,7 +224,8 @@ Pragma: no-cache
 "grant_types": ["client_credentials"],
 "scope": "foo bar", 
 "jwks":{"keys": [{
-    "e": "AQAB", 
+    "e": "AQAB",
+    "use": "sig", 
     "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
         HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
         lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
@@ -235,4 +236,19 @@ Pragma: no-cache
    }]}
 }
 ```
+
+### Security Consideration 
+
+The Authorization Server SHALL use TLS 1.2 or higher for the dynamic registration endpoint. The Authorization 
+Server SHALL authenticate itself with an X.509 certificate that is a class 2 TLS certificate issued by a trusted 
+certification service provider that is recognized under the Swiss Federal Act on Electronic Signatures 
+(ZertES; SR 943.03) and listed by the Swiss Accreditation Service (SAS). The Authorization Client SHALL 
+verify the Authorization Server’s TLS certificate.
+
+The Authorization Client SHALL provide a JSON Web Key (JWK) that meets the Authorization Server’s requirements. 
+The Authorization Server SHALL support, at a minimum, the RS256 algorithm (RSASSA-PKCS1-v1_5 using SHA-256).
+
+If a software statement is used, the Authorization Client SHALL keep it confidential and SHALL NOT present 
+it to any party other than the Authorization Server.
+ 
 
