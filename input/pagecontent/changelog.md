@@ -58,6 +58,8 @@
   * Corrected the scope of [CH:MHD-1](ch-mhd-1.html) (Document Source instead of Document Consumer) and removed a
     duplicated sentence.
   * Distinct titles for the PPQm code systems and value sets with the same title.
+  * Corrected the `value[x]` paths and element ids of the detail slices in the CH:ATC PolicyAuditEvent profile, which
+    the IG Publisher 3.0.0 rejects.
 * OpenID Connect
   * Added the OpenID Connect page (Annex 8) specifying the authorization code flow, identity token, UserInfo and RP-initiated logout for EPR Identity Providers.
 * Sequence diagrams
