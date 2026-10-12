@@ -116,7 +116,8 @@ SHALL restrict it to the actions granted in that consent, and to the confidentia
 #### Military health professionals
 
 A health professional or assistant acting for a military health institution (an organization of the type
-[military](CodeSystem-HealthDossierOrganizationType.html) in the directory, see [mCSD](iti-mcsd.html)) may only record
+`722172003` *Military health institution* in the directory, see
+[mCSD](iti-mcsd.html#communities-and-military-health-institutions)) may only record
 data while a [military recording](ppqm-consent.html#consent-military-recording) consent of the patient for the health
 professional or the health institution is in effect.
 

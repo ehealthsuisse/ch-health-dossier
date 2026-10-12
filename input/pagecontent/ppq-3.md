@@ -157,7 +157,7 @@ profile and the profile of its consent type, and SHALL verify the following rule
 | [Delegation](ppqm-consent.html#consent-delegation) | The access right in `sourceReference` SHALL be in effect, SHALL grant the action `delegate`, and SHALL have the performer of the delegation, or a group or health institution the performer is a member of, as grantee. The end date of the delegation SHALL NOT be later than the end date of the access right. |
 | [Representative](ppqm-consent.html#consent-representative) | The performer SHALL be the patient; a legal representative SHALL NOT appoint a representative. |
 | [Digital health application](ppqm-consent.html#consent-digital-health-application) | The client ID SHALL be the one of an admitted digital health application registered at the IUA Authorization Server, and the actions SHALL be within the scopes of its admission. |
-| [Military recording](ppqm-consent.html#consent-military-recording) | The grantee SHALL be an organization of the type `military` in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member. |
+| [Military recording](ppqm-consent.html#consent-military-recording) | The grantee SHALL be an organization of the type `722172003` *Military health institution* (SNOMED CT) in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member. |
 {:class="table table-bordered"}
 
 Table 2: Validation rules by consent type

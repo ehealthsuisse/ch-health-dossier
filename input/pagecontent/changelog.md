@@ -313,6 +313,8 @@
     administration is a representative or administrator ID resolved from the `sub` of the identity token (was
     "IdP-ID"); how these IDs are defined is open.
   * [mCSD](iti-mcsd.html#communities-and-military-health-institutions): added the code system
-    [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) to mark communities and
-    military health institutions, with examples.
+    [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) with the code `community`,
+    bound in the slice `type:community` of [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html), to
+    mark communities; military health institutions are marked with the SNOMED CT code `722172003` *Military health
+    institution (environment)*. Examples for both.
 * Fork from [CH EPR FHIR](https://fhir.ch/ig/ch-epr-fhir/5.0.0/), rename to CH Health Dossier

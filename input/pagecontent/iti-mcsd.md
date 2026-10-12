@@ -52,16 +52,23 @@ Therefore, actors of this profile must be grouped with actors of other profiles 
 ### Communities and military health institutions
 
 The access rules of the health dossier depend on two kinds of organizations in the directory (see
-[Enforcement of Access Rules](accesscontrol.html)). They are marked with an additional coding of `Organization.type`
-from the code system [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html), next to the
-type of the health institution:
+[Enforcement of Access Rules](accesscontrol.html)). They are marked in `Organization.type`:
 
-- `community`: a community managing health dossiers. Its administration (`ADM`) acts only on the health dossiers it
-  manages; the IUA Authorization Server verifies the community of an administrator in the directory
+- Community: a community managing health dossiers is marked with the code `community` of the code system
+  [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) (slice `type:community` of
+  [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html)). Its administration (`ADM`) acts only on the
+  health dossiers it manages; the IUA Authorization Server verifies the community of an administrator in the directory
   (see [ITI-71](iti-71.html#administrators)) ([example](Organization-Community.html)).
-- `military`: a military health institution. Its health professionals may record data only with the consent of the
-  patient (Art. 14 para. 2 EGDG, see [CH:PPQm](ppqm-consent.html#consent-military-recording))
-  ([example](Organization-MilitaryHealthInstitution.html)).
+- Military health institution: a military health institution is marked with the SNOMED CT code
+  `722172003` *Military health institution (environment)* of the value set
+  [DocumentEntry.healthcareFacilityTypeCode](http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.healthcareFacilityTypeCode).
+  Its health professionals may record data only with the consent of the patient (Art. 14 para. 2 EGDG, see
+  [CH:PPQm](ppqm-consent.html#consent-military-recording)) ([example](Organization-MilitaryHealthInstitution.html)).
+
+<div markdown="1" class="stu-note">
+SNOMED CT has no concept for a community managing health dossiers yet. Once a concept is available (e.g. in the Swiss
+extension), the code `community` may be replaced by it.
+</div>
 
 <div markdown="1" class="stu-note">
 To be clarified: how the administrators of a community are identified and registered in the directory as its members.

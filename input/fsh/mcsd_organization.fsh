@@ -10,6 +10,16 @@ Description: "CH mCSD profile on Organization"
 * identifier[OID] ^short = "The OID of the organization"
 * identifier[OID] ^patternIdentifier.system = "urn:ietf:rfc:3986"
 * type 1..
+* type ^slicing.discriminator.type = #pattern
+* type ^slicing.discriminator.path = "$this"
+* type ^slicing.rules = #open
+* type ^slicing.description = "Slice for the organization type of the health dossier"
+* type contains community 0..1
+* type[community] = HealthDossierOrganizationType#community
+* type[community] ^short = "Community managing health dossiers"
+* type[community] ^definition = "Marks a community managing health dossiers (Art. 15 and 31 EGDG), whose administration
+acts on the health dossiers it manages. A military health institution is marked with the SNOMED CT code
+722172003 |Military health institution (environment)| of the health institution type instead."
 * name 1..
 
 
@@ -118,34 +128,21 @@ examples"
 * address[=].country = "CH"
 
 
-// Organization types of the electronic health dossier (E-GD) which the access rules depend on: the community managing
-// health dossiers (Art. 15 and 31 EGDG), whose administration acts on the dossiers it manages, and the military health
-// institution, whose health professionals may record data only with the consent of the patient (Art. 14 para. 2 EGDG).
-// They are carried as an additional coding of Organization.type, next to the type of the health institution.
+// Organization type of the electronic health dossier (E-GD) which the access rules depend on: the community managing
+// health dossiers (Art. 15 and 31 EGDG), whose administration acts on the dossiers it manages. SNOMED CT has no concept
+// for it yet. A military health institution (Art. 14 para. 2 EGDG) uses the SNOMED CT code 722172003 instead.
 
 CodeSystem: HealthDossierOrganizationType
 Id: HealthDossierOrganizationType
 Title: "CH Health Dossier Organization Type"
 Description: "The types of organizations in the directory of health professionals and health institutions which the
-access rules of the electronic health dossier (E-GD) depend on."
+access rules of the electronic health dossier (E-GD) depend on and which SNOMED CT does not cover."
 * ^caseSensitive = true
 * ^experimental = false
 * ^content = #complete
 * #community "Community" "A community managing health dossiers, whose administration acts on the health dossiers it manages (Art. 15 and 31 EGDG)."
 * #community ^designation[+].language = #de-CH
 * #community ^designation[=].value = "Gemeinschaft"
-* #military "Military health institution" "A military health institution, whose health professionals may record data only with the consent of the patient (Art. 14 para. 2 EGDG)."
-* #military ^designation[+].language = #de-CH
-* #military ^designation[=].value = "Militärische Gesundheitseinrichtung"
-
-
-ValueSet: HealthDossierOrganizationTypeVS
-Id: HealthDossierOrganizationType
-Title: "CH Health Dossier Organization Type Value Set"
-Description: "The types of organizations in the directory of health professionals and health institutions which the
-access rules of the electronic health dossier (E-GD) depend on."
-* ^experimental = false
-* include codes from system HealthDossierOrganizationType
 
 
 Instance: CHmCSDOrganizationCommunity
@@ -156,19 +153,18 @@ Description: "An example of a community managing health dossiers, marked with th
 * identifier[OID].system = "urn:ietf:rfc:3986"
 * identifier[OID].value = "urn:oid:2.999.1"
 * active = true
-* type[+].coding = HealthDossierOrganizationType#community "Community"
+* type[community].coding = HealthDossierOrganizationType#community "Community"
 * name = "Community managing the health dossier"
 
 
 Instance: CHmCSDOrganizationMilitary
 InstanceOf: CHmCSDOrganization
 Title: "CH mCSD Organization: Military Health Institution"
-Description: "An example of a military health institution, marked with the organization type military next to the type
-of the health institution."
+Description: "An example of a military health institution, marked with the SNOMED CT code 722172003 Military health
+institution (environment) as the type of the health institution."
 * id = "MilitaryHealthInstitution"
 * identifier[OID].system = "urn:ietf:rfc:3986"
 * identifier[OID].value = "urn:oid:2.999.3"
 * active = true
-* type[+].coding = $sct#22232009 "Hospital"
-* type[+].coding = HealthDossierOrganizationType#military "Military health institution"
+* type[+].coding = $sct#722172003 "Military health institution"
 * name = "Military health institution"

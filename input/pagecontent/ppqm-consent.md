@@ -298,7 +298,7 @@ of the administration (`Consent.organization` of the opening).
    ID (`urn:e-health-suisse:dga-client-id`), the registration of an application with the actions of its admission and
    the mapping of the actions to scopes have to be aligned with the client registration (issue #11).
 8. **Military recording.** Military health institutions are marked in the directory with the organization type
-   `military` ([mCSD](iti-mcsd.html#communities-and-military-health-institutions)). Art. 14 para. 2 EGDG allows the
+   `722172003` *Military health institution* of SNOMED CT ([mCSD](iti-mcsd.html#communities-and-military-health-institutions)). Art. 14 para. 2 EGDG allows the
    consent to be stored in a military system instead. The requirements catalogue does not list this consent.
 9. **Legal basis in `policy.uri`.** The consents reference the profile of their consent type as their rules (R4
     requires `policy` or `policyRule`). Once the EGDG and its ordinances are enacted, the legal basis may be referenced
