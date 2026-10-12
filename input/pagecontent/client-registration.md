@@ -119,7 +119,7 @@ If a check fails, the Authorization Server SHALL reject the request with an erro
 
 ##### Message Example
 
-The following listing displays a non-normative example of a Client Registration Request:
+The following listing displays a non-normative example of a Client Registration Request (line breaks within values are for display purposes only):
 
 ```
 POST /register HTTP/1.1
@@ -167,7 +167,7 @@ Host: server.example.com
 
 Where the `software_statement` payload may look like:
 
-```{json}
+```json
 {
 "software_id": "84012-39134-3912",
 "software_version": "1.2.5-dolphin",
@@ -195,7 +195,7 @@ The Client Information Response SHALL contain the following parameters:
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
   space-separated values.
-- *jwks*: SHALL be the JSON Web Key from the request.
+- *jwks*: SHALL be the JSON Web Key Set from the request.
 
 ##### Expected Actions
 
@@ -204,7 +204,7 @@ SHALL use them in all subsequent Token Requests to the Authorization Server.
 
 ##### Message Example
 
-The following listing displays a non-normative example for a Client Information Response:
+The following listing displays a non-normative example for a Client Information Response (line breaks within values are for display purposes only):
 
 ```
 HTTP/1.1 201 Created
@@ -215,13 +215,12 @@ Pragma: no-cache
 {
 "client_id": "a7cf91c3-f0d5-4a22-81c9-5231c8650cc1",
 "client_name":"Personal Health Assistant App",
-"client_id_issued_at": 1791540118,
+"client_id_issued_at": 1791095100,
 "token_endpoint_auth_method": "private_key_jwt",
 "grant_types": ["client_credentials"],
 "scope": "foo bar", 
 "jwks":{"keys": [{
     "e": "AQAB",
-    "use": "sig", 
     "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
         HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
         lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
