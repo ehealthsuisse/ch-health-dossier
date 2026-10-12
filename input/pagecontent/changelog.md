@@ -87,6 +87,8 @@
     LDAP schema mappings, together with the profile LdapIdentifier and the NamingSystem LDAP. Removed the considerations
     for implementing mCSD with an LDAP backend (HPD) from [ITI-130](iti-130.html). The informative mapping to the LDAP
     schema of the HPD in the profiles is kept.
+  * The OID of the organization is required in [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html)
+    (`identifier[OID]` 1..1, was 0..1).
 * PDQm
   * Defined mapping for eCH-0215 / 213 (https://github.com/ehealthsuisse/ch-health-dossier/issues/7)
   * Added support for identifying a patient by the minimal demographics and the AHVN13 in ITI-119 to retrieve the EPR-SPID (https://github.com/ehealthsuisse/ch-health-dossier/issues/2)

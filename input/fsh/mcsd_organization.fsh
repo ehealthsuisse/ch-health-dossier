@@ -5,7 +5,7 @@ Title: "CH mCSD Organization"
 Description: "CH mCSD profile on Organization"
 * obeys ch-mcsd-organization-ihe-conformance
 * identifier 1..
-* identifier contains OID 0..1
+* identifier contains OID 1..1
 * identifier[OID] only OidIdentifier
 * identifier[OID] ^short = "The OID of the organization"
 * identifier[OID] ^patternIdentifier.system = "urn:ietf:rfc:3986"
