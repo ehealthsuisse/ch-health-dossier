@@ -15,7 +15,7 @@ IdP --> Client: AuthN Token
 
 |||
 
-Client -> AuthzServer: Client Registration Request (AutnN Token)
+Client -> AuthzServer: Client Registration Request (AuthN Token)
 AuthzServer --> Client: Client Information Response
 
 @enduml

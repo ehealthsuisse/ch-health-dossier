@@ -6,6 +6,8 @@
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
     the Identity Token in in the *id_token* field of the token request. 
   * Add support for client-asymmetric authentication specified in FHIR Backend Service authentication section and is used in the European Health Data Space and UMZH Connect.  
+  * Added the [Client Registration](client-registration.html) page specifying the user authorized and the dGA dynamic
+    client registration (RFC 7591) with `private_key_jwt` [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11).
   * Removed the SMART on FHIR standalone and EHR launch option. 
   * Removed the specification of the TCU option, the separate token flow for technical users, since TCU requests are
     now usual client credential requests without an identity token of a user. The `TCU` role and the onboarding checks
@@ -56,6 +58,8 @@
   * Corrected the scope of [CH:MHD-1](ch-mhd-1.html) (Document Source instead of Document Consumer) and removed a
     duplicated sentence.
   * Distinct titles for the PPQm code systems and value sets with the same title.
+  * Corrected the `value[x]` paths and element ids of the detail slices in the CH:ATC PolicyAuditEvent profile, which
+    the IG Publisher 3.0.0 rejects.
 * OpenID Connect
   * Added the OpenID Connect page (Annex 8) specifying the authorization code flow, identity token, UserInfo and RP-initiated logout for EPR Identity Providers.
 * Sequence diagrams
