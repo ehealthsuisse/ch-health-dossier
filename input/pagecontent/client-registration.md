@@ -1,7 +1,3 @@
-<div markdown="1" class="dragon">
-This page is work in progress, see [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11).
-</div>
-
 ### Scope
 
 This page describes how an IUA Authorization Client is registered at the IUA Authorization Server so that it can
