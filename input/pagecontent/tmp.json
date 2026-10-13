@@ -1,0 +1,20 @@
+{
+  "client_name":"Personal Health Assistant App",
+  "token_endpoint_auth_method":"private_key_jwt",
+  "grant_types":["client_credentials"],
+  "scope":"foo bar",
+  "jwks":{"keys": [{
+    "kty": "RSA",
+    "e": "AQAB",
+    "use": "sig",
+    "alg": "RS256",
+    "n": "mg8wBb_pVkMQrchfTCWd-J1Nnv25N0ors8UI8P46ZFyKAFGTzRI8zlVIqWhPqclfMpA8qqGXDvDk5E6wVfJKuIpXvrRfsntWqcKItu49HrnOIk2aH1_AFLyu4z3Hg4pzL_yNbars_-S2QpCIWdYiY8ayOSSlMQopGOa618CqO9YSTb5N_CySuK3GzPmP8MlHYzuJz6jM2AEysDQnCByqX5EtolTEa12BWDiqzn4BqzMMepEaZNtxO5iqgxGs-vmIC74ToGUHahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJF166-WZg5lUZw"
+  }, {
+    "kty": "RSA",
+    "e": "AQAB",
+    "use": "sig",
+    "alg": "RS256",
+    "n": "qoaJMjFdDHg-Hm6Upxoq2WT9DvVwJcpaPwYzmNvtP6rL7wlMICA8-FRTHgFWw_R9CyGqHUp7hmiILvTm1o_BB-ek8iO9p2bHse_Zqx1KiK6xcYWTuqRM23LHdd5xkPBjSR30pLVNC-3dM34mvtlJ9Fn_SGOv2jJlD9-HUeIlwCCPM2nJEZbap_1M3vlSei1QJcbbMmDTIKw88J2wIm8mcuk5EqdEPTjmYQNh8s4I27CTLmHj1Jhmlc70ZhsrgsULvdVxKJDlsGxItn3l6HbnJO_-clsyP2DAWS7rHRACNzYOgRmAyURIREqygtDLDg_6gzzWNSLa8_CLGHwwirIyIQ"
+  }
+  ]}
+}

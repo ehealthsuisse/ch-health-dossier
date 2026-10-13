@@ -81,7 +81,8 @@ The Client Registration Request SHALL contain the following parameters:
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
   space-separated values.
-- *jwks*: SHALL be the JSON Web Key Set containing the public keys for client authentication.
+- *jwks*: SHALL be the JSON Web Key Set containing the public keys for client authentication (client-asymmetric 
+  authentication JWT and http signature).
 - *id_token*: SHALL be the signed JWT containing the identity token issued by the Identity Provider.
 - *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for
   dGA Client Registration and SHALL NOT be present otherwise.
@@ -137,15 +138,28 @@ Host: server.example.com
 "grant_types":["client_credentials"], 
 "scope":"foo bar",
 "jwks":{"keys": [{
-    "e": "AQAB", 
-    "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
-        HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
-        lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
-        RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
-        2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
-        qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
-   "kty": "RSA"
-   }]},
+    "kty":"RSA",
+    "e":"AQAB",
+    "use":"sig",
+    "alg":"RS256",
+    "n":"mg8wBb_pVkMQrchfTCWd-J1Nnv25N0ors8UI8P46ZFyKAFGTzRI8zlVIqWhPqclfM
+        pA8qqGXDvDk5E6wVfJKuIpXvrRfsntWqcKItu49HrnOIk2aH1_AFLyu4z3Hg4pzL_y
+        Nbars_-S2QpCIWdYiY8ayOSSlMQopGOa618CqO9YSTb5N_CySuK3GzPmP8MlHYzuJz
+        6jM2AEysDQnCByqX5EtolTEa12BWDiqzn4BqzMMepEaZNtxO5iqgxGs-vmIC74ToGU
+        HahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJ
+        F166-WZg5lUZw"
+  }, {
+    "kty":"RSA",
+    "e":"AQAB",
+    "use":"sig",
+    "alg":"RS256",
+    "n":"qoaJMjFdDHg-Hm6Upxoq2WT9DvVwJcpaPwYzmNvtP6rL7wlMICA8-FRTHgFWw_R9Cy
+        GqHUp7hmiILvTm1o_BB-ek8iO9p2bHse_Zqx1KiK6xcYWTuqRM23LHdd5xkPBjSR30p
+        LVNC-3dM34mvtlJ9Fn_SGOv2jJlD9-HUeIlwCCPM2nJEZbap_1M3vlSei1QJcbbMmDT
+        IKw88J2wIm8mcuk5EqdEPTjmYQNh8s4I27CTLmHj1Jhmlc70ZhsrgsULvdVxKJDlsGx
+        Itn3l6HbnJO_-clsyP2DAWS7rHRACNzYOgRmAyURIREqygtDLDg_6gzzWNSLa8_CLGH
+        wwirIyIQ"
+  }]}
 "id_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJpZC1wcm92aWRlci
   IsInN1YiI6ImUyMDVhNmFjLTcxNDItNGYxMC1hMTNlLTJiYmUzZjc2Nzk5MiIsImF1ZCI6ImN
   saWVudC13aXRoLWlkLTEyMzQ1Njc4OSIsImV4cCI6MTc5MTA5NTU5NywiaWF0IjoxNzkxMDk0
@@ -208,7 +222,8 @@ SHALL use them in all subsequent Token Requests to the Authorization Server.
 
 ##### Message Example
 
-The following listing displays a non-normative example for a Client Information Response (line breaks within values are for display purposes only):
+The following listing displays a non-normative example for a Client Information Response (line breaks within values 
+are for display purposes only):
 
 ```
 HTTP/1.1 201 Created
@@ -224,15 +239,28 @@ Pragma: no-cache
 "grant_types": ["client_credentials"],
 "scope": "foo bar", 
 "jwks":{"keys": [{
-    "e": "AQAB",
-    "n": "nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
-        HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
-        lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
-        RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
-        2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
-        qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
-   "kty": "RSA"
-   }]}
+    "kty":"RSA",
+    "e":"AQAB",
+    "use":"sig",
+    "alg":"RS256",
+    "n":"mg8wBb_pVkMQrchfTCWd-J1Nnv25N0ors8UI8P46ZFyKAFGTzRI8zlVIqWhPqclfM
+        pA8qqGXDvDk5E6wVfJKuIpXvrRfsntWqcKItu49HrnOIk2aH1_AFLyu4z3Hg4pzL_y
+        Nbars_-S2QpCIWdYiY8ayOSSlMQopGOa618CqO9YSTb5N_CySuK3GzPmP8MlHYzuJz
+        6jM2AEysDQnCByqX5EtolTEa12BWDiqzn4BqzMMepEaZNtxO5iqgxGs-vmIC74ToGU
+        HahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJ
+        F166-WZg5lUZw"
+  }, {
+    "kty":"RSA",
+    "e":"AQAB",
+    "use":"sig",
+    "alg":"RS256",
+    "n":"qoaJMjFdDHg-Hm6Upxoq2WT9DvVwJcpaPwYzmNvtP6rL7wlMICA8-FRTHgFWw_R9Cy
+        GqHUp7hmiILvTm1o_BB-ek8iO9p2bHse_Zqx1KiK6xcYWTuqRM23LHdd5xkPBjSR30p
+        LVNC-3dM34mvtlJ9Fn_SGOv2jJlD9-HUeIlwCCPM2nJEZbap_1M3vlSei1QJcbbMmDT
+        IKw88J2wIm8mcuk5EqdEPTjmYQNh8s4I27CTLmHj1Jhmlc70ZhsrgsULvdVxKJDlsGx
+        Itn3l6HbnJO_-clsyP2DAWS7rHRACNzYOgRmAyURIREqygtDLDg_6gzzWNSLa8_CLGH
+        wwirIyIQ"
+  }]}
 }
 ```
 
