@@ -108,6 +108,9 @@ Upon receiving the registration request, the Authorization Server SHALL:
 2. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process.
    That means checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key,
    and checking that the current time does not exceed `exp`.
+3. verify that the user identified by the `id_token` is entitled to the registration variant: a patient 
+   or their representative for dGA Client Registration, a healthcare professional or assistant for 
+   User Authorized Client Registration.
 
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
 register the application with this `client_id`, the user ID from the `id_token`, and the submitted metadata,
@@ -119,7 +122,8 @@ If a check fails, the Authorization Server SHALL reject the request with an erro
 
 ##### Message Example
 
-The following listing displays a non-normative example of a Client Registration Request (line breaks within values are for display purposes only):
+The following listing displays a non-normative example of a Client Registration Request (line breaks within values are 
+for display purposes only):
 
 ```
 POST /register HTTP/1.1
