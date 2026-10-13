@@ -13,12 +13,16 @@ Server requires, such as the requested scopes and the public keys used for clien
 
 This specification covers two variants of dynamic client registration. In both, the request is authorized by a natural
 person who is authenticated at an Identity Provider accepted for the Swiss Health Dossier.
-
 - *User Authorized Client Registration:* SHALL be used by healthcare professionals or assistants to register
-  a primary system or a clinical archive system.
+  a primary system.
 - *dGA Client Registration:* SHALL be used by dossier owners to register a digital health application
   (dGA, e.g., a mobile health application). In addition, the dGA is identified by a software statement issued by the
   Federal Office of Public Health (FOPH).
+
+Dynamic client registration SHALL NOT be used for clinical archive systems with role `TCU` defined in 
+[Internet User Authorization (IUA)](iti-iua.html). For security reasons, such systems require out-of-band 
+registration, including additional proofs of identity and authorization.
+
 
 ### Referenced Standards
 - [OAuth 2.0 Dynamic Client Registration Protocol (RFC 7591)](https://www.rfc-editor.org/rfc/rfc7591).
