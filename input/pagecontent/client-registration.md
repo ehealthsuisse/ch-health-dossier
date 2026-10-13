@@ -108,14 +108,13 @@ The software statement contains the following claims:
 
 Upon receiving the registration request, the Authorization Server SHALL:
 
-1. verify the attributes and the signature of the `id_token`, and confirm that it was issued by an accepted
-   Identity Provider;
-2. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process.
-   That means checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key,
-   and checking that the current time does not exceed `exp`.
-3. verify that the user identified by the `id_token` is entitled to the registration variant: a patient 
-   or their representative for dGA Client Registration, a healthcare professional or assistant for 
-   User Authorized Client Registration.
+1. verify the `id_token` as specified in OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
+2. verify that the `id_token` is signed by one of the identity provider accepted for the EPR.
+3. verify that the user identified by the `id_token` is entitled to the registration variant: a patient or their 
+representative for dGA Client Registration, a healthcare professional or assistant for User Authorized Client Registration.
+4. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process.
+That means checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key,
+and checking that the current time does not exceed `exp`.
 
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
 register the application with this `client_id`, the user ID from the `id_token`, and the submitted metadata,
