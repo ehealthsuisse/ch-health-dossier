@@ -270,11 +270,8 @@ Pragma: no-cache
 
 ### Security Consideration 
 
-The Authorization Server SHALL use TLS 1.2 or higher for the dynamic registration endpoint. The Authorization 
-Server SHALL authenticate itself with an X.509 certificate that is a class 2 TLS certificate issued by a trusted 
-certification service provider that is recognized under the Swiss Federal Act on Electronic Signatures 
-(ZertES; SR 943.03) and listed by the Swiss Accreditation Service (SAS). The Authorization Client SHALL 
-verify the Authorization Server’s TLS certificate.
+The Authorization Server SHALL use TLS 1.2 or higher for the dynamic registration endpoint. The Authorization Client 
+SHALL verify the Authorization Server’s TLS certificate.
 
 The Authorization Client SHALL provide a JSON Web Key (JWK) that meets the Authorization Server’s requirements. 
 The Authorization Server SHALL support, at a minimum, the RS256 algorithm (RSASSA-PKCS1-v1_5 using SHA-256).
