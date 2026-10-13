@@ -245,5 +245,9 @@ The Authorization Server SHALL support, at a minimum, the RS256 algorithm (RSASS
 
 If a software statement is used, the Authorization Client SHALL keep it confidential and SHALL NOT present 
 it to any party other than the Authorization Server.
- 
 
+This can be achieved, for example, by multi-tier web applications that store the software statement exclusively 
+on the server side. A software statement that is statically included in a mobile app binary cannot be treated 
+as confidential, because any user can extract it. Mobile apps can nevertheless keep a software statement confidential 
+if they obtain it at installation time from an endpoint operated by the vendor, rather than shipping it in the binary
+(see related discussion in [RFC 8252 OAuth 2.0 for Native Apps](https://www.rfc-editor.org/info/rfc8252/), Section 8).
