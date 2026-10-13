@@ -121,7 +121,7 @@ profile of its consent type."
 * provision.action.coding           1..1
 * provision.securityLabel           from HealthDossierConfidentialityCode (required)
 * provision.securityLabel           ^short = "The confidentiality levels the grantee may read"
-* provision.purpose                 from HealthDossierConsentPurposeOfUse (required)
+* provision.purpose                 from HealthDossierPurposeOfUse (required)
 * provision.class                   0..0
 * provision.code                    0..0
 * provision.dataPeriod              0..0

@@ -44,6 +44,10 @@
     token with the `ch_delegation` extension (assistant) the healthcare professional (principal) is the main user
     and the authenticated assistant is the delegated user; the mapping had the two swapped. A technical user is the
     main user, identified by the GLN of the legal responsible person. Described the two agents in [ITI-20](iti-20.html).
+  * Added the value set [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) (`NORM`, `EMER`)
+    for the `purpose_of_use` of the access token in [ITI-71](iti-71.html), the consents and the audit events, instead
+    of the CH Term value set `EprPurposeOfUse`. The purpose of use `AUTO` (automatic upload) is no longer used, the
+    audit event examples of a clinical archive system use `NORM` ([#13](https://github.com/ehealthsuisse/ch-health-dossier/issues/13)).
 * Corrections
   * The audit event examples of the MHD, PIXm, PDQm, mCSD and PPQm transactions carry the role of the healthcare
     professional in the code system [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)

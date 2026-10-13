@@ -120,7 +120,7 @@ request are not returned."
   * altId 1..1
   * name 1..1
   * purposeOfUse 0..1
-  * purposeOfUse from http://fhir.ch/ig/ch-term/ValueSet/EprPurposeOfUse
+  * purposeOfUse from HealthDossierPurposeOfUse
 * agent[delegatedUser]
   * ^short = "An assistant who acted on behalf of the main user, only identified by the role"
   * type = $v3ParticipationType#PPRF "primary performer"

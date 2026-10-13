@@ -184,17 +184,6 @@ Server may issue to the digital health application acting for the patient."
 * HealthDossierConsentAction#manage-access "Manage access rights"
 
 
-ValueSet: HealthDossierConsentPurposeOfUse
-Id: HealthDossierConsentPurposeOfUse
-Title: "CH Health Dossier Consent Purpose of Use"
-Description: "The purposes of use a consent of the electronic health dossier (E-GD) may refer to: normal access and
-emergency access. The purposes of automatic upload of the EPR (`AUTO`, `DICOM_AUTO`) are not used: the write right of
-health professionals follows from the law and does not need a consent."
-* ^experimental = false
-* $purposeOfUse#NORM "Normal Access"
-* $purposeOfUse#EMER "Emergency Access"
-
-
 ValueSet: HealthDossierConsentActorRole
 Id: HealthDossierConsentActorRole
 Title: "CH Health Dossier Consent Actor Role"

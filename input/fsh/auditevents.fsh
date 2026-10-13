@@ -39,7 +39,7 @@ RuleSet: ChAuditEventRules
   * altId 1..1
   * name 1..1
   * purposeOfUse 0..1
-  * purposeOfUse from http://fhir.ch/ig/ch-term/ValueSet/EprPurposeOfUse
+  * purposeOfUse from HealthDossierPurposeOfUse
 * agent[delegatedUser]
   * ^short = "The assistant who made the request on behalf of the main user. Only present when the access token carries a delegation."
   * type = $v3ParticipationType#PPRF "primary performer"
@@ -271,7 +271,7 @@ RuleSet: ChExampleAuditEventTcuRules
   * altId = "7601000201041"
   * name = "Clinical archive system Spital X"
   * requestor = true
-  * purposeOfUse = $purposeOfUse#AUTO "Automatic Upload"
+  * purposeOfUse = $purposeOfUse#NORM "Normal Access"
 
 
 // Rules for the institution or group on whose behalf the main user acts

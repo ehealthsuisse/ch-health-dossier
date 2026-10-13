@@ -78,3 +78,15 @@ contain the group of health professionals (`GRP`), which cannot provide a docume
 * ^experimental = false
 
 * include codes from system HealthDossierRole
+
+
+ValueSet: HealthDossierPurposeOfUse
+Id: HealthDossierPurposeOfUse
+Title: "CH Health Dossier Purpose of Use"
+Description: "The purposes of use of the electronic health dossier (E-GD): normal access and emergency access, used in
+the access token, the consents and the audit events. The purposes of automatic upload of the EPR (`AUTO`,
+`DICOM_AUTO`) are not used: the write right of health professionals follows from the law and does not need a consent,
+and a technical user requests its access token with the purpose of use `NORM`."
+* ^experimental = false
+* $purposeOfUse#NORM "Normal Access"
+* $purposeOfUse#EMER "Emergency Access"

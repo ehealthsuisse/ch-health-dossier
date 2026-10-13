@@ -94,8 +94,10 @@ The scope parameter of the request MAY claim the following attributes:
 - There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token))
   for both basic and extended access tokens.
   The token SHALL convey the coded value of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), 
-  `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5` of the CH:EPR value set 
-  (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`).
+  `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5`, see the value set
+  [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html)
+  (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`). A technical user (`TCU`) uses `NORM`; the purpose of
+  use `AUTO` (automatic upload) of the EPR is not used.
 - There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token))
   for both basic and extended access tokens.
   The token SHALL convey the coded value of the subject’s role. Allowed values are `PAT` (patient), `REP` (representative),
@@ -299,7 +301,7 @@ the following table:
 | subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
 | subject_organization_id | O/O                             | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community. |
 | subject_role            | R/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
-| purpose_of_use          | R/R                             | Code indicating the purpose of use from the EPR Purpose Of Use Value Set. |
+| purpose_of_use          | R/R                             | Code indicating the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
 | person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
 {:class="table table-bordered"}
 
