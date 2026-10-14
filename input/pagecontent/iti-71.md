@@ -133,7 +133,8 @@ When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the
 - validate the identity token send in the `id_token` claim as described in
   OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
+- read the issuer `iss` and the subject identifier `sub` of the id token and resolve them to the representative ID
+  linked to them (see [Representative ID and administrator GLN](#representative-id-and-administrator-gln)).
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
@@ -175,14 +176,47 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 - validate the identity token send in the `id_token` claim as described in
   OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
-- verify the administrator is registered with the same ID in the provider directory.
+- If the `id_token` contains the GLN of the administrator, read the GLN from the `id_token`.
+  Otherwise, read the issuer `iss` and the subject identifier `sub` of the id token and resolve them to the GLN of the
+  administrator linked to them (see [Representative ID and administrator GLN](#representative-id-and-administrator-gln)).
+- verify the administrator is registered with the same GLN in the provider directory.
 - verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
   type `community` of [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html)), and that the
   administrator is registered as its member.
 - convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
   the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
   by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
+
+###### Representative ID and administrator GLN
+The identity provider only delivers the subject identifier (`sub`) of the identity token. For patients, healthcare
+professionals and assistants the IUA Authorization Server resolves it to an identifier which exists independently of
+the identity provider (EPR-SPID, GLN). For representatives, legal representatives and administrators the identifiers
+are issued as follows:
+
+- Representative ID: the Health Dossier system SHALL issue a representative ID when a
+  [representative](ppqm-consent.html#consent-representative) or a
+  [legal representative](ppqm-consent.html#consent-legal-representative) consent is added. The identity of the
+  representative is proven by the patient who appoints the representative, the identity of the legal representative by
+  the instruction of the authority. The representative ID is a local identifier of the Health Dossier system with the
+  qualifier `urn:e-health-suisse:representative-id`. It identifies the grantee of the consent, a `RelatedPerson` of the
+  patient, which represents the relation between the representative and the patient.
+- Administrator GLN: an administrator SHALL have a GLN. The administrator is registered with the GLN in the provider
+  directory as a member of the community (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)).
+
+The IUA Authorization Server SHALL keep the link between the issuer `iss` and the subject identifier `sub` of the
+identity token and the representative ID or the GLN of the administrator. The link is set at the first login of the
+representative or administrator, once the IUA Authorization Server has verified that the person who logs in is the
+person the ID was issued for. A login with a further identity provider, or after a change of the identity provider, adds
+a link to the same ID; it SHALL NOT issue a new ID.
+
+<div markdown="1" class="stu-note">
+To be clarified:
+- how the IUA Authorization Server verifies at the first login that the person who logs in is the representative or
+  administrator the ID was issued for (e.g. with an activation code handed out when the ID is issued).
+- whether a person who represents several patients has one representative ID or one per patient.
+- if an identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization
+  Clients, and the link is needed per client.
+</div>
 
 ###### Digital health applications
 When receiving a Token Request with `subject_role` set to `PAT` from an IUA Authorization Client registered as a digital
@@ -322,22 +356,16 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 | Patient (`PAT`)                 | EPR-SPID | urn:e-health-suisse:2015:epr-spid     |                                                                      |
 | Healthcare Professional (`HCP`) | GLN      | urn:gs1:gln                           |                                                                      |
 | Assistant (`ASS`)               | GLN      | urn:gs1:gln                           |                                                                      |
-| Representative (`REP`)          | Representative ID (resolved from `sub`) | urn:e-health-suisse:representative-id |                                         |
-| Legal Representative (`LEGREP`) | Representative ID (resolved from `sub`) | urn:e-health-suisse:representative-id |                                         |
-| Administration (`ADM`)          | Administrator ID (resolved from `sub`)  | urn:e-health-suisse:administrator-id  |                                         |
+| Representative (`REP`)          | Representative ID | urn:e-health-suisse:representative-id | Issued by the Health Dossier system, see [Representative ID and administrator GLN](#representative-id-and-administrator-gln) |
+| Legal Representative (`LEGREP`) | Representative ID | urn:e-health-suisse:representative-id | Issued by the Health Dossier system, see [Representative ID and administrator GLN](#representative-id-and-administrator-gln) |
+| Administration (`ADM`)          | GLN      | urn:gs1:gln                           | The GLN of the administrator registered in the provider directory    |
 | Clinical Archive System (`TCU`) | GLN      | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding |
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
 
-<div markdown="1" class="stu-note">
-To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
-`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For patients and healthcare
-professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
-representatives, legal representatives and the administration no such identifier is defined: where the representative
-ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
-identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
-</div>
+The identity provider never delivers the `user_id_qualifier`; the IUA Authorization Server sets it according to the
+role.
 
 <br/>
 
