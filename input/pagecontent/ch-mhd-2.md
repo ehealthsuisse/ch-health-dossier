@@ -111,7 +111,7 @@ purged, their reference to the purged document can no longer be resolved.
 
 Audit events recorded for the document, including the audit events of this transaction, SHALL NOT be purged. The
 audit events of this transaction record only the master identifier of the purged document, as the audit events of
-all document transactions do (see [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions)).
+all document transactions do (see [CH:ATC](volume3.html#audit-trail-of-the-document-transactions)).
 
 #### Purge Document Response Message
 

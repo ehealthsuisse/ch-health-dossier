@@ -1,96 +1,35 @@
-<div markdown="1" class="dragon">
-This part of the specification is subject to change and has not yet been adapted to the proposed [EGDG legislation](index.html#introduction).
-</div>
-
 ### Scope
-According to Swiss EPR regulations, patients shall decide who is authorized to access documents and data in 
-their EPR, and under which circumstances (cf. emergency access). The national integration profile "Privacy Policy 
-Query" (CH:PPQ, see Amendment 2.1 of Annex 5 EPRO-FDHA) defines how these decisions are transmitted as patient privacy policies in 
-XACML 2.0 format and the SOAP transport protocol. This profile offers the same functionality based on lightweight HL7 FHIR® resources 
-and RESTFul transactions. 
 
-### Use Cases 
+The patient decides who may access their electronic health dossier (E-GD) and under which
+circumstances (Art. 11-16 EGDG). CH:PPQm records each of these decisions as a FHIR Consent resource and defines the
+RESTful transactions to add, update, delete and retrieve them.
 
-#### EPR Onboarding
-A patient contacts a community to open an EPR. The patient passes the identification 
-process of the community and consents to the EPR. The policy administrator of the community documents 
-the patient's consent by adding the patient's policies to the policy repository. 
+A Consent describes the decision of the patient for one use case, the consent type. How an actor serving a request of
+the Health Dossier API derives the access decision from the consents in effect is out of scope, see
+[Enforcement of Access Rules](accesscontrol.html).
 
-The policy administrator of the community adds the following patient privacy policies to the policy repository with the 
-Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 201](StructureDefinition-PpqmConsentTemplate201.html) to grant the patient access the EPR.
-* [EPR policy set based on template 203](StructureDefinition-PpqmConsentTemplate203.html) to set the default confidentiality level for new documents.
+### Consent Types
 
-When both of the above policies are stored in the policy repository of the community, healthcare professionals upload 
-all new treatment documents to the patient's EPR with the confidentiality set as the default confidentiality level, or higher. 
+Every Consent conforms to the [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile
+of its consent type, given in `Consent.category` (see [HealthDossierConsentType](CodeSystem-HealthDossierConsentType.html)).
+The separation of the rights by law and by consent, the common rules, the use case of each consent type and the
+authorization by role are specified in [CH PPQm Consent](ppqm-consent.html).
 
-#### Patient authorizes a healthcare professional 
-A patient wants to authorize a healthcare professional to access the patient's EPR and to view the documents on a specific access level. 
-The patient authenticates in the patient portal and opens the view to the access policy settings. The patient opens the form to authorize 
-an individual healthcare professional and searches for the healthcare professional entry. The patient selects the healthcare professional 
-to be authorized, optionally sets an authorization end date and selects whether the healthcare professional is also authorized 
-to delegate the access rights.  
+| Consent type | Profile | Decided by (`performer`) | Grantee (`provision.actor`) | Content |
+|---|---|---|---|---|
+| [Opening](ppqm-consent.html#consent-opening) | [Opening](StructureDefinition-ch-ppqm-consent-opening.html) | Patient, legal representative, canton or community | Patient | Full access of the patient |
+| [Emergency access](ppqm-consent.html#consent-emergency-access) | [Emergency Access](StructureDefinition-ch-ppqm-consent-emergency-access.html) | Patient, representative, legal representative | All health professionals | Permit or deny reading "normal" in an emergency |
+| [Access](ppqm-consent.html#consent-access) | [Access](StructureDefinition-ch-ppqm-consent-access.html) | Patient, legal representative | Health professional, group or health institution | Read "normal", selected "restricted" documents, optional end date and right to pass on |
+| [Indirect authorization](ppqm-consent.html#consent-indirect-authorization) | [Indirect Authorization](StructureDefinition-ch-ppqm-consent-indirect-authorization.html) | Patient, outside the health dossier | Health professional, group or health institution | Read "normal", with evidence |
+| [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) | [Indirect Authorization Setting](StructureDefinition-ch-ppqm-consent-indirect-authorization-setting.html) | Patient, representative, legal representative | All health professionals | Permit or deny the indirect authorization |
+| [Delegation](ppqm-consent.html#consent-delegation) | [Delegation](StructureDefinition-ch-ppqm-consent-delegation.html) | Health professional, group or health institution holding an access right | Health professional, group or health institution | Read "normal" until an end date |
+| [Representative](ppqm-consent.html#consent-representative) | [Representative](StructureDefinition-ch-ppqm-consent-representative.html) | Patient | Representative | Confidentiality levels and actions set by the patient |
+| [Legal representative](ppqm-consent.html#consent-legal-representative) | [Legal Representative](StructureDefinition-ch-ppqm-consent-legal-representative.html) | Community or authority | Legal representative | All rights of the patient, except appointing a representative |
+| [Digital health application](ppqm-consent.html#consent-digital-health-application) | [Digital Health Application](StructureDefinition-ch-ppqm-consent-digital-health-application.html) | Patient, legal representative | Digital health application | Actions (scopes) until an end date |
+| [Military recording](ppqm-consent.html#consent-military-recording) | [Military Recording](StructureDefinition-ch-ppqm-consent-military-recording.html) | Patient, legal representative | Military health professional or health institution | Record data |
+{:class="table table-bordered"}
 
-To authorize the healthcare professional, the patient portal adds the following policies to the policy repository with the 
-Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction: 
-* [EPR policy set based on template 304](StructureDefinition-PpqmConsentTemplate304.html), if the healthcare professional is authorized to delegate the access rights,  
-* [EPR policy set based on template 301](StructureDefinition-PpqmConsentTemplate301.html), otherwise.
-
-#### Patient prohibits access by a healthcare professional
-A patient wants to prohibit any access by a healthcare professional. The patient authenticates in
-the patient portal and opens the view to the access policy settings. The patient opens the form to prohibit access and searches for the healthcare professional entry. The patient selects the healthcare professional to be prohibited and optionally sets a block end date.
-
-To prohibit access by the healthcare professional, the patient portal adds the following patient privacy policy to the policy repository
-with the Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 301](StructureDefinition-PpqmConsentTemplate301.html)
-
-#### Patient authorizes a group of healthcare professionals
-A patient wants to authorize a group of healthcare professionals to access the patient's EPR and to view the documents on a specific access level. 
-The patient authenticates in the patient portal and opens the view to the access policy settings. The patient opens the form to authorize groups 
-and searches for the group entry. The patient selects the group to be authorized and sets an authorization end date.
-
-To authorize the group of healthcare professionals, the patient portal adds the following patient privacy policy to the policy repository with the 
-Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 302](StructureDefinition-PpqmConsentTemplate302.html)
-
-#### Patient updates the default confidentiality level
-A patient wants to enforce, that all documents stored in the EPR are stored with a minimal confidentiality level. The patient authenticates in 
-the patient portal and opens the view to the default confidentiality level settings. The patient sets the default confidentiality level in a form provided by 
-the patient portal. 
-
-To set the default confidentiality level, the patient portal updates the following patient privacy policy in the policy repository with the 
-Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 203](StructureDefinition-PpqmConsentTemplate203.html)
-
-#### Patient changes the emergency access setting 
-A patient wants to change the current setting of the emergency access, which grants all healthcare professionals access to the EPR in a emergency situation. 
-The patient authenticates in the patient portal and opens the view of the emergency access setting. The patient disallows emergency access or sets the 
-maximum confidentiality level of documents accessible in emergency situations in the form of the emergency settings.
-
-To disallow or allow emergency access of documents up to a confidentiality level, the patient portal deletes or updates the following policy in the policy repository 
-with the Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 202](StructureDefinition-PpqmConsentTemplate202.html)
-
-#### Healthcare professional delegates the access rights
-A healthcare professional previously authorized by the patient to delegate access rights (e.g., substitution during holidays, second opinions), delegates the 
-access rights to another healthcare professional. The healthcare professional authenticates in the portal or primary system and 
-opens the view with the delegation settings. The healthcare opens the form to change the delegation settings and searches for the healthcare 
-professional to delegate the access rights to. The healthcare professional selects the healthcare professional entry to be authorized and optionally sets 
-a delegation end date.
-
-To delegate the access rights, the portal or primary system adds or updates the following policy in the policy repository with the 
-Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 301](StructureDefinition-PpqmConsentTemplate301.html)
-
-#### Policy Administrator sets a patient representative 
-A policy administrator intends to set a person as a patient representative. The policy administrator authenticates to the 
-portal and selects the view of patient's representatives. The policy administrator opens the form to add a representative for the patient and enters the 
-required data.
-
-To add the person as patient's representative, the portal adds the following policy in the policy repository with the 
-Mobile Privacy Policy Feed (PPQ-3) or Mobile Privacy Policy Bundle Feed (PPQ-4) transaction:
-* [EPR policy set based on template 303](StructureDefinition-PpqmConsentTemplate303.html)
-
+Table 1: Consent types
 
 ### Actors and Transactions
 
@@ -104,17 +43,16 @@ CH:PPQm comprises the following actors and transactions:
 <br>
 
 **Actor:** Policy Repository<br>
-**Role:** Stores policies and policy sets and provides the possibility to add, query, update and delete them<br>
+**Role:** Stores the consents of the health dossiers and provides the possibility to add, retrieve, update and delete them<br>
 
 **Actor:** Policy Source<br>
-**Role:** Initiates addition, update and deletion of policies and policy sets<br>
+**Role:** Initiates the addition, update and deletion of consents<br>
 
 **Actor:** Policy Consumer<br>
-**Role:** Retrieves policies and policy sets<br>
+**Role:** Retrieves consents<br>
 
-
-Table 1 lists the transactions for each actor directly involved in the CH:PPQm Profile. To claim compliance with 
-this profile, an actor shall support all required transactions (labeled "R") and may support the optional 
+Table 2 lists the transactions for each actor directly involved in the CH:PPQm Profile. To claim compliance with
+this profile, an actor shall support all required transactions (labeled "R") and may support the optional
 transactions (labeled "O").
 
 | Actors            | Transactions                              | Optionality | Section             |
@@ -127,11 +65,11 @@ transactions (labeled "O").
 | Policy Consumer   | Mobile Privacy Policy Retrieve (PPQ-5)    | R           | [PPQ-5](ppq-5.html) |
 {:class="table table-bordered"}
 
-Table 1: CH:PPQm transactions
+Table 2: CH:PPQm transactions
 
 Note 1: The actor SHALL support at least one transaction.
 
-The required actor groupings are shown in Table 2:
+The required actor groupings are shown in Table 3:
 
 | Actors            | Actor to be grouped with | Optionality | Remark                                                             |
 |-------------------|--------------------------|-------------|--------------------------------------------------------------------|
@@ -140,37 +78,19 @@ The required actor groupings are shown in Table 2:
 | Policy Consumer   | IUA Authorization Client | R           | `TCU` not allowed |
 {:class="table table-bordered"}
 
-Table 2: CH:PPQm required actors groupings
+Table 3: CH:PPQm required actors groupings
 
 ### Referenced Standards
 
 - HL7 FHIR standard Release 4: [http://hl7.org/fhir/R4/index.html](http://hl7.org/fhir/R4/index.html)
 
-See also:
-- CH:PPQ specification in the [Amendment 2.1 of Annex 5 EPRO-FDHA](https://www.fedlex.admin.ch/eli/oc/2024/194/de/annexes).
-- [Policy set templates](https://github.com/ehealthsuisse/ch-epr-adr-ppq) in the official EPR policy stack (see 'Privacy Policy Stack' and select branch with current release).
-- [Description of the official EPR policy stack](https://github.com/ehealthsuisse/ch-epr-adr-ppq/blob/release2025/docs/Policies.md).
+See also (informative): [IHE Privacy Consent on FHIR (PCF)](https://profiles.ihe.net/ITI/PCF/) follows the same
+pattern of use case driven consents with time limits, grants on individual documents and confidentiality levels. The
+CH:PPQm actors correspond to the PCF actors as follows: Policy Source to Consent Recorder, Policy Repository to
+Consent Registry, and every actor serving a request of the Health Dossier API to Consent Enforcement Point. PPQ-3 and
+PPQ-5 correspond to Access Consent [ITI-108]. CH:PPQm does not claim conformance to PCF.
 
 ### Security Consideration
-This national extension enforces authentication and authorization of access using the IUA profile as described in [IUA](iti-iua.html).
 
-### Relation between CH:PPQm and CH:PPQ
-
-_This section is not normative._
-
-Implementers may decide to implement CH:PPQm transactions on top of CH:PPQ ones, i.e. to create a FHIR layer over an 
-existing XACML-based Policy Repository. The CH:PPQm specification supports this approach by defining transactions 
-and data structures in a way which allows an efficient bridging between CH:PPQ and CH:PPQm, and by providing message 
-transformation rules (see the page [Mappings](StructureDefinition-PpqmConsent-mappings.html)).
-
-In terms of actor grouping, this would mean that the Policy Repository may be optionally grouped with CH:PPQ Policy 
-Source and CH:PPQ Policy Consumer in order to communicate over PPQ-1 and PPQ-2 with itself.
-
-Note that CH:PPQm is not intended to handle base policies and policy sets, i.e. the ones provided in the official 
-Policy Stack and not related to any particular patients.
-
-### Further Aspects
-
-In order to provide interoperability between CH:PPQ and CH:PPQm, the page 
-[Mappings](StructureDefinition-PpqmConsent-mappings.html) defines transformation rules between XACML 2.0 
-Policy Sets and [PpqmConsent](StructureDefinition-PpqmConsent.html) resources.
+This national extension enforces authentication and authorization of access using the IUA profile as described in
+[IUA](iti-iua.html).

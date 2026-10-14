@@ -38,8 +38,6 @@ A Document Source shall send a request for either the JSON or the XML format as 
 
 The Document Source shall be capable of accepting elements specified in profile [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html).
 
-The [Mappings tab](StructureDefinition-ch-mhd-documentreference-mappings.html) indicates the mapping between DocumentReference elements and the XDS elements.
-
 ##### Metadata which may be updated
 
 Only the metadata listed below may be updated with this transaction, and only by the roles listed for it. Every other
@@ -49,7 +47,7 @@ change of the metadata requires a new version of the document to be published wi
 {:class="table table-bordered"}
 | Metadata            | Element                                                              | Roles                             |
 |---------------------|----------------------------------------------------------------------|-----------------------------------|
-| Confidentiality code | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
+| [Confidentiality code](iti-65.html#confidentiality-code) | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
 | Personal note        | extension [PersonalNote](StructureDefinition-ch-ext-personalnote.html)   | `PAT`, `REP`, `LEGREP`, `ADM` |
 
 <figcaption ID="1">Table 1: Metadata which may be updated, and the roles which may update it.</figcaption>
@@ -61,7 +59,7 @@ OperationOutcome with the error code
 [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
 
 In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
-(extension [originalProviderRole](iti-65.html#documententryoriginalproviderrole)) and the
+([provider role](iti-65.html#provider-role)) and the
 [provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
 stay the ones of the document as it was provided, also where a patient, a representative, a legal representative or
 the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
@@ -109,8 +107,8 @@ Any error that occurs during the processing of the Update Document Metadata Requ
 no change made to the existing DocumentReference. The Document Responder shall return the status and any error codes incurred during the processing of
 the request in its response message. 
 
-1. Verify the submitted and existing DocumentReference have the same values for the identifiers. If these values are not identical, an OperationOutcome with the error code [XDSMetadataIdentifierError](OperationOutcome-MhdOperationOutcomeErrorXdsMetadataIdentifier.html) should be returned.
-2. Verify the submitted and existing DocumentReference reference the same Patient. If these values are not identical, an OperationOutcome with the error code [XDSPatientIDReconciliationError](OperationOutcome-MhdOperationOutcomeErrorXDSPatientIDReconciliationError.html) should be returned.
+1. Verify the submitted and existing DocumentReference have the same values for the identifiers. If these values are not identical, an OperationOutcome with the error code [MetadataIdentifierError](OperationOutcome-MhdOperationOutcomeErrorMetadataIdentifierError.html) should be returned.
+2. Verify the submitted and existing DocumentReference reference the same Patient. If these values are not identical, an OperationOutcome with the error code [PatientIDReconciliationError](OperationOutcome-MhdOperationOutcomeErrorPatientIDReconciliationError.html) should be returned.
 3. Check the submitted DocumentReference and determine if it contains only changes to attributes which the role of the requester may update, as described in [Metadata which may be updated](#metadata-which-may-be-updated). If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) SHALL be returned.
 
 ##### Response Message
@@ -147,7 +145,7 @@ The **Document Responder** SHALL record an audit event according to
 
 The audit events record the document whose metadata is updated with its master identifier (not its title or type),
 and the user who updated it. What was updated is recorded as a subtype of the audit event, see
-[audit event types](ch-atc.html#audit-event-types):
+[audit event types](volume3.html#audit-trail-consumption-event-types):
 
 - `ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed
   ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity SHALL carry the new

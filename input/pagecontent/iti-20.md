@@ -54,7 +54,7 @@ access token, or only the one on whose behalf the main user acts where that is k
 a document which is provided, replaced or purged.
 
 What the audit events of the document transactions record for the audit trail of a patient, the document concerned and
-the type of the event, is described in [CH:ATC](ch-atc.html#audit-trail-of-the-document-transactions).
+the type of the event, is described in [CH:ATC](volume3.html#audit-trail-of-the-document-transactions).
 
 How the claims of the access token map to the agents is shown in the
 [mappings](StructureDefinition-ChAuditEventBasicToken-mappings.html) of the base profile.

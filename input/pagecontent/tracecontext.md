@@ -32,7 +32,7 @@ Moreover, when serving incoming requests, each actor SHALL:
 This allows all actors to correlate transactions that are related because they all stem from the same initial action, and facilitates logging, tracing and auditing.
 It also links transactions to their audit events, through the whole `traceparent` value.
 
-##### Audit event requirements
+#### Audit event requirements
 
 The `traceparent` header value of a transaction SHALL be added to the generated Audit Event: for the client,
 the header value of the request; for the responder, the header value of the response.

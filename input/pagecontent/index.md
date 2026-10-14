@@ -104,7 +104,7 @@ This impacts the FHIR API in the following way:
    and the resources are profiled that a logical reference with the EPR-SPID identifier have to be provided.
 2. The same principle applies for health care professionals, they are identified by the GLN number and references to
    them need to include also the logical reference from other resources (e.g. DocumentReference).
-3. Information which has to be provided and has no own identity in the Health Dossier (e.g., as local patient demographics in
+3. Information which has to be provided and has no own identity in the Health Dossier (e.g., as author and organization name in
    document publishing) are represented as contained resources.
 
 #### Interoperability Specification
