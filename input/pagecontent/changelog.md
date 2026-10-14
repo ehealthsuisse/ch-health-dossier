@@ -33,9 +33,9 @@
     actor groupings with the transactions a technical user (`TCU`) may use: ITI-65, ITI-90, ITI-130, ITI-119, ITI-20, not allowed for all other IUA Authorization Clients. Added the rule to reject `TCU` access tokens
     for other transactions in [Enforcement of Access Rules](accesscontrol.html#technical-users).
   * Updated the `user_id` table of the JWT `ch_epr` extension in [ITI-71](iti-71.html): merged the Document
-    Administrator and Policy Administrator into Administration (`ADM`) with the qualifier
-    `urn:e-health-suisse:administrator-id`, added the Legal Representative (`LEGREP`) with the qualifier
-    `urn:e-health-suisse:representative-id`, and corrected the swapped administrator qualifiers.
+    Administrator and Policy Administrator into Administration (`ADM`), identified by the GLN (see
+    [#28](https://github.com/ehealthsuisse/ch-health-dossier/issues/28)), and added the Legal Representative
+    (`LEGREP`) with the qualifier `urn:e-health-suisse:representative-id`.
   * [ITI-65](iti-65.html#provider-role): renamed the extension CH Extension Author AuthorRole
     (`ch-ext-author-authorrole`) to [CH Extension Provider Role](StructureDefinition-ch-ext-provider-role.html). The
     provider role SHALL NOT be changed with CH:MHD-1, added legal representatives and the administration, and linked
@@ -352,9 +352,12 @@
     Server verifies it in the directory and conveys it in `subject_organization_id`, now required for `ADM`. Added the
     verification of the consent for [digital health applications](iti-71.html#digital-health-applications) and the
     `client_id` claim.
-  * [ITI-71](iti-71.html#the-jwt-ch_epr-extension): the `user_id` of representatives, legal representatives and the
-    administration is a representative or administrator ID resolved from the `sub` of the identity token (was
-    "IdP-ID"); how these IDs are defined is open.
+  * [ITI-71](iti-71.html#representative-id-and-administrator-gln): the Health Dossier system issues the representative
+    ID when a representative or legal representative consent is added, and administrators have a GLN registered in the
+    directory; the `user_id` of the administration is the GLN with the qualifier `urn:gs1:gln` (was "IdP-ID"). The IUA
+    Authorization Server links the `iss` and `sub` of the identity token to the representative ID or the GLN at the
+    first login; further identity providers add a link to the same ID
+    ([#28](https://github.com/ehealthsuisse/ch-health-dossier/issues/28)).
   * [mCSD](iti-mcsd.html#communities-and-military-health-institutions): added the code system
     [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) with the code `community`,
     bound in the slice `type:community` of [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html), to

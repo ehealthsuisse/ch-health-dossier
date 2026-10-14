@@ -70,13 +70,13 @@ SNOMED CT has no concept for a community managing health dossiers yet. Once a co
 extension), the code `community` may be replaced by it.
 </div>
 
+An administrator of a community has a GLN and is registered with it in the directory as a member of the community. The
+IUA Authorization Server links the GLN to the `sub` of the identity provider and conveys it in the access token (see
+[ITI-71](iti-71.html#representative-id-and-administrator-gln)).
+
 <div markdown="1" class="stu-note">
-To be clarified: how the administrators of a community are identified and registered in the directory as its members.
-The [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a GLN and a qualification, which an
-administrator may not have. The identity provider only delivers the subject identifier (`sub`) of the identity token;
-the IUA Authorization Server resolves it to an administrator ID, which it conveys in the access token with the
-qualifier `urn:e-health-suisse:administrator-id` (see [ITI-71](iti-71.html#the-jwt-ch_epr-extension)). Where this
-administrator ID comes from, and how it is linked to the `sub` of the identity provider, is not defined yet.
+To be clarified: the [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a qualification,
+which an administrator may not have.
 </div>
 
 ### Security Consideration
