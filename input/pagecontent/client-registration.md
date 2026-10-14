@@ -84,12 +84,14 @@ The Client Registration Request SHALL contain the following parameters:
 - *token_endpoint_auth_method*: SHALL be `private_key_jwt`.
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
-  space-separated values.
-- *jwks*: SHALL be the JSON Web Key Set containing the public keys for client authentication (client-asymmetric 
-  authentication JWT and http signature).
+space-separated values.
+- *jwks*: SHALL be a JSON Web Key Set (JWKS) containing the public keys used for client authentication. Each key in 
+the JWKS SHALL have a unique `kid` and SHALL include a `key_ops` member whose value is either `client-asymmetric` or 
+`http-signature`, indicating whether the key is used for asymmetric client authentication (JWT) or for HTTP message 
+signatures, respectively.
 - *id_token*: SHALL be the signed JWT containing the identity token issued by the Identity Provider.
-- *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for
-  dGA Client Registration and SHALL NOT be present otherwise.
+- *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for 
+dGA Client Registration and SHALL NOT be present otherwise.
 
 The software statement allows a dGA to present its client metadata in a way that the Authorization Server can verify
 it was issued and signed by the FOPH as part of the dGA admission process.
@@ -141,6 +143,8 @@ Host: server.example.com
 "grant_types":["client_credentials"], 
 "scope":"foo bar",
 "jwks":{"keys": [{
+    "kid":"1ec50019-0049",
+    "key-ops": [{"client-asymmetric"}], 
     "kty":"RSA",
     "e":"AQAB",
     "use":"sig",
@@ -152,6 +156,8 @@ Host: server.example.com
         HahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJ
         F166-WZg5lUZw"
   }, {
+    "kid":"bb4239fc-1279", 
+    "key-ops": [{"http-signature"}], 
     "kty":"RSA",
     "e":"AQAB",
     "use":"sig",
@@ -162,7 +168,7 @@ Host: server.example.com
         IKw88J2wIm8mcuk5EqdEPTjmYQNh8s4I27CTLmHj1Jhmlc70ZhsrgsULvdVxKJDlsGx
         Itn3l6HbnJO_-clsyP2DAWS7rHRACNzYOgRmAyURIREqygtDLDg_6gzzWNSLa8_CLGH
         wwirIyIQ"
-  }]}
+  }]}, 
 "id_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJpZC1wcm92aWRlci
   IsInN1YiI6ImUyMDVhNmFjLTcxNDItNGYxMC1hMTNlLTJiYmUzZjc2Nzk5MiIsImF1ZCI6ImN
   saWVudC13aXRoLWlkLTEyMzQ1Njc4OSIsImV4cCI6MTc5MTA5NTU5NywiaWF0IjoxNzkxMDk0
@@ -242,6 +248,8 @@ Pragma: no-cache
 "grant_types": ["client_credentials"],
 "scope": "foo bar", 
 "jwks":{"keys": [{
+    "kid":"1ec50019-0049",
+    "key-ops": [{"client-asymmetric-authentication"}],
     "kty":"RSA",
     "e":"AQAB",
     "use":"sig",
@@ -253,6 +261,8 @@ Pragma: no-cache
         HahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJ
         F166-WZg5lUZw"
   }, {
+    "kid":"bb4239fc-1279", 
+    "key-ops": [{"http-signature"}], 
     "kty":"RSA",
     "e":"AQAB",
     "use":"sig",
