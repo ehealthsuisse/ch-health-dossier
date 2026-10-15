@@ -22,8 +22,8 @@ Usage: #example
 * entry[+].resource     = PpqmConsentOpeningExample
 * entry[=].fullUrl      = "http://example.com/ppqm/Consent/PpqmConsentOpeningExample"
 * entry[=].search.mode  = #match
-* entry[+].resource     = PpqmConsentEmergencyAccessExample
-* entry[=].fullUrl      = "http://example.com/ppqm/Consent/PpqmConsentEmergencyAccessExample"
+* entry[+].resource     = PpqmConsentEmergencyAccessSettingExample
+* entry[=].fullUrl      = "http://example.com/ppqm/Consent/PpqmConsentEmergencyAccessSettingExample"
 * entry[=].search.mode  = #match
 * entry[+].resource     = PpqmConsentIndirectAuthorizationSettingExample
 * entry[=].fullUrl      = "http://example.com/ppqm/Consent/PpqmConsentIndirectAuthorizationSettingExample"

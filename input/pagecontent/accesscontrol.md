@@ -51,12 +51,13 @@ Policy Repository, its `provision.type` is permit and the date of the request is
 | Right | Who | Consent |
 |---|---|---|
 | Full access: search and view all documents, record, delete, change the confidentiality code and record a personal note, view the audit trail, view and add contact data, manage the consents | The patient (`PAT`), unless a legal representative is in effect | [Opening](ppqm-consent.html#consent-opening) |
-| Search and view the documents of the level "normal", and the documents of the level "restricted" released to the grantee | The health professional, group or health institution granted, and every health professional and assistant registered as their member | [Access](ppqm-consent.html#consent-access), [indirect authorization](ppqm-consent.html#consent-indirect-authorization), [delegation](ppqm-consent.html#consent-delegation) |
+| Search and view the documents of the level "normal", and the documents of the level "restricted" to which the grantee was granted access individually | The health professional, group or health institution granted, and every health professional and assistant registered as their member | [Access](ppqm-consent.html#consent-access), [indirect authorization](ppqm-consent.html#consent-indirect-authorization), [delegation](ppqm-consent.html#consent-delegation) |
 | Pass on the access right | As above, if the access right grants the action `delegate` | [Access](ppqm-consent.html#consent-access) |
-| Search and view the documents of the level "normal" in an emergency | All health professionals and assistants, with the purpose of use `EMER` | [Emergency access](ppqm-consent.html#consent-emergency-access) of type permit |
+| Search and view the documents of the level "normal" in an emergency | All health professionals and assistants, with the purpose of use `EMER` | [Emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of type permit |
 | Confirm a consent given outside the health dossier | Health professionals and assistants, for themselves or their group or health institution | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of type permit |
 | The actions granted by the patient | The representative (`REP`) | [Representative](ppqm-consent.html#consent-representative) |
 | All rights of the patient, except appointing a representative | The legal representative (`LEGREP`) | [Legal representative](ppqm-consent.html#consent-legal-representative) |
+| All rights of the patient, for a support case until the end date | The administration of the community managing the health dossier (`ADM`) | [Community mandate](ppqm-consent.html#consent-community-mandate) |
 | The actions granted by the patient, acting for the authenticated patient | A digital health application | [Digital health application](ppqm-consent.html#consent-digital-health-application) |
 | Record data | A military health professional or health institution | [Military recording](ppqm-consent.html#consent-military-recording) |
 {:class="table table-bordered"}
@@ -72,20 +73,26 @@ Every document carries one of the two confidentiality levels "normal" and "restr
 [Confidentiality code](iti-65.html#confidentiality-code)). Health professionals, groups and health institutions with an
 access right, an indirect authorization or a delegation, and all health professionals in an emergency, may only read
 documents of the level "normal". A document of the level "restricted" may only be read by the patient, the legal
-representative, a representative granted the level "restricted", and the grantees of an access right releasing that
-document.
+representative, a representative granted the level "restricted", the administration with a mandate of the patient, and
+the grantees of an access right granting access to that document.
 
 #### Emergency access
 
 A request with the purpose of use `EMER` from a health professional or assistant SHALL be permitted for the documents
-of the level "normal" only while the [emergency access](ppqm-consent.html#consent-emergency-access) of the patient is of
+of the level "normal" only while the [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of the patient is of
 type permit. If the health professional, or a group or health institution in the access token, already holds an
 access right, the request SHALL be processed with that access right as a normal access, and SHALL NOT trigger a
 notification of the patient. Otherwise the patient SHALL be notified when an emergency access is activated, once for a
 sequence of emergency accesses of the same health professional or assistant.
 
-The audit event of the request records the purpose of use of the access token as declared by the requester (see
-[ITI-20](iti-20.html)).
+The actor serving the request SHALL record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use
+under which the request was permitted, not the one declared in the access token: `NORM` where the requester holds a
+right by law or an access right ([access](ppqm-consent.html#consent-access),
+[indirect authorization](ppqm-consent.html#consent-indirect-authorization),
+[delegation](ppqm-consent.html#consent-delegation)) for the data concerned, also if the access token declares `EMER`;
+`EMER` only where the request was permitted by the emergency access alone. The audit trail of the patient thus shows
+an emergency access only where one took place. The actor making the request records the purpose of use of the access
+token.
 
 #### Administration of the community
 
@@ -94,12 +101,16 @@ administration (`subject_organization_id` of the access token, see [ITI-71](iti-
 community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Requests for
 other health dossiers SHALL be rejected.
 
+The administration is not authorized generally by its role: it processes the content or the settings of a health
+dossier only per support case, while a [community mandate](ppqm-consent.html#consent-community-mandate)
+of the patient for its community is in effect.
+
 | Activity of the administration | Legal basis | Rule |
 |---|---|---|
 | Maintain the directory entries of the own members ([ITI-130](iti-130.html)) | Art. 15 para. 2 EGDG, by law | No patient concerned; the entry belongs to the community. |
 | Open and dissolve a health dossier | Art. 22 and 24 EGDG | Recorded in the Register E-GD; the Policy Repository adds and deletes the consents itself (see [Opening](ppqm-consent.html#consent-opening)). |
 | Record a legal representative | Art. 12 para. 4 EGDG | Consent type [legal representative](ppqm-consent.html#consent-legal-representative); the instruction of the authority stays with the community. |
-| Process the content or the settings of a health dossier on behalf of the patient (documents, contact data, audit trail, consents) | Art. 15 para. 1 EGDG, on mandate of the patient | The mandate is documented by the community. |
+| Process the content or the settings of a health dossier on behalf of the patient (documents, contact data, audit trail, consents) | Art. 15 para. 1 EGDG, on mandate of the patient | Consent type [community mandate](ppqm-consent.html#consent-community-mandate), per support case and until its end date. |
 {:class="table table-bordered"}
 
 Table 3: Activities of the administration

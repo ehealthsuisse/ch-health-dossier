@@ -16,11 +16,11 @@ Consent profile of CH:PPQm."
 * #opening ^designation[+].language = #de-CH
 * #opening ^designation[=].value = "Eröffnung des E-GD"
 
-* #emergency-access "Emergency access" "Health professionals and health institutions may access the health dossier in
-a medical emergency without a granted right (Art. 11 para. 2 let. b, Art. 13 para. 3 EGDG). The patient may exclude and
-allow it again at any time."
-* #emergency-access ^designation[+].language = #de-CH
-* #emergency-access ^designation[=].value = "Notfallzugriff"
+* #emergency-access-setting "Emergency access setting" "Whether health professionals and health institutions may
+access the health dossier in a medical emergency without a granted right (Art. 11 para. 2 let. b, Art. 13 para. 3
+EGDG). The patient may exclude and allow it again at any time."
+* #emergency-access-setting ^designation[+].language = #de-CH
+* #emergency-access-setting ^designation[=].value = "Zulassung des Notfallzugriffs"
 
 * #access "Access for a health professional, group or health institution" "The patient grants a health professional, a
 group of health professionals or a health institution access to the health dossier (Art. 11 para. 2 let. a, Art. 13
@@ -63,6 +63,12 @@ access the health dossier on the patient's behalf (Art. 11 para. 2 let. c, Art. 
 professionals and health institutions record data in the health dossier (Art. 14 para. 2 EGDG)."
 * #military-recording ^designation[+].language = #de-CH
 * #military-recording ^designation[=].value = "Erfassung durch Gesundheitsfachpersonen der Armee"
+
+* #community-mandate "Community mandate" "The patient mandates the community managing the health dossier to process
+the health dossier on the patient's behalf for a support case, through the employees of its administration (Art. 15
+para. 1, Art. 31 para. 1 EGDG)."
+* #community-mandate ^designation[+].language = #de-CH
+* #community-mandate ^designation[=].value = "Auftrag an die Gemeinschaft"
 
 
 ValueSet: HealthDossierConsentTypeVS
@@ -129,7 +135,7 @@ institutions on behalf of the patient."
 * #manage-access ^designation[+].language = #de-CH
 * #manage-access ^designation[=].value = "Gesundheitsfachpersonen, Gruppen und Gesundheitseinrichtungen berechtigen"
 
-* #delegate "Pass on the access right" "Pass on the right to read documents of the confidentiality level 'allgemein'
+* #delegate "Pass on the access right" "Pass on the right to read documents of the confidentiality level 'normal'
 to another health professional, group or health institution, for a limited period."
 * #delegate ^designation[+].language = #de-CH
 * #delegate ^designation[=].value = "Zugriffsrecht weitergeben"
@@ -166,6 +172,7 @@ grant."
 * HealthDossierConsentAction#read-audit-trail "Read the audit trail"
 * HealthDossierConsentAction#configure-emergency-access "Configure emergency access"
 * HealthDossierConsentAction#configure-indirect-authorization "Configure indirect authorization"
+* HealthDossierConsentAction#manage-access "Manage access rights"
 
 
 ValueSet: HealthDossierConsentDigitalHealthApplicationAction
@@ -193,10 +200,11 @@ Description: "The roles of the grantee of a consent of the electronic health dos
 * $healthDossierRole#REP "Representative"
 * $healthDossierRole#LEGREP "Legal representative"
 * $healthDossierRole#HCP "Healthcare professional"
+* $healthDossierRole#ADM "Administration"
 
 
 // TODO: the qualifier `urn:e-health-suisse:dga-client-id` of a digital health application is not defined in ITI-71
-// yet; it has to be aligned with the client registration (issue #11).
+// yet; it has to be aligned with the client registration (issues #11 and #31).
 ValueSet: PpqmActorIdentifierType
 Title: "CH PPQm Actor Identifier Type"
 Description: "The identifier types (name qualifiers) of the actors and performers of a CH:PPQm Consent. They are the
