@@ -72,7 +72,9 @@ professional](iti-mhd.html#use-cases)), the Document Source publishes the correc
 `DocumentReference.relatesTo` of type `replaces` to the document it corrects. The Document Recipient SHALL set the
 `status` of the replaced document to `superseded` and SHALL keep it accessible: a superseded document is no longer
 returned when searching for the current documents, but it can still be found with the `status` search parameter in
-[ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html).
+[ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html). The confidentiality code of the replaced document SHALL
+NOT be changed by the replacement. The Document Source sets the [confidentiality code](#confidentiality-code) of the
+new version, which may differ from the one of the replaced document.
 
 Examples: [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html), which
 replaces the document [DocRefPdf](DocumentReference-DocRefPdf.html), and the replaced document
@@ -144,8 +146,9 @@ levels of the health dossier defined in the value set
 [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "normal" (SNOMED CT
 `17621005` Normal, "allgemein" in the EGDG) or "restricted" (SNOMED CT `263856008` Restricted, "privat" in the EGDG).
 Health professionals and health institutions with an access right may read documents of the level "normal".
-Documents of the level "restricted" can only be read by the patient, and by those to whom the patient released them (see
-[CH:PPQm](ppqm.html#consent-types)). The patient, a representative, a legal representative or the administration may
+Documents of the level "restricted" can only be read by the patient, by the persons acting for the patient, and by the
+health professionals, groups and health institutions to whom the patient granted access to the individual document (see
+[CH:PPQm](ppqm-consent.html#consent-access)). The patient, a representative, a legal representative or the administration may
 change the confidentiality code with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated).
 
 ##### Provider role

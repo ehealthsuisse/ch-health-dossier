@@ -11,7 +11,7 @@
 // (`ATC_POL_INCL_BLACKLIST`, `ATC_POL_EXL_BLACKLIST`) are dropped, and the setting of the indirect authorization is
 // added.
 //
-// The access to the audit trail (`ATC_LOG_READ`) keeps its code; it is recorded by the Patient Audit Record Repository
+// The access to the audit trail (`ATC_LOG_READ`) keeps its code; it is recorded by the Patient Audit Record Service
 // for Retrieve ATNA Audit Event [ITI-81].
 
 CodeSystem: HealthDossierAuditEventType
@@ -158,15 +158,13 @@ authorization is added. The access to the audit trail keeps its code."
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[+].language = #it-CH
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[=].value = "Escludere il conferimento indiretto di diritti d'accesso"
 
-* #ATC_LOG_READ "Accessing the Patient Audit Record Repository" "The audit trail of the health dossier was retrieved."
+* #ATC_LOG_READ "Accessing the Patient Audit Record Service" "Access to the patient audit reports service"
 * #ATC_LOG_READ ^designation[+].language = #de-CH
-* #ATC_LOG_READ ^designation[=].value = "Auf die patientenbezogene Auditprotokoll-Ablage zugreifen"
+* #ATC_LOG_READ ^designation[=].value = "Zugriff auf den patientenbezogenen Auditprotokoll-Dienst"
 * #ATC_LOG_READ ^designation[+].language = #fr-CH
-* #ATC_LOG_READ ^designation[=].value = "En cours d’accès au dépôt de contrôle des dossiers de patients"
+* #ATC_LOG_READ ^designation[=].value = "Accès au service de journaux d'audit relatifs aux patients"
 * #ATC_LOG_READ ^designation[+].language = #it-CH
-* #ATC_LOG_READ ^designation[=].value = "Accesso all'Audit Record Repository del paziente"
-* #ATC_LOG_READ ^designation[+].language = #rm-CH
-* #ATC_LOG_READ ^designation[=].value = "Access al deposit da controlla dals dossiers da pazients"
+* #ATC_LOG_READ ^designation[=].value = "Accesso al servizio di registri di audit relativi ai pazienti"
 
 
 ValueSet: HealthDossierDocumentAuditEventType
@@ -222,7 +220,7 @@ ValueSet: HealthDossierAddConsentAuditEventType
 Id: HealthDossierAddConsentAuditEventType
 Title: "CH Health Dossier Add Consent Audit Event Type"
 Description: "The types of events in the audit trail for a consent added with Mobile Privacy Policy Feed [PPQ-3] or by
-the Policy Repository: the authorization of a participant, or the emergency access and the indirect authorization
+the Policy Repository: the authorization of a participant, or the emergency access setting and the indirect authorization
 setting added at the opening of the health dossier."
 * ^experimental = false
 * HealthDossierAuditEventType#ATC_POL_CREATE_AUT_PART_AL
@@ -236,7 +234,7 @@ ValueSet: HealthDossierUpdateConsentAuditEventType
 Id: HealthDossierUpdateConsentAuditEventType
 Title: "CH Health Dossier Update Consent Audit Event Type"
 Description: "The types of events in the audit trail for a consent updated with Mobile Privacy Policy Feed [PPQ-3]: the
-update of the authorization of a participant, or the change of the emergency access or of the indirect authorization
+update of the authorization of a participant, or the change of the emergency access setting or of the indirect authorization
 setting."
 * ^experimental = false
 * HealthDossierAuditEventType#ATC_POL_UPDATE_AUT_PART_AL

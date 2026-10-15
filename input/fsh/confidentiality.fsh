@@ -1,21 +1,21 @@
 // Confidentiality levels of the electronic health dossier (E-GD).
 //
 // The Botschaft EGDG (ch. 4.1 "Vereinfachung der Vertraulichkeitsstufen") reduces the confidentiality levels from three
-// to two, "allgemein" and "privat". The two levels are defined here, and used for the documents, the consents and the
-// audit events alike.
+// to two, "allgemein" and "privat", named "normal" and "restricted" in this guide. The two levels are defined here, and
+// used for the documents, the consents and the audit events alike.
 //
-// TODO: the codes of the two levels are not decided yet (issue #12). Until they are, "allgemein" is represented by
-// SNOMED CT `Normal` and "privat" by SNOMED CT `Restricted`, both taken from the CH Term value set. The value set should
+// TODO: the codes of the two levels are not decided yet (issue #12). Until they are, "normal" is represented by
+// SNOMED CT `Normal` and "restricted" by SNOMED CT `Restricted`, both taken from the CH Term value set. The value set should
 // move to CH Term once it can be maintained there.
 
 ValueSet: HealthDossierConfidentialityCode
 Id: HealthDossierConfidentialityCode
 Title: "CH Health Dossier Confidentiality Code"
-Description: "The two confidentiality levels of the electronic health dossier (E-GD), \"allgemein\" and \"privat\"
-(Botschaft EGDG, ch. 4.1 \"Vereinfachung der Vertraulichkeitsstufen\"). Health professionals and health institutions
-with a right to view may read data of the level \"allgemein\". Data of the level \"privat\" can only be viewed by the
-patient, unless the patient releases them to individual health professionals or health institutions, or to a
-representative. Used for the confidentiality code of a document (`DocumentReference.securityLabel`), the confidentiality levels a consent grants
+Description: "The two confidentiality levels of the electronic health dossier (E-GD), \"normal\" and \"restricted\"
+(\"allgemein\" and \"privat\" in the Botschaft EGDG, ch. 4.1 \"Vereinfachung der Vertraulichkeitsstufen\"). Health
+professionals and health institutions with a right to view may read data of the level \"normal\". Data of the level
+\"restricted\" can only be viewed by the patient, unless the patient grants individual health professionals or health
+institutions access to them, or grants a representative access to the level \"restricted\". Used for the confidentiality code of a document (`DocumentReference.securityLabel`), the confidentiality levels a consent grants
 (`Consent.provision.securityLabel`), and the confidentiality code of a document in the audit events."
 * ^experimental = false
 * $sct#17621005 "Normal (qualifier value)"

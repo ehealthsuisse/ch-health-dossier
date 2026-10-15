@@ -90,7 +90,7 @@ RuleSet: PpqmConsentResourceRules
 * rest.resource[=].searchParam[=].documentation = "PPQ-5 — The delegations derived from an access right, searched with the modifier :identifier"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-opening"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access-setting"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-access"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-indirect-authorization"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-indirect-authorization-setting"
@@ -99,3 +99,4 @@ RuleSet: PpqmConsentResourceRules
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-legal-representative"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-military-recording"
+* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-community-mandate"

@@ -32,7 +32,8 @@ and the overview of the consent types in [CH:PPQm](ppqm.html#consent-types)). Co
   by deleting it.
 - The confidentiality levels a grantee may read are listed in `provision.securityLabel`: "normal" or "restricted" (see
   [HealthDossierConfidentialityCode](ValueSet-HealthDossierConfidentialityCode.html)). Documents of the level "restricted"
-  released individually are listed in a nested `provision.provision` with `data.meaning = instance`.
+  to which access is granted individually are listed in a nested `provision.provision` with `data.meaning = instance`, each referenced
+  by its master identifier (`DocumentReference.masterIdentifier`) in `data.reference.identifier`.
 - The further rights granted are listed in `provision.action` (see
   [HealthDossierConsentAction](CodeSystem-HealthDossierConsentAction.html)).
 - Grantees and performers are referenced by identifier only, with the identifier type of the access token
@@ -55,15 +56,15 @@ voluntary opening, the canton for an automatic opening, see
 
 - [Opening](StructureDefinition-ch-ppqm-consent-opening.html) with the patient as grantee and the community managing
   the health dossier in `organization` ([example](Consent-PpqmConsentOpeningExample.html)),
-- [Emergency access](#consent-emergency-access) with type permit
-  ([example](Consent-PpqmConsentEmergencyAccessExample.html)),
+- [Emergency access setting](#consent-emergency-access-setting) with type permit
+  ([example](Consent-PpqmConsentEmergencyAccessSettingExample.html)),
 - [Indirect authorization setting](#consent-indirect-authorization-setting) with type permit
   ([example](Consent-PpqmConsentIndirectAuthorizationSettingExample.html)).
 
 When the health dossier is dissolved, on request of the patient or the legal representative or on the death of the
 patient, the Policy Repository deletes all consents of the patient.
 
-#### Emergency access {#consent-emergency-access}
+#### Emergency access setting {#consent-emergency-access-setting}
 
 In a medical emergency, health professionals, their assistants and the members of groups and health institutions may
 read the documents of the confidentiality level "normal" without an access right, with the purpose of use
@@ -71,13 +72,14 @@ emergency (Art. 13 para. 3 EGDG). The patient may exclude emergency access at an
 para. 2 let. b EGDG).
 
 The patient authenticates in the portal and opens the emergency access setting. To exclude emergency access, the portal
-updates the [Emergency access](StructureDefinition-ch-ppqm-consent-emergency-access.html) consent created at the
+updates the [Emergency access setting](StructureDefinition-ch-ppqm-consent-emergency-access-setting.html) consent created at the
 opening to type deny with the Mobile Privacy Policy Feed (PPQ-3) transaction
-([example](Consent-PpqmConsentEmergencyAccessExcludedExample.html)); to allow it again, it updates the consent to type
+([example](Consent-PpqmConsentEmergencyAccessSettingExcludedExample.html)); to allow it again, it updates the consent to type
 permit. A representative may change the setting if the patient granted the action `configure-emergency-access`.
 
 Rules for the serving actors: a health professional, group or health institution that already holds an access right
-is processed with that access right, not as an emergency access. The patient is notified when an emergency access is
+is processed with that access right, not as an emergency access, and the audit event records the purpose of use `NORM`
+(see [Emergency access](accesscontrol.html#emergency-access)). The patient is notified when an emergency access is
 activated, once for a sequence of emergency accesses of the same health professional or assistant.
 
 #### Access for a health professional, group or health institution {#consent-access}
@@ -88,13 +90,14 @@ authenticates in the portal, opens the access settings, searches the health prof
 in the directory and selects it. The patient optionally sets an end date, selects whether the grantee may pass on the
 access right, and selects documents of the confidentiality level "restricted" the grantee may read as well.
 
-The portal adds an [Access](StructureDefinition-ch-ppqm-consent-access.html) consent with the Mobile Privacy Policy
+A representative with the action `manage-access`, or the legal representative, may grant access rights in the same
+way. The portal adds an [Access](StructureDefinition-ch-ppqm-consent-access.html) consent with the Mobile Privacy Policy
 Feed (PPQ-3) or the Mobile Privacy Policy Bundle Feed (PPQ-4) transaction, with:
 
 - the GLN of the health professional, or the organization ID of the group or health institution, as grantee,
 - the action `read`, and `delegate` if the grantee may pass on the access right,
 - the level "normal" in `provision.securityLabel`,
-- a nested provision per selected document of the level "restricted".
+- a nested provision per selected document of the level "restricted", with the master identifier of the document.
 
 Examples: [health professional with a restricted document and the right to pass on](Consent-PpqmConsentAccessHcpExample.html),
 [health institution for a hospital stay](Consent-PpqmConsentAccessInstitutionExample.html).
@@ -115,9 +118,11 @@ Privacy Policy Feed (PPQ-3) transaction ([example](Consent-PpqmConsentIndirectAu
 - the patient as `performer` and the time the consent was given in `dateTime`,
 - the health professional, or the group or health institution, the consent was given to as grantee; not the assistant
   who records it,
-- the action `read` and the level "normal",
-- evidence of the consent: a scan of the signed form or the signature captured on a tablet in `source[x]`, or a
-  verification with the patient (e.g. a one-time code sent to the patient) in `verification`.
+- the action `read` and the level "normal"; an indirect authorization grants no further rights,
+- the end date in `provision.period.end`, at most 60 days after the date the patient gave the consent,
+- evidence of the consent in `source[x]` or `verification`. This guide does not specify the form of the evidence, e.g.
+  a scan of the signed form or the signature captured on a tablet in `source[x]`, or a verification with the patient
+  (e.g. a one-time code sent to the patient) in `verification`.
 
 Rules for the Policy Repository: it rejects the consent while the
 [Indirect authorization setting](#consent-indirect-authorization-setting) is of type deny. The patient is notified of
@@ -126,7 +131,9 @@ every indirect authorization.
 #### Indirect authorization setting {#consent-indirect-authorization-setting}
 
 The patient may exclude the indirect authorization at any time, and allow it again (Art. 11 para. 3 EGDG). The
-exclusion takes precedence over consents the patient gave outside the health dossier.
+exclusion takes precedence over consents the patient gave outside the health dossier: when the setting is updated to
+type deny, the Policy Repository deletes the [indirect authorizations](#consent-indirect-authorization) of the patient.
+They are not restored when the indirect authorization is allowed again.
 
 The portal updates the [Indirect authorization setting](StructureDefinition-ch-ppqm-consent-indirect-authorization-setting.html)
 consent created at the opening to type deny, or back to type permit, with the Mobile Privacy Policy Feed (PPQ-3)
@@ -165,6 +172,7 @@ read and the actions the representative may take:
 | `read-audit-trail` | View the audit trail |
 | `configure-emergency-access` | Exclude and allow emergency access |
 | `configure-indirect-authorization` | Exclude and allow the indirect authorization |
+| `manage-access` | Grant and revoke [access rights](#consent-access) of health professionals, groups and health institutions |
 {:class="table table-bordered"}
 
 Table 1: Actions a patient may grant a representative
@@ -173,8 +181,9 @@ A representative may always view the directory of health professionals and healt
 of the patient in the index of patients.
 
 The portal adds a [Representative](StructureDefinition-ch-ppqm-consent-representative.html) consent with the Mobile
-Privacy Policy Feed (PPQ-3) transaction ([example](Consent-PpqmConsentRepresentativeExample.html)). A legal
-representative may not appoint a representative (Art. 12 para. 1 EGDG).
+Privacy Policy Feed (PPQ-3) transaction ([example](Consent-PpqmConsentRepresentativeExample.html)). A representative
+may not appoint a further representative, and a legal representative may not appoint a representative (Art. 12 para. 1
+EGDG).
 
 #### Legal representative {#consent-legal-representative}
 
@@ -232,6 +241,28 @@ searches the military health professional or health institution in the directory
 with the Mobile Privacy Policy Feed (PPQ-3) transaction ([example](Consent-PpqmConsentMilitaryRecordingExample.html)).
 The consent grants no right to read; reading requires an [access right](#consent-access).
 
+#### Community mandate {#consent-community-mandate}
+
+The community managing the health dossier processes the content or the settings of the health dossier on behalf of
+the patient only on the mandate (Auftrag) of the patient (Art. 15 para. 1 and Art. 31 para. 1 EGDG), e.g. when the
+patient asks the support of the community for help. The mandate is given to the community, per support case and
+limited in time; the employees of its administration the community designates (Art. 15 para. 3 EGDG) act on it with the
+role `ADM`.
+
+The patient or the legal representative adds the mandate in the portal, or the administration records the mandate it
+received, e.g. by phone or with a signed form, with the Mobile Privacy Policy Feed (PPQ-3) transaction. The
+[Community mandate](StructureDefinition-ch-ppqm-consent-community-mandate.html) consent has
+([example](Consent-PpqmConsentCommunityMandateExample.html)):
+
+- the patient or the legal representative who gave the mandate as `performer`,
+- the community managing the health dossier as grantee,
+- the end date of the support case in `provision.period.end`,
+- where the administration records it, evidence of the mandate in `source[x]` or `verification`.
+
+While the mandate is in effect, the administration has all rights of the patient; the rights are not listed in the
+consent. The administration ends the mandate when the support case is closed by deleting the consent, and the patient
+may revoke it at any time.
+
 ### Who May Record and Retrieve Which Consent
 
 The Policy Repository authorizes each request by the consent type and the role of the user in the access token, as
@@ -239,27 +270,30 @@ shown in Table 3. C = create, R = retrieve, U = update, D = delete.
 
 | Consent type | `PAT` | `REP` | `LEGREP` | `HCP` | `ASS` | `ADM` |
 |---|---|---|---|---|---|---|
-| Opening | <samp>  R    </samp> | <samp>  R    </samp> | <samp>  R    </samp> | – | – | <samp>  R    </samp> (1) |
-| Emergency access | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
-| Access | <samp>C R U D</samp> (4) | <samp>  R    </samp> | <samp>C R U D</samp> | <samp>  R    </samp> (5) | <samp>  R    </samp> (5) | <samp>C R U D</samp> (3) |
-| Indirect authorization | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R    </samp> (6) | <samp>C R    </samp> (6) | <samp>  R    </samp> |
+| Opening | <samp>  R    </samp> | <samp>  R    </samp> | <samp>  R    </samp> | – | – | <samp>  R    </samp> (1, 3) |
+| Emergency access setting | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
+| Access | <samp>C R U D</samp> (4) | <samp>C R U D</samp> (2) | <samp>C R U D</samp> | <samp>  R    </samp> (5) | <samp>  R    </samp> (5) | <samp>C R U D</samp> (3) |
+| Indirect authorization | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R    </samp> (6) | <samp>C R    </samp> (6) | <samp>  R   D</samp> (3) |
 | Indirect authorization setting | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
-| Delegation | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R U D</samp> (7) | <samp>C R U D</samp> (7) | <samp>  R    </samp> |
+| Delegation | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R U D</samp> (7) | <samp>C R U D</samp> (7) | <samp>  R   D</samp> (3) |
 | Representative | <samp>C R U D</samp> | <samp>  R    </samp> (8) | – | – | – | <samp>C R U D</samp> (3) |
 | Legal representative | – | – | <samp>  R    </samp> | – | – | <samp>C R U D</samp> |
-| Digital health application | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>  R    </samp> |
+| Digital health application | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>  R   D</samp> (3) |
 | Military recording | <samp>C R U D</samp> | – | <samp>C R U D</samp> | <samp>  R    </samp> (5) | – | <samp>C R U D</samp> (3) |
+| Community mandate | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>C R   D</samp> (9) |
 {:class="table table-bordered"}
 
 Table 3: Authorization of the CH:PPQm transactions by consent type and role
 
 Notes:
 
-1. The Policy Repository adds the opening, the emergency access and the indirect authorization setting itself when the
+1. The Policy Repository adds the opening, the emergency access setting and the indirect authorization setting itself when the
    health dossier is opened, and deletes all consents when it is dissolved (see [Opening](#consent-opening)).
-2. If the patient granted the representative the action for the respective setting: `configure-emergency-access` for
-   the emergency access, `configure-indirect-authorization` for the indirect authorization setting.
-3. On the mandate of the patient (Art. 15 para. 1 EGDG).
+2. Create, update and delete only if the patient granted the representative the respective action:
+   `configure-emergency-access` for the emergency access setting, `configure-indirect-authorization` for the indirect
+   authorization setting, `manage-access` for access rights.
+3. While a [community mandate](#consent-community-mandate) of the patient is in effect (Art. 15
+   para. 1 EGDG).
 4. Also a digital health application acting for the patient, with the action `manage-access`.
 5. Consents in which the health professional, or a group or health institution the health professional or assistant
    is a registered member of, is the grantee.
@@ -267,46 +301,8 @@ Notes:
 7. Delegations derived from an access right of the health professional, or of a group or health institution the
    health professional or assistant is a registered member of, with the action `delegate`.
 8. The consent appointing the representative.
+9. The administration adds a mandate it received with evidence of the mandate, and deletes it when the support case
+   is closed.
 
 The role `TCU` is not allowed. Requests of the role `ADM` are only allowed for health dossiers managed by the community
 of the administration (`Consent.organization` of the opening).
-
-### Open Issues
-
-1. **Settings created at the opening.** Emergency access and the indirect authorization setting are created with type
-   permit at the opening and toggled between permit and deny by update, rather than existing only as a deny while the
-   patient excludes. To be confirmed.
-2. **Emergency access overridden by an access right.** The requirements catalogue asks that such an access is not
-   logged as emergency access. The audit events of this guide record the purpose of use of the access token as
-   declared by the user; whether the serving actor may record a different purpose of use is to be decided.
-3. **Indirect authorization.** Open in the requirements catalogue: whether further rights than reading "normal"
-   follow, and the form of the evidence. Open as well: the period of validity, and whether existing indirect
-   authorizations lose their effect when the patient excludes the indirect authorization.
-4. **Legal representative.** The requirements catalogue revokes the access rights of the patient and deletes the
-   consents of the patient when a legal representative is set up. This matches Art. 12 para. 1 EGDG (patient under 14 or
-   lacking capacity of judgement), but not Art. 12 para. 2 EGDG, under which a patient from 14 years exercises the
-   rights in parallel with the legal representative until majority.
-5. **Representative.** The Botschaft names granting access rights and dissolving the health dossier as rights a patient
-   may give a representative; the requirements catalogue does not list them.
-6. **Administration of the community.** Open in the requirements catalogue: whether the administration of the
-   community is generally authorized (role right, as in Table 3) or per support case of the patient (a consent per
-   mandate). The access token carries the verified community of the administration ([ITI-71](iti-71.html#administrators));
-   how administrators are registered in the directory as members of their community is open (see
-   [mCSD](iti-mcsd.html#communities-and-military-health-institutions)).
-7. **Digital health application.** The requirements catalogue lets a digital health application grant access rights,
-   beyond the reading and recording of data foreseen by Art. 11 para. 2 let. c EGDG. The identifier type of the client
-   ID (`urn:e-health-suisse:dga-client-id`), the registration of an application with the actions of its admission and
-   the mapping of the actions to scopes have to be aligned with the client registration (issue #11).
-8. **Military recording.** Military health institutions are marked in the directory with the organization type
-   `722172003` *Military health institution* of SNOMED CT ([mCSD](iti-mcsd.html#communities-and-military-health-institutions)). Art. 14 para. 2 EGDG allows the
-   consent to be stored in a military system instead. The requirements catalogue does not list this consent.
-9. **Legal basis in `policy.uri`.** The consents reference the profile of their consent type as their rules (R4
-    requires `policy` or `policyRule`). Once the EGDG and its ordinances are enacted, the legal basis may be referenced
-    instead.
-10. **Selected restricted documents.** Whether a release of a document of the level "restricted" extends to its new versions
-    (Art. 8 para. 2 EGDG), and what happens to the release when the document is set to "normal". The R4 search
-    parameter `data` only covers the root provision, so finding the access rights that release a document with
-    [PPQ-5](ppq-5.html) would need a search parameter of this guide.
-11. **Change of the managing community.** Whether the EGDG allows the community managing a health dossier to change,
-    and who then updates `organization` of the [opening](#consent-opening), which the authorization of the
-    administration relies on.

@@ -66,7 +66,7 @@ Usage: #example
 * type = http://hl7.org/fhir/bundle-type#transaction
 * entry[+].request.method = #PUT
 * entry[=].request.url = "Consent?identifier=urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
-* entry[=].resource = PpqmConsentEmergencyAccessExcludedExample
+* entry[=].resource = PpqmConsentEmergencyAccessSettingExcludedExample
 * entry[+].request.method = #PUT
 * entry[=].request.url = "Consent?identifier=urn:uuid:79761ad4-0630-4614-8ce6-e6451e158d78"
 * entry[=].resource = PpqmConsentAccessInstitutionExample

@@ -4,7 +4,7 @@ The Retrieve ATNA Audit Event [ITI-81] transaction is defined in [IHE ITI TF-2: 
 
 #### Message Semantics
 
-The Retrieve ATNA Audit Event message shall be a HTTP GET request sent to the Patient Audit Record Repository. This message is a FHIR search (see [http://hl7.org/fhir/R4/search.html](http://hl7.org/fhir/R4/search.html)) on AuditEvent Resources (see [http://hl7.org/fhir/R4/auditevent.html](http://hl7.org/fhir/R4/auditevent.html)). This "search" target is formatted as:
+The Retrieve ATNA Audit Event message shall be a HTTP GET request sent to the Patient Audit Record Service. This message is a FHIR search (see [http://hl7.org/fhir/R4/search.html](http://hl7.org/fhir/R4/search.html)) on AuditEvent Resources (see [http://hl7.org/fhir/R4/auditevent.html](http://hl7.org/fhir/R4/auditevent.html)). This "search" target is formatted as:
 
 ``` http
 <scheme>://<authority>/<path>/AuditEvent?date=ge[start-time]&date=le[stop-time]&<query>
@@ -25,20 +25,34 @@ where:
 #### Additional ATNA Search Parameters
 
 The Patient Audit Consumer may use the search parameters listed in Retrieve Audit Event [ITI-81]. The Patient Audit
-Record Repository SHALL evaluate all search parameters on the masked audit events (see [Expected Actions](#expected-actions)),
+Record Service SHALL evaluate all search parameters on the masked audit events (see [Expected Actions](#expected-actions)),
 never on the recorded audit events: a search parameter on an element which is not returned, e.g. `address` or the
 identifier of an assistant, does not match any audit event.
 
 **entity.identifier** is a parameter of token type. This parameter specifies unique identifier for the object. The parameter value should be identified in accordance to the entity type;   
 For example:   
 ``` http
-http://example.com/ARRservice/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650
+http://example.com/fhir/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650
 ```
 
-The Audit Record Repository shall match this parameter with the AuditEvent.entity.what.identifier field that is of type identifier (ParticipantObjectID in DICOM schema).
+The Patient Audit Record Service shall match this parameter with the AuditEvent.entity.what.identifier field that is of type identifier (ParticipantObjectID in DICOM schema).
 
 For the CH:ATC profile the entity.identifier has to be the EPR-SPID:   
 `entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|<<<value EPR-SPID>>>`
+
+#### Sort
+
+The Patient Audit Record Service SHALL support the FHIR result parameter
+[`_sort`](http://hl7.org/fhir/R4/search.html#sort) with the search parameter `date` as sort key, in ascending
+(`_sort=date`) and descending (`_sort=-date`) order. The sort is evaluated on the masked
+values, see [Search and sort on the masked values](#search-and-sort-on-the-masked-values).
+
+The Patient Audit Consumer MAY use `_sort`. A Patient Audit Consumer which relies on a specific order of the audit
+events SHALL request it with `_sort` and SHALL NOT assume a default order of the Patient Audit Record Service. For
+example, the most recent audit events first:
+``` http
+http://example.com/fhir/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&_sort=-date
+```
 
 
 #### Message Semantics for Response
@@ -54,7 +68,7 @@ and each audit event to [CH Audit Trail Event](StructureDefinition-ChAuditTrailE
 
 The Patient Audit Consumer may restrict the audit events returned to certain types of events with the search parameter `subtype` and the codes of the [audit event types](volume3.html#audit-trail-consumption-event-types), for example:
 ``` http
-http://example.com/ARRservice/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&subtype=http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierAuditEventType|ATC_DOC_READ
+http://example.com/fhir/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&subtype=http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierAuditEventType|ATC_DOC_READ
 ```
 
 
@@ -70,7 +84,7 @@ e.g. because the requester had no access right, did not process any data of the 
 
 ##### Masking
 
-The Patient Audit Record Repository SHALL apply the following rules to every audit event of the response, whoever
+The Patient Audit Record Service SHALL apply the following rules to every audit event of the response, whoever
 performed the event, including the patient and the representatives:
 
 <ol type="a">
@@ -91,7 +105,7 @@ performed the event, including the patient and the representatives:
     <code>traceparent</code> entity and the query of a search (<code>entity[query]</code>) are not returned.
   </li>
   <li>
-    <strong>Identity:</strong> <code>id</code> and <code>meta</code> are set by the Patient Audit Record Repository
+    <strong>Identity:</strong> <code>id</code> and <code>meta</code> are set by the Patient Audit Record Service
     and do not refer to the recorded audit event. <code>meta.security</code> carries the codes <code>ABSTRED</code>
     (abstracted) and <code>REDACTED</code> (redacted) from <code>http://terminology.hl7.org/CodeSystem/v3-ObservationValue</code>.
   </li>
@@ -109,12 +123,12 @@ For example, a healthcare professional who retrieves the same document three tim
 audit event of the type `ATC_DOC_READ` for that day. Retrieving two different documents on that day results in two
 audit events.
 
-The Patient Audit Record Repository SHALL remove the duplicates before paging the result; `Bundle.total`, where
+The Patient Audit Record Service SHALL remove the duplicates before paging the result; `Bundle.total`, where
 returned, counts the audit events after the removal.
 
 ##### Search and sort on the masked values
 
-The Patient Audit Record Repository SHALL evaluate the search parameter `date` and the sort on the masked values, never
+The Patient Audit Record Service SHALL evaluate the search parameter `date` and the sort on the masked values, never
 on the recorded time, so that a search with a time of day cannot narrow down the time of an event. The Patient Audit
 Consumer SHOULD search with dates (`YYYY-MM-DD`). The order of the audit events within a day carries no meaning.
 
@@ -125,7 +139,7 @@ server certificates.
 
 The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-For every Retrieve ATNA Audit Event [ITI-81] request, the Patient Audit Record Repository SHALL enforce the access
+For every Retrieve ATNA Audit Event [ITI-81] request, the Patient Audit Record Service SHALL enforce the access
 rules as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
 Audit records the requester is not authorized to see SHALL NOT be included in the response.
 
@@ -139,11 +153,11 @@ The **Patient Audit Consumer** SHALL record an audit event according to
 [CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html)
 ([example](AuditEvent-ChAuditEventIti81ConsumerExample.html)).
 
-##### Patient Audit Record Repository Audit
+##### Patient Audit Record Service Audit
 
-The **Patient Audit Record Repository** SHALL record an audit event according to
-[CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html)
-([example](AuditEvent-ChAuditEventIti81RepositoryExample.html)) for every Retrieve ATNA Audit Event [ITI-81] request,
+The **Patient Audit Record Service** SHALL record an audit event according to
+[CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)
+([example](AuditEvent-ChAuditEventIti81ServiceExample.html)) for every Retrieve ATNA Audit Event [ITI-81] request,
 with the type `ATC_LOG_READ` in the audit trail of the patient, whoever made the request (the patient, a
 representative, a legal representative or the administration). The audit event is returned, masked, by later requests
 for the audit trail of that patient.

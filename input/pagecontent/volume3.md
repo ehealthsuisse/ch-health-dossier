@@ -21,7 +21,7 @@ recorded for the audit trail. There are three categories of events in the audit 
 The patient is not informed about changes in the members of a group of healthcare professionals, and no audit event is
 provided for them.
 
-The Patient Audit Record Repository returns the audit events with [Retrieve ATNA Audit Event [ITI-81]](iti-81.html)
+The Patient Audit Record Service returns the audit events with [Retrieve ATNA Audit Event [ITI-81]](iti-81.html)
 masked to the day and without duplicates, as [CH Audit Trail Event](StructureDefinition-ChAuditTrailEvent.html) (see
 [Expected Actions of ITI-81](iti-81.html#expected-actions)).
 
@@ -51,14 +51,14 @@ indirect authorization are added. The default confidentiality level (`ATC_POL_DE
 | `ATC_DOC_UPDATE_CONFIDENTIALITY` | Confidentiality code of a document changed | [CH:MHD-1](ch-mhd-1.html) | [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html) | [confidentiality code](AuditEvent-ChAuditEventChMhd1ResponderExample.html) |
 | `ATC_DOC_UPDATE_NOTE` | Personal note on a document recorded | [CH:MHD-1](ch-mhd-1.html) | [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html) | [personal note](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html) |
 | `ATC_DOC_DELETE` | Document removal | [CH:MHD-2](ch-mhd-2.html) | [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html) | [removal](AuditEvent-ChAuditEventChMhd2ResponderExample.html) |
-| `ATC_POL_CREATE_AUT_PART_AL` | Consent added, all consent types except the emergency access and the indirect authorization setting | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | [indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html) |
-| `ATC_POL_UPDATE_AUT_PART_AL` | Consent updated, all consent types except the emergency access and the indirect authorization setting | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | |
+| `ATC_POL_CREATE_AUT_PART_AL` | Consent added, all consent types except the emergency access setting and the indirect authorization setting | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | [indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html) |
+| `ATC_POL_UPDATE_AUT_PART_AL` | Consent updated, all consent types except the emergency access setting and the indirect authorization setting | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | |
 | `ATC_POL_REMOVE_AUT_PART_AL` | Consent deleted, all consent types | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) | [CH Audit Event for [PPQ-3] Delete privacy policy](StructureDefinition-ChAuditEventPpq3Delete.html), [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html) | [access right revoked](AuditEvent-ChAuditEventPpq3DeleteExample.html), [digital health application expired](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html) |
-| `ATC_POL_ENA_EMER_USE` | [Emergency access](ppqm-consent.html#consent-emergency-access) added or updated with type permit | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | [emergency access added](AuditEvent-ChAuditEventPpq3RepositoryCreateExample.html) |
-| `ATC_POL_DIS_EMER_USE` | [Emergency access](ppqm-consent.html#consent-emergency-access) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | [emergency access excluded](AuditEvent-ChAuditEventPpq3UpdateExample.html) |
+| `ATC_POL_ENA_EMER_USE` | [Emergency access setting](ppqm-consent.html#consent-emergency-access-setting) added or updated with type permit | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | [emergency access added](AuditEvent-ChAuditEventPpq3RepositoryCreateExample.html) |
+| `ATC_POL_DIS_EMER_USE` | [Emergency access setting](ppqm-consent.html#consent-emergency-access-setting) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | [emergency access excluded](AuditEvent-ChAuditEventPpq3UpdateExample.html) |
 | `ATC_POL_ENA_INDIRECT_AUT` | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) added or updated with type permit | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | |
 | `ATC_POL_DIS_INDIRECT_AUT` | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | |
-| `ATC_LOG_READ` | Access to the audit trail | [ITI-81](iti-81.html) | [CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html) | [audit trail retrieved by the patient](AuditEvent-ChAuditEventIti81RepositoryExample.html) |
+| `ATC_LOG_READ` | Access to the audit trail | [ITI-81](iti-81.html) | [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html) | [audit trail retrieved by the patient](AuditEvent-ChAuditEventIti81ServiceExample.html) |
 
 _Table 1: Audit Trail Consumption Event Types_
 
@@ -85,11 +85,11 @@ records for [PPQ-3](ppq-3.html#security-audit-considerations) and [PPQ-4](ppq-4.
 deletes or updates itself under the [Policy Repository rules](ppq-3.html#policy-repository-rules). These audit events
 replace the Policy Audit Event Content Profile of the EPR. The Policy Repository SHALL record the type of the event in
 the audit trail, the Policy Source MAY record it. The types follow from the consent type and the type of the provision
-(permit or deny), see [Table 1](#audit-trail-consumption-event-types); the emergency access and the indirect
+(permit or deny), see [Table 1](#audit-trail-consumption-event-types); the emergency access setting and the indirect
 authorization setting are only deleted when the health dossier is dissolved.
 
 A consent the Policy Repository deletes because of the request of a user, e.g. a delegation derived from a revoked
-access right, is recorded with the user of that request as main user and the `traceparent` of that request, so that
+access right or an indirect authorization deleted when the patient excludes the indirect authorization, is recorded with the user of that request as main user and the `traceparent` of that request, so that
 the patient sees it as a consequence of that request. A consent it deletes without a user, i.e. the authorization of a
 digital health application after three months without access and the consents of a dissolved health dossier, is
 recorded with the Policy Repository as initiating agent and the reason of the deletion
@@ -105,10 +105,10 @@ consent is the main user of the audit event.
 
 ### Audit trail of the access to the audit trail
 
-The access to the audit trail is recorded by the Patient Audit Record Repository for every
+The access to the audit trail is recorded by the Patient Audit Record Service for every
 [ITI-81](iti-81.html#security-audit-considerations) request, whoever made it: the patient, a representative, a legal
 representative or the administration
-([CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html)).
+([CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)).
 These audit events replace the Access Audit Trail Content Profile of the EPR. The Patient Audit Consumer records the
 request as well
 ([CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html)) and MAY
