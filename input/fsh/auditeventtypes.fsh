@@ -220,7 +220,7 @@ ValueSet: HealthDossierAddConsentAuditEventType
 Id: HealthDossierAddConsentAuditEventType
 Title: "CH Health Dossier Add Consent Audit Event Type"
 Description: "The types of events in the audit trail for a consent added with Mobile Privacy Policy Feed [PPQ-3] or by
-the Policy Repository: the authorization of a participant, or the emergency access and the indirect authorization
+the Policy Repository: the authorization of a participant, or the emergency access setting and the indirect authorization
 setting added at the opening of the health dossier."
 * ^experimental = false
 * HealthDossierAuditEventType#ATC_POL_CREATE_AUT_PART_AL
@@ -234,7 +234,7 @@ ValueSet: HealthDossierUpdateConsentAuditEventType
 Id: HealthDossierUpdateConsentAuditEventType
 Title: "CH Health Dossier Update Consent Audit Event Type"
 Description: "The types of events in the audit trail for a consent updated with Mobile Privacy Policy Feed [PPQ-3]: the
-update of the authorization of a participant, or the change of the emergency access or of the indirect authorization
+update of the authorization of a participant, or the change of the emergency access setting or of the indirect authorization
 setting."
 * ^experimental = false
 * HealthDossierAuditEventType#ATC_POL_UPDATE_AUT_PART_AL

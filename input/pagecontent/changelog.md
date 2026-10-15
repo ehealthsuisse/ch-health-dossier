@@ -221,7 +221,8 @@
     professionals (`GRP`) is not part of it, since a group cannot provide a document (the canonical url changed anyway, but it is also a breaking change)
 * Confidentiality code
   * Added the value set [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html) with
-    the two levels of the E-GD, "allgemein" (SNOMED CT `Normal`) and "privat" (SNOMED CT `Restricted`); `Secret` is not
+    the two levels of the E-GD, "normal" (SNOMED CT `Normal`, "allgemein" in the EGDG) and "restricted" (SNOMED CT
+    `Restricted`, "privat" in the EGDG); `Secret` is not
     used any more. Bound
     `DocumentReference.securityLabel` of the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html),
     the confidentiality code of the document in the audit events and `Consent.provision.securityLabel` of CH:PPQm to it,
@@ -238,7 +239,7 @@
     Volume 3 page [CH PPQm Consent](ppqm-consent.html).
   * Replaced the profile `PpqmConsent` and the template profiles 201-304 with the base profile
     [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) and one profile per consent type: opening, emergency
-    access, access for a health professional, group or health institution, indirect authorization, indirect
+    access setting, access for a health professional, group or health institution, indirect authorization, indirect
     authorization setting, delegation, representative, legal representative, digital health application and recording
     by military health professionals, each with an example. Breaking change.
   * Added the code systems [CH Health Dossier Consent Type](CodeSystem-HealthDossierConsentType.html) and
@@ -252,7 +253,7 @@
     the Policy Repository rules (legal representative, delegations of a deleted access right, digital health
     application after three months without access, purged documents, dissolution). PPQ-4 validates the rules against
     the consents as they are after all entries, and processes the Bundle as a whole.
-  * The Policy Repository adds the [opening](ppqm-consent.html#consent-opening), the emergency access and the indirect
+  * The Policy Repository adds the [opening](ppqm-consent.html#consent-opening), the emergency access setting and the indirect
     authorization setting itself when the Register E-GD records the opening, automatic (canton as performer) or
     voluntary, and records it with
     [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html).
@@ -276,6 +277,28 @@
     for the consents the Policy Repository deletes without a user (digital health application without access for
     three months, dissolution, death), with the Policy Repository as initiating agent and the reason of the deletion.
     Deletions caused by the request of a user are recorded with that user and the `traceparent` of the request.
+  * Resolved the open issues of [CH PPQm Consent](ppqm-consent.html):
+    * The emergency access setting and the indirect authorization setting are created with type permit at the opening
+      and toggled by update (confirmed).
+    * Renamed the consent type emergency access to
+      [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) as for the indirect authorization
+      setting: code `emergency-access-setting`, profile
+      [Emergency Access Setting](StructureDefinition-ch-ppqm-consent-emergency-access-setting.html)
+      (`ch-ppqm-consent-emergency-access-setting`)
+      ([#29](https://github.com/ehealthsuisse/ch-health-dossier/issues/29)). Breaking change.
+    * An [indirect authorization](ppqm-consent.html#consent-indirect-authorization) grants only reading "normal", is
+      valid for at most 60 days (end date required), and carries evidence whose form is not specified. When the patient
+      excludes the indirect authorization, the Policy Repository deletes the existing indirect authorizations.
+    * A [representative](ppqm-consent.html#consent-representative) may be granted the action `manage-access` to grant
+      and revoke access rights, but may not appoint a further representative.
+    * Added the consent type [community mandate](ppqm-consent.html#consent-community-mandate)
+      (`community-mandate`, profile [Community Mandate](StructureDefinition-ch-ppqm-consent-community-mandate.html)):
+      the administration of the community processes a health dossier only per support case, with all rights of the
+      patient until the end date. Added `ADM` to the consent actor roles.
+    * Access to an individual document of the level "restricted" is granted by its master identifier
+      (`DocumentReference.masterIdentifier`) instead of a literal reference, and covers that version; a replacement does not change
+      the confidentiality code of the replaced document, and the Document Source sets the one of the new version
+      ([ITI-65](iti-65.html#correction-of-a-published-document)).
 * CH:ATC
   * Renamed the actor Patient Audit Record Repository to Patient Audit Record Service, the profile
     `ChAuditEventIti81Repository` to [ChAuditEventIti81Service](StructureDefinition-ChAuditEventIti81Service.html) and
@@ -322,6 +345,9 @@
   * [Enforcement of Access Rules](accesscontrol.html): added the rights by law and the rights by consent, the rules for
     the confidentiality levels, the emergency access, the administration of the community, digital health
     applications and military health professionals.
+  * [Emergency access](accesscontrol.html#emergency-access): the actor serving a request records in its audit event the
+    lowest purpose of use under which the request was permitted, i.e. `NORM` where the requester holds an access right
+    or a right by law even if the access token declares `EMER`.
   * [ITI-71](iti-71.html#administrators): an administrator claims the community in `group_id`; the IUA Authorization
     Server verifies it in the directory and conveys it in `subject_organization_id`, now required for `ADM`. Added the
     verification of the consent for [digital health applications](iti-71.html#digital-health-applications) and the

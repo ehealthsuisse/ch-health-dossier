@@ -53,39 +53,39 @@ Usage: #example
 * provision.actor.reference.identifier.value = "761337610411353650"
 
 
-Instance: PpqmConsentEmergencyAccessExample
-InstanceOf: ChPpqmConsentEmergencyAccess
-Title: "PPQm Consent: Emergency Access allowed"
+Instance: PpqmConsentEmergencyAccessSettingExample
+InstanceOf: ChPpqmConsentEmergencyAccessSetting
+Title: "PPQm Consent: Emergency Access Setting, allowed"
 Description: "Emergency access setting added by the Policy Repository when the health dossier was opened: all health
-professionals and health institutions may read documents of the confidentiality level 'allgemein' in an emergency."
+professionals and health institutions may read documents of the confidentiality level 'normal' in an emergency."
 Usage: #example
 * text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Emergency access allowed: documents of the level 'allgemein' can be read in an emergency.</p></div>"
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Emergency access allowed: documents of the level 'normal' can be read in an emergency.</p></div>"
 * identifier.value = "urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
-* category = HealthDossierConsentType#emergency-access
+* category = HealthDossierConsentType#emergency-access-setting
 * insert PpqmConsentExamplePatient
 * dateTime = "2026-10-01T09:00:00+02:00"
 * insert PpqmConsentExamplePerformerCanton
-* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access"
+* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access-setting"
 * provision.type = #permit
 * provision.action = HealthDossierConsentAction#read
 * provision.securityLabel = $sct#17621005 "Normal (qualifier value)"
 * provision.purpose = $purposeOfUse#EMER "Emergency Access"
 
 
-Instance: PpqmConsentEmergencyAccessExcludedExample
-InstanceOf: ChPpqmConsentEmergencyAccess
-Title: "PPQm Consent: Emergency Access excluded"
+Instance: PpqmConsentEmergencyAccessSettingExcludedExample
+InstanceOf: ChPpqmConsentEmergencyAccessSetting
+Title: "PPQm Consent: Emergency Access Setting, excluded"
 Description: "The patient excluded emergency access: the emergency access setting is updated to the type deny."
 Usage: #example
 * text.status = #generated
 * text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Emergency access excluded by the patient.</p></div>"
 * identifier.value = "urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
-* category = HealthDossierConsentType#emergency-access
+* category = HealthDossierConsentType#emergency-access-setting
 * insert PpqmConsentExamplePatient
 * dateTime = "2026-10-05T18:30:00+02:00"
 * insert PpqmConsentExamplePerformerPatient
-* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access"
+* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access-setting"
 * provision.type = #deny
 * provision.action = HealthDossierConsentAction#read
 * provision.securityLabel = $sct#17621005 "Normal (qualifier value)"
@@ -113,11 +113,11 @@ Instance: PpqmConsentAccessHcpExample
 InstanceOf: ChPpqmConsentAccess
 Title: "PPQm Consent: Access for a Health Professional"
 Description: "The patient grants Dr. Bastian Bux the right to read the documents of the confidentiality level
-'allgemein' until 31 March 2027, with the right to pass it on, and releases one document of the confidentiality level
-'privat' to him."
+'normal' until 31 March 2027, with the right to pass it on, and grants access to one document of the confidentiality
+level 'restricted'."
 Usage: #example
 * text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Dr. Bastian Bux may read the documents of the level 'allgemein' and one selected private document until 2027-03-31, and may pass on the access right.</p></div>"
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Dr. Bastian Bux may read the documents of the level 'normal' and one selected restricted document until 2027-03-31, and may pass on the access right.</p></div>"
 * identifier.value = "urn:uuid:3733b8a5-52f5-49fc-b2d2-cad3d2b0b949"
 * category = HealthDossierConsentType#access
 * insert PpqmConsentExamplePatient
@@ -133,17 +133,18 @@ Usage: #example
 * provision.purpose = $purposeOfUse#NORM "Normal Access"
 * provision.provision[+].type = #permit
 * provision.provision[=].data[+].meaning = #instance
-* provision.provision[=].data[=].reference = Reference(DocRefPdf)
+* provision.provision[=].data[=].reference.identifier.system = "urn:ietf:rfc:3986"
+* provision.provision[=].data[=].reference.identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
 
 
 Instance: PpqmConsentAccessInstitutionExample
 InstanceOf: ChPpqmConsentAccess
 Title: "PPQm Consent: Access for a Health Institution"
 Description: "The patient grants all health professionals and assistants registered as members of the Fuchur-Klinik
-the right to read the documents of the confidentiality level 'allgemein' during a hospital stay."
+the right to read the documents of the confidentiality level 'normal' during a hospital stay."
 Usage: #example
 * text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Members of the Fuchur-Klinik may read the documents of the level 'allgemein' from 2026-11-02 to 2026-11-30.</p></div>"
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Members of the Fuchur-Klinik may read the documents of the level 'normal' from 2026-11-02 to 2026-11-30.</p></div>"
 * identifier.value = "urn:uuid:79761ad4-0630-4614-8ce6-e6451e158d78"
 * category = HealthDossierConsentType#access
 * insert PpqmConsentExamplePatient
@@ -169,7 +170,7 @@ Description: "The patient consented orally at the Auryn-Spital. An assistant of 
 in the health dossier, verified with a one-time code the patient received by SMS."
 Usage: #example
 * text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Consent given at the Auryn-Spital, verified with a one-time code: members of the Auryn-Spital may read the documents of the level 'allgemein' until 2026-12-31.</p></div>"
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>Consent given at the Auryn-Spital, verified with a one-time code: members of the Auryn-Spital may read the documents of the level 'normal' until 2026-12-02.</p></div>"
 * identifier.value = "urn:uuid:0c118fcf-4640-4613-9b4d-d75b31b3fa59"
 * category = HealthDossierConsentType#indirect-authorization
 * insert PpqmConsentExamplePatient
@@ -179,7 +180,7 @@ Usage: #example
 * verification.verified = true
 * verification.verificationDate = "2026-10-03T08:48:12+02:00"
 * provision.type = #permit
-* provision.period.end = "2026-12-31"
+* provision.period.end = "2026-12-02"
 * provision.actor.role = $healthDossierRole#HCP
 * provision.actor.reference.identifier.type.coding = $URI#urn:oasis:names:tc:xspa:1.0:subject:organization-id
 * provision.actor.reference.identifier.value = "urn:oid:2.16.10.89.201"
@@ -273,10 +274,10 @@ Instance: PpqmConsentDigitalHealthApplicationExample
 InstanceOf: ChPpqmConsentDigitalHealthApplication
 Title: "PPQm Consent: Digital Health Application"
 Description: "The patient authorizes a diabetes diary application to read the documents of the confidentiality level
-'allgemein' and to record documents until 30 September 2027."
+'normal' and to record documents until 30 September 2027."
 Usage: #example
 * text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>The diabetes diary may read the documents of the level 'allgemein' and record documents until 2027-09-30.</p></div>"
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>The diabetes diary may read the documents of the level 'normal' and record documents until 2027-09-30.</p></div>"
 * identifier.value = "urn:uuid:111f1e4b-4c0c-4cf5-9882-646dccc81273"
 * category = HealthDossierConsentType#digital-health-application
 * insert PpqmConsentExamplePatient
@@ -314,3 +315,29 @@ Usage: #example
 * provision.actor.reference.identifier.value = "urn:oid:2.999.3"
 * provision.actor.reference.display = "Military health institution"
 * provision.action = HealthDossierConsentAction#record
+
+
+Instance: PpqmConsentCommunityMandateExample
+InstanceOf: ChPpqmConsentCommunityMandate
+Title: "PPQm Consent: Community Mandate"
+Description: "The patient calls the support of the community about a document that cannot be found. The administration
+records the mandate for this support case, verified with a one-time code the patient received by SMS, until 16 October
+2026."
+Usage: #example
+* text.status = #generated
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>The administration of the community may process the health dossier on behalf of the patient until 2026-10-16.</p></div>"
+* identifier.value = "urn:uuid:075853a5-94e8-4ade-bb9f-fc552cfa7334"
+* category = HealthDossierConsentType#community-mandate
+* insert PpqmConsentExamplePatient
+* dateTime = "2026-10-14T10:20:00+02:00"
+* insert PpqmConsentExamplePerformerPatient
+* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-community-mandate"
+* verification.verified = true
+* verification.verificationDate = "2026-10-14T10:21:05+02:00"
+* provision.type = #permit
+* provision.period.start = "2026-10-14"
+* provision.period.end = "2026-10-16"
+* provision.actor.role = $healthDossierRole#ADM
+* provision.actor.reference.identifier.type.coding = $URI#urn:oasis:names:tc:xspa:1.0:subject:organization-id
+* provision.actor.reference.identifier.value = "urn:oid:2.999.1"
+* provision.actor.reference.display = "Community managing the health dossier"

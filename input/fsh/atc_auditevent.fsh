@@ -288,7 +288,7 @@ Usage:      #inline
   * type = $auditEntityType#2 "System Object"
   * role = $objectRole#4 "Domain Resource"
   * detail[+].type = "consentType"
-  * detail[=].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access"
+  * detail[=].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access-setting"
 
 
 Instance:   ChAuditTrailEventLogReadExample
