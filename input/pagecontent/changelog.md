@@ -151,7 +151,7 @@
       `DocumentAuditEventType`, identifier profile `ch-atc-uniqueid-identifier` and the examples `atc-doc-*`): the
       audit trail of a patient is built from the audit events of the document transactions, see
       [CH:ATC](volume3.html#audit-trail-of-the-document-transactions). The response of [ITI-81](iti-81.html) and the
-      Patient Audit Record Repository CapabilityStatement refer to the audit event profiles of the Document Recipient
+      Patient Audit Record Service CapabilityStatement refer to the audit event profiles of the Document Recipient
       and Document Responder instead, and ITI-81 can be filtered on the audit event types with `subtype`.
     * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html)
       (author as a contained PractitionerRole with the names of the foreign doctor and clinic as text),
@@ -277,7 +277,18 @@
     three months, dissolution, death), with the Policy Repository as initiating agent and the reason of the deletion.
     Deletions caused by the request of a user are recorded with that user and the `traceparent` of the request.
 * CH:ATC
-  * [ITI-81](iti-81.html#expected-actions): the Patient Audit Record Repository returns the audit events masked: the
+  * Renamed the actor Patient Audit Record Repository to Patient Audit Record Service, the profile
+    `ChAuditEventIti81Repository` to [ChAuditEventIti81Service](StructureDefinition-ChAuditEventIti81Service.html) and
+    the CapabilityStatement `PatientAuditRecordRepositoryCapabilityStatement` to
+    [PatientAuditRecordServiceCapabilityStatement](CapabilityStatement-PatientAuditRecordServiceCapabilityStatement.html).
+    The Patient Audit Record Service is not an Audit Record Repository: it derives the audit trail events required
+    for the E-GD from the recorded audit events according to the privacy requirements (see
+    [CH:ATC](ch-atc.html#patient-audit-record-service))
+    ([#38](https://github.com/ehealthsuisse/ch-health-dossier/issues/38)).
+  * [ITI-81](iti-81.html#sort): the Patient Audit Record Service SHALL support `_sort` on `date` in ascending and
+    descending order, as required by the IHE change proposal CP-ITI-1334; a Patient Audit Consumer which relies on an
+    order SHALL request it with `_sort` ([ch-epr-fhir#432](https://github.com/ehealthsuisse/ch-epr-fhir/issues/432)).
+  * [ITI-81](iti-81.html#expected-actions): the Patient Audit Record Service returns the audit events masked: the
     time reduced to the day (`period` as date, `recorded` at the start of the day in Swiss local time), an assistant
     only with the role `ASS`, without the technical details (client and server agents, `traceparent`, query), and
     marked with `ABSTRED` and `REDACTED` in `meta.security`. Audit events identical after the masking are returned only
@@ -293,8 +304,8 @@
     right to information about changes in the members of a group of healthcare professionals.
   * Replaced the Access Audit Trail Content Profile (profile `AccessAuditTrailEvent`, value set
     `AccessAuditTrailEventType` and the example `atc-log-read`) with
-    [CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html),
-    recorded by the Patient Audit Record Repository for every ITI-81 request, and added
+    [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html),
+    recorded by the Patient Audit Record Service for every ITI-81 request, and added
     [CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html) for the
     Patient Audit Consumer, as for the other transactions. Added `ATC_LOG_READ` to
     [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html).
