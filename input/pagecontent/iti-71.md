@@ -43,10 +43,10 @@ This section specifies the national extensions for the client credential grant f
 
 <br/>
 
-| Step | Action                                                                                                   | Remark                      | 
-|------|----------------------------------------------------------------------------------------------------------|-----------------------------|
-| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics) | 
-| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1)|
+| Step | Action                                                                                                   | Remark                                        | 
+|------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics)   | 
+| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1) |
 {:class="table table-bordered"}
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -322,15 +322,15 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 <br/>
 
-| user role                       | user_id  | user_id_qualifier                     | Remark                                                               |
-|---------------------------------|----------|---------------------------------------|----------------------------------------------------------------------|
-| Patient (`PAT`)                 | EPR-SPID | urn:e-health-suisse:2015:epr-spid     |                                                                      |
-| Healthcare Professional (`HCP`) | GLN      | urn:gs1:gln                           |                                                                      |
-| Assistant (`ASS`)               | GLN      | urn:gs1:gln                           |                                                                      |
+| user role                       | user_id           | user_id_qualifier                     | Remark                                                                                                                       |
+|---------------------------------|-------------------|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Patient (`PAT`)                 | EPR-SPID          | urn:e-health-suisse:2015:epr-spid     |                                                                                                                              |
+| Healthcare Professional (`HCP`) | GLN               | urn:gs1:gln                           |                                                                                                                              |
+| Assistant (`ASS`)               | GLN               | urn:gs1:gln                           |                                                                                                                              |
 | Representative (`REP`)          | Representative ID | urn:e-health-suisse:representative-id | Issued by the Health Dossier system, see [Representative ID and administrator GLN](#representative-id-and-administrator-gln) |
 | Legal Representative (`LEGREP`) | Representative ID | urn:e-health-suisse:representative-id | Issued by the Health Dossier system, see [Representative ID and administrator GLN](#representative-id-and-administrator-gln) |
-| Administration (`ADM`)          | GLN      | urn:gs1:gln                           | The GLN of the administrator registered in the provider directory    |
-| Clinical Archive System (`TCU`) | GLN      | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding |
+| Administration (`ADM`)          | GLN               | urn:gs1:gln                           | The GLN of the administrator registered in the provider directory                                                            |
+| Clinical Archive System (`TCU`) | GLN               | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding                                                         |
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
@@ -580,5 +580,4 @@ The authors of this specification are aware, that the authenticity of the Get Ac
 first by validating the http signature of the request and second, when validating the signature of the client-asymmetric 
 authentication JWT. While the http signature is required to ensure the integrity (i.e., to verify that the request is 
 not tampered), the client-asymmetric authentication is kept to be compliant with the 
-[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications
-which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
+[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
