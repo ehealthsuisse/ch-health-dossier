@@ -37,9 +37,9 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 
 ####  Expected Actions
 
-The Document Responder SHALL return a FHIR document as a native FHIR document Bundle resource and SHALL NOT wrap it in a Binary resource. For other data standard MHD behavior applies.
+The Document Responder SHALL return a FHIR document as a native FHIR document Bundle resource and SHALL NOT wrap it in a Binary resource. For other documents standard MHD behavior applies.
 
-How a FHIR document is published is described in [ITI-65](iti-65.html#publishing-a-fhir-document).
+How a FHIR document is provided is described in [ITI-65](iti-65.html#providing-a-fhir-document).
 
 #### CapabilityStatement Resource
 

@@ -57,11 +57,11 @@ from the holder's EPR.
 #### Writing documents from clinical archives
 
 A healthcare professional uses a primary system which stores documents in a clinical archive system. The clinical
-archive system uses specific algorithms to decide which documents shall be stored in the Health Dossier of the holder.
+archive system uses specific algorithms to decide which documents shall be provided to the Health Dossier of the holder.
 
 The healthcare professional reports medical information of a treatment in her primary system. The primary system creates
 a structured or unstructured document from the data and stores them in the clinical archive system. The clinical archive
-system decides whether the document shall be stored in the holder's EPR using the policies defined in the clinic.
+system decides whether the document shall be provided to the holder's EPR using the policies defined in the clinic.
 
 The clinical archive system connects to the IUA Authorization Server and sends a request with the required claims to 
 access the holder's EPR. The IUA Authorization Server verifies if the clinical archive system was registered during 

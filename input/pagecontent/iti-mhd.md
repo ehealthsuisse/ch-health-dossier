@@ -3,38 +3,38 @@ This section specifies Swiss national extensions to the Mobile Access to Health 
 The national extension adds two transactions from the Document Source to the Document Responder, [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html) and [Purge Document [CH:MHD-2]](ch-mhd-2.html).
 
 ### Scope  
-An Health App can query, retrieve or publish data to/from the Health Dossier API using the transaction of the MHD profile. 
-An Health App can update the metadata of a published document and purge a published document with this national extension.  
+An Health App can query, retrieve or provide data to/from the Health Dossier API using the transaction of the MHD profile. 
+An Health App can update the metadata of a provided document and purge a provided document with this national extension.  
 
 ###	Use Cases  
 The national extension supports the following Use Cases:
 
-#### Publication of documents
-A holder, a representative, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) publishes a document in the health dossier of the holder. The Health App submits the document together with its metadata through the Health Dossier API. The metadata distinguishes who authored the document, given as text, from who provided it: the role of the user and, for healthcare professionals, assistants and technical users, the institution on whose behalf the document is provided. How the document is published is described in [ITI-65](iti-65.html).
+#### Providing documents
+A holder, a representative, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) provides a document to the health dossier of the holder. The Health App provides the document together with its metadata through the Health Dossier API. The metadata distinguishes who authored the document, given as text, from who provided it: the role of the user and, for healthcare professionals, assistants and technical users, the institution on whose behalf the document is provided. How the document is published is described in [ITI-65](iti-65.html).
 
 #### Search and download of documents
 A holder, a representative, a healthcare professional or an assistant searches the health dossier of the holder for documents, e.g. by type, date or with a full-text search, and downloads a document found. The result only contains the documents the requester is authorized to access. How documents are searched is described in [ITI-67](iti-67.html) and how a document is downloaded in [ITI-68](iti-68.html).
 
-#### Healthcare professional corrects a published document
-A document was published that contains incorrect data.  A healthcare professional or an assistant publishes a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the holder. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
+#### Healthcare professional corrects a provided document
+A document was provided that contains incorrect data.  A healthcare professional or an assistant provides a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the holder. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-provided-document).
 
-#### Healthcare professional deletes a document published for the wrong person
-A holder, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional which published it has to delete it. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+#### Healthcare professional purges a document provided for the wrong person
+A holder, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has provided a document to the health dossier of the wrong person. Such a document is not corrected by a new version but has to be purged, and the healthcare professional which provided it has to purge it. How the document is purged is described in [CH:MHD-2](ch-mhd-2.html).
 
 #### Holder changes confidentiality code of a document
 A holder wants to change the confidentiality code of one of his documents. The holder or a representative updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 #### Holder adds a personal note to a document
-A holder and the healthcare professional which published a document do not agree on the correctness of the data in that document. The holder or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
+A holder and the healthcare professional which provided a document do not agree on the correctness of the data in that document. The holder or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
 
-#### Holder deletes a document
-A holder or a representative wants to delete a document of their health dossier. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+#### Holder purges a document
+A holder or a representative wants to purge a document of their health dossier. How the document is purged is described in [CH:MHD-2](ch-mhd-2.html).
 
 **Note**:
 
 Where the use cases above name a representative, this is either a representative the holder has designated or the legal representative of a holder.
 
-The actions of the holder in the use cases above (publication, search and download, change of the confidentiality code, personal note and deletion of a document) can also be performed by an administrator of a community on the mandate of the holder (see [Community mandate](ppqm-consent.html#consent-community-mandate)).
+The actions of the holder in the use cases above (providing, search and download, change of the confidentiality code, personal note and purge of a document) can also be performed by an administrator of a community on the mandate of the holder (see [Community mandate](ppqm-consent.html#consent-community-mandate)).
 
 ###	Actors and Transactions  
 
@@ -65,11 +65,11 @@ Options that can be selected for each actor in this profile, are listed in the t
 
 #### Health Dossier Metadata Option
 
-Metadata as defined in [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) SHALL be supported by the Document Source and Document Recipient.
+The metadata defined in [Document Sharing Metadata](document-sharing-metadata.html) and the profile [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) SHALL be supported by the Document Source and Document Recipient.
 
 #### ITI-65 FHIR Documents Publish Option
 
-The [ITI-65 FHIR Documents Publish Option](https://profiles.ihe.net/ITI/MHD/index.html) SHALL be supported by the Document Source and Document Recipient, so that a FHIR document can be published as a Document Bundle resource in raw format without converting to a base64 encoded binary. How a FHIR document is published is described in [ITI-65](iti-65.html#publishing-a-fhir-document).
+The [ITI-65 FHIR Documents Publish Option](https://profiles.ihe.net/ITI/MHD/index.html) SHALL be supported by the Document Source and Document Recipient, so that a FHIR document can be provided as a Document Bundle resource in raw format without converting to a base64 encoded binary. How a FHIR document is published is described in [ITI-65](iti-65.html#providing-a-fhir-document).
 
 #### Full-Text Search Option
 

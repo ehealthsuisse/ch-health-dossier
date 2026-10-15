@@ -28,17 +28,17 @@ The Purge Document Request Message requests the irrevocable removal of a documen
 
 ##### Trigger Events
 
-The Purge Document Request Message is triggered when a document has to be deleted from the health dossier:
+The Purge Document Request Message is triggered when a document has to be purged from the health dossier:
 
-- a healthcare professional or a health institution has published the document in the health dossier of the wrong
-  person (see the use case [Healthcare professional deletes a document published for the wrong person](iti-mhd.html#use-cases));
-- the holder, or a person acting on their behalf, deletes a document (see the use case
-  [Holder deletes a document](iti-mhd.html#use-cases)).
+- a healthcare professional or a health institution has provided the document to the health dossier of the wrong
+  person (see the use case [Healthcare professional purges a document provided for the wrong person](iti-mhd.html#use-cases));
+- the holder, or a person acting on their behalf, purges a document (see the use case
+  [Holder purges a document](iti-mhd.html#use-cases)).
 
 ##### Message Semantics
 
 The Document Source invokes the [CH MHD $purge](OperationDefinition-CHMhdPurge.html) operation on the
-DocumentReference of the document to be deleted:
+DocumentReference of the document to be purged:
 
 ```
 POST [base]/DocumentReference/[id]/$purge
@@ -54,8 +54,8 @@ The operation SHALL be invoked as a standalone HTTP request, it SHALL NOT be par
 {:class="table table-bordered"}
 | Roles                          | Documents which may be purged                                                                 |
 |--------------------------------|-----------------------------------------------------------------------------------------------|
-| `PAT`, `REP`, `LEGREP`, `ADM`  | Any document of the health dossier, the ones recorded by the holder as well as the ones published by a healthcare professional or a health institution |
-| `HCP`, `ASS`                  | The documents whose [provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) is an institution or group the requester is a member of |
+| `PAT`, `REP`, `LEGREP`, `ADM`  | Any document of the health dossier, the ones provided by the holder as well as the ones provided by a healthcare professional or a health institution |
+| `HCP`, `ASS`                  | The documents whose [provider institution](document-sharing-metadata.html#provider-institution) (`DocumentReference.custodian`) is an institution or group the requester is a member of |
 | `TCU`                         | None                                                                                          |
 
 <figcaption ID="1">Table 1: Roles which may purge a document.</figcaption>
@@ -96,7 +96,7 @@ The Document Responder SHALL process the Purge Document Request Message as follo
 3. Remove the DocumentReference with all its versions. A logical delete, which keeps the version history, is not sufficient.
 4. Remove the document referenced in `DocumentReference.content.attachment.url`, the Binary or the FHIR document Bundle.
 5. Remove the references to the DocumentReference from other resources held by the Document Responder, e.g. the entry
-   in the [SubmissionSet](StructureDefinition-ch-mhd-submissionset.html) the document was published with.
+   in the [SubmissionSet](StructureDefinition-ch-mhd-submissionset.html) the document was provided with.
 
 Any error that occurs during the processing SHALL cause the entire request to fail, nothing is removed and the Document
 Responder returns the status and the error in its response message.
