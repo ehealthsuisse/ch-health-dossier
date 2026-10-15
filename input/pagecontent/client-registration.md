@@ -110,17 +110,19 @@ The software statement contains the following claims:
 
 Upon receiving the registration request, the Authorization Server SHALL:
 
-1. verify the `id_token` as specified in OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
-2. verify that the `id_token` is signed by one of the identity provider accepted for the EPR.
-3. verify that the user identified by the `id_token` is entitled to the registration variant: a patient or their 
+1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. verify that the `id_token` is signed by one of the Identity Provider accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by 
+the Identity Provider.
+4. verify that the user identified by the `id_token` is entitled to the registration variant: a patient or their 
 representative for dGA Client Registration, a healthcare professional or assistant for User Authorized Client Registration.
-4. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process by 
-checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key,
-and checking that the current time does not exceed `exp`.
+5. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process by 
+checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key, and checking that 
+the current time does not exceed software statement expiration time `exp`.
 
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
-register the application with this `client_id`, the user ID from the `id_token`, and the submitted metadata,
-including the public keys for client authentication.
+register the application with this `client_id`, the user ID and the issuer identifier from the `id_token`, and 
+the submitted metadata, including the public keys for client authentication.
 
 If a check fails, the Authorization Server SHALL reject the request with an error response as defined in
 [RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`, `invalid_software_statement` or 
