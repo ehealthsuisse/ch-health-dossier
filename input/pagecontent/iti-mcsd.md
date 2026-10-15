@@ -70,10 +70,6 @@ SNOMED CT has no concept for a community managing health dossiers yet. Once a co
 extension), the code `community` may be replaced by it.
 </div>
 
-An administrator of a community has a GLN and is registered with it in the directory as a member of the community. The
-IUA Authorization Server links the GLN to the `sub` of the identity provider and conveys it in the access token (see
-[ITI-71](iti-71.html#representative-id-and-administrator-gln)).
-
 <div markdown="1" class="stu-note">
 To be clarified: the [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a qualification,
 which an administrator may not have.
