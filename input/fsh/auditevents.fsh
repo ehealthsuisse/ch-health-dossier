@@ -33,7 +33,7 @@ Token."
 // You have to define the slices in the profile before applying this one
 RuleSet: ChAuditEventRules
 * agent[mainUser]
-  * ^short = "The responsible user: the patient, representative, healthcare professional, administrator or technical user who made the request, or the healthcare professional on whose behalf an assistant made it"
+  * ^short = "The responsible user: the holder, representative, healthcare professional, administrator or technical user who made the request, or the healthcare professional on whose behalf an assistant made it"
   * type = $v3ParticipationType#RESP "responsible party"
   * role 1..1
   * altId 1..1
@@ -50,7 +50,7 @@ RuleSet: ChAuditEventRules
   * name 1..1
 * agent[group]
   * ^short = "A health institution or group of healthcare professionals the main user is a member of (optional)"
-  * ^comment = "Optional. The groups and institutions of the main user as conveyed in the access token (ch_group), or only the one on whose behalf the main user acts where that is known, e.g. the provider institution of a document which is provided, replaced or purged. Absent when the main user is a patient, a representative, a legal representative or an administrator."
+  * ^comment = "Optional. The groups and institutions of the main user as conveyed in the access token (ch_group), or only the one on whose behalf the main user acts where that is known, e.g. the provider institution of a document which is provided, replaced or purged. Absent when the main user is a holder, a representative, a legal representative or an administrator."
   * type = $v3RoleClass#PROV "healthcare provider"
   * role 1..1
   * role = $ehealthAgentRole#GRP "Group"
@@ -92,18 +92,18 @@ RuleSet: ChAuditEventExtendedRules
     * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
 
 
-// The type of the event in the audit trail of the patient, as an additional subtype. It is required for the actor
+// The type of the event in the audit trail of the holder, as an additional subtype. It is required for the actor
 // serving the request (min 1) and optional for the actor making it (min 0).
 RuleSet: ChAuditEventTypeCodeRules(min, code, display)
 * subtype contains auditTrailType {min}..1
-* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the patient"
+* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the holder"
 * subtype[auditTrailType] = $healthDossierAuditEventType#{code} "{display}"
 
 
 // As above, where the type is one of the codes of a value set
 RuleSet: ChAuditEventTypeValueSetRules(min, max, valueSet)
 * subtype contains auditTrailType {min}..{max}
-* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the patient"
+* subtype[auditTrailType] ^short = "The type of the event in the audit trail of the holder"
 * subtype[auditTrailType] from {valueSet} (required)
 
 
@@ -149,7 +149,7 @@ Mapping: ChJwtToAuditEventMapping
 Source:  ChAuditEventBasicToken
 Target:  "https://www.bag.admin.ch/epra"
 Title:   "CH JWT Basic/Extended Token without delegation"
-Description: "Access token of a patient, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the GLN of the legal responsible person of the clinical archive system."
+Description: "Access token of a holder, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the GLN of the legal responsible person of the clinical archive system."
 * agent[mainUser]
   * role         -> "extensions.ihe_iua.subject_role"
   * altId        -> "extensions.ch_epr.user_id"
@@ -229,7 +229,7 @@ RuleSet: ChExampleAuditEventHcpRules
   * purposeOfUse = $purposeOfUse#NORM "Normal Access"
 
 
-// Rules for an entity representing a patient
+// Rules for an entity representing a holder
 RuleSet: ChExampleAuditEventEntityPatientRules
 * entity[patient]
   * what.identifier
@@ -239,7 +239,7 @@ RuleSet: ChExampleAuditEventEntityPatientRules
   * role = $objectRole#1 "Patient"
 
 
-// Rules for an extended token for a patient
+// Rules for an extended token for a holder
 RuleSet: ChExampleAuditEventPatRules
 * agent[mainUser]
   * role = $healthDossierRole#PAT "Patient"

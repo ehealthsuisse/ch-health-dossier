@@ -22,22 +22,22 @@ Administrator (`PADM`) are replaced by the single role `ADM`, and the legal repr
 * ^experimental = false
 * ^content = #complete
 
-* #PAT "Patient" "The patient for whom the electronic health dossier (E-GD) is kept."
+* #PAT "Patient" "The holder for whom the electronic health dossier (E-GD) is kept."
 * #PAT ^designation[+].language = #de-CH
 * #PAT ^designation[=].value = "Patientin oder Patient"
 
-* #REP "Representative" "A person designated by the patient as their representative, with the rights the patient has
+* #REP "Representative" "A person designated by the holder as their representative, with the rights the holder has
 granted them (Art. 11 para. 5 EGDG)."
 * #REP ^designation[+].language = #de-CH
 * #REP ^designation[=].value = "Vertretung"
 
-* #LEGREP "Legal representative" "A person exercising the rights of a patient who is a minor or who lacks capacity of
-judgement (Art. 12 EGDG). Unlike a representative designated by the patient (`REP`), the rights follow from the law and
-not from a grant by the patient."
+* #LEGREP "Legal representative" "A person exercising the rights of a holder who is a minor or who lacks capacity of
+judgement (Art. 12 EGDG). Unlike a representative designated by the holder (`REP`), the rights follow from the law and
+not from a grant by the holder."
 * #LEGREP ^designation[+].language = #de-CH
 * #LEGREP ^designation[=].value = "Gesetzliche Vertretung"
 
-* #HCP "Healthcare professional" "A health professional treating the patient."
+* #HCP "Healthcare professional" "A health professional treating the holder."
 * #HCP ^designation[+].language = #de-CH
 * #HCP ^designation[=].value = "Gesundheitsfachperson"
 
@@ -50,7 +50,7 @@ not from a grant by the patient."
 * #TCU ^designation[+].language = #de-CH
 * #TCU ^designation[=].value = "Technischer Benutzer"
 
-* #ADM "Administration" "A person processing data or setting access permissions on the mandate of the patient. Replaces
+* #ADM "Administration" "A person processing data or setting access permissions on the mandate of the holder. Replaces
 the two administrator roles of the EPR, Document Administrator (`DADM`) and Policy Administrator (`PADM`): Art. 15
 para. 1 EGDG entrusts the data processing (Art. 11 para. 1-3 and 5 EGDG) and the data correction (Art. 8 para. 1 let. b
 EGDG) to one and the same mandate, without separating the two."

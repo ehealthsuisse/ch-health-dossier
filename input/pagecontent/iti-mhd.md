@@ -10,31 +10,31 @@ An Health App can update the metadata of a published document and purge a publis
 The national extension supports the following Use Cases:
 
 #### Publication of documents
-A patient, a representative, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) publishes a document in the health dossier of the patient. The Health App submits the document together with its metadata through the Health Dossier API. The metadata distinguishes who authored the document, given as text, from who provided it: the role of the user and, for healthcare professionals, assistants and technical users, the institution on whose behalf the document is provided. How the document is published is described in [ITI-65](iti-65.html).
+A holder, a representative, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) publishes a document in the health dossier of the holder. The Health App submits the document together with its metadata through the Health Dossier API. The metadata distinguishes who authored the document, given as text, from who provided it: the role of the user and, for healthcare professionals, assistants and technical users, the institution on whose behalf the document is provided. How the document is published is described in [ITI-65](iti-65.html).
 
 #### Search and download of documents
-A patient, a representative, a healthcare professional or an assistant searches the health dossier of the patient for documents, e.g. by type, date or with a full-text search, and downloads a document found. The result only contains the documents the requester is authorized to access. How documents are searched is described in [ITI-67](iti-67.html) and how a document is downloaded in [ITI-68](iti-68.html).
+A holder, a representative, a healthcare professional or an assistant searches the health dossier of the holder for documents, e.g. by type, date or with a full-text search, and downloads a document found. The result only contains the documents the requester is authorized to access. How documents are searched is described in [ITI-67](iti-67.html) and how a document is downloaded in [ITI-68](iti-68.html).
 
 #### Healthcare professional corrects a published document
-A document was published that contains incorrect data.  A healthcare professional or an assistant publishes a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the patient. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
+A document was published that contains incorrect data.  A healthcare professional or an assistant publishes a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the holder. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-published-document).
 
 #### Healthcare professional deletes a document published for the wrong person
-A patient, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional which published it has to delete it. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+A holder, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has published a document in the health dossier of the wrong person. Such a document is not corrected by a new version but has to be deleted, and the healthcare professional which published it has to delete it. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
 
-#### Patient changes confidentiality code of a document
-A patient wants to change the confidentiality code of one of his documents. The patient or a representative updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
+#### Holder changes confidentiality code of a document
+A holder wants to change the confidentiality code of one of his documents. The holder or a representative updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
-#### Patient adds a personal note to a document
-A patient and the healthcare professional which published a document do not agree on the correctness of the data in that document. The patient or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
+#### Holder adds a personal note to a document
+A holder and the healthcare professional which published a document do not agree on the correctness of the data in that document. The holder or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
 
-#### Patient deletes a document
-A patient or a representative wants to delete a document of their health dossier. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
+#### Holder deletes a document
+A holder or a representative wants to delete a document of their health dossier. How the document is deleted is described in [CH:MHD-2](ch-mhd-2.html).
 
 **Note**:
 
-Where the use cases above name a representative, this is either a representative the patient has designated or the legal representative of a patient.
+Where the use cases above name a representative, this is either a representative the holder has designated or the legal representative of a holder.
 
-The actions of the patient in the use cases above (publication, search and download, change of the confidentiality code, personal note and deletion of a document) can also be performed by an administrator of a community on the mandate of the patient (see [Community mandate](ppqm-consent.html#consent-community-mandate)).
+The actions of the holder in the use cases above (publication, search and download, change of the confidentiality code, personal note and deletion of a document) can also be performed by an administrator of a community on the mandate of the holder (see [Community mandate](ppqm-consent.html#consent-community-mandate)).
 
 ###	Actors and Transactions  
 

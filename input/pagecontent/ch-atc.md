@@ -1,6 +1,6 @@
 ### Overview
 
-CH:ATC (Audit Trail Consumption) defines how the patient, their representatives and the
+CH:ATC (Audit Trail Consumption) defines how the holder, their representatives and the
 administration retrieve the audit trail of the health dossier: who processed which data of the health dossier on which
 day. It constrains the [Retrieve ATNA Audit Event [ITI-81]](iti-81.html) transaction of the IHE
 [RESTful ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) profile.
@@ -30,8 +30,8 @@ The Patient Audit Record Service provides the audit trail of the health dossiers
 #### Patient Audit Consumer
 
 The Patient Audit Consumer is the Audit Consumer of [RESTful ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html)
-with the Retrieve Audit Message Option. It retrieves the audit trail of a health dossier for the patient, a
-representative, a legal representative or the administration acting on the mandate of the patient (see
+with the Retrieve Audit Message Option. It retrieves the audit trail of a health dossier for the holder, a
+representative, a legal representative or the administration acting on the mandate of the holder (see
 [Enforcement of Access Rules](accesscontrol.html)).
 
 The translation of the coded elements into the preferred language of the user and the display of the audit trail are
@@ -56,9 +56,9 @@ Table 2: Grouping of CH:ATC actors required by this national extension
 This profile supports the following use cases:
 
 <ol type="a">
-  <li>The patient retrieves the audit trail of their health dossier.</li>
-  <li>A representative or a legal representative retrieves the audit trail of the health dossier of the patient they represent.</li>
-  <li>The administration of the community retrieves the audit trail on the mandate of the patient, e.g. to answer a question of the patient.</li>
+  <li>The holder retrieves the audit trail of their health dossier.</li>
+  <li>A representative or a legal representative retrieves the audit trail of the health dossier of the holder they represent.</li>
+  <li>The administration of the community retrieves the audit trail on the mandate of the holder, e.g. to answer a question of the holder.</li>
 </ol>
 
 ### Content of the audit trail

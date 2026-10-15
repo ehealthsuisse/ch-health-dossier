@@ -1,4 +1,4 @@
-The audit trail shows the patient, the representatives and the administration who processed which data of
+The audit trail shows the holder, the representatives and the administration who processed which data of
 the health dossier on which day (see [CH:ATC](ch-atc.html)). It is built from the audit events which the actors
 serving the requests record for the transactions themselves (see [ITI-20](iti-20.html)); no separate audit events are
 recorded for the audit trail. There are three categories of events in the audit trail:
@@ -9,16 +9,16 @@ recorded for the audit trail. There are three categories of events in the audit 
         (see <a href="#audit-trail-of-the-document-transactions">Audit trail of the document transactions</a>).
     </li>
     <li>
-        Consent management, e.g. the patient has granted a healthcare professional an access right
+        Consent management, e.g. the holder has granted a healthcare professional an access right
         (see <a href="#audit-trail-of-the-consent-transactions">Audit trail of the consent transactions</a>).
     </li>
     <li>
-        Access to the audit trail, e.g. the patient has retrieved the audit trail
+        Access to the audit trail, e.g. the holder has retrieved the audit trail
         (see <a href="#audit-trail-of-the-access-to-the-audit-trail">Audit trail of the access to the audit trail</a>).
     </li>
 </ol>
 
-The patient is not informed about changes in the members of a group of healthcare professionals, and no audit event is
+The holder is not informed about changes in the members of a group of healthcare professionals, and no audit event is
 provided for them.
 
 The Patient Audit Record Service returns the audit events with [Retrieve ATNA Audit Event [ITI-81]](iti-81.html)
@@ -28,7 +28,7 @@ masked to the day and without duplicates, as [CH Audit Trail Event](StructureDef
 ### Audit Trail Consumption Event Types
 
 The audit events carry, in addition to the code of the transaction, the type of the event in the audit trail of the
-patient as a subtype (`AuditEvent.subtype`), from the code system
+holder as a subtype (`AuditEvent.subtype`), from the code system
 [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html). The actor serving the request SHALL
 record it, the actor making the request MAY record it. A Patient Audit Consumer can filter the audit trail on these
 types with the search parameter `subtype` (see [ITI-81](iti-81.html)).
@@ -58,17 +58,17 @@ indirect authorization are added. The default confidentiality level (`ATC_POL_DE
 | `ATC_POL_DIS_EMER_USE` | [Emergency access setting](ppqm-consent.html#consent-emergency-access-setting) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | [emergency access excluded](AuditEvent-ChAuditEventPpq3UpdateExample.html) |
 | `ATC_POL_ENA_INDIRECT_AUT` | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) added or updated with type permit | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | |
 | `ATC_POL_DIS_INDIRECT_AUT` | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | |
-| `ATC_LOG_READ` | Access to the audit trail | [ITI-81](iti-81.html) | [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html) | [audit trail retrieved by the patient](AuditEvent-ChAuditEventIti81ServiceExample.html) |
+| `ATC_LOG_READ` | Access to the audit trail | [ITI-81](iti-81.html) | [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html) | [audit trail retrieved by the holder](AuditEvent-ChAuditEventIti81ServiceExample.html) |
 
 _Table 1: Audit Trail Consumption Event Types_
 
 ### Audit trail of the document transactions
 
-For the document transactions the audit trail of a patient is built from the audit events which the actors serving
+For the document transactions the audit trail of a holder is built from the audit events which the actors serving
 the requests record for the transactions themselves ([ITI-65](iti-65.html), [ITI-67](iti-67.html),
 [ITI-68](iti-68.html), [CH:MHD-1](ch-mhd-1.html) and [CH:MHD-2](ch-mhd-2.html)). These audit events replace the
 Document Audit Event Content Profile of the EPR and carry its information: the user and, for an assistant, the
-healthcare professional on whose behalf the assistant acts (see [ITI-20](iti-20.html)), the patient, the document and
+healthcare professional on whose behalf the assistant acts (see [ITI-20](iti-20.html)), the holder, the document and
 the type of the event.
 
 The audit events of the document transactions record the document concerned only with its master identifier
@@ -76,11 +76,11 @@ The audit events of the document transactions record the document concerned only
 recorded in the audit events, with one exception: where the confidentiality code of a document was changed
 (`ATC_DOC_UPDATE_CONFIDENTIALITY`, see [CH:MHD-1](ch-mhd-1.html#security-audit-considerations)), the new
 confidentiality code is recorded. A Patient Audit Consumer which displays the title or the type in the audit trail of
-a patient reads them from the DocumentReference; for a purged document only the master identifier is available.
+a holder reads them from the DocumentReference; for a purged document only the master identifier is available.
 
 ### Audit trail of the consent transactions
 
-For the consent transactions the audit trail of a patient is built from the audit events which the Policy Repository
+For the consent transactions the audit trail of a holder is built from the audit events which the Policy Repository
 records for [PPQ-3](ppq-3.html#security-audit-considerations) and [PPQ-4](ppq-4.html), and for the consents it adds,
 deletes or updates itself under the [Policy Repository rules](ppq-3.html#policy-repository-rules). These audit events
 replace the Policy Audit Event Content Profile of the EPR. The Policy Repository SHALL record the type of the event in
@@ -89,8 +89,8 @@ the audit trail, the Policy Source MAY record it. The types follow from the cons
 authorization setting are only deleted when the health dossier is dissolved.
 
 A consent the Policy Repository deletes because of the request of a user, e.g. a delegation derived from a revoked
-access right or an indirect authorization deleted when the patient excludes the indirect authorization, is recorded with the user of that request as main user and the `traceparent` of that request, so that
-the patient sees it as a consequence of that request. A consent it deletes without a user, i.e. the authorization of a
+access right or an indirect authorization deleted when the holder excludes the indirect authorization, is recorded with the user of that request as main user and the `traceparent` of that request, so that
+the holder sees it as a consequence of that request. A consent it deletes without a user, i.e. the authorization of a
 digital health application after three months without access and the consents of a dissolved health dossier, is
 recorded with the Policy Repository as initiating agent and the reason of the deletion
 ([CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)).
@@ -106,7 +106,7 @@ consent is the main user of the audit event.
 ### Audit trail of the access to the audit trail
 
 The access to the audit trail is recorded by the Patient Audit Record Service for every
-[ITI-81](iti-81.html#security-audit-considerations) request, whoever made it: the patient, a representative, a legal
+[ITI-81](iti-81.html#security-audit-considerations) request, whoever made it: the holder, a representative, a legal
 representative or the administration
 ([CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)).
 These audit events replace the Access Audit Trail Content Profile of the EPR. The Patient Audit Consumer records the

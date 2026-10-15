@@ -40,19 +40,19 @@ Context: DocumentReference
 Extension: ChExtPersonalNote
 Id: ch-ext-personalnote
 Title: "CH Extension Personal Note"
-Description: "Extension Personal Note of the patient on a document"
+Description: "Extension Personal Note of the holder on a document"
 Context: DocumentReference
 * url only uri
 * url MS
 * value[x] 1.. MS
 * value[x] only Annotation
-* value[x] ^short = "Personal note of the patient on the document"
+* value[x] ^short = "Personal note of the holder on the document"
 * valueAnnotation.author[x] 1..1 MS
 * valueAnnotation.author[x] only Reference($ch-core-patient)
-* valueAnnotation.author[x] ^short = "The patient the note belongs to"
-* valueAnnotation.author[x] ^comment = "The note is the note of the patient, also when a representative, a legal
-representative or the administration records it on behalf of the patient: who recorded it is visible in the audit
-record. The patient is identified by a logical reference carrying the EPR-SPID in `author.identifier`, analogous to
+* valueAnnotation.author[x] ^short = "The holder the note belongs to"
+* valueAnnotation.author[x] ^comment = "The note is the note of the holder, also when a representative, a legal
+representative or the administration records it on behalf of the holder: who recorded it is visible in the audit
+record. The holder is identified by a logical reference carrying the EPR-SPID in `author.identifier`, analogous to
 `DocumentReference.subject`."
 * valueAnnotation.time 1..1 MS
 * valueAnnotation.time ^short = "When the note was recorded"
@@ -70,8 +70,8 @@ Description: "CH MHD Profile on CH Core DocumentReference"
 * extension contains
      ChExtProviderRole named providerRole 1..1 MS and
      ChExtPersonalNote named personalNote 0..1 MS
-* extension[personalNote] ^short = "Personal note of the patient on the document"
-* extension[personalNote] ^comment = "The patient can record a personal note on a document where they do not agree with
+* extension[personalNote] ^short = "Personal note of the holder on the document"
+* extension[personalNote] ^comment = "The holder can record a personal note on a document where they do not agree with
 the author on the correctness of its data, or where the author is no longer practising. The note is recorded with the
 metadata of the document, the document itself and its data stay unchanged. A document carries at most one personal
 note: recording a note on a document which already has one replaces the existing note. The note is not part of
@@ -109,7 +109,7 @@ document has more than one author, the main author is given.
 
 The author is conveyed in one of three forms:
 
-1. a single party as text, i.e. a person, an institution, the patient or a related person: a logical reference with
+1. a single party as text, i.e. a person, an institution, the holder or a related person: a logical reference with
    the name in `author.display` and the kind of party in `author.type` (`Practitioner`, `Organization`, `Patient` or
    `RelatedPerson`);
 2. a person together with the institution the person authored the document for, as text: a reference to a
@@ -122,7 +122,7 @@ The author is conveyed in one of three forms:
    name (`name`) and the address (`address`) of the institution.
 
 In all forms an identifier MAY be added, e.g. the GLN (`urn:oid:2.51.1.3`) of a health professional, the OID of an
-institution or the EPR-SPID (`urn:oid:2.16.756.5.30.1.127.3.10.3`) of the patient: in forms 1 and 2 to the reference
+institution or the EPR-SPID (`urn:oid:2.16.756.5.30.1.127.3.10.3`) of the holder: in forms 1 and 2 to the reference
 (`identifier`), in form 3 to the contained Practitioner and Organization (`identifier`)."
 * author.type ^short = "Practitioner | Organization | Patient | RelatedPerson. SHALL be present when the author is not a contained PractitionerRole."
 * author.display ^short = "Name of the author as text. SHALL be present when the author is not a contained PractitionerRole."
@@ -572,13 +572,13 @@ Usage: #example
 * entry.resource = DocRefPdf
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Personal note of the patient [CH:MHD-1]
+// Personal note of the holder [CH:MHD-1]
 
 Instance: DocRefPdfPersonalNote
 InstanceOf: ch-mhd-documentreference
-Title: "DocumentReference with a personal note of the patient"
-Description: "The DocumentReference DocRefPdf as submitted with Update Document Metadata [CH:MHD-1] by the patient to
-record a personal note on the document: the patient does not agree with the author on the correctness of the data. The
+Title: "DocumentReference with a personal note of the holder"
+Description: "The DocumentReference DocRefPdf as submitted with Update Document Metadata [CH:MHD-1] by the holder to
+record a personal note on the document: the holder does not agree with the author on the correctness of the data. The
 note is carried in the extension CH Extension Personal Note, the document itself is unchanged."
 Usage: #example
 * contained.resourceType = "PractitionerRole"
@@ -887,11 +887,11 @@ Usage: #inline
 
 Instance: DocRefPdfProvidedByPatient
 InstanceOf: ch-mhd-documentreference
-Title: "DocumentReference for a document provided by the patient"
+Title: "DocumentReference for a document provided by the holder"
 Description: "DocumentReference, as returned by the Document Responder, for a report of a treatment abroad which the
-patient provided herself with BundleProvideDocumentByPatient: the role of the
+holder provided herself with BundleProvideDocumentByPatient: the role of the
 provider is PAT and there is no provider institution (custodian). The author is the doctor of the foreign clinic who
-wrote the report, given as a contained PractitionerRole with the name of the doctor and of the clinic as text. Only the patient, or a person acting on her behalf, may publish a new version of this document
+wrote the report, given as a contained PractitionerRole with the name of the doctor and of the clinic as text. Only the holder, or a person acting on her behalf, may publish a new version of this document
 or purge it."
 Usage: #example
 * contained.resourceType = "PractitionerRole"
@@ -976,8 +976,8 @@ Usage: #example
 
 Instance: BundleProvideDocumentByPatient
 InstanceOf: CHMhdProvideDocumentBundle
-Title: "MHD Provide Document Bundle for a document provided by the patient"
-Description: "Provide Document Bundle [ITI-65] with which the patient provides the report of a treatment abroad herself: the role of the provider is PAT and there is no provider institution (custodian). The author is the doctor of the foreign clinic who wrote the report, given as a contained PractitionerRole with the name of the doctor and of the clinic as text. See DocRefPdfProvidedByPatient for the DocumentReference as returned by the Document Responder."
+Title: "MHD Provide Document Bundle for a document provided by the holder"
+Description: "Provide Document Bundle [ITI-65] with which the holder provides the report of a treatment abroad herself: the role of the provider is PAT and there is no provider institution (custodian). The author is the doctor of the foreign clinic who wrote the report, given as a contained PractitionerRole with the name of the doctor and of the clinic as text. See DocRefPdfProvidedByPatient for the DocumentReference as returned by the Document Responder."
 Usage: #example
 * meta.profile[0] = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle"
 * type = #transaction
@@ -1364,7 +1364,7 @@ Usage: #definition
 Description: """
 This operation implements the [Purge Document \[CH:MHD-2\]](ch-mhd-2.html) transaction. It irrevocably removes a
 document, the DocumentReference with all its versions and the document it references, from the health dossier of a
-patient. The operation is synchronous.
+holder. The operation is synchronous.
 """
 * name = "CHMhdPurge"
 * status = #active

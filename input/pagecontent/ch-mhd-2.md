@@ -3,7 +3,7 @@ This section corresponds to transaction [CH:MHD-2]. Transaction [CH:MHD-2] is us
 ### Scope
 
 The Purge Document [CH:MHD-2] transaction is used by the Document Source to irrevocably remove a document, with all
-versions of its metadata, from the health dossier of a patient.
+versions of its metadata, from the health dossier of a holder.
 
 ### Actor Roles
 
@@ -24,7 +24,7 @@ versions of its metadata, from the health dossier of a patient.
 
 #### Purge Document Request Message
 
-The Purge Document Request Message requests the irrevocable removal of a document from the health dossier of a patient.
+The Purge Document Request Message requests the irrevocable removal of a document from the health dossier of a holder.
 
 ##### Trigger Events
 
@@ -32,8 +32,8 @@ The Purge Document Request Message is triggered when a document has to be delete
 
 - a healthcare professional or a health institution has published the document in the health dossier of the wrong
   person (see the use case [Healthcare professional deletes a document published for the wrong person](iti-mhd.html#use-cases));
-- the patient, or a person acting on their behalf, deletes a document (see the use case
-  [Patient deletes a document](iti-mhd.html#use-cases)).
+- the holder, or a person acting on their behalf, deletes a document (see the use case
+  [Holder deletes a document](iti-mhd.html#use-cases)).
 
 ##### Message Semantics
 
@@ -54,7 +54,7 @@ The operation SHALL be invoked as a standalone HTTP request, it SHALL NOT be par
 {:class="table table-bordered"}
 | Roles                          | Documents which may be purged                                                                 |
 |--------------------------------|-----------------------------------------------------------------------------------------------|
-| `PAT`, `REP`, `LEGREP`, `ADM`  | Any document of the health dossier, the ones recorded by the patient as well as the ones published by a healthcare professional or a health institution |
+| `PAT`, `REP`, `LEGREP`, `ADM`  | Any document of the health dossier, the ones recorded by the holder as well as the ones published by a healthcare professional or a health institution |
 | `HCP`, `ASS`                  | The documents whose [provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) is an institution or group the requester is a member of |
 | `TCU`                         | None                                                                                          |
 
@@ -129,7 +129,7 @@ The transaction SHALL be secured by Transport Layer Security (TLS) encryption an
 
 The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-For every Purge Document [CH:MHD-2] request, the Document Responder SHALL enforce the access rules of the patient and of
+For every Purge Document [CH:MHD-2] request, the Document Responder SHALL enforce the access rules of the holder and of
 the requesting health professional or health institution, as described in
 [Appendix: Enforcement of Access Rules](accesscontrol.html) and in
 [Roles which may purge a document](#roles-which-may-purge-a-document). The Document Responder SHALL reject the request
@@ -144,11 +144,11 @@ The actors SHALL support the _traceparent_ header handling, as defined in [Appen
 The **Document Source** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-2] Document Source](StructureDefinition-ch-mhd-purgedocument-audit-source.html)
 ([example](AuditEvent-ChAuditEventChMhd2SourceExample.html), and
-[example of a purge by the patient](AuditEvent-ChAuditEventChMhd2SourcePatientExample.html)).
+[example of a purge by the holder](AuditEvent-ChAuditEventChMhd2SourcePatientExample.html)).
 
 ##### Document Responder Audit
 
 The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html)
 ([example](AuditEvent-ChAuditEventChMhd2ResponderExample.html), and
-[example of a purge by the patient](AuditEvent-ChAuditEventChMhd2ResponderPatientExample.html)).
+[example of a purge by the holder](AuditEvent-ChAuditEventChMhd2ResponderPatientExample.html)).

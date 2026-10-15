@@ -1,6 +1,6 @@
-Sample sequence diagrams to illustrate the usage for reading documents as a patient or healthcare professional:
+Sample sequence diagrams to illustrate the usage for reading documents as a holder or healthcare professional:
 
-### Patient access from a portal
+### Holder access from a portal
 
 <div>{% include /3_02_read_pat.svg %}</div>
 

@@ -14,7 +14,7 @@ supported.
 
 Relying Party - A Relying Party is understood as any actor that relies on an identity claim provided
 by an Identity Provider for user authentication. In the context of the EPR, Relying Parties are in
-particular medical information systems and portals for patients and healthcare professionals, which
+particular medical information systems and portals for holders and healthcare professionals, which
 access data and documents from the EPR.
 
 Identity Provider - An Identity Provider is understood as a legal entity which manages the 

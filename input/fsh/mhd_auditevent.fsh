@@ -138,9 +138,9 @@ Usage:      #example
 
 Instance:   ChAuditEventIti65SourcePatientExample
 InstanceOf: ChAuditEventIti65Source
-Title:       "Audit Event for [ITI-65] Document Source: document provided by the patient"
+Title:       "Audit Event for [ITI-65] Document Source: document provided by the holder"
 Description: "Audit event of the Document Source for the Provide Document Bundle BundleProvideDocumentByPatient,
-with which the patient provided a document herself: the main user is the patient, there is no institution or group."
+with which the holder provided a document herself: the main user is the holder, there is no institution or group."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2958)
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
@@ -152,9 +152,9 @@ Usage:      #example
 
 Instance:   ChAuditEventIti65RecipientPatientExample
 InstanceOf: ChAuditEventIti65Recipient
-Title:       "Audit Event for [ITI-65] Document Recipient: document provided by the patient"
+Title:       "Audit Event for [ITI-65] Document Recipient: document provided by the holder"
 Description: "Audit event of the Document Recipient for the Provide Document Bundle BundleProvideDocumentByPatient,
-with which the patient provided a document herself: the main user is the patient, there is no institution or group."
+with which the holder provided a document herself: the main user is the holder, there is no institution or group."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2958)
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
@@ -536,7 +536,7 @@ Instance:   ChAuditEventChMhd1SourceExample
 InstanceOf: ChAuditEventChMhd1Source
 Title:       "Audit Event for [CH:MHD-1] Document Source: confidentiality code changed"
 Description: "Audit event of the Document Source for the update of the confidentiality code of the document DocRefPdf
-by the patient"
+by the holder"
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
 * insert ChAuditEventChMhd1ConfidentialityExampleRules
@@ -548,7 +548,7 @@ Instance:   ChAuditEventChMhd1ResponderExample
 InstanceOf: ChAuditEventChMhd1Responder
 Title:       "Audit Event for [CH:MHD-1] Document Responder: confidentiality code changed"
 Description: "Audit event of the Document Responder for the update of the confidentiality code of the document
-DocRefPdf by the patient. The confidentiality code itself is not recorded in the audit event."
+DocRefPdf by the holder. The confidentiality code itself is not recorded in the audit event."
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
 * insert ChAuditEventChMhd1ConfidentialityExampleRules
@@ -559,7 +559,7 @@ Usage:      #example
 Instance:   ChAuditEventChMhd1SourcePersonalNoteExample
 InstanceOf: ChAuditEventChMhd1Source
 Title:       "Audit Event for [CH:MHD-1] Document Source: personal note recorded"
-Description: "Audit event of the Document Source for the personal note which the patient recorded on the document
+Description: "Audit event of the Document Source for the personal note which the holder recorded on the document
 DocRefPdf (see DocRefPdfPersonalNote). The text of the note is not recorded in the audit event."
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
@@ -571,7 +571,7 @@ Usage:      #example
 Instance:   ChAuditEventChMhd1ResponderPersonalNoteExample
 InstanceOf: ChAuditEventChMhd1Responder
 Title:       "Audit Event for [CH:MHD-1] Document Responder: personal note recorded"
-Description: "Audit event of the Document Responder for the personal note which the patient recorded on the document
+Description: "Audit event of the Document Responder for the personal note which the holder recorded on the document
 DocRefPdf (see DocRefPdfPersonalNote). The text of the note is not recorded in the audit event."
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
@@ -705,8 +705,8 @@ Usage:      #example
 
 Instance:   ChAuditEventChMhd2SourcePatientExample
 InstanceOf: ChAuditEventChMhd2Source
-Title:       "Audit Event for [CH:MHD-2] Document Source: purge by the patient"
-Description: "Audit event of the Document Source for the purge of the document DocRefPdf by the patient"
+Title:       "Audit Event for [CH:MHD-2] Document Source: purge by the holder"
+Description: "Audit event of the Document Source for the purge of the document DocRefPdf by the holder"
 Usage:      #example
 * insert ChAuditEventChMhd2ExampleRules
 * insert ChExampleAuditEventPatRules
@@ -716,8 +716,8 @@ Usage:      #example
 
 Instance:   ChAuditEventChMhd2ResponderPatientExample
 InstanceOf: ChAuditEventChMhd2Responder
-Title:       "Audit Event for [CH:MHD-2] Document Responder: purge by the patient"
-Description: "Audit event of the Document Responder for the purge of the document DocRefPdf by the patient"
+Title:       "Audit Event for [CH:MHD-2] Document Responder: purge by the holder"
+Description: "Audit event of the Document Responder for the purge of the document DocRefPdf by the holder"
 Usage:      #example
 * insert ChAuditEventChMhd2ExampleRules
 * insert ChExampleAuditEventPatRules

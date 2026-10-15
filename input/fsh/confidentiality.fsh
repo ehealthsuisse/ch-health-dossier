@@ -14,7 +14,7 @@ Title: "CH Health Dossier Confidentiality Code"
 Description: "The two confidentiality levels of the electronic health dossier (E-GD), \"normal\" and \"restricted\"
 (\"allgemein\" and \"privat\" in the Botschaft EGDG, ch. 4.1 \"Vereinfachung der Vertraulichkeitsstufen\"). Health
 professionals and health institutions with a right to view may read data of the level \"normal\". Data of the level
-\"restricted\" can only be viewed by the patient, unless the patient grants individual health professionals or health
+\"restricted\" can only be viewed by the holder, unless the holder grants individual health professionals or health
 institutions access to them, or grants a representative access to the level \"restricted\". Used for the confidentiality code of a document (`DocumentReference.securityLabel`), the confidentiality levels a consent grants
 (`Consent.provision.securityLabel`), and the confidentiality code of a document in the audit events."
 * ^experimental = false

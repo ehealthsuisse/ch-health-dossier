@@ -1,7 +1,7 @@
 ### Scope
 
 This transaction is used by the Policy Source to add, update, or delete a set of consents of a health dossier, e.g.
-when the patient grants an access right and appoints a representative at the same time. The only HTTP method which SHALL be supported is `POST`.
+when the holder grants an access right and appoints a representative at the same time. The only HTTP method which SHALL be supported is `POST`.
 
 ### HTTP Method POST
 
@@ -33,7 +33,7 @@ Upon receiving the HTTP `POST` request, the Policy Repository SHALL:
   - "POST" — add the consent.
   - "PUT" — update the consent if it is already present, otherwise add it.
   - "DELETE" — delete the consent.
-- Validate the rules of [PPQ-3](ppq-3.html#validation) against the consents of the patient as they are after all
+- Validate the rules of [PPQ-3](ppq-3.html#validation) against the consents of the holder as they are after all
   entries of the Bundle.
 - Process the Bundle as a whole: if one entry fails, no entry SHALL be persisted.
 - Create a PPQ-4 response according to the transaction outcome.

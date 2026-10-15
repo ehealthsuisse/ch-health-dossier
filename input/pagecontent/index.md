@@ -45,7 +45,7 @@ The scope of this extension covers the following use cases:
 3. Read data and documents from the Health Dossier;
 4. Write data and documents to the Health Dossier;
 5. Write logs to the ATNA Audit Record Repository.
-6. Read audit trails for a patient according the Health Dossier requirements.
+6. Read audit trails for a holder according the Health Dossier requirements.
 
 #### Profiles, grouped actors, actors and transactions
 
