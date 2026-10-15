@@ -64,8 +64,8 @@ component "Health Dossier API" {
   PPQmPolicySource --> PPQmPolicyRepository : Mobile Privacy Policy Feed [PPQ-3],\nMobile Privacy Policy Bundle Feed [PPQ-4]
   PPQmPolicyConsumer --> PPQmPolicyRepository : Mobile Privacy Policy Retrieve [PPQ-5]
 
-  [Patient Audit Record Repository] as ATCPatientAuditRecordRepository
-  ATCPatientAuditConsumer --> ATCPatientAuditRecordRepository : Retrieve Audit Event [ITI-81]	
+  [Patient Audit Record Service] as ATCPatientAuditRecordService
+  ATCPatientAuditConsumer --> ATCPatientAuditRecordService : Retrieve Audit Event [ITI-81]	
 }
 
 

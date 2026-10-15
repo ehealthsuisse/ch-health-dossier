@@ -21,7 +21,7 @@ recorded for the audit trail. There are three categories of events in the audit 
 The patient is not informed about changes in the members of a group of healthcare professionals, and no audit event is
 provided for them.
 
-The Patient Audit Record Repository returns the audit events with [Retrieve ATNA Audit Event [ITI-81]](iti-81.html)
+The Patient Audit Record Service returns the audit events with [Retrieve ATNA Audit Event [ITI-81]](iti-81.html)
 masked to the day and without duplicates, as [CH Audit Trail Event](StructureDefinition-ChAuditTrailEvent.html) (see
 [Expected Actions of ITI-81](iti-81.html#expected-actions)).
 
@@ -58,7 +58,7 @@ indirect authorization are added. The default confidentiality level (`ATC_POL_DE
 | `ATC_POL_DIS_EMER_USE` | [Emergency access](ppqm-consent.html#consent-emergency-access) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | [emergency access excluded](AuditEvent-ChAuditEventPpq3UpdateExample.html) |
 | `ATC_POL_ENA_INDIRECT_AUT` | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) added or updated with type permit | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | |
 | `ATC_POL_DIS_INDIRECT_AUT` | [Indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) added or updated with type deny | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | |
-| `ATC_LOG_READ` | Access to the audit trail | [ITI-81](iti-81.html) | [CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html) | [audit trail retrieved by the patient](AuditEvent-ChAuditEventIti81RepositoryExample.html) |
+| `ATC_LOG_READ` | Access to the audit trail | [ITI-81](iti-81.html) | [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html) | [audit trail retrieved by the patient](AuditEvent-ChAuditEventIti81ServiceExample.html) |
 
 _Table 1: Audit Trail Consumption Event Types_
 
@@ -105,10 +105,10 @@ consent is the main user of the audit event.
 
 ### Audit trail of the access to the audit trail
 
-The access to the audit trail is recorded by the Patient Audit Record Repository for every
+The access to the audit trail is recorded by the Patient Audit Record Service for every
 [ITI-81](iti-81.html#security-audit-considerations) request, whoever made it: the patient, a representative, a legal
 representative or the administration
-([CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html)).
+([CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)).
 These audit events replace the Access Audit Trail Content Profile of the EPR. The Patient Audit Consumer records the
 request as well
 ([CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html)) and MAY

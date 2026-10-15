@@ -7,7 +7,7 @@ day. It constrains the [Retrieve ATNA Audit Event [ITI-81]](iti-81.html) transac
 
 The audit trail is derived from the audit events which the actors serving the requests record for the transactions
 themselves, see [Volume 3](volume3.html). No separate audit events are
-recorded for the audit trail. The Patient Audit Record Repository returns them masked to the day, an assistant only
+recorded for the audit trail. The Patient Audit Record Service returns them masked to the day, an assistant only
 with the role, and without duplicates, see [Expected Actions of ITI-81](iti-81.html#expected-actions).
 
 ### Actors, Transactions and Content Modules
@@ -18,16 +18,14 @@ Profile, an actor SHALL support all required transactions (labeled "R").
 | Actors | Transactions | Initiator or Responder | Opt | Reference |
 | --- | --- | --- | --- | --- |
 | Patient Audit Consumer | Retrieve ATNA Audit Event [ITI-81] | Initiator | R | [ITI-81](iti-81.html) |
-| Patient Audit Record Repository | Retrieve ATNA Audit Event [ITI-81] | Responder | R | [ITI-81](iti-81.html) |
+| Patient Audit Record Service | Retrieve ATNA Audit Event [ITI-81] | Responder | R | [ITI-81](iti-81.html) |
 {:class="table table-bordered"}
 
 Table 1: CH:ATC Profile - Actors and Transactions
 
-#### Patient Audit Record Repository
+#### Patient Audit Record Service
 
-The Patient Audit Record Repository is the Audit Record Repository of
-[RESTful ATNA](https://profiles.ihe.net/ITI/TF/Volume1/ch-9.html) with the Retrieve Audit Message Option. It provides
-the audit trail of the health dossiers with the search capabilities defined in [ITI-81](iti-81.html).
+The Patient Audit Record Service provides the audit trail of the health dossiers with [ITI-81](iti-81.html). It derives the audit trail events from the recorded audit events according to the privacy requirements of the E-GD (see [Expected Actions of ITI-81](iti-81.html#expected-actions)).
 
 #### Patient Audit Consumer
 
@@ -47,7 +45,7 @@ SHALL be grouped with actors of other profiles according to the following table:
 
 | Actor | Required Grouping | Optionality | Remark |
 |---|---|---|---|
-| Patient Audit Record Repository | IUA Resource Server | R | - |
+| Patient Audit Record Service | IUA Resource Server | R | - |
 | Patient Audit Consumer | IUA Authorization Client | R | `TCU` not allowed |
 {:class="table table-bordered"}
 
