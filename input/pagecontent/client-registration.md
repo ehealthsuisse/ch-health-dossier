@@ -114,8 +114,8 @@ Upon receiving the registration request, the Authorization Server SHALL:
 2. verify that the `id_token` is signed by one of the identity provider accepted for the EPR.
 3. verify that the user identified by the `id_token` is entitled to the registration variant: a patient or their 
 representative for dGA Client Registration, a healthcare professional or assistant for User Authorized Client Registration.
-4. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process.
-That means checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key,
+4. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process by 
+checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key,
 and checking that the current time does not exceed `exp`.
 
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
