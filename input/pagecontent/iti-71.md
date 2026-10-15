@@ -43,10 +43,10 @@ This section specifies the national extensions for the client credential grant f
 
 <br/>
 
-| Step | Action                                                                                                   | Remark                      | 
-|------|----------------------------------------------------------------------------------------------------------|-----------------------------|
-| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics) | 
-| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1)|
+| Step | Action                                                                                                   | Remark                                        | 
+|------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics)   | 
+| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1) |
 {:class="table table-bordered"}
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -187,37 +187,6 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
   the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
   by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
 
-###### Representative ID and administrator GLN
-The identity provider only delivers the subject identifier (`sub`) of the identity token. For patients, healthcare
-professionals and assistants the IUA Authorization Server resolves it to an identifier which exists independently of
-the identity provider (EPR-SPID, GLN). For representatives, legal representatives and administrators the identifiers
-are issued as follows:
-
-- Representative ID: the Health Dossier system SHALL issue a representative ID when a
-  [representative](ppqm-consent.html#consent-representative) or a
-  [legal representative](ppqm-consent.html#consent-legal-representative) consent is added. The identity of the
-  representative is proven by the patient who appoints the representative, the identity of the legal representative by
-  the instruction of the authority. The representative ID is a local identifier of the Health Dossier system with the
-  qualifier `urn:e-health-suisse:representative-id`. It identifies the grantee of the consent, a `RelatedPerson` of the
-  patient, which represents the relation between the representative and the patient.
-- Administrator GLN: an administrator SHALL have a GLN. The administrator is registered with the GLN in the provider
-  directory as a member of the community (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)).
-
-The IUA Authorization Server SHALL keep the link between the issuer `iss` and the subject identifier `sub` of the
-identity token and the representative ID or the GLN of the administrator. The link is set at the first login of the
-representative or administrator, once the IUA Authorization Server has verified that the person who logs in is the
-person the ID was issued for. A login with a further identity provider, or after a change of the identity provider, adds
-a link to the same ID; it SHALL NOT issue a new ID.
-
-<div markdown="1" class="stu-note">
-To be clarified:
-- how the IUA Authorization Server verifies at the first login that the person who logs in is the representative or
-  administrator the ID was issued for (e.g. with an activation code handed out when the ID is issued).
-- whether a person who represents several patients has one representative ID or one per patient.
-- if an identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization
-  Clients, and the link is needed per client.
-</div>
-
 ###### Digital health applications
 When receiving a Token Request with `subject_role` set to `PAT` from an IUA Authorization Client registered as a digital
 health application (see [Client Registration](client-registration.html)), the IUA Authorization Server SHALL, in
@@ -351,15 +320,15 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 <br/>
 
-| user role                       | user_id  | user_id_qualifier                     | Remark                                                               |
-|---------------------------------|----------|---------------------------------------|----------------------------------------------------------------------|
-| Patient (`PAT`)                 | EPR-SPID | urn:e-health-suisse:2015:epr-spid     |                                                                      |
-| Healthcare Professional (`HCP`) | GLN      | urn:gs1:gln                           |                                                                      |
-| Assistant (`ASS`)               | GLN      | urn:gs1:gln                           |                                                                      |
+| user role                       | user_id           | user_id_qualifier                     | Remark                                                                                                                       |
+|---------------------------------|-------------------|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Patient (`PAT`)                 | EPR-SPID          | urn:e-health-suisse:2015:epr-spid     |                                                                                                                              |
+| Healthcare Professional (`HCP`) | GLN               | urn:gs1:gln                           |                                                                                                                              |
+| Assistant (`ASS`)               | GLN               | urn:gs1:gln                           |                                                                                                                              |
 | Representative (`REP`)          | Representative ID | urn:e-health-suisse:representative-id | Issued by the Health Dossier system, see [Representative ID and administrator GLN](#representative-id-and-administrator-gln) |
 | Legal Representative (`LEGREP`) | Representative ID | urn:e-health-suisse:representative-id | Issued by the Health Dossier system, see [Representative ID and administrator GLN](#representative-id-and-administrator-gln) |
-| Administration (`ADM`)          | GLN      | urn:gs1:gln                           | The GLN of the administrator registered in the provider directory    |
-| Clinical Archive System (`TCU`) | GLN      | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding |
+| Administration (`ADM`)          | GLN               | urn:gs1:gln                           | The GLN of the administrator registered in the provider directory                                                            |
+| Clinical Archive System (`TCU`) | GLN               | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding                                                         |
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
@@ -609,5 +578,4 @@ The authors of this specification are aware, that the authenticity of the Get Ac
 first by validating the http signature of the request and second, when validating the signature of the client-asymmetric 
 authentication JWT. While the http signature is required to ensure the integrity (i.e., to verify that the request is 
 not tampered), the client-asymmetric authentication is kept to be compliant with the 
-[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications
-which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
+[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
