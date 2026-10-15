@@ -40,8 +40,6 @@ RuleSet: ChAuditEventRules
   * name 1..1
   * purposeOfUse 0..1
   * purposeOfUse from HealthDossierPurposeOfUse
-  * purposeOfUse ^short = "The purpose of use: as declared in the access token by the actor making the request, the lowest permitting one by the actor serving it"
-  * purposeOfUse ^comment = "The actor making the request records the purpose of use of the access token. The actor serving the request records the lowest purpose of use under which the request was permitted: `NORM` where the requester holds a right by law or an access right (access, indirect authorization, delegation) for the data concerned, even if the access token declares `EMER`; `EMER` only where the request was permitted by the emergency access alone (see Enforcement of Access Rules)."
 * agent[delegatedUser]
   * ^short = "The assistant who made the request on behalf of the main user. Only present when the access token carries a delegation."
   * type = $v3ParticipationType#PPRF "primary performer"
@@ -154,7 +152,7 @@ Description: "Access token of a patient, representative, legal representative, h
   * role         -> "extensions.ihe_iua.subject_role"
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
-  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use" "The actor serving the request records NORM instead of EMER where the request is permitted by a right by law or an access right"
+  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
 * agent[group]
   * who.identifier -> "extensions.ch_group.id" "One agent for each group recorded"
   * name           -> "extensions.ch_group.name" "One agent for each group recorded"
@@ -169,7 +167,7 @@ Description: "Access token of an assistant acting on behalf of a healthcare prof
   * role         -> "HCP" "The principal is a healthcare professional, the role is not conveyed in the token"
   * altId        -> "extensions.ch_delegation.principal_id"
   * name         -> "extensions.ch_delegation.principal"
-  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use" "The actor serving the request records NORM instead of EMER where the request is permitted by a right by law or an access right"
+  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use"
 * agent[delegatedUser]
   * role         -> "extensions.ihe_iua.subject_role" "ASS"
   * altId        -> "extensions.ch_epr.user_id"

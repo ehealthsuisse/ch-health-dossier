@@ -150,7 +150,7 @@ Update Document Metadata [CH:MHD-1]. It is not necessarily the institution of th
 * securityLabel 1.. MS
 * securityLabel ^comment = "Note: This is NOT the DocumentReference.meta, as that holds the meta tags for the DocumentReference itself."
 * securityLabel from HealthDossierConfidentialityCode (required)
-* securityLabel ^short = "The confidentiality level of the document: normal or restricted"
+* securityLabel ^short = "The confidentiality level of the document: allgemein or privat"
 * content ..1
 * content.attachment MS
 * content.attachment.contentType 1.. MS
