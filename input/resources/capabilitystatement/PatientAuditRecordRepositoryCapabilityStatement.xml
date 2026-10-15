@@ -1,9 +1,9 @@
 <CapabilityStatement xmlns="http://hl7.org/fhir">
-    <id value="PatientAuditRecordServiceCapabilityStatement"/>
-    <title value="CapabilityStatement for the Patient Audit Record Service"/>
+    <id value="PatientAuditRecordRepositoryCapabilityStatement"/>
+    <title value="CapabilityStatement for the Patient Audit Record Repository"/>
     <status value="draft"/>
     <date value="2024-11-19"/>
-    <description value="Defines the CapabilityStatement for the Patient Audit Record Service actor of ITI-81."/>
+    <description value="Defines the CapabilityStatement for the Patient Audit Record Repository actor of ITI-81."/>
     <kind value="requirements"/>
     <fhirVersion value="4.0.1"/>
     <format value="application/fhir+xml"/>
@@ -13,7 +13,6 @@
         <resource>
             <type value="AuditEvent"/>
             <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditTrailEvent"/>
-            <documentation value="For Retrieve ATNA Audit Event [ITI-81]. The server SHALL support the _sort result parameter on date, in ascending (_sort=date) and descending (_sort=-date) order (CP-ITI-1334)."/>
             <interaction>
                 <code value="search-type"/>
                 <documentation value="ITI-81: the search parameters are evaluated on the masked audit events"/>

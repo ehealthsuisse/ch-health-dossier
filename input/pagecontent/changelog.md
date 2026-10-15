@@ -7,8 +7,6 @@
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
     the Identity Token in in the *id_token* field of the token request. 
   * Add support for client-asymmetric authentication specified in FHIR Backend Service authentication section and is used in the European Health Data Space and UMZH Connect.  
-  * Added the [Client Registration](client-registration.html) page specifying the user authorized and the dGA dynamic
-    client registration (RFC 7591) with `private_key_jwt` [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11).
   * Removed the SMART on FHIR standalone and EHR launch option. 
   * Removed the specification of the TCU option, the separate token flow for technical users, since TCU requests are
     now usual client credential requests without an identity token of a user. The `TCU` role and the onboarding checks
@@ -77,7 +75,7 @@
   * Removed the mTLS option, the IUA JWT token option is now the regular IUA flow with the extended access token.
   * Removed the ITI-83 PIXm query from the clinical archive diagram, the clinical archive knows the EPR-SPID.
   * Removed the loop over confidentiality codes when publishing documents.
-  * Removed the unused diagram sources for the SMART on FHIR standalone launch with the Identity Provider.
+  * Removed the unused diagram sources for the SMART on FHIR standalone launch with the identity provider.
   * Renamed the participant group "Community Components" to "Health Dossier Information System".
 * mCSD
   * [Examples](iti-mcsd.html#examples): removed the link to the eHealth Suisse test data (Community A and B) and
@@ -151,7 +149,7 @@
       `DocumentAuditEventType`, identifier profile `ch-atc-uniqueid-identifier` and the examples `atc-doc-*`): the
       audit trail of a patient is built from the audit events of the document transactions, see
       [CH:ATC](volume3.html#audit-trail-of-the-document-transactions). The response of [ITI-81](iti-81.html) and the
-      Patient Audit Record Service CapabilityStatement refer to the audit event profiles of the Document Recipient
+      Patient Audit Record Repository CapabilityStatement refer to the audit event profiles of the Document Recipient
       and Document Responder instead, and ITI-81 can be filtered on the audit event types with `subtype`.
     * Added the examples [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html)
       (author as a contained PractitionerRole with the names of the foreign doctor and clinic as text),
@@ -221,8 +219,7 @@
     professionals (`GRP`) is not part of it, since a group cannot provide a document (the canonical url changed anyway, but it is also a breaking change)
 * Confidentiality code
   * Added the value set [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html) with
-    the two levels of the E-GD, "normal" (SNOMED CT `Normal`, "allgemein" in the EGDG) and "restricted" (SNOMED CT
-    `Restricted`, "privat" in the EGDG); `Secret` is not
+    the two levels of the E-GD, "allgemein" (SNOMED CT `Normal`) and "privat" (SNOMED CT `Restricted`); `Secret` is not
     used any more. Bound
     `DocumentReference.securityLabel` of the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html),
     the confidentiality code of the document in the audit events and `Consent.provision.securityLabel` of CH:PPQm to it,
@@ -239,7 +236,7 @@
     Volume 3 page [CH PPQm Consent](ppqm-consent.html).
   * Replaced the profile `PpqmConsent` and the template profiles 201-304 with the base profile
     [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) and one profile per consent type: opening, emergency
-    access setting, access for a health professional, group or health institution, indirect authorization, indirect
+    access, access for a health professional, group or health institution, indirect authorization, indirect
     authorization setting, delegation, representative, legal representative, digital health application and recording
     by military health professionals, each with an example. Breaking change.
   * Added the code systems [CH Health Dossier Consent Type](CodeSystem-HealthDossierConsentType.html) and
@@ -253,7 +250,7 @@
     the Policy Repository rules (legal representative, delegations of a deleted access right, digital health
     application after three months without access, purged documents, dissolution). PPQ-4 validates the rules against
     the consents as they are after all entries, and processes the Bundle as a whole.
-  * The Policy Repository adds the [opening](ppqm-consent.html#consent-opening), the emergency access setting and the indirect
+  * The Policy Repository adds the [opening](ppqm-consent.html#consent-opening), the emergency access and the indirect
     authorization setting itself when the Register E-GD records the opening, automatic (canton as performer) or
     voluntary, and records it with
     [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html).
@@ -277,41 +274,8 @@
     for the consents the Policy Repository deletes without a user (digital health application without access for
     three months, dissolution, death), with the Policy Repository as initiating agent and the reason of the deletion.
     Deletions caused by the request of a user are recorded with that user and the `traceparent` of the request.
-  * Resolved the open issues of [CH PPQm Consent](ppqm-consent.html):
-    * The emergency access setting and the indirect authorization setting are created with type permit at the opening
-      and toggled by update (confirmed).
-    * Renamed the consent type emergency access to
-      [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) as for the indirect authorization
-      setting: code `emergency-access-setting`, profile
-      [Emergency Access Setting](StructureDefinition-ch-ppqm-consent-emergency-access-setting.html)
-      (`ch-ppqm-consent-emergency-access-setting`)
-      ([#29](https://github.com/ehealthsuisse/ch-health-dossier/issues/29)). Breaking change.
-    * An [indirect authorization](ppqm-consent.html#consent-indirect-authorization) grants only reading "normal", is
-      valid for at most 60 days (end date required), and carries evidence whose form is not specified. When the patient
-      excludes the indirect authorization, the Policy Repository deletes the existing indirect authorizations.
-    * A [representative](ppqm-consent.html#consent-representative) may be granted the action `manage-access` to grant
-      and revoke access rights, but may not appoint a further representative.
-    * Added the consent type [community mandate](ppqm-consent.html#consent-community-mandate)
-      (`community-mandate`, profile [Community Mandate](StructureDefinition-ch-ppqm-consent-community-mandate.html)):
-      the administration of the community processes a health dossier only per support case, with all rights of the
-      patient until the end date. Added `ADM` to the consent actor roles.
-    * Access to an individual document of the level "restricted" is granted by its master identifier
-      (`DocumentReference.masterIdentifier`) instead of a literal reference, and covers that version; a replacement does not change
-      the confidentiality code of the replaced document, and the Document Source sets the one of the new version
-      ([ITI-65](iti-65.html#correction-of-a-published-document)).
 * CH:ATC
-  * Renamed the actor Patient Audit Record Repository to Patient Audit Record Service, the profile
-    `ChAuditEventIti81Repository` to [ChAuditEventIti81Service](StructureDefinition-ChAuditEventIti81Service.html) and
-    the CapabilityStatement `PatientAuditRecordRepositoryCapabilityStatement` to
-    [PatientAuditRecordServiceCapabilityStatement](CapabilityStatement-PatientAuditRecordServiceCapabilityStatement.html).
-    The Patient Audit Record Service is not an Audit Record Repository: it derives the audit trail events required
-    for the E-GD from the recorded audit events according to the privacy requirements (see
-    [CH:ATC](ch-atc.html#patient-audit-record-service))
-    ([#38](https://github.com/ehealthsuisse/ch-health-dossier/issues/38)).
-  * [ITI-81](iti-81.html#sort): the Patient Audit Record Service SHALL support `_sort` on `date` in ascending and
-    descending order, as required by the IHE change proposal CP-ITI-1334; a Patient Audit Consumer which relies on an
-    order SHALL request it with `_sort` ([ch-epr-fhir#432](https://github.com/ehealthsuisse/ch-epr-fhir/issues/432)).
-  * [ITI-81](iti-81.html#expected-actions): the Patient Audit Record Service returns the audit events masked: the
+  * [ITI-81](iti-81.html#expected-actions): the Patient Audit Record Repository returns the audit events masked: the
     time reduced to the day (`period` as date, `recorded` at the start of the day in Swiss local time), an assistant
     only with the role `ASS`, without the technical details (client and server agents, `traceparent`, query), and
     marked with `ABSTRED` and `REDACTED` in `meta.security`. Audit events identical after the masking are returned only
@@ -327,8 +291,8 @@
     right to information about changes in the members of a group of healthcare professionals.
   * Replaced the Access Audit Trail Content Profile (profile `AccessAuditTrailEvent`, value set
     `AccessAuditTrailEventType` and the example `atc-log-read`) with
-    [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html),
-    recorded by the Patient Audit Record Service for every ITI-81 request, and added
+    [CH Audit Event for [ITI-81] Patient Audit Record Repository](StructureDefinition-ChAuditEventIti81Repository.html),
+    recorded by the Patient Audit Record Repository for every ITI-81 request, and added
     [CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html) for the
     Patient Audit Consumer, as for the other transactions. Added `ATC_LOG_READ` to
     [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html).
@@ -345,9 +309,6 @@
   * [Enforcement of Access Rules](accesscontrol.html): added the rights by law and the rights by consent, the rules for
     the confidentiality levels, the emergency access, the administration of the community, digital health
     applications and military health professionals.
-  * [Emergency access](accesscontrol.html#emergency-access): the actor serving a request records in its audit event the
-    lowest purpose of use under which the request was permitted, i.e. `NORM` where the requester holds an access right
-    or a right by law even if the access token declares `EMER`.
   * [ITI-71](iti-71.html#administrators): an administrator claims the community in `group_id`; the IUA Authorization
     Server verifies it in the directory and conveys it in `subject_organization_id`, now required for `ADM`. Added the
     verification of the consent for [digital health applications](iti-71.html#digital-health-applications) and the

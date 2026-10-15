@@ -209,9 +209,9 @@ resources:
     exampleBoolean: false
   CapabilityStatement/CH.PPQm.PolicySourceConsumer:
     exampleBoolean: false
-  CapabilityStatement/PatientAuditRecordServiceCapabilityStatement:
-    name: CapabilityStatement for the Patient Audit Record Service
-    description: Defines the CapabilityStatement for the Patient Audit Record Service actor of ITI-81.
+  CapabilityStatement/PatientAuditRecordRepositoryCapabilityStatement:
+    name: CapabilityStatement for the Patient Audit Record Repository
+    description: Defines the CapabilityStatement for the Patient Audit Record Repository actor of ITI-81.
     exampleBoolean: false
   SearchParameter/AuditEvent-entity-identifier:
     name: Search Parameter AuditEvent entity.identifier

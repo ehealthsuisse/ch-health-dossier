@@ -34,7 +34,7 @@ A patient or a representative wants to delete a document of their health dossier
 
 Where the use cases above name a representative, this is either a representative the patient has designated or the legal representative of a patient.
 
-The actions of the patient in the use cases above (publication, search and download, change of the confidentiality code, personal note and deletion of a document) can also be performed by an administrator of a community on the mandate of the patient (see [Community mandate](ppqm-consent.html#consent-community-mandate)).
+The actions of the patient in the use cases above (publication, search and download, change of the confidentiality code, personal note and deletion of a document) can also be performed by an administrator of a community on the mandate of the patient.
 
 ###	Actors and Transactions  
 

@@ -91,7 +91,7 @@ Usage:      #example
   * name = "Auryn-Spital"
   * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|indirect-authorization"
   * detail[grantee].valueString = "urn:oasis:names:tc:xspa:1.0:subject:organization-id|urn:oid:2.16.10.89.201"
-  * detail[validityEnd].valueString = "2026-12-02"
+  * detail[validityEnd].valueString = "2026-12-31"
 
 
 Instance:   ChAuditEventPpq3UpdateExample
@@ -106,7 +106,7 @@ Usage:      #example
 * subtype[auditTrailType] = $healthDossierAuditEventType#ATC_POL_DIS_EMER_USE "Disabling Emergency Access"
 * entity[data]
   * what.identifier.value = "urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
-  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access-setting"
+  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access"
 
 
 Instance:   ChAuditEventPpq3DeleteExample
@@ -186,7 +186,7 @@ Parent:      ChAuditEventBasicToken
 Id:          ChAuditEventPpq3RepositoryCreate
 Title:       "CH Audit Event for the addition of a consent by the Policy Repository"
 Description: "This profile is used to define the CH Audit Event of the Policy Repository when it adds a consent itself,
-without the request of a user: the opening, the emergency access setting and the indirect authorization setting added when
+without the request of a user: the opening, the emergency access and the indirect authorization setting added when
 the Register E-GD records the opening of the health dossier. The Policy Repository is the initiating agent; there is
 no user."
 * insert ChAuditEventPpq3RepositoryRules
@@ -221,9 +221,9 @@ Severity:    #error
 
 Instance:   ChAuditEventPpq3RepositoryCreateExample
 InstanceOf: ChAuditEventPpq3RepositoryCreate
-Title:      "Audit Event of the Policy Repository: emergency access setting added at the opening"
+Title:      "Audit Event of the Policy Repository: emergency access added at the opening"
 Description: "Audit event of the Policy Repository: the Register E-GD records the automatic opening of the health
-dossier, and the Policy Repository adds the emergency access setting with type permit."
+dossier, and the Policy Repository adds the emergency access with type permit."
 Usage:      #example
 * insert ChExampleAuditEventServerRules(Policy Repository)
 * insert ChExampleAuditEventEntityPatientRules
@@ -242,7 +242,7 @@ Usage:      #example
   * what.identifier.system = "urn:ietf:rfc:3986"
   * what.identifier.value = "urn:uuid:37eacb2e-33e7-4e9c-8a6d-6b55f19bd503"
   * detail[consentType].type = "consentType"
-  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access-setting"
+  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access"
 
 
 Instance:   ChAuditEventPpq3RepositoryDeleteExample

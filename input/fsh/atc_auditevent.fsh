@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
-// ITI-81: the access to the audit trail, recorded by the Patient Audit Consumer and the Patient Audit Record Service.
-// The audit event of the Patient Audit Record Service is part of the audit trail of the patient (ATC_LOG_READ) and
+// ITI-81: the access to the audit trail, recorded by the Patient Audit Consumer and the Patient Audit Record Repository.
+// The audit event of the Patient Audit Record Repository is part of the audit trail of the patient (ATC_LOG_READ) and
 // replaces the Access Audit Trail Content Profile of CH:ATC.
 Profile:     ChAuditEventIti81Consumer
 Parent:      PatientQuery
@@ -8,23 +8,23 @@ Title:       "CH Audit Event for [ITI-81] Patient Audit Consumer"
 Description: "This profile is used to define the CH Audit Event for the [ITI-81] transaction and the actor 'Patient
 Audit Consumer'."
 * insert ChAuditEventIti81Rules
-* insert ChAuditEventTypeCodeRules(0, ATC_LOG_READ, Accessing the Patient Audit Record Service)
+* insert ChAuditEventTypeCodeRules(0, ATC_LOG_READ, Accessing the Patient Audit Record Repository)
 
 
-Profile:     ChAuditEventIti81Service
+Profile:     ChAuditEventIti81Repository
 Parent:      PatientQuery
-Title:       "CH Audit Event for [ITI-81] Patient Audit Record Service"
+Title:       "CH Audit Event for [ITI-81] Patient Audit Record Repository"
 Description: "This profile is used to define the CH Audit Event for the [ITI-81] transaction and the actor 'Patient
-Audit Record Service'. It records the access to the audit trail of a patient and is returned in the audit trail
+Audit Record Repository'. It records the access to the audit trail of a patient and is returned in the audit trail
 with the type ATC_LOG_READ."
 * insert ChAuditEventIti81Rules
-* insert ChAuditEventTypeCodeRules(1, ATC_LOG_READ, Accessing the Patient Audit Record Service)
+* insert ChAuditEventTypeCodeRules(1, ATC_LOG_READ, Accessing the Patient Audit Record Repository)
 
 
 RuleSet: ChAuditEventIti81Rules
 * insert ChAuditEventExtendedRules
 * agent[client] ^short = "The 'Patient Audit Consumer' actor"
-* agent[server] ^short = "The 'Patient Audit Record Service' actor (Health Dossier API)"
+* agent[server] ^short = "The 'Patient Audit Record Repository' actor (Health Dossier API)"
 * subtype contains iti81 1..1
 * subtype[iti81] = $eventTypeCode#ITI-81 "Retrieve ATNA Audit Event"
 * entity[query] ^short = "The audit event query"
@@ -39,10 +39,10 @@ Description: "Audit event of the Patient Audit Consumer: the patient retrieves t
 * insert ChExampleAuditEventClientRules
 
 
-Instance:   ChAuditEventIti81ServiceExample
-InstanceOf: ChAuditEventIti81Service
+Instance:   ChAuditEventIti81RepositoryExample
+InstanceOf: ChAuditEventIti81Repository
 Usage:      #example
-Description: "Audit event of the Patient Audit Record Service: the patient retrieves the audit trail of their health
+Description: "Audit event of the Patient Audit Record Repository: the patient retrieves the audit trail of their health
 dossier."
 * insert ChAuditEventIti81ExampleRules
 * insert ChExampleAuditEventServerRules(Health Dossier)
@@ -55,7 +55,7 @@ RuleSet: ChAuditEventIti81ExampleRules
 * type = $auditEventType#rest "Restful Operation"
 * subtype[anySearch] = $restfulInteraction#search "search"
 * subtype[iti81] = $eventTypeCode#ITI-81 "Retrieve ATNA Audit Event"
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_LOG_READ "Accessing the Patient Audit Record Service"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_LOG_READ "Accessing the Patient Audit Record Repository"
 * agent[server].network.address = "http://example.com"
 * entity[query]
   * type = $auditEntityType#2 "System Object"
@@ -64,7 +64,7 @@ RuleSet: ChAuditEventIti81ExampleRules
   * query = "aHR0cDovL2V4YW1wbGUuY29tL0F1ZGl0RXZlbnQ/ZW50aXR5LmlkZW50aWZpZXI9dXJuOm9pZDoyLjE2Ljc1Ni41LjMwLjEuMTI3LjMuMTAuM3w3NjEzMzc2MTA0MTEzNTM2NTAmZGF0ZT1nZTIwMjYtMDEtMDE="
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ITI-81 response: the audit trail of a patient as returned by the Patient Audit Record Service. Each audit event is
+// ITI-81 response: the audit trail of a patient as returned by the Patient Audit Record Repository. Each audit event is
 // derived from an audit event recorded by the actor serving a request, masked as described in the Expected Actions of
 // ITI-81: the time reduced to the day, an assistant only with the role, without the technical details of the request,
 // and only for successful requests.
@@ -80,7 +80,7 @@ Profile:     ChAuditTrailEvent
 Parent:      AuditEvent
 Id:          ChAuditTrailEvent
 Title:       "CH Audit Trail Event"
-Description: "An audit event of the audit trail of a patient, as returned by the Patient Audit Record Service with
+Description: "An audit event of the audit trail of a patient, as returned by the Patient Audit Record Repository with
 Retrieve ATNA Audit Event [ITI-81]. It is derived from an audit event recorded by the actor serving a request and
 masked: the time is reduced to the day, an assistant is only identified by the role, and the technical details of the
 request are not returned."
@@ -179,7 +179,7 @@ Profile:     ChAtcIti81Response
 Parent:      Bundle
 Id:          CH-ATC.ITI-81.Response
 Title:       "Retrieve ATNA Audit Event [ITI-81] Response"
-Description: "The response of the Patient Audit Record Service to Retrieve ATNA Audit Event [ITI-81]: the audit trail
+Description: "The response of the Patient Audit Record Repository to Retrieve ATNA Audit Event [ITI-81]: the audit trail
 of a patient, masked to the day and without duplicates."
 * type = #searchset
 * entry.resource 1..1
@@ -288,7 +288,7 @@ Usage:      #inline
   * type = $auditEntityType#2 "System Object"
   * role = $objectRole#4 "Domain Resource"
   * detail[+].type = "consentType"
-  * detail[=].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access-setting"
+  * detail[=].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|emergency-access"
 
 
 Instance:   ChAuditTrailEventLogReadExample
@@ -299,7 +299,7 @@ Usage:      #inline
 * insert ChAuditTrailEventPatRules
 * type = $auditEventType#rest "Restful Operation"
 * subtype[+] = $eventTypeCode#ITI-81 "Retrieve ATNA Audit Event"
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_LOG_READ "Accessing the Patient Audit Record Service"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_LOG_READ "Accessing the Patient Audit Record Repository"
 * action = #E
 * agent[mainUser].requestor = true
 
@@ -307,7 +307,7 @@ Usage:      #inline
 Instance:   ch-atc-iti-81-response-sample
 InstanceOf: ChAtcIti81Response
 Title:      "ITI-81 response: masked audit trail"
-Description: "The audit trail of Franziska Muster, masked to the day and sorted by date (`_sort=date`): a document uploaded by a healthcare
+Description: "The audit trail of Franziska Muster, masked to the day: a document uploaded by a healthcare
 professional, the document retrieved by an assistant on her behalf (only the role of the assistant), the emergency
 access excluded by the patient, and an earlier access of the patient to the audit trail. The assistant retrieved the
 document three times on that day; the duplicates are removed."
@@ -315,7 +315,7 @@ Usage:      #example
 * type = #searchset
 * total = 4
 * link[+].relation = "self"
-* link[=].url = "http://example.com/AuditEvent?entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&date=ge2026-10-01&_sort=date"
+* link[=].url = "http://example.com/AuditEvent?entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&date=ge2026-10-01"
 * entry[+].fullUrl = "http://example.com/AuditEvent/7b3d0a7e-1c1b-4f3e-9a55-2d1f0c6c8e01"
 * entry[=].resource = ChAuditTrailEventDocCreateExample
 * entry[=].search.mode = #match
