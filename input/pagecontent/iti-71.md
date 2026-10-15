@@ -123,44 +123,48 @@ When receiving a Token Request, the IUA Authorization Server SHALL:
 
 ###### Patients
 When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim as described in 
-  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
+1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+   the Identity Provider. 
+4. read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
 
 ###### Representatives
 When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim as described in
-  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
+1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+   the Identity Provider. 
+4. read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
-- validate the identity token send in the `id_token` claim as described in
-  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- If the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
+1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+   the Identity Provider. 
+4. if the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
-- verify the healthcare professional is registered with the same GLN in the provider directory. 
-- query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
+5. verify the healthcare professional is registered with the same GLN in the provider directory. 
+6. query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
 
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim as described in
-  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
-  Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant.
-- verify the assistant is registered with the same GLN in the provider directory.
-- verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
-  `principal_id` claim.
-- if a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
+1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+   the Identity Provider. 
+4. If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
+  Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant. 
+5. verify the assistant is registered with the same GLN in the provider directory. 
+6. verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
+  `principal_id` claim. 
+7. if a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
   professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute 
   of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
-  superior groups and institutions up to the root level.
-- if no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
+  superior groups and institutions up to the root level. 
+8. if no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
   professional claimed in the `principal_id` to all groups or institutions the healthcare professional is member 
   of, including all superior groups or institutions up to the root level.
 
@@ -172,15 +176,16 @@ IUA Authorization Server SHALL:
 
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
-- validate the identity token send in the `id_token` claim as described in
-  OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
-- verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
-- verify the administrator is registered with the same ID in the provider directory.
-- verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
+1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+   the Identity Provider. 
+4. read the subject identifier `sub` of the id token and resolve it to the ID of the administrator. 
+5. verify the administrator is registered with the same ID in the provider directory. 
+6. verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
   type `community` of [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html)), and that the
-  administrator is registered as its member.
-- convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
+  administrator is registered as its member. 
+7. convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
   the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
   by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
 

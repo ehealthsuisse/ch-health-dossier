@@ -77,7 +77,7 @@
   * Removed the mTLS option, the IUA JWT token option is now the regular IUA flow with the extended access token.
   * Removed the ITI-83 PIXm query from the clinical archive diagram, the clinical archive knows the EPR-SPID.
   * Removed the loop over confidentiality codes when publishing documents.
-  * Removed the unused diagram sources for the SMART on FHIR standalone launch with the identity provider.
+  * Removed the unused diagram sources for the SMART on FHIR standalone launch with the Identity Provider.
   * Renamed the participant group "Community Components" to "Health Dossier Information System".
 * mCSD
   * [Examples](iti-mcsd.html#examples): removed the link to the eHealth Suisse test data (Community A and B) and
