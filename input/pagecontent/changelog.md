@@ -4,6 +4,20 @@
 * Use the term "holder" (Inhaberin oder Inhaber) for the person for whom the health dossier is kept, as in the EGDG, in
   all pages, profiles, code systems and examples; the FHIR and IHE names (Patient resource, PDQm, PIXm, Patient Audit
   Consumer and Patient Audit Record Repository) and the role code `PAT` "Patient" stay unchanged [#26](https://github.com/ehealthsuisse/ch-health-dossier/issues/26).
+* Added the Volume 3 page [Document Sharing Metadata](document-sharing-metadata.html) with the metadata of the
+  documents, their value sets and the DocumentReference elements, the differences to the metadata of the EPR, and the
+  descriptions of the author, the provider role, the provider institution and the confidentiality code moved from
+  [ITI-65](iti-65.html) [#35](https://github.com/ehealthsuisse/ch-health-dossier/issues/35).
+* The [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html) no longer requires the content type code
+  (extension `designationType`, Anhang 3 §2.15 EPDV-EDI) with the single code `Procedure` of the EPR, and the examples
+  no longer carry it
+  [#35](https://github.com/ehealthsuisse/ch-health-dossier/issues/35).
+* Harmonized the wording of the document transactions: a document is provided with [ITI-65](iti-65.html) (not
+  published, uploaded, stored or submitted) and purged with [CH:MHD-2](ch-mhd-2.html) (not deleted),
+  also in the English displays of the audit event types `ATC_DOC_CREATE` "Document provided" and `ATC_DOC_DELETE`
+  "Document purged" and of the consent actions `record` "Provide documents" and `delete` "Purge documents"; the codes
+  are unchanged
+  [#35](https://github.com/ehealthsuisse/ch-health-dossier/issues/35).
 * Integrated the ch-epr-fhir issues [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456), [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458) and [#460](https://github.com/ehealthsuisse/ch-epr-fhir/issues/460)
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
@@ -38,7 +52,7 @@
     Administrator and Policy Administrator into Administration (`ADM`) with the qualifier
     `urn:e-health-suisse:administrator-id`, added the Legal Representative (`LEGREP`) with the qualifier
     `urn:e-health-suisse:representative-id`, and corrected the swapped administrator qualifiers.
-  * [ITI-65](iti-65.html#provider-role): renamed the extension CH Extension Author AuthorRole
+  * [ITI-65](document-sharing-metadata.html#provider-role): renamed the extension CH Extension Author AuthorRole
     (`ch-ext-author-authorrole`) to [CH Extension Provider Role](StructureDefinition-ch-ext-provider-role.html). The
     provider role SHALL NOT be changed with CH:MHD-1, added legal representatives and the administration, and linked
     the provider role to the value set
@@ -119,13 +133,13 @@
       `organization.display`, or a contained PractitionerRole referencing a contained Practitioner (structured name
       with given name, family name and title) and a contained Organization (name and address); an identifier (GLN,
       OID, EPR-SPID) may be added (invariants `ch-mhd-author-1`, `ch-mhd-author-2` and `ch-mhd-author-3`), see
-      [ITI-65](iti-65.html#author-of-the-document). No right to a document follows from its author.
-    * `DocumentReference.custodian` carries the [provider institution](iti-65.html#provider-institution): the OID of
+      [ITI-65](document-sharing-metadata.html#author). No right to a document follows from its author.
+    * `DocumentReference.custodian` carries the [provider institution](document-sharing-metadata.html#provider-institution): the OID of
       the institution or group on whose behalf the document was provided. It is required for the provider role
       `HCP`, `ASS` and `TCU` and absent otherwise (invariant `ch-mhd-custodian-1`).
     * The Document Recipient verifies the provider role and the provider institution against the access token
       in [ITI-65](iti-65.html); both, and the author, cannot be changed with [CH:MHD-1](ch-mhd-1.html).
-    * Stated in [ITI-65](iti-65.html#correction-of-a-published-document) which role may publish a new version of
+    * Stated in [ITI-65](iti-65.html#correction-of-a-provided-document) which role may publish a new version of
       which documents, and keyed the right of `HCP` and `ASS` to purge a document in
       [CH:MHD-2](ch-mhd-2.html#roles-which-may-purge-a-document) on the provider institution instead of the author.
     * Removed the extension for the SubmissionSet.Author.AuthorRole from the
@@ -165,14 +179,14 @@
   * Required the ITI-65 FHIR Documents Publish Option for the Document Source and the Document Recipient, so that a
     FHIR document can be published as a FHIR document Bundle resource in the `FhirDocuments` entry of the
     [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html) instead of being converted
-    to a base64 encoded Binary resource, see [ITI-65](iti-65.html#publishing-a-fhir-document). Required in
+    to a base64 encoded Binary resource, see [ITI-65](iti-65.html#providing-a-fhir-document). Required in
     [ITI-68](iti-68.html#expected-actions) that a FHIR document is returned as a native FHIR document Bundle resource
     and not wrapped in a Binary resource, in line with the European Health Data API. Added the example
     [Provide Document Bundle for a FHIR document](Bundle-BundleProvideFhirDocument.html).
   * Added the use case [Healthcare professional corrects a published document](iti-mhd.html#use-cases): a
     document with incorrect data is corrected by publishing a new version, the incorrect document is not removed and
     stays accessible; how the corrected document is published is described in
-    [ITI-65](iti-65.html#correction-of-a-published-document). Added the examples
+    [ITI-65](iti-65.html#correction-of-a-provided-document). Added the examples
     [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html)
     (`DocumentReference.relatesTo` of type `replaces`) and
     [replaced document with status superseded](DocumentReference-DocRefPdfSuperseded.html).
@@ -228,9 +242,9 @@
     used any more. Bound
     `DocumentReference.securityLabel` of the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html),
     the confidentiality code of the document in the audit events and `Consent.provision.securityLabel` of CH:PPQm to it,
-    and described it in [ITI-65](iti-65.html#confidentiality-code). The codes are not decided yet (issue #12).
+    and described it in [ITI-65](document-sharing-metadata.html#confidentiality-code). The codes are not decided yet (issue #12).
   * The pages name the two levels by their SNOMED CT concepts, "normal" and "restricted", instead of the EGDG terms
-    "allgemein" and "privat"; [ITI-65](iti-65.html#confidentiality-code) gives the mapping.
+    "allgemein" and "privat"; [ITI-65](document-sharing-metadata.html#confidentiality-code) gives the mapping.
 * PPQm
   * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalogue of the E-GD authorization system: a
     Consent records one decision of the patient per consent type, instead of the image of an EPR policy set template.
@@ -300,7 +314,7 @@
     * Access to an individual document of the level "restricted" is granted by its master identifier
       (`DocumentReference.masterIdentifier`) instead of a literal reference, and covers that version; a replacement does not change
       the confidentiality code of the replaced document, and the Document Source sets the one of the new version
-      ([ITI-65](iti-65.html#correction-of-a-published-document)).
+      ([ITI-65](iti-65.html#correction-of-a-provided-document)).
 * CH:ATC
   * Renamed the actor Patient Audit Record Repository to Patient Audit Record Service, the profile
     `ChAuditEventIti81Repository` to [ChAuditEventIti81Service](StructureDefinition-ChAuditEventIti81Service.html) and

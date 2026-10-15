@@ -105,7 +105,7 @@ This impacts the FHIR API in the following way:
 2. The same principle applies for health care professionals, they are identified by the GLN number and references to
    them need to include also the logical reference from other resources (e.g. DocumentReference).
 3. Information which has to be provided and has no own identity in the Health Dossier (e.g., as author and organization name in
-   document publishing) are represented as contained resources.
+   providing documents) are represented as contained resources.
 
 #### Interoperability Specification
 

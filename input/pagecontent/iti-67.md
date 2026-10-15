@@ -53,7 +53,7 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 
 The Document Responder SHALL support the search parameter `custodian` with the modifier `:identifier`, which finds the
 documents provided on behalf of an institution or group (see
-[Provider institution](iti-65.html#provider-institution)).
+[Provider institution](document-sharing-metadata.html#provider-institution)).
 
 _Find Document Reference_ example **request** for the documents provided by an institution:
 ```http
@@ -65,7 +65,7 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 ##### Search for the author of a document
 
 The author of a document is mostly given as text, and only where the Document Source has it as structured data in
-contained resources (see [Author of the document](iti-65.html#author-of-the-document)). The search parameters
+contained resources (see [Author](document-sharing-metadata.html#author)). The search parameters
 `author.given` and `author.family` of the
 [Find Document References [ITI-67]](https://profiles.ihe.net/ITI/MHD/ITI-67.html) transaction of MHD, which would only
 find the authors given as structured data, are therefore not supported: the Document Consumer SHALL NOT use them, and the Document Responder is not required to process them. This

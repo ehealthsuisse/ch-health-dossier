@@ -274,10 +274,10 @@ Instance: PpqmConsentDigitalHealthApplicationExample
 InstanceOf: ChPpqmConsentDigitalHealthApplication
 Title: "PPQm Consent: Digital Health Application"
 Description: "The holder authorizes a diabetes diary application to read the documents of the confidentiality level
-'normal' and to record documents until 30 September 2027."
+'normal' and to provide documents until 30 September 2027."
 Usage: #example
 * text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>The diabetes diary may read the documents of the level 'normal' and record documents until 2027-09-30.</p></div>"
+* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>The diabetes diary may read the documents of the level 'normal' and provide documents until 2027-09-30.</p></div>"
 * identifier.value = "urn:uuid:111f1e4b-4c0c-4cf5-9882-646dccc81273"
 * category = HealthDossierConsentType#digital-health-application
 * insert PpqmConsentExampleHolder

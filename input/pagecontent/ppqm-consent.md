@@ -166,7 +166,7 @@ read and the actions the representative may take:
 | Action | Right |
 |---|---|
 | `read` | Search and view the documents of the confidentiality levels in `provision.securityLabel` |
-| `delete` | Delete documents |
+| `delete` | Purge documents |
 | `edit-metadata` | Change the confidentiality level of a document and record a comment |
 | `edit-contact` | Add contact data to the personal data of the holder in the index of holders |
 | `read-audit-trail` | View the audit trail |
@@ -208,8 +208,8 @@ The holder authorizes an admitted digital health application to access the healt
 | Action | Right |
 |---|---|
 | `read` | Search and view the documents of the confidentiality levels in `provision.securityLabel` |
-| `record` | Record documents |
-| `delete` | Delete documents |
+| `record` | Provide documents |
+| `delete` | Purge documents |
 | `edit-metadata` | Change the confidentiality level of a document and record a comment |
 | `read-demographics` | View the personal data of the holder in the index of holders |
 | `edit-contact` | Add contact data to the personal data of the holder in the index of holders |

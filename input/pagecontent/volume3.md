@@ -5,7 +5,7 @@ recorded for the audit trail. There are three categories of events in the audit 
 
 <ol type="a">
     <li>
-        Document management, e.g. a document has been uploaded to the health dossier or the documents have been searched
+        Document management, e.g. a document has been provided to the health dossier or the documents have been searched
         (see <a href="#audit-trail-of-the-document-transactions">Audit trail of the document transactions</a>).
     </li>
     <li>
@@ -44,13 +44,13 @@ indirect authorization are added. The default confidentiality level (`ATC_POL_DE
 {:class="table table-bordered"}
 | Audit event type | Event | Transaction | Audit event profile | Example |
 |---|---|---|---|---|
-| `ATC_DOC_CREATE` | Document upload | [ITI-65](iti-65.html) | [CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html) | [upload](AuditEvent-ChAuditEventIti65RecipientExample.html) |
-| `ATC_DOC_NEW_VERSION` | New version of a document | [ITI-65](iti-65.html#correction-of-a-published-document) | [CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html) | [new version](AuditEvent-ChAuditEventIti65RecipientCorrectionExample.html) |
+| `ATC_DOC_CREATE` | Document provided | [ITI-65](iti-65.html) | [CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html) | [provided](AuditEvent-ChAuditEventIti65RecipientExample.html) |
+| `ATC_DOC_NEW_VERSION` | New version of a document | [ITI-65](iti-65.html#correction-of-a-provided-document) | [CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html) | [new version](AuditEvent-ChAuditEventIti65RecipientCorrectionExample.html) |
 | `ATC_DOC_SEARCH` | Document search | [ITI-67](iti-67.html) | [CH Audit Event for [ITI-67] Document Responder](StructureDefinition-ChAuditEventIti67Responder.html) | [search](AuditEvent-ChAuditEventIti67ResponderExample.html) |
 | `ATC_DOC_READ` | Document retrieval | [ITI-68](iti-68.html) | [CH Audit Event for [ITI-68] Document Responder](StructureDefinition-ChAuditEventIti68Responder.html) | [retrieval](AuditEvent-ChAuditEventIti68ResponderExample.html) |
 | `ATC_DOC_UPDATE_CONFIDENTIALITY` | Confidentiality code of a document changed | [CH:MHD-1](ch-mhd-1.html) | [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html) | [confidentiality code](AuditEvent-ChAuditEventChMhd1ResponderExample.html) |
 | `ATC_DOC_UPDATE_NOTE` | Personal note on a document recorded | [CH:MHD-1](ch-mhd-1.html) | [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html) | [personal note](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html) |
-| `ATC_DOC_DELETE` | Document removal | [CH:MHD-2](ch-mhd-2.html) | [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html) | [removal](AuditEvent-ChAuditEventChMhd2ResponderExample.html) |
+| `ATC_DOC_DELETE` | Document purged | [CH:MHD-2](ch-mhd-2.html) | [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html) | [purged](AuditEvent-ChAuditEventChMhd2ResponderExample.html) |
 | `ATC_POL_CREATE_AUT_PART_AL` | Consent added, all consent types except the emergency access setting and the indirect authorization setting | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) (opening) | [CH Audit Event for [PPQ-3] Create privacy policy](StructureDefinition-ChAuditEventPpq3Create.html), [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html) | [indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html) |
 | `ATC_POL_UPDATE_AUT_PART_AL` | Consent updated, all consent types except the emergency access setting and the indirect authorization setting | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html) | [CH Audit Event for [PPQ-3] Update privacy policy](StructureDefinition-ChAuditEventPpq3Update.html) | |
 | `ATC_POL_REMOVE_AUT_PART_AL` | Consent deleted, all consent types | [PPQ-3](ppq-3.html), [PPQ-4](ppq-4.html), [Policy Repository rules](ppq-3.html#policy-repository-rules) | [CH Audit Event for [PPQ-3] Delete privacy policy](StructureDefinition-ChAuditEventPpq3Delete.html), [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html) | [access right revoked](AuditEvent-ChAuditEventPpq3DeleteExample.html), [digital health application expired](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html) |

@@ -27,7 +27,7 @@ authorization is added. The access to the audit trail keeps its code."
 * ^experimental = false
 * ^content = #complete
 
-* #ATC_DOC_CREATE "Document upload" "A document was provided to the health dossier."
+* #ATC_DOC_CREATE "Document provided" "A document was provided to the health dossier."
 * #ATC_DOC_CREATE ^designation[+].language = #de-CH
 * #ATC_DOC_CREATE ^designation[=].value = "Dokument-Upload"
 * #ATC_DOC_CREATE ^designation[+].language = #fr-CH
@@ -71,7 +71,7 @@ authorization is added. The access to the audit trail keeps its code."
 * #ATC_DOC_UPDATE_NOTE ^designation[+].language = #it-CH
 * #ATC_DOC_UPDATE_NOTE ^designation[=].value = "Registrazione di un'annotazione personale su un documento"
 
-* #ATC_DOC_DELETE "Document removal" "A document was irrevocably removed from the health dossier."
+* #ATC_DOC_DELETE "Document purged" "A document was irrevocably purged from the health dossier."
 * #ATC_DOC_DELETE ^designation[+].language = #de-CH
 * #ATC_DOC_DELETE ^designation[=].value = "Dokumentlöschung"
 * #ATC_DOC_DELETE ^designation[+].language = #fr-CH
@@ -185,7 +185,7 @@ ValueSet: HealthDossierProvideDocumentAuditEventType
 Id: HealthDossierProvideDocumentAuditEventType
 Title: "CH Health Dossier Provide Document Audit Event Type"
 Description: "The types of events in the audit trail for a document provided with Provide Document Bundle [ITI-65]:
-the upload of a document, or the new version of a document which replaces an existing one."
+a new document, or the new version of a document which replaces an existing one."
 * ^experimental = false
 * HealthDossierAuditEventType#ATC_DOC_CREATE
 * HealthDossierAuditEventType#ATC_DOC_NEW_VERSION
