@@ -1,8 +1,8 @@
 // PPQ-3
 //
-// The audit events of PPQ-3 carry the type of the event in the audit trail of the patient as an additional subtype,
+// The audit events of PPQ-3 carry the type of the event in the audit trail of the holder as an additional subtype,
 // and record the consent with its type, its grantee and the end of its validity, so that the audit trail of the
-// patient can be built from the audit events of the Policy Repository. The profiles are shared by the Policy Source and
+// holder can be built from the audit events of the Policy Repository. The profiles are shared by the Policy Source and
 // the Policy Repository: the Policy Repository SHALL record the type of the event, the Policy Source MAY record it.
 
 Profile:     ChAuditEventPpq3Create
@@ -45,7 +45,7 @@ RuleSet: ChAuditEventPpq3Rules
 // allows 3, 4 and 20 for that slice.
 // https://profiles.ihe.net/ITI/BALP/1.1.4/ValueSet-RestObjectRoles.html
 * insert ChAuditEventConsentEntityRules
-* entity[patient] ^short = "The patient whose consents are being managed"
+* entity[patient] ^short = "The holder whose consents are being managed"
 
 
 // The consent a PPQ-3 audit event or a deletion by the Policy Repository is about. The slice data has to be defined
@@ -77,7 +77,7 @@ RuleSet: ChAuditEventConsentEntityRules
 Instance:   ChAuditEventPpq3CreateExample
 InstanceOf: ChAuditEventPpq3Create
 Title:      "Audit Event for [PPQ-3] Policy Source: indirect authorization recorded"
-Description: "Audit event of the Policy Source: a health professional records the consent the patient gave orally at
+Description: "Audit event of the Policy Source: a health professional records the consent the holder gave orally at
 the Auryn-Spital (indirect authorization)."
 Usage:      #example
 * insert ChAuditEventPpq3ExampleRules
@@ -97,7 +97,7 @@ Usage:      #example
 Instance:   ChAuditEventPpq3UpdateExample
 InstanceOf: ChAuditEventPpq3Update
 Title:      "Audit Event for [PPQ-3] Policy Repository: emergency access excluded"
-Description: "Audit event of the Policy Repository: the patient excludes emergency access."
+Description: "Audit event of the Policy Repository: the holder excludes emergency access."
 Usage:      #example
 * insert ChAuditEventPpq3ExampleRules
 * insert ChExampleAuditEventPatRules
@@ -112,7 +112,7 @@ Usage:      #example
 Instance:   ChAuditEventPpq3DeleteExample
 InstanceOf: ChAuditEventPpq3Delete
 Title:      "Audit Event for [PPQ-3] Policy Source: access right revoked"
-Description: "Audit event of the Policy Source: the patient revokes the access right of the Fuchur-Klinik."
+Description: "Audit event of the Policy Source: the holder revokes the access right of the Fuchur-Klinik."
 Usage:      #example
 * insert ChAuditEventPpq3ExampleRules
 * insert ChExampleAuditEventPatRules
@@ -148,8 +148,8 @@ Usage:      #example
 // Consents the Policy Repository adds or deletes itself, without a user: the consents added when the Register E-GD
 // records the opening of the health dossier, the authorization of a digital health application expired after three
 // months without access, and the consents deleted when the health dossier was dissolved on request or on the death of
-// the patient. Deletions caused by the request of a user (delegations of a revoked access right, the consents of the
-// patient when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that request
+// the holder. Deletions caused by the request of a user (delegations of a revoked access right, the consents of the
+// holder when a legal representative is set up) are recorded with ChAuditEventPpq3Delete and the user of that request
 // instead. There is no REST request, so the profiles are not based on the BALP profiles.
 
 RuleSet: ChAuditEventPpq3RepositoryRules
@@ -176,7 +176,7 @@ RuleSet: ChAuditEventPpq3RepositoryRules
 * entity[patient].what.identifier.value 1..1
 * entity[patient].what.identifier.system 1..1
 * entity[patient].what.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
-* entity[patient] ^short = "The patient whose consent was added or deleted"
+* entity[patient] ^short = "The holder whose consent was added or deleted"
 * entity[data].type = $auditEntityType#2 "System Object"
 * insert ChAuditEventConsentEntityRules
 
@@ -201,7 +201,7 @@ Id:          ChAuditEventPpq3RepositoryDelete
 Title:       "CH Audit Event for the deletion of a consent by the Policy Repository"
 Description: "This profile is used to define the CH Audit Event of the Policy Repository when it deletes a consent
 itself, without the request of a user: the authorization of a digital health application expired after three months
-without access, or the health dossier was dissolved on request or on the death of the patient. The Policy Repository
+without access, or the health dossier was dissolved on request or on the death of the holder. The Policy Repository
 is the initiating agent; there is no user."
 * insert ChAuditEventPpq3RepositoryRules
 * action = #D
@@ -214,7 +214,7 @@ is the initiating agent; there is no user."
 * entity[data].detail[deletionReason] obeys ch-ppqm-deletion-reason
 
 Invariant:   ch-ppqm-deletion-reason
-Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the patient)"
+Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the holder)"
 Expression:  "value.ofType(string) in ('inactivity' | 'dissolution' | 'death')"
 Severity:    #error
 
@@ -339,7 +339,7 @@ RuleSet: ChAuditEventPpq5Rules
 * subtype[anySearch] = $restfulInteraction#search "search"
 * subtype[ppq5] = urn:e-health-suisse:event-type-code#PPQ-5 "Mobile Privacy Policy Retrieve"
 * entity[query] ^short = "The privacy policy query"
-* entity[patient] ^short = "The patient whose privacy policies are being accessed"
+* entity[patient] ^short = "The holder whose privacy policies are being accessed"
 
 
 Instance:   ChAuditEventPpq5ConsumerExample

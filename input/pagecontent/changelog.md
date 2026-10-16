@@ -1,7 +1,9 @@
 ### DSTU1 Release 2026-08-xx
 
 #### Resolved Issues
-* Replaced the term "holder" with "patient" in all pages, profiles, code systems and examples.
+* Use the term "holder" (Inhaberin oder Inhaber) for the person for whom the health dossier is kept, as in the EGDG, in
+  all pages, profiles, code systems and examples; the FHIR and IHE names (Patient resource, PDQm, PIXm, Patient Audit
+  Consumer and Patient Audit Record Repository) and the role code `PAT` "Patient" stay unchanged [#26](https://github.com/ehealthsuisse/ch-health-dossier/issues/26).
 * Integrated the ch-epr-fhir issues [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456), [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458) and [#460](https://github.com/ehealthsuisse/ch-epr-fhir/issues/460)
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 

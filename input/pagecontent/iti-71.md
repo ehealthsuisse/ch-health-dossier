@@ -121,13 +121,13 @@ When receiving a Token Request, the IUA Authorization Server SHALL:
 - verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 - verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
 
-###### Patients
+###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
 3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
    the Identity Provider. 
-4. read the subject identifier `sub` of the id token and resolve it to the SPID of the patient.
+4. read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
 
 ###### Representatives
 When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the IUA Authorization Server SHALL:
@@ -192,8 +192,8 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 ###### Digital health applications
 When receiving a Token Request with `subject_role` set to `PAT` from an IUA Authorization Client registered as a digital
 health application (see [Client Registration](client-registration.html)), the IUA Authorization Server SHALL, in
-addition to the verifications for [patients](#patients):
-- verify that a [digital health application](ppqm-consent.html#consent-digital-health-application) consent of the patient
+addition to the verifications for [holders](#holders):
+- verify that a [digital health application](ppqm-consent.html#consent-digital-health-application) consent of the holder
   (`person_id`) with the `client_id` of the application as grantee is in effect.
 - issue the access token only for the actions granted in that consent.
 - record the time of the request, so that the consent can be deleted after three months without access (see the
@@ -205,7 +205,7 @@ actors serving the requests can identify the application and restrict the reques
 
 ##### Message Example
 
-A token request of a patient send from a portal or digital health app may look like:
+A token request of a holder send from a portal or digital health app may look like:
 
 ```
 POST /token HTTP/1.1
@@ -307,7 +307,7 @@ the following table:
 | subject_organization_id | O/O                             | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community. |
 | subject_role            | R/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
 | purpose_of_use          | R/R                             | Code indicating the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
-| person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
+| person_id               | O/R                             | SHALL be the EPR-SPID of the holder's EPR.                                |
 {:class="table table-bordered"}
 
 <figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the ihe_iua extension.</figcaption>  
@@ -337,7 +337,7 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 <div markdown="1" class="stu-note">
 To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
-`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For patients and healthcare
+`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For holders and healthcare
 professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
 representatives, legal representatives and the administration no such identifier is defined: where the representative
 ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
@@ -348,7 +348,7 @@ identity provider issues pairwise subject identifiers per client, `sub` is not s
 
 ###### The JWT ch_group extension
 
-Groups are the objects used in the access management of the Health Dossier. Patients and representatives may assign access
+Groups are the objects used in the access management of the Health Dossier. Holders and representatives may assign access
 rights to groups which typically are sub-organizations of the institutions, but may also cross institution boundaries,
 e.g., a tumor board with healthcare professionals from more than one institution.
 
@@ -405,8 +405,8 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
 }
 ```
 
-An extended JWT access token to be used to access patient documents SHALL have the additional attributes of
-the `purpose_of_use`, `subject_role` and the EPR-SPID of the patient. It may look like:
+An extended JWT access token to be used to access the documents of a holder SHALL have the additional attributes of
+the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look like:
 
 ```json
 {
@@ -453,7 +453,7 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the patient. It may loo
 ```
 
 An extended JWT access token to be used to access by an assistant acting behalf of a healthcare professional for a
-patient SHALL have the additional extension `ch_delegation`:
+holder SHALL have the additional extension `ch_delegation`:
 
 ```json
 {

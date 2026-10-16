@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 // ITI-81: the access to the audit trail, recorded by the Patient Audit Consumer and the Patient Audit Record Service.
-// The audit event of the Patient Audit Record Service is part of the audit trail of the patient (ATC_LOG_READ) and
+// The audit event of the Patient Audit Record Service is part of the audit trail of the holder (ATC_LOG_READ) and
 // replaces the Access Audit Trail Content Profile of CH:ATC.
 Profile:     ChAuditEventIti81Consumer
 Parent:      PatientQuery
@@ -15,7 +15,7 @@ Profile:     ChAuditEventIti81Service
 Parent:      PatientQuery
 Title:       "CH Audit Event for [ITI-81] Patient Audit Record Service"
 Description: "This profile is used to define the CH Audit Event for the [ITI-81] transaction and the actor 'Patient
-Audit Record Service'. It records the access to the audit trail of a patient and is returned in the audit trail
+Audit Record Service'. It records the access to the audit trail of a holder and is returned in the audit trail
 with the type ATC_LOG_READ."
 * insert ChAuditEventIti81Rules
 * insert ChAuditEventTypeCodeRules(1, ATC_LOG_READ, Accessing the Patient Audit Record Service)
@@ -28,13 +28,13 @@ RuleSet: ChAuditEventIti81Rules
 * subtype contains iti81 1..1
 * subtype[iti81] = $eventTypeCode#ITI-81 "Retrieve ATNA Audit Event"
 * entity[query] ^short = "The audit event query"
-* entity[patient] ^short = "The patient whose audit trail was retrieved"
+* entity[patient] ^short = "The holder whose audit trail was retrieved"
 
 
 Instance:   ChAuditEventIti81ConsumerExample
 InstanceOf: ChAuditEventIti81Consumer
 Usage:      #example
-Description: "Audit event of the Patient Audit Consumer: the patient retrieves the audit trail of their health dossier."
+Description: "Audit event of the Patient Audit Consumer: the holder retrieves the audit trail of their health dossier."
 * insert ChAuditEventIti81ExampleRules
 * insert ChExampleAuditEventClientRules
 
@@ -42,7 +42,7 @@ Description: "Audit event of the Patient Audit Consumer: the patient retrieves t
 Instance:   ChAuditEventIti81ServiceExample
 InstanceOf: ChAuditEventIti81Service
 Usage:      #example
-Description: "Audit event of the Patient Audit Record Service: the patient retrieves the audit trail of their health
+Description: "Audit event of the Patient Audit Record Service: the holder retrieves the audit trail of their health
 dossier."
 * insert ChAuditEventIti81ExampleRules
 * insert ChExampleAuditEventServerRules(Health Dossier)
@@ -64,7 +64,7 @@ RuleSet: ChAuditEventIti81ExampleRules
   * query = "aHR0cDovL2V4YW1wbGUuY29tL0F1ZGl0RXZlbnQ/ZW50aXR5LmlkZW50aWZpZXI9dXJuOm9pZDoyLjE2Ljc1Ni41LjMwLjEuMTI3LjMuMTAuM3w3NjEzMzc2MTA0MTEzNTM2NTAmZGF0ZT1nZTIwMjYtMDEtMDE="
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ITI-81 response: the audit trail of a patient as returned by the Patient Audit Record Service. Each audit event is
+// ITI-81 response: the audit trail of a holder as returned by the Patient Audit Record Service. Each audit event is
 // derived from an audit event recorded by the actor serving a request, masked as described in the Expected Actions of
 // ITI-81: the time reduced to the day, an assistant only with the role, without the technical details of the request,
 // and only for successful requests.
@@ -80,7 +80,7 @@ Profile:     ChAuditTrailEvent
 Parent:      AuditEvent
 Id:          ChAuditTrailEvent
 Title:       "CH Audit Trail Event"
-Description: "An audit event of the audit trail of a patient, as returned by the Patient Audit Record Service with
+Description: "An audit event of the audit trail of a holder, as returned by the Patient Audit Record Service with
 Retrieve ATNA Audit Event [ITI-81]. It is derived from an audit event recorded by the actor serving a request and
 masked: the time is reduced to the day, an assistant is only identified by the role, and the technical details of the
 request are not returned."
@@ -114,7 +114,7 @@ request are not returned."
 * agent ^short = "The user, the assistant, the group or the Policy Repository; the client and server systems are not returned"
 * agent contains mainUser 0..1 and delegatedUser 0..1 and group 0..* and repository 0..1
 * agent[mainUser]
-  * ^short = "The responsible user: the patient, a representative, a legal representative, a healthcare professional, the administration or a technical user, or the healthcare professional on whose behalf an assistant acted"
+  * ^short = "The responsible user: the holder, a representative, a legal representative, a healthcare professional, the administration or a technical user, or the healthcare professional on whose behalf an assistant acted"
   * type = $v3ParticipationType#RESP "responsible party"
   * role 1..1
   * altId 1..1
@@ -148,7 +148,7 @@ request are not returned."
   * who.display 1..1
 * source.site 1..1
 * source.site ^short = "The OID of the health dossier"
-* entity ^short = "The patient and the data concerned; the traceparent and the query of a search are not returned"
+* entity ^short = "The holder and the data concerned; the traceparent and the query of a search are not returned"
 
 
 Invariant:   ch-atc-recorded-day
@@ -164,7 +164,7 @@ Severity:    #error
 
 
 Invariant:   ch-atc-patient
-Description: "The patient is identified by the EPR-SPID"
+Description: "The holder is identified by the EPR-SPID"
 Expression:  "entity.where(role.code = '1' and what.identifier.system = 'urn:oid:2.16.756.5.30.1.127.3.10.3').count() = 1"
 Severity:    #error
 
@@ -180,7 +180,7 @@ Parent:      Bundle
 Id:          CH-ATC.ITI-81.Response
 Title:       "Retrieve ATNA Audit Event [ITI-81] Response"
 Description: "The response of the Patient Audit Record Service to Retrieve ATNA Audit Event [ITI-81]: the audit trail
-of a patient, masked to the day and without duplicates."
+of a holder, masked to the day and without duplicates."
 * type = #searchset
 * entry.resource 1..1
 * entry.resource only ChAuditTrailEvent or OperationOutcome
@@ -309,7 +309,7 @@ InstanceOf: ChAtcIti81Response
 Title:      "ITI-81 response: masked audit trail"
 Description: "The audit trail of Franziska Muster, masked to the day and sorted by date (`_sort=date`): a document uploaded by a healthcare
 professional, the document retrieved by an assistant on her behalf (only the role of the assistant), the emergency
-access excluded by the patient, and an earlier access of the patient to the audit trail. The assistant retrieved the
+access excluded by the holder, and an earlier access of the holder to the audit trail. The assistant retrieved the
 document three times on that day; the duplicates are removed."
 Usage:      #example
 * type = #searchset

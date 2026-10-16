@@ -1,10 +1,10 @@
-// Audit event types of the electronic health dossier (E-GD): what happened, from the point of view of the patient.
+// Audit event types of the electronic health dossier (E-GD): what happened, from the point of view of the holder.
 //
 // Successor of the Audit Trail Consumption event types of the EPR (`urn:oid:2.16.756.5.30.1.127.3.10.7`,
 // ChEhealthCodesystemAtc in CH Term). The codes whose meaning is unchanged keep their value. `ATC_DOC_UPDATE` is split
 // into the change of the confidentiality code and the recording of a personal note, and the new version of a document
 // is added. The types are carried as an additional subtype in the audit events of the transactions, so that the audit
-// trail of a patient can be built from, and filtered on, the audit events of the actors serving the requests.
+// trail of a holder can be built from, and filtered on, the audit events of the actors serving the requests.
 //
 // The types of the consent transactions (`ATC_POL_...`) keep the codes of the EPR for the access rights and the
 // emergency access. The default confidentiality level (`ATC_POL_DEF_CONFLEVEL`) and the exclusion list
@@ -18,7 +18,7 @@ CodeSystem: HealthDossierAuditEventType
 Id: HealthDossierAuditEventType
 Title: "CH Health Dossier Audit Event Type"
 Description: "The types of events in the audit trail of an electronic health dossier (E-GD), from the point of view of
-the patient. Successor of the Audit Trail Consumption event types of the EPR (`urn:oid:2.16.756.5.30.1.127.3.10.7`):
+the holder. Successor of the Audit Trail Consumption event types of the EPR (`urn:oid:2.16.756.5.30.1.127.3.10.7`):
 the codes whose meaning is unchanged keep their value, the document update is split into the change of the
 confidentiality code and the recording of a personal note, and the new version of a document is added. For the
 consents, the default confidentiality level and the exclusion list are dropped, and the setting of the indirect
@@ -63,7 +63,7 @@ authorization is added. The access to the audit trail keeps its code."
 * #ATC_DOC_UPDATE_CONFIDENTIALITY ^designation[+].language = #it-CH
 * #ATC_DOC_UPDATE_CONFIDENTIALITY ^designation[=].value = "Modifica del grado di riservatezza di un documento"
 
-* #ATC_DOC_UPDATE_NOTE "Personal note on a document recorded" "A personal note of the patient on a document was recorded or replaced."
+* #ATC_DOC_UPDATE_NOTE "Personal note on a document recorded" "A personal note of the holder on a document was recorded or replaced."
 * #ATC_DOC_UPDATE_NOTE ^designation[+].language = #de-CH
 * #ATC_DOC_UPDATE_NOTE ^designation[=].value = "Erfassung eines persönlichen Vermerks zu einem Dokument"
 * #ATC_DOC_UPDATE_NOTE ^designation[+].language = #fr-CH

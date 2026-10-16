@@ -4,7 +4,7 @@
 // ppqm-egd-analysis.md, for the review of the consent types.
 //
 // One base profile and one derived profile per consent type of the electronic health dossier (E-GD), see the
-// CodeSystem HealthDossierConsentType. The Consent describes the decision of the patient per use case; how a serving
+// CodeSystem HealthDossierConsentType. The Consent describes the decision of the holder per use case; how a serving
 // actor derives an access decision from it (XACML policy sets, database rows or anything else) is out of scope.
 
 RuleSet: PpqmIdentifierOnlyReference(path)
@@ -31,7 +31,7 @@ Parent: Consent
 Id: ch-ppqm-consent
 Title: "CH PPQm Consent"
 Description: "Base profile of a consent of the electronic health dossier (E-GD). A Consent records one decision of the
-patient, or of a person acting for the patient, for one consent type (`category`). Every Consent SHALL conform to the
+holder, or of a person acting for the holder, for one consent type (`category`). Every Consent SHALL conform to the
 profile of its consent type."
 * obeys ch-ppqm-consent-type-profile
 
@@ -75,7 +75,7 @@ profile of its consent type."
 
 * performer         1..1
 * performer         only Reference(Patient or RelatedPerson or Practitioner or Organization)
-* performer         ^short = "Who took the decision: the patient, a representative, a legal representative, a health professional or an organization"
+* performer         ^short = "Who took the decision: the holder, a representative, a legal representative, a health professional or an organization"
 * insert PpqmIdentifierOnlyReference(performer)
 
 * organization              0..1
@@ -128,7 +128,7 @@ profile of its consent type."
 * provision.data                    0..0
 
 * provision.provision                       0..*
-* provision.provision                       ^short = "Documents of the confidentiality level 'restricted' the patient grants the grantee access to individually"
+* provision.provision                       ^short = "Documents of the confidentiality level 'restricted' the holder grants the grantee access to individually"
 * provision.provision.type                  1..1
 * provision.provision.type                  = #permit
 * provision.provision.period                0..0
@@ -193,7 +193,7 @@ Expression:     "identifier.type.coding.where(code = 'urn:e-health-suisse:repres
 Severity:       #error
 
 Invariant:      ch-ppqm-performer-is-patient
-Description:    "The performer SHALL be the patient"
+Description:    "The performer SHALL be the holder of the health dossier"
 Expression:     "performer.identifier.where(type.coding.where(code = 'urn:e-health-suisse:2015:epr-spid').exists() and value = %resource.patient.identifier.value).exists()"
 Severity:       #error
 
@@ -211,13 +211,13 @@ Parent: ChPpqmConsent
 Id: ch-ppqm-consent-opening
 Title: "CH PPQm Consent: Opening (C1)"
 Description: "Opening of the health dossier (Art. 20-22 EGDG). Documents that the health dossier was opened, either
-automatically by the canton without objection of the patient, or voluntarily with the explicit consent of the patient.
-Grants the patient full access to the health dossier (Art. 11 para. 1 EGDG). The rights by law of health
+automatically by the canton without objection of the holder, or voluntarily with the explicit consent of the holder.
+Grants the holder full access to the health dossier (Art. 11 para. 1 EGDG). The rights by law of health
 professionals, health institutions and the community follow from the existence of this consent."
 * category = HealthDossierConsentType#opening
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-opening"
 * performer only Reference(Patient or RelatedPerson or Organization)
-* performer ^short = "The patient or the legal representative for a voluntary opening, the canton or the community for an automatic opening"
+* performer ^short = "The holder or the legal representative for a voluntary opening, the canton or the community for an automatic opening"
 * organization 1..1
 * source[x] 0..0
 * verification 0..0
@@ -234,7 +234,7 @@ professionals, health institutions and the community follow from the existence o
 * obeys ch-ppqm-actor-is-patient
 
 Invariant:      ch-ppqm-actor-is-patient
-Description:    "The grantee SHALL be the patient"
+Description:    "The grantee SHALL be the holder of the health dossier"
 Expression:     "provision.actor.reference.identifier.where(value = %resource.patient.identifier.value).exists()"
 Severity:       #error
 
@@ -248,7 +248,7 @@ Id: ch-ppqm-consent-emergency-access-setting
 Title: "CH PPQm Consent: Emergency Access Setting (C2)"
 Description: "Emergency access setting (Art. 11 para. 2 let. b, Art. 13 para. 3 EGDG). Created with type permit when
 the health dossier is opened: all health professionals and health institutions may read documents of the
-confidentiality level 'normal' with the purpose of use emergency. The patient excludes emergency access by updating
+confidentiality level 'normal' with the purpose of use emergency. The holder excludes emergency access by updating
 the type to deny, and allows it again by updating the type to permit."
 * category = HealthDossierConsentType#emergency-access-setting
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-emergency-access-setting"
@@ -274,7 +274,7 @@ Profile: ChPpqmConsentAccess
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-access
 Title: "CH PPQm Consent: Access for a Health Professional, Group or Health Institution (C3, C4)"
-Description: "The patient grants a health professional, a group of health professionals or a health institution the
+Description: "The holder grants a health professional, a group of health professionals or a health institution the
 right to read the documents of the confidentiality level 'normal' (Art. 11 para. 2 let. a, Art. 13 para. 1 EGDG),
 optionally for a limited period and with the right to pass it on. Every health professional and assistant registered
 in the directory as member of a group or health institution inherits the right of the group or institution. Access to
@@ -282,7 +282,7 @@ documents of the confidentiality level 'restricted' is granted individually in n
 * category = HealthDossierConsentType#access
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-access"
 * performer only Reference(Patient or RelatedPerson)
-* performer ^short = "The patient, a representative with the action manage-access, or the legal representative"
+* performer ^short = "The holder, a representative with the action manage-access, or the legal representative"
 * source[x] 0..0
 * verification 0..0
 * provision.type = #permit
@@ -312,28 +312,28 @@ Profile: ChPpqmConsentIndirectAuthorization
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-indirect-authorization
 Title: "CH PPQm Consent: Indirect Authorization (C5)"
-Description: "A health professional or health institution confirms in the health dossier the consent the patient gave
+Description: "A health professional or health institution confirms in the health dossier the consent the holder gave
 outside the health dossier, e.g. orally in a practice (Art. 11 para. 3, Art. 13 para. 2 EGDG). Recorded by the health
 professional or an assistant. The grantee is the health professional, group or health institution the consent was
 given to, not the assistant who records it. Grants only the right to read the documents of the confidentiality level
-'normal', for at most 60 days from the date the patient gave the consent. The consent SHALL carry evidence, as an
-attachment, a document or a verification with the patient; the form of the evidence is not specified. The indirect
-authorizations of the patient are deleted when the patient excludes the indirect authorization."
+'normal', for at most 60 days from the date the holder gave the consent. The consent SHALL carry evidence, as an
+attachment, a document or a verification with the holder; the form of the evidence is not specified. The indirect
+authorizations of the holder are deleted when the holder excludes the indirect authorization."
 * category = HealthDossierConsentType#indirect-authorization
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-indirect-authorization"
 * performer only Reference(Patient)
-* performer ^short = "The patient who gave the consent outside the health dossier"
+* performer ^short = "The holder who gave the consent outside the health dossier"
 * obeys ch-ppqm-performer-is-patient
-* dateTime ^short = "When the patient gave the consent"
+* dateTime ^short = "When the holder gave the consent"
 * source[x] only Attachment or Reference(DocumentReference)
 * source[x] ^short = "Evidence of the consent, e.g. a scan of the signed form or the signature captured on a tablet"
-* verification ^short = "Verification of the consent with the patient, e.g. with a one-time code"
+* verification ^short = "Verification of the consent with the holder, e.g. with a one-time code"
 * obeys ch-ppqm-indirect-evidence
 * obeys ch-ppqm-indirect-validity
 * provision.type = #permit
 * provision.period 1..1
 * provision.period.end 1..1
-* provision.period.end ^short = "End date of the validity, at most 60 days after the date the patient gave the consent"
+* provision.period.end ^short = "End date of the validity, at most 60 days after the date the holder gave the consent"
 * provision.actor 1..1
 * provision.actor.role = $healthDossierRole#HCP
 * provision.actor.reference only Reference(Practitioner or Organization)
@@ -352,7 +352,7 @@ Expression:     "source.exists() or verification.exists()"
 Severity:       #error
 
 Invariant:      ch-ppqm-indirect-validity
-Description:    "The end of the validity SHALL be at most 60 days after the date the patient gave the consent"
+Description:    "The end of the validity SHALL be at most 60 days after the date the holder gave the consent"
 Expression:     "provision.period.end.toString() <= (dateTime + 60 days).toString().substring(0, 10)"
 Severity:       #error
 
@@ -365,8 +365,8 @@ Parent: ChPpqmConsent
 Id: ch-ppqm-consent-indirect-authorization-setting
 Title: "CH PPQm Consent: Indirect Authorization Setting (C6)"
 Description: "Indirect authorization setting (Art. 11 para. 3 EGDG). Created with type permit when the health dossier
-is opened: health professionals and health institutions may confirm a consent the patient gave outside the health
-dossier (indirect authorization). The patient excludes the indirect authorization by updating the type to deny, and
+is opened: health professionals and health institutions may confirm a consent the holder gave outside the health
+dossier (indirect authorization). The holder excludes the indirect authorization by updating the type to deny, and
 allows it again by updating the type to permit."
 * category = HealthDossierConsentType#indirect-authorization-setting
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-indirect-authorization-setting"
@@ -431,19 +431,19 @@ Profile: ChPpqmConsentRepresentative
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-representative
 Title: "CH PPQm Consent: Representative (C8)"
-Description: "The patient appoints a representative and sets the representative's rights (Art. 11 para. 5 EGDG): the
+Description: "The holder appoints a representative and sets the representative's rights (Art. 11 para. 5 EGDG): the
 confidentiality levels the representative may read, and the further actions the representative may take. A
 representative may always view the directory of health professionals and health institutions and the personal data
-of the patient in the index of patients. With the action manage-access, the representative may grant and revoke
+of the holder in the index of holders. With the action manage-access, the representative may grant and revoke
 access rights of health professionals, groups and health institutions. A representative may not appoint a further
 representative, and a legal representative may not appoint a representative (Art. 12 para. 1 EGDG)."
 * category = HealthDossierConsentType#representative
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-representative"
 * performer only Reference(Patient)
-* performer ^short = "The patient"
+* performer ^short = "The holder"
 * obeys ch-ppqm-performer-is-patient
 * source[x] only Attachment or Reference(DocumentReference)
-* source[x] ^short = "The mandate, where the representative is appointed by the administration on behalf of the patient"
+* source[x] ^short = "The mandate, where the representative is appointed by the administration on behalf of the holder"
 * verification 0..0
 * provision.type = #permit
 * provision.actor 1..1
@@ -465,11 +465,11 @@ Profile: ChPpqmConsentLegalRepresentative
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-legal-representative
 Title: "CH PPQm Consent: Legal Representative (C9)"
-Description: "A legal representative exercises the rights of the patient (Art. 12 EGDG). Recorded by the administration
-of the community on the instruction of the competent authority, never by the patient. The legal representative has
-all rights of the patient, except appointing a representative; the rights follow from the law and are not listed in the
-consent. When a legal representative is set up, the access rights of the patient are revoked and all consents the
-patient recorded are deleted."
+Description: "A legal representative exercises the rights of the holder (Art. 12 EGDG). Recorded by the administration
+of the community on the instruction of the competent authority, never by the holder. The legal representative has
+all rights of the holder, except appointing a representative; the rights follow from the law and are not listed in the
+consent. When a legal representative is set up, the access rights of the holder are revoked and all consents the
+holder recorded are deleted."
 * category = HealthDossierConsentType#legal-representative
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-legal-representative"
 * performer only Reference(Organization)
@@ -497,14 +497,14 @@ Profile: ChPpqmConsentDigitalHealthApplication
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-digital-health-application
 Title: "CH PPQm Consent: Digital Health Application (C10)"
-Description: "The patient authorizes an admitted digital health application to access the health dossier on the
-patient's behalf for a chosen period (Art. 11 para. 2 let. c, Art. 16 EGDG). The actions granted are the scopes the
-IUA Authorization Server may issue to the application, which acts as client of the authenticated patient. The
+Description: "The holder authorizes an admitted digital health application to access the health dossier on the
+holder's behalf for a chosen period (Art. 11 para. 2 let. c, Art. 16 EGDG). The actions granted are the scopes the
+IUA Authorization Server may issue to the application, which acts as client of the authenticated holder. The
 authorization is revoked automatically after three months of inactivity."
 * category = HealthDossierConsentType#digital-health-application
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application"
 * performer only Reference(Patient or RelatedPerson)
-* performer ^short = "The patient or the legal representative"
+* performer ^short = "The holder or the legal representative"
 * source[x] 0..0
 * verification 0..0
 * provision.type = #permit
@@ -512,7 +512,7 @@ authorization is revoked automatically after three months of inactivity."
 * provision.period.end 1..1
 * provision.actor 1..1
 * provision.actor.role = $healthDossierRole#PAT
-* provision.actor.role ^short = "The application acts for the patient"
+* provision.actor.role ^short = "The application acts for the holder"
 * provision.actor.reference only Reference(Device)
 * provision.actor.reference.identifier.type.coding = $URI#urn:e-health-suisse:dga-client-id
 * provision.actor.reference.identifier.value ^short = "The client_id the application is registered with at the IUA Authorization Server"
@@ -531,13 +531,13 @@ Profile: ChPpqmConsentMilitaryRecording
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-military-recording
 Title: "CH PPQm Consent: Recording by Military Health Professionals (C13)"
-Description: "The patient consents that a military health professional or health institution records data in the
+Description: "The holder consents that a military health professional or health institution records data in the
 health dossier (Art. 14 para. 2 EGDG). Unlike civilian health professionals, military health professionals may record
 data only with this consent. The consent grants no right to read; reading follows from an access right."
 * category = HealthDossierConsentType#military-recording
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-military-recording"
 * performer only Reference(Patient or RelatedPerson)
-* performer ^short = "The patient or the legal representative"
+* performer ^short = "The holder or the legal representative"
 * source[x] 0..0
 * verification 0..0
 * provision.type = #permit
@@ -559,18 +559,18 @@ Profile: ChPpqmConsentCommunityMandate
 Parent: ChPpqmConsent
 Id: ch-ppqm-consent-community-mandate
 Title: "CH PPQm Consent: Community Mandate (C11)"
-Description: "The patient mandates the community managing the health dossier to process the health dossier on the
-patient's behalf for a support case (Auftrag, Art. 15 para. 1, Art. 31 para. 1 EGDG), until an end date. Added by the
-patient or the legal representative in the portal, or by the administration of the community with the evidence of the
+Description: "The holder mandates the community managing the health dossier to process the health dossier on the
+holder's behalf for a support case (Auftrag, Art. 15 para. 1, Art. 31 para. 1 EGDG), until an end date. Added by the
+holder or the legal representative in the portal, or by the administration of the community with the evidence of the
 mandate it received. While the mandate is in effect, the administration of the community has all rights of the
-patient; the rights are not listed in the consent."
+holder; the rights are not listed in the consent."
 * category = HealthDossierConsentType#community-mandate
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-community-mandate"
 * performer only Reference(Patient or RelatedPerson)
-* performer ^short = "The patient or the legal representative who gave the mandate"
+* performer ^short = "The holder or the legal representative who gave the mandate"
 * source[x] only Attachment or Reference(DocumentReference)
 * source[x] ^short = "Evidence of the mandate, where the administration records it, e.g. a scan of the signed form"
-* verification ^short = "Verification of the mandate with the patient, e.g. with a one-time code"
+* verification ^short = "Verification of the mandate with the holder, e.g. with a one-time code"
 * provision.type = #permit
 * provision.period 1..1
 * provision.period.end 1..1

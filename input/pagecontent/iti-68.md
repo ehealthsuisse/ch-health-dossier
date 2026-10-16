@@ -54,7 +54,7 @@ server certificates.
 
 The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-For every Retrieve Document [ITI-68] request, the Document Responder SHALL enforce the access rules of the patient
+For every Retrieve Document [ITI-68] request, the Document Responder SHALL enforce the access rules of the holder
 and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
 The Document Responder SHALL reject the request if the requester is not authorized to retrieve the document.
 

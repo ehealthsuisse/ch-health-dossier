@@ -61,15 +61,15 @@ OperationOutcome with the error code
 In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
 ([provider role](iti-65.html#provider-role)) and the
 [provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
-stay the ones of the document as it was provided, also where a patient, a representative, a legal representative or
+stay the ones of the document as it was provided, also where a holder, a representative, a legal representative or
 the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
 in the audit event of the transaction.
 
 ##### Recording a personal note
 
-A patient, or a representative, a legal representative or an administrator acting on behalf of the patient, can record a personal note on a document (see use case [Patient adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
+A holder, or a representative, a legal representative or an administrator acting on behalf of the holder, can record a personal note on a document (see use case [Holder adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
 the metadata of the document and adding a [PersonalNote](StructureDefinition-ch-ext-personalnote.html) extension, which
-carries the text of the note, the patient it belongs to and the time it was recorded. The document itself and its data
+carries the text of the note, the holder it belongs to and the time it was recorded. The document itself and its data
 stay unchanged and no new version of the document is published. 
 
 A document carries at most one personal note. Recording a note on a document which already has one replaces the
@@ -122,7 +122,7 @@ The transaction SHALL be secured by Transport Layer Security (TLS) encryption an
 The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
 For every Update Document Metadata [CH:MHD-1] request, the Document Responder SHALL enforce the access rules of the
-patient and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
+holder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
 The Document Responder SHALL reject the request if the requester is not authorized to update the metadata of the
 document concerned.
 

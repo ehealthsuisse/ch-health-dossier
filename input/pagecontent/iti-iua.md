@@ -14,37 +14,37 @@ the clients and to enforce the privacy policy settings, when accessing protected
 
 ### Use Cases
 
-#### Patient Access from a Portal
+#### Holder Access from a Portal
 
-A patient uses a portal which is integrated to the Health Dossier using the profiles to access and share data and documents
-with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified Identity
+A holder uses a portal which is integrated to the Health Dossier using the profiles to access and share data and documents
+with healthcare professionals. To access documents from the EPR, the holder authenticates at a certified Identity
 Provider. The portal sends the identity token and the required claims to the IUA Authorization Server
 to retrieve an authorization token to access the EPR.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to the EPR-SPID). The IUA Authorization
 Server responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and 
-documents from the patients EPR.
+documents from the holder's EPR.
 
-#### Patient Access from a digital health app
+#### Holder Access from a digital health app
 
-A patient uses a digital health app which is integrated to the Health Dossier using the profiles to access and share data 
-and documents with healthcare professionals. To access documents from the EPR, the patient authenticates at a certified 
+A holder uses a digital health app which is integrated to the Health Dossier using the profiles to access and share data 
+and documents with healthcare professionals. To access documents from the EPR, the holder authenticates at a certified 
 Identity Provider. The digital health app sends the identity token and the required claims to the IUA Authorization Server
-to retrieve an authorization token to access the patients EPR.
+to retrieve an authorization token to access the holder's EPR.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to the EPR-SPID). The IUA Authorization
 Server responds an IUA Authorization Token the digital health app shall incorporate to all transaction to retrieve the 
-data and documents from the patients EPR.
+data and documents from the holder's EPR.
 
 #### User Access from a Primary System
 
 A healthcare professional uses a primary system which is integrated to the Health Dossier using the profiles to access and
 share data and documents with her patients or other healthcare professionals. To access documents from the EPR the
 healthcare professional authenticates at a certified identity provider from her primary system, selects the patient
-and switches to the user interface to display the patients documents. The primary system connects to the IUA
-Authorization Server and sends the identity token and the required claims to access the patients EPR.
+and switches to the user interface to display the holder's documents. The primary system connects to the IUA
+Authorization Server and sends the identity token and the required claims to access the holder's EPR.
 
 The IUA Authorization Server verifies if the primary system was registered and authorized to access the EPR on behalf
 of the user during onboarding.
@@ -52,24 +52,24 @@ of the user during onboarding.
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to GLN). The IUA Authorization Server
 responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and documents
-from the patients EPR.
+from the holder's EPR.
 
 #### Writing documents from clinical archives
 
 A healthcare professional uses a primary system which stores documents in a clinical archive system. The clinical
-archive system uses specific algorithms to decide which documents shall be stored in the Health Dossier of the patient.
+archive system uses specific algorithms to decide which documents shall be stored in the Health Dossier of the holder.
 
 The healthcare professional reports medical information of a treatment in her primary system. The primary system creates
 a structured or unstructured document from the data and stores them in the clinical archive system. The clinical archive
-system decides whether the document shall be stored in the patients EPR using the policies defined in the clinic.
+system decides whether the document shall be stored in the holder's EPR using the policies defined in the clinic.
 
 The clinical archive system connects to the IUA Authorization Server and sends a request with the required claims to 
-access the patients EPR. The IUA Authorization Server verifies if the clinical archive system was registered during 
+access the holder's EPR. The IUA Authorization Server verifies if the clinical archive system was registered during 
 onboarding and authorized to access the EPR.
 
 The Authorization Server validates the claims and resolves additional information required to access the EPR. The IUA 
 Authorization Server responds an IUA Authorization Token the clinical archive system shall incorporate to any transaction 
-to retrieve the data and documents from the patients EPR.
+to retrieve the data and documents from the holder's EPR.
 
 ### Actors and Transactions
 

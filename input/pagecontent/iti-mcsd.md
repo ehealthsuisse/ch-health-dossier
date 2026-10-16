@@ -62,7 +62,7 @@ The access rules of the health dossier depend on two kinds of organizations in t
 - Military health institution: a military health institution is marked with the SNOMED CT code
   `722172003` *Military health institution (environment)* of the value set
   [DocumentEntry.healthcareFacilityTypeCode](http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.healthcareFacilityTypeCode).
-  Its health professionals may record data only with the consent of the patient (Art. 14 para. 2 EGDG, see
+  Its health professionals may record data only with the consent of the holder (Art. 14 para. 2 EGDG, see
   [CH:PPQm](ppqm-consent.html#consent-military-recording)) ([example](Organization-MilitaryHealthInstitution.html)).
 
 <div markdown="1" class="stu-note">

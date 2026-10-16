@@ -1,6 +1,6 @@
 ### Scope
 
-This transaction is used by the Policy Consumer to retrieve the consents of a health dossier, e.g. to show the patient
+This transaction is used by the Policy Consumer to retrieve the consents of a health dossier, e.g. to show the holder
 the access rights granted, or to show a health professional the access rights it may pass on. The only HTTP method
 which SHALL be supported is `GET`.
 

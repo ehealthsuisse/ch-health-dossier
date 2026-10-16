@@ -15,7 +15,7 @@ This specification covers two variants of dynamic client registration. In both, 
 person who is authenticated at an Identity Provider accepted for the Swiss Health Dossier.
 - *User Authorized Client Registration:* SHALL be used by healthcare professionals or assistants to register
   a primary system.
-- *dGA Client Registration:* SHALL be used by dossier owners to register a digital health application
+- *dGA Client Registration:* SHALL be used by holders to register a digital health application
   (dGA, e.g., a mobile health application). In addition, the dGA is identified by a software statement issued by the
   Federal Office of Public Health (FOPH).
 
@@ -114,7 +114,7 @@ Upon receiving the registration request, the Authorization Server SHALL:
 2. verify that the `id_token` is signed by one of the Identity Provider accepted for the health dossier.
 3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by 
 the Identity Provider.
-4. verify that the user identified by the `id_token` is entitled to the registration variant: a patient or their 
+4. verify that the user identified by the `id_token` is entitled to the registration variant: a holder or their 
 representative for dGA Client Registration, a healthcare professional or assistant for User Authorized Client Registration.
 5. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process by 
 checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key, and checking that 

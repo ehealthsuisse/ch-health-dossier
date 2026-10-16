@@ -41,7 +41,7 @@ Profile. Examples:
 - [document provided by a healthcare professional](Bundle-BundleProvideDocument.html)
 - [document provided by an assistant on behalf of a healthcare professional](Bundle-BundleProvideDocumentByAssistant.html)
 - [document provided by a clinical archive system](Bundle-BundleProvideDocumentByArchive.html)
-- [document provided by the patient](Bundle-BundleProvideDocumentByPatient.html)
+- [document provided by the holder](Bundle-BundleProvideDocumentByPatient.html)
 - [document with the author as structured data](Bundle-BundleProvideDocumentStructuredAuthor.html)
 
 The `sourceId` extension of the SubmissionSet, which MHD requires, SHALL carry the OID of the application of the
@@ -88,14 +88,14 @@ provided the document to be replaced ([provider role](#provider-role)) and its
 {:class="table table-bordered"}
 | Roles                  | Documents of which a new version may be published                                                    |
 |------------------------|------------------------------------------------------------------------------------------------------|
-| `PAT`, `REP`, `LEGREP`, `ADM` | The documents provided by the patient or by a person acting on their behalf, i.e. with the provider role `PAT`, `REP`, `LEGREP` or `ADM` |
+| `PAT`, `REP`, `LEGREP`, `ADM` | The documents provided by the holder or by a person acting on their behalf, i.e. with the provider role `PAT`, `REP`, `LEGREP` or `ADM` |
 | `HCP`, `ASS`           | The documents whose provider institution is an institution or group the requester is a member of     |
 | `TCU`                  | The documents with the provider role `TCU` whose provider institution is the institution the technical user acts for |
 
 <figcaption ID="1">Table 1: Roles which may publish a new version of a document.</figcaption>
 
 The roles are the ones of the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system, conveyed in the
-access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). A patient cannot publish a new version of
+access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). A holder cannot publish a new version of
 a document provided by a healthcare professional, an assistant or a technical user, but can record a
 [personal note](ch-mhd-1.html#recording-a-personal-note) on it. The Document Recipient SHALL reject a request to
 replace a document which the requester may not replace with HTTP `403 Forbidden` and an OperationOutcome with the issue
@@ -106,20 +106,20 @@ The new version carries its own provider role and provider institution, the ones
 ##### Author of the document
 
 The author of a document is information for the reader of the document metadata. The author is not necessarily the
-user who provides the document, e.g. where a patient provides the report of a treatment abroad, or where a clinical
+user who provides the document, e.g. where a holder provides the report of a treatment abroad, or where a clinical
 archive system provides the report of a healthcare professional. 
 
 The author is optional and is given in one of three forms:
 
-1. **A single party as text**, i.e. a person, an institution, the patient or a related person: a logical reference
+1. **A single party as text**, i.e. a person, an institution, the holder or a related person: a logical reference
    with the name in `author.display` and the kind of party in `author.type` (`Practitioner`, `Organization`, `Patient`
    or `RelatedPerson`), see the example
    [FHIR document](Bundle-BundleProvideFhirDocument.html).
 2. **A person and an institution as text**, i.e. a person together with the institution the person authored the
    document for: a reference to a PractitionerRole contained in the DocumentReference, which carries the name of the
    person in `practitioner.display` and the name of the institution in `organization.display`, each with the `type`.
-   This form fits where only the names are known, e.g. where a patient provides the report of a treatment abroad, see
-   the example [document provided by the patient](DocumentReference-DocRefPdfProvidedByPatient.html)
+   This form fits where only the names are known, e.g. where a holder provides the report of a treatment abroad, see
+   the example [document provided by the holder](DocumentReference-DocRefPdfProvidedByPatient.html)
    ([Provide Document Bundle](Bundle-BundleProvideDocumentByPatient.html)), or the example
    [document provided by a healthcare professional](DocumentReference-DocRefPdf.html).
 3. **A person and an institution as structured data**, where the Document Source has them, e.g. the primary system of
@@ -131,7 +131,7 @@ The author is optional and is given in one of three forms:
    ([Provide Document Bundle](Bundle-BundleProvideDocumentStructuredAuthor.html)).
 
 In all forms the Document Source MAY add an identifier, e.g. the GLN of a healthcare professional, the OID of an
-institution or the EPR-SPID of the patient: in forms 1 and 2 to the reference, see the example
+institution or the EPR-SPID of the holder: in forms 1 and 2 to the reference, see the example
 [document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html)
 ([Provide Document Bundle](Bundle-BundleProvideDocumentByArchive.html)), in form 3 to the contained Practitioner and
 Organization.
@@ -146,14 +146,14 @@ levels of the health dossier defined in the value set
 [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "normal" (SNOMED CT
 `17621005` Normal, "allgemein" in the EGDG) or "restricted" (SNOMED CT `263856008` Restricted, "privat" in the EGDG).
 Health professionals and health institutions with an access right may read documents of the level "normal".
-Documents of the level "restricted" can only be read by the patient, by the persons acting for the patient, and by the
-health professionals, groups and health institutions to whom the patient granted access to the individual document (see
-[CH:PPQm](ppqm-consent.html#consent-access)). The patient, a representative, a legal representative or the administration may
+Documents of the level "restricted" can only be read by the holder, by the persons acting for the holder, and by the
+health professionals, groups and health institutions to whom the holder granted access to the individual document (see
+[CH:PPQm](ppqm-consent.html#consent-access)). The holder, a representative, a legal representative or the administration may
 change the confidentiality code with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated).
 
 ##### Provider role
 
-The provider role is the role of the user who provided the document. It distinguishes documents provided by patients,
+The provider role is the role of the user who provided the document. It distinguishes documents provided by holders,
 their representatives or legal representatives from documents provided by healthcare professionals, assistants,
 technical users or the administration, and together with the [provider institution](#provider-institution) it
 determines who may publish a [new version](#correction-of-a-published-document) of the document or purge it.
@@ -177,7 +177,7 @@ healthcare professional, an assistant or a technical user provides the document.
 `custodian.identifier`.
 
 The Document Source SHALL set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and
-SHALL NOT set it otherwise: a document provided by the patient, a representative, a legal representative or the
+SHALL NOT set it otherwise: a document provided by the holder, a representative, a legal representative or the
 administration has no provider institution.
 
 The Document Recipient SHALL verify that the provider institution is an institution or group the requester is a member
@@ -211,9 +211,9 @@ server certificates.
 The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
 For every Provide Document Bundle [ITI-65] request, the Document Recipient SHALL enforce the access rules of the
-patient and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
+holder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
 The Document Recipient SHALL reject the request if the requester is not authorized to record data in the health
-dossier of the patient concerned, or if the patient has declared that the data of the treatment concerned shall not
+dossier of the holder concerned, or if the holder has declared that the data of the treatment concerned shall not
 be recorded in their health dossier.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
@@ -228,7 +228,7 @@ The **Document Source** SHALL record an audit event according to
 [new version of a document](AuditEvent-ChAuditEventIti65SourceCorrectionExample.html),
 [FHIR document](AuditEvent-ChAuditEventIti65SourceFhirDocumentExample.html),
 [document provided by an assistant](AuditEvent-ChAuditEventIti65SourceAssistantExample.html),
-[document provided by the patient](AuditEvent-ChAuditEventIti65SourcePatientExample.html),
+[document provided by the holder](AuditEvent-ChAuditEventIti65SourcePatientExample.html),
 [document provided by a clinical archive system](AuditEvent-ChAuditEventIti65SourceArchiveExample.html).
 
 ##### Document Recipient Audit
@@ -251,7 +251,7 @@ institution. Further examples of the Document Recipient:
 - [document provided by an assistant](AuditEvent-ChAuditEventIti65RecipientAssistantExample.html), with the
   healthcare professional as main user and the assistant as delegated user, for the DocumentReference in the
   [Provide Document Bundle](Bundle-BundleProvideDocumentByAssistant.html);
-- [document provided by the patient](AuditEvent-ChAuditEventIti65RecipientPatientExample.html), for the
+- [document provided by the holder](AuditEvent-ChAuditEventIti65RecipientPatientExample.html), for the
   DocumentReference [DocRefPdfProvidedByPatient](DocumentReference-DocRefPdfProvidedByPatient.html)
   ([Provide Document Bundle](Bundle-BundleProvideDocumentByPatient.html));
 - [document provided by a clinical archive system](AuditEvent-ChAuditEventIti65RecipientArchiveExample.html), for the

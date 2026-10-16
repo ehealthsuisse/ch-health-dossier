@@ -85,7 +85,7 @@ e.g. because the requester had no access right, did not process any data of the 
 ##### Masking
 
 The Patient Audit Record Service SHALL apply the following rules to every audit event of the response, whoever
-performed the event, including the patient and the representatives:
+performed the event, including the holder and the representatives:
 
 <ol type="a">
   <li>
@@ -158,6 +158,6 @@ The **Patient Audit Consumer** SHALL record an audit event according to
 The **Patient Audit Record Service** SHALL record an audit event according to
 [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)
 ([example](AuditEvent-ChAuditEventIti81ServiceExample.html)) for every Retrieve ATNA Audit Event [ITI-81] request,
-with the type `ATC_LOG_READ` in the audit trail of the patient, whoever made the request (the patient, a
+with the type `ATC_LOG_READ` in the audit trail of the holder, whoever made the request (the holder, a
 representative, a legal representative or the administration). The audit event is returned, masked, by later requests
-for the audit trail of that patient.
+for the audit trail of that holder.

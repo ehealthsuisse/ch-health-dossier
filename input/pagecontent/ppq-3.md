@@ -12,7 +12,7 @@ Correspondingly, the following HTTP methods SHALL be supported: `POST`, `PUT`, a
 
 #### Trigger Event
 
-The Policy Source uses HTTP method `POST` to add a new consent to the Policy Repository, e.g. when the patient
+The Policy Source uses HTTP method `POST` to add a new consent to the Policy Repository, e.g. when the holder
 authorizes a health professional (see the use cases per [consent type](ppqm.html#consent-types)).
 
 #### Request Message
@@ -46,7 +46,7 @@ The PPQ-3 response SHALL be created according to the section
 
 #### Trigger Event
 
-The Policy Source uses HTTP method `PUT` to update an existing consent, e.g. when the patient changes the end date of
+The Policy Source uses HTTP method `PUT` to update an existing consent, e.g. when the holder changes the end date of
 an access right, or excludes emergency access.
 
 #### Request Message
@@ -83,7 +83,7 @@ The PPQ-3 response SHALL be created according to the section
 
 #### Trigger Event
 
-The Policy Source uses HTTP method `DELETE` to revoke an existing consent, e.g. when the patient revokes an access
+The Policy Source uses HTTP method `DELETE` to revoke an existing consent, e.g. when the holder revokes an access
 right or the authorization of a digital health application.
 
 #### Request Message
@@ -122,7 +122,7 @@ Policy Repository SHALL verify that:
   (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)), and, except for the
   [legal representative](ppqm-consent.html#consent-legal-representative) and for adding a
   [community mandate](ppqm-consent.html#consent-community-mandate), a community mandate of
-  the patient for that community is in effect;
+  the holder for that community is in effect;
 - for the role `REP`, the [representative](ppqm-consent.html#consent-representative) consent of the representative is
   in effect and grants the action required by the consent type (see the notes of Table 3 of
   [Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent));
@@ -133,15 +133,15 @@ Policy Repository SHALL verify that:
 
 | Role of the requester | `performer` |
 |---|---|
-| `PAT`, also a digital health application acting for the patient | The patient (EPR-SPID = `person_id`) |
+| `PAT`, also a digital health application acting for the holder | The holder (EPR-SPID = `person_id`) |
 | `REP`, `LEGREP` | The representative or legal representative (representative ID = `user_id`). [Community mandate](ppqm-consent.html#consent-community-mandate) added by the legal representative: the legal representative |
-| `HCP`, `ASS` | [Indirect authorization](ppqm-consent.html#consent-indirect-authorization): the patient. [Delegation](ppqm-consent.html#consent-delegation): the health professional (GLN of the health professional the request is made for), or the group or health institution (`group_id`) |
-| `ADM` | [Legal representative](ppqm-consent.html#consent-legal-representative): the community or authority. [Community mandate](ppqm-consent.html#consent-community-mandate): the patient or the legal representative who gave the mandate. Other consent types, on mandate: the patient |
+| `HCP`, `ASS` | [Indirect authorization](ppqm-consent.html#consent-indirect-authorization): the holder. [Delegation](ppqm-consent.html#consent-delegation): the health professional (GLN of the health professional the request is made for), or the group or health institution (`group_id`) |
+| `ADM` | [Legal representative](ppqm-consent.html#consent-legal-representative): the community or authority. [Community mandate](ppqm-consent.html#consent-community-mandate): the holder or the legal representative who gave the mandate. Other consent types, on mandate: the holder |
 {:class="table table-bordered"}
 
 Table 1: Performer of the consent by the role of the requester
 
-A digital health application acting for the patient may only add, update or delete
+A digital health application acting for the holder may only add, update or delete
 [access rights](ppqm-consent.html#consent-access), and only while a
 [digital health application](ppqm-consent.html#consent-digital-health-application) consent with the action `manage-access`
 for its client ID is in effect.
@@ -156,12 +156,12 @@ profile and the profile of its consent type, and SHALL verify the following rule
 
 | Consent type | Rule |
 |---|---|
-| All | Except for the opening, a consent can only be added while an [opening](ppqm-consent.html#consent-opening) of the patient is in effect. The identifier, the consent type and the patient of a consent SHALL NOT be changed. |
-| [Opening](ppqm-consent.html#consent-opening), [emergency access setting](ppqm-consent.html#consent-emergency-access-setting), [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) | At most one consent of each of these types per patient. They are only added and deleted by the Policy Repository, when the health dossier is opened or dissolved (see [Policy Repository rules](#policy-repository-rules)); the emergency access and the indirect authorization setting are updated to the type permit or deny. The `organization` of the opening SHALL be the community managing the health dossier in the Register E-GD. |
-| [Access](ppqm-consent.html#consent-access) | The master identifiers in the nested provisions SHALL identify documents of the patient. A representative SHALL only grant access to documents of the level "restricted" if the representative consent grants reading the level "restricted". |
-| [Indirect authorization](ppqm-consent.html#consent-indirect-authorization) | The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of the patient SHALL be of type permit. The end date SHALL NOT be later than 60 days after the date the patient gave the consent (`dateTime`). |
+| All | Except for the opening, a consent can only be added while an [opening](ppqm-consent.html#consent-opening) of the holder is in effect. The identifier, the consent type and the patient of a consent SHALL NOT be changed. |
+| [Opening](ppqm-consent.html#consent-opening), [emergency access setting](ppqm-consent.html#consent-emergency-access-setting), [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) | At most one consent of each of these types per holder. They are only added and deleted by the Policy Repository, when the health dossier is opened or dissolved (see [Policy Repository rules](#policy-repository-rules)); the emergency access and the indirect authorization setting are updated to the type permit or deny. The `organization` of the opening SHALL be the community managing the health dossier in the Register E-GD. |
+| [Access](ppqm-consent.html#consent-access) | The master identifiers in the nested provisions SHALL identify documents of the holder. A representative SHALL only grant access to documents of the level "restricted" if the representative consent grants reading the level "restricted". |
+| [Indirect authorization](ppqm-consent.html#consent-indirect-authorization) | The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of the holder SHALL be of type permit. The end date SHALL NOT be later than 60 days after the date the holder gave the consent (`dateTime`). |
 | [Delegation](ppqm-consent.html#consent-delegation) | The access right in `sourceReference` SHALL be in effect, SHALL grant the action `delegate`, and SHALL have the performer of the delegation, or a group or health institution the performer is a member of, as grantee. The end date of the delegation SHALL NOT be later than the end date of the access right. |
-| [Representative](ppqm-consent.html#consent-representative) | The performer SHALL be the patient; a representative SHALL NOT appoint a further representative, and a legal representative SHALL NOT appoint a representative. |
+| [Representative](ppqm-consent.html#consent-representative) | The performer SHALL be the holder; a representative SHALL NOT appoint a further representative, and a legal representative SHALL NOT appoint a representative. |
 | [Digital health application](ppqm-consent.html#consent-digital-health-application) | The client ID SHALL be the one of an admitted digital health application registered at the IUA Authorization Server, and the actions SHALL be within the scopes of its admission. |
 | [Military recording](ppqm-consent.html#consent-military-recording) | The grantee SHALL be an organization of the type `722172003` *Military health institution* (SNOMED CT) in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member. |
 | [Community mandate](ppqm-consent.html#consent-community-mandate) | The grantee SHALL be the community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Where the administration adds the mandate, the consent SHALL carry evidence of the mandate in `source[x]` or `verification`. |
@@ -175,19 +175,19 @@ OperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if t
 #### Policy Repository rules
 
 After persisting or deleting a consent, or on an event of the Register E-GD, the Policy Repository SHALL apply the
-following rules. The consents the Policy Repository adds, updates or deletes itself are recorded in the audit trail of the patient (see
+following rules. The consents the Policy Repository adds, updates or deletes itself are recorded in the audit trail of the holder (see
 [Security Audit Considerations](#security-audit-considerations)).
 
 | Event | Rule |
 |---|---|
 | The health dossier is opened in the Register E-GD, automatically or voluntarily | The [opening](ppqm-consent.html#consent-opening), the [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) and the [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) are added, with the type permit, the community managing the health dossier in `organization` and the person or authority who opened the health dossier as `performer`. |
-| A [legal representative](ppqm-consent.html#consent-legal-representative) is added | The access rights of the patient are revoked while the legal representative is in effect, and all consents with the patient as `performer` are deleted. |
-| An [indirect authorization](ppqm-consent.html#consent-indirect-authorization) is added | The patient is notified. |
-| The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) is updated to type deny | The [indirect authorizations](ppqm-consent.html#consent-indirect-authorization) of the patient are deleted. |
+| A [legal representative](ppqm-consent.html#consent-legal-representative) is added | The access rights of the holder are revoked while the legal representative is in effect, and all consents with the holder as `performer` are deleted. |
+| An [indirect authorization](ppqm-consent.html#consent-indirect-authorization) is added | The holder is notified. |
+| The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) is updated to type deny | The [indirect authorizations](ppqm-consent.html#consent-indirect-authorization) of the holder are deleted. |
 | An [access right](ppqm-consent.html#consent-access) is deleted, or its validity ends | The [delegations](ppqm-consent.html#consent-delegation) derived from it are deleted. |
 | A [digital health application](ppqm-consent.html#consent-digital-health-application) has not accessed the health dossier for three months | The consent is deleted. |
 | A document is purged with [Purge Document [CH:MHD-2]](ch-mhd-2.html) | The document is removed from the nested provisions of the access rights; a nested provision without documents is removed. |
-| The health dossier is dissolved in the Register E-GD, on request of the patient or the legal representative or on the death of the patient | All consents of the patient are deleted. |
+| The health dossier is dissolved in the Register E-GD, on request of the holder or the legal representative or on the death of the holder | All consents of the holder are deleted. |
 {:class="table table-bordered"}
 
 Table 3: Policy Repository rules
@@ -213,7 +213,7 @@ transaction according to:
 - [CH Audit Event for [PPQ-3] **Update** Privacy Policy](StructureDefinition-ChAuditEventPpq3Update.html)
 - [CH Audit Event for [PPQ-3] **Delete** Privacy Policy](StructureDefinition-ChAuditEventPpq3Delete.html)
 
-The audit events of the Policy Repository build the audit trail of the patient, see
+The audit events of the Policy Repository build the audit trail of the holder, see
 [Audit trail of the consent transactions](volume3.html#audit-trail-of-the-consent-transactions). The Policy Repository
 SHALL record the type of the event in the audit trail as a subtype, and the consent type, the grantee and the end of
 the validity of the consent as details of the consent entity
@@ -227,7 +227,7 @@ The Policy Repository SHALL also record an audit event for every consent it adds
 - where the rule is applied because of the request of a user, according to the Delete or Update profile above, with
   the user of that request as main user and the `traceparent` of that request: the delegations derived from a revoked
   access right, the indirect authorizations deleted when the indirect authorization is excluded, the consents of the
-  patient deleted when a legal representative is set up, and the access rights updated when a document is purged;
+  holder deleted when a legal representative is set up, and the access rights updated when a document is purged;
 - where no user is involved, with the Policy Repository as initiating agent: the consents added when the health dossier
   is opened according to
   [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html)
