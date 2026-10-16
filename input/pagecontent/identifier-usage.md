@@ -6,7 +6,23 @@ This page is work in progress.
 
 This page describes ...
 
-###### Representative ID and administrator GLN
+Each patient has one active national identifier (EPR-SPID) which shall be used to identify the patient in transactions.
+This impacts the FHIR API in the following way:
+
+#### logical reference for patients and health care professionals, contained resources
+
+- No addressable patient resources: All references to patients are made by the identifier EPR-SPID since there is no
+  national master patient which could be referenced. This is the reason that IHE PIXm and PDQm with the $match
+  transaction have been selected and not IHE MHDS/PMIR. Systems may store the EPR-SPID.
+  Therefore, FHIR APIs require the support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm)
+  and the resources are profiled that a logical reference with the EPR-SPID identifier have to be provided.
+- The same principle applies for health care professionals, they are identified by the GLN number and references to
+  them need to include also the logical reference from other resources (e.g. DocumentReference).
+- Information which has to be provided and has no own identity in the Health Dossier (e.g., as author and organization name in
+  document publishing) are represented as contained resources.
+
+
+##### Representative ID and administrator GLN
 The identity provider only delivers the subject identifier (`sub`) of the identity token. For patients, healthcare
 professionals and assistants the IUA Authorization Server resolves it to an identifier which exists independently of
 the identity provider (e.g., EPR-SPID, GLN). For representatives, legal representatives and administrators the identifiers
@@ -34,4 +50,13 @@ To be clarified:
 - whether a person who represents several patients has one representative ID or one per patient.
 - if an identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization
   Clients, and the link is needed per client.
+</div>
+
+<div markdown="1" class="stu-note">
+To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
+`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For patients and healthcare
+professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
+representatives, legal representatives and the administration no such identifier is defined: where the representative
+ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
+identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
 </div>
