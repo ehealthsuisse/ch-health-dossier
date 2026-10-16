@@ -60,3 +60,14 @@ representatives, legal representatives and the administration no such identifier
 ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
 identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
 </div>
+
+<div markdown="1" class="stu-note">
+To be clarified: how the administrators of a community are identified and registered in the directory as its members.
+The [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a GLN and a qualification, which an
+administrator may not have. The identity provider only delivers the subject identifier (`sub`) of the identity token;
+the IUA Authorization Server resolves it to an administrator ID, which it conveys in the access token with the
+qualifier `urn:e-health-suisse:administrator-id` (see [ITI-71](iti-71.html#the-jwt-ch_epr-extension)). Where this
+administrator ID comes from, and how it is linked to the `sub` of the identity provider, is not defined yet.
+To be clarified: the [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a qualification,
+which an administrator may not have.
+</div>
