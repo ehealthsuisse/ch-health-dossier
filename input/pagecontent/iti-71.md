@@ -43,10 +43,10 @@ This section specifies the national extensions for the client credential grant f
 
 <br/>
 
-| Step | Action                                                                                                   | Remark                      | 
-|------|----------------------------------------------------------------------------------------------------------|-----------------------------|
-| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics) | 
-| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1)|
+| Step | Action                                                                                                   | Remark                                        | 
+|------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics)   | 
+| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1) |
 {:class="table table-bordered"}
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -133,7 +133,8 @@ When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the
 - validate the identity token send in the `id_token` claim as described in
   OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
+- read the issuer `iss` and the subject identifier `sub` of the id token and resolve them to the representative ID
+  linked to them (see [Representative ID and administrator GLN](#representative-id-and-administrator-gln)).
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
@@ -175,8 +176,10 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 - validate the identity token send in the `id_token` claim as described in
   OpenID Connect [ID token validation](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
 - verify that the identity token is signed by one of the identity provider accepted for the EPR.
-- read the subject identifier `sub` of the id token and resolve it to the ID of the administrator.
-- verify the administrator is registered with the same ID in the provider directory.
+- If the `id_token` contains the GLN of the administrator, read the GLN from the `id_token`.
+  Otherwise, read the issuer `iss` and the subject identifier `sub` of the id token and resolve them to the GLN of the
+  administrator linked to them (see [Representative ID and administrator GLN](#representative-id-and-administrator-gln)).
+- verify the administrator is registered with the same GLN in the provider directory.
 - verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
   type `community` of [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html)), and that the
   administrator is registered as its member.
@@ -295,14 +298,14 @@ authorization (i.e., read and write documents).
 The IUA Authorization Server and IUA Resource Server SHALL support the IUA JWT extension with claims as defined in
 the following table:
 
-| JWT Claim (Extension)   | Optionality (Basic/ Extended)   | Remark                                                                    |
-|-------------------------|---------------------------------|---------------------------------------------------------------------------|
-| subject_name            | R/R                             | The username as text.                                                     | 
-| subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
-| subject_organization_id | O/O                             | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community. |
-| subject_role            | R/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
-| purpose_of_use          | R/R                             | Code indicating the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
-| person_id               | O/R                             | SHALL be the EPR-SPID of the patients EPR.                                |
+| JWT Claim (Extension)   | Optionality (Basic/ Extended) | Remark                                                                                                                             |
+|-------------------------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| subject_name            | R/R                           | The username as text.                                                                                                              | 
+| subject_organization    | O/O                           | The name of the user’s organization or institution as text.                                                                        |
+| subject_organization_id | O/O                           | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community.                         |
+| subject_role            | R/R                           | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system.                    |
+| purpose_of_use          | R/R                           | Code indicating the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
+| person_id               | O/R                           | SHALL be the EPR-SPID of the patients EPR.                                                                                         |
 {:class="table table-bordered"}
 
 <figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the ihe_iua extension.</figcaption>  
@@ -317,27 +320,18 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 <br/>
 
-| user role                       | user_id  | user_id_qualifier                     | Remark                                                               |
-|---------------------------------|----------|---------------------------------------|----------------------------------------------------------------------|
-| Patient (`PAT`)                 | EPR-SPID | urn:e-health-suisse:2015:epr-spid     |                                                                      |
-| Healthcare Professional (`HCP`) | GLN      | urn:gs1:gln                           |                                                                      |
-| Assistant (`ASS`)               | GLN      | urn:gs1:gln                           |                                                                      |
-| Representative (`REP`)          | Representative ID (resolved from `sub`) | urn:e-health-suisse:representative-id |                                         |
-| Legal Representative (`LEGREP`) | Representative ID (resolved from `sub`) | urn:e-health-suisse:representative-id |                                         |
-| Administration (`ADM`)          | Administrator ID (resolved from `sub`)  | urn:e-health-suisse:administrator-id  |                                         |
-| Clinical Archive System (`TCU`) | GLN      | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding |
+| user role                       | user_id           | user_id_qualifier                     | Remark                                                                                |
+|---------------------------------|-------------------|---------------------------------------|---------------------------------------------------------------------------------------|
+| Patient (`PAT`)                 | EPR-SPID          | urn:e-health-suisse:2015:epr-spid     |                                                                                       |
+| Healthcare Professional (`HCP`) | GLN               | urn:gs1:gln                           |                                                                                       |
+| Assistant (`ASS`)               | GLN               | urn:gs1:gln                           |                                                                                       |
+| Representative (`REP`)          | Representative ID | urn:e-health-suisse:representative-id | See [Identifier Usage](identifier-usage.html#representative-id-and-administrator-gln) |
+| Legal Representative (`LEGREP`) | Representative ID | urn:e-health-suisse:representative-id | See [Identifier Usage](identifier-usage.html#representative-id-and-administrator-gln) |
+| Administration (`ADM`)          | GLN               | urn:gs1:gln                           | The GLN of the administrator registered in the provider directory                     |
+| Clinical Archive System (`TCU`) | GLN               | urn:gs1:gln                           | The GLN of the legal responsible person registered during onboarding                  |
 {:class="table table-bordered"}
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
-
-<div markdown="1" class="stu-note">
-To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
-`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For patients and healthcare
-professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
-representatives, legal representatives and the administration no such identifier is defined: where the representative
-ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
-identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
-</div>
 
 <br/>
 
@@ -348,8 +342,7 @@ rights to groups which typically are sub-organizations of the institutions, but 
 e.g., a tumor board with healthcare professionals from more than one institution.
 
 The IUA Authorization Server and IUA Resource Server SHALL support this extension in the JWT access token for a list of
-groups
-a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL be the groups of
+groups a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL be the groups of
 the healthcare professional the assistant is acting on behalf of.
 
 Groups SHALL be wrapped in an `extensions` object with key `ch_group` with a JSON array containing one JSON object
@@ -581,5 +574,4 @@ The authors of this specification are aware, that the authenticity of the Get Ac
 first by validating the http signature of the request and second, when validating the signature of the client-asymmetric 
 authentication JWT. While the http signature is required to ensure the integrity (i.e., to verify that the request is 
 not tampered), the client-asymmetric authentication is kept to be compliant with the 
-[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications
-which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
+[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
