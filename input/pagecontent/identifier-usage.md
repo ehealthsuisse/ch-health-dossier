@@ -6,6 +6,7 @@ This page is work in progress.
 
 This page describes ...
 
+
 Each patient has one active national identifier (EPR-SPID) which shall be used to identify the patient in transactions.
 This impacts the FHIR API in the following way:
 
@@ -22,7 +23,7 @@ This impacts the FHIR API in the following way:
   document publishing) are represented as contained resources.
 
 
-##### Representative ID and administrator GLN
+#### Representative ID and administrator GLN
 The identity provider only delivers the subject identifier (`sub`) of the identity token. For patients, healthcare
 professionals and assistants the IUA Authorization Server resolves it to an identifier which exists independently of
 the identity provider (e.g., EPR-SPID, GLN). For representatives, legal representatives and administrators the identifiers
