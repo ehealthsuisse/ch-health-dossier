@@ -295,3 +295,33 @@ on the server side. A software statement that is statically included in a mobile
 as confidential, because any user can extract it. Mobile apps can nevertheless keep a software statement confidential 
 if they obtain it at installation time from an endpoint operated by the vendor, rather than shipping it in the binary
 (see related discussion in [RFC 8252 OAuth 2.0 for Native Apps](https://www.rfc-editor.org/info/rfc8252/), Section 8).
+
+#### id token 
+
+The `id_token` in the Client Registration Request identifies the registering user, i.e. the user who performs the 
+registration of the client application. The authorization server SHALL use the id_token to verify that:
+1. the registering user is a registered health dossier user; and
+2. the registering user is authorized to register a client application of the requested type, e.g. a health professional 
+registering a primary system or a holder registering a digital health application.
+
+The `id_token` SHALL be used solely for the purpose of authenticating and authorizing the registration. The 
+registering user and the end user of the registered client application MAY be different persons. A client 
+application registration is therefore not bound to the identity of the registering user for the purpose of later 
+data access, and the authorization server SHALL NOT assume that the end user is the registering user. For instance, 
+a primary system may be registered by one health professional and is subsequently used by other health professionals 
+or assistants in the same practice.
+
+#### Client registration and data access
+
+Registration of a client application is a prerequisite for communicating with the health dossier services. A client 
+application that has not been registered SHALL NOT be granted access to any health dossier service.
+
+Registration SHALL NOT, by itself, grant access to data in the health dossier. Access to dossier data SHALL be granted 
+only if all the following conditions are met:
+
+1. the identity of the current user has been established and verified;
+2. the requested operation is within the scopes granted to the current user; and
+3. the current user holds the access rights required for the requested data, as configured by the dossier holder.
+
+The authorization server and the health dossier services SHALL evaluate these conditions for each access request. 
+If any condition is not met, the request SHALL be rejected.
