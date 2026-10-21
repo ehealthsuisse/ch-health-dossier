@@ -49,19 +49,6 @@ Accept: application/fhir+json
 traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 ```
 
-##### Documents provided by an institution
-
-The Document Responder SHALL support the search parameter `custodian` with the modifier `:identifier`, which finds the
-documents provided on behalf of an institution or group (see
-[Provider institution](document-sharing-metadata.html#provider-institution)).
-
-_Find Document Reference_ example **request** for the documents provided by an institution:
-```http
-GET [base]/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current&custodian:identifier=urn:ietf:rfc:3986|urn:oid:2.2.2.1 HTTP/1.1
-Accept: application/fhir+json
-traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
-```
-
 ##### Search for the author of a document
 
 The author of a document is mostly given as text, and only where the Document Source has it as structured data in

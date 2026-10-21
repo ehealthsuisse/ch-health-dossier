@@ -61,8 +61,7 @@ by a logical reference with the EPR-SPID in `subject.identifier`, not by a conta
 
 The author of a document is information for the reader of the document metadata. The author is not necessarily the
 user who provides the document, e.g. where a holder provides the report of a treatment abroad, or where a clinical
-archive system provides the report of a healthcare professional. No right to the document follows from the author:
-the rights follow from the [provider role](#provider-role) and the [provider institution](#provider-institution).
+archive system provides the report of a healthcare professional.
 
 The author is optional and is given in one of three forms:
 
@@ -75,20 +74,20 @@ The author is optional and is given in one of three forms:
    the example [document provided by the holder](DocumentReference-DocRefPdfProvidedByPatient.html)
    ([Provide Document Bundle](Bundle-BundleProvideDocumentByPatient.html)), or the example
    [document provided by a healthcare professional](DocumentReference-DocRefPdf.html).
-2. **A person and an institution as structured data**, where the Document Source has them, e.g. the primary system of
-   a healthcare professional: a reference to a PractitionerRole contained in the DocumentReference, whose
-   `practitioner` and `organization` reference a Practitioner and an Organization which are also contained in the
-   DocumentReference. The Practitioner carries the structured name of the person, with the given name in
-   `name.given`, the family name in `name.family` and the title in `name.prefix`, the Organization the name of the
-   institution in `name` and its address in `address`, see the example
+3. **A person and an institution as structured data**, where the Document Source has them, e.g. the primary system of
+   a healthcare professional: as in form 2 a contained PractitionerRole, but its `practitioner` and `organization`
+   point to a contained Practitioner and a contained Organization. The Practitioner carries the name of the person
+   (`name.given`, `name.family` and the title in `name.prefix`), the Organization the name of the institution (`name`)
+   and its address (`address`), see the example
    [author as structured data](DocumentReference-DocRefPdfStructuredAuthor.html)
    ([Provide Document Bundle](Bundle-BundleProvideDocumentStructuredAuthor.html)).
 
 In all forms the Document Source MAY add an identifier, e.g. the GLN of a healthcare professional, the OID of an
-institution or the EPR-SPID of the holder: in forms 1 and 2 to the reference, see the example
+institution or the EPR-SPID of the holder: in form 1 in `author.identifier`, in form 2 in `practitioner.identifier`
+and `organization.identifier` of the contained PractitionerRole, see the example
 [document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html)
-([Provide Document Bundle](Bundle-BundleProvideDocumentByArchive.html)), in form 3 to the contained Practitioner and
-Organization.
+([Provide Document Bundle](Bundle-BundleProvideDocumentByArchive.html)), and in form 3 in `identifier` of the
+contained Practitioner and Organization.
 
 A DocumentReference carries at most one author. Where a document has more than one author, e.g. a FHIR document with
 more than one `Composition.author`, the Document Source SHALL give the main author.
@@ -121,15 +120,12 @@ healthcare professional, an assistant or a technical user provides the document.
 author of the document.
 
 The Document Source SHALL set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and
-SHALL NOT set it otherwise: a document provided by the holder, a representative, a legal representative or the
-administration has no provider institution. The Document Recipient verifies it against the access token (see
+SHALL NOT set it otherwise. The Document Recipient verifies it against the access token (see
 [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution)).
 
 The provider institution SHALL NOT be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated). The
 healthcare professionals and assistants who are members of the provider institution may provide a
-[new version](iti-65.html#correction-of-a-provided-document) of the document and may [purge](ch-mhd-2.html) it, and
-may find the documents their institution provided with the search parameter `custodian` of
-[ITI-67](iti-67.html#documents-provided-by-an-institution).
+[new version](iti-65.html#correction-of-a-provided-document) of the document and may [purge](ch-mhd-2.html) it.
 
 ### Confidentiality code
 
@@ -137,31 +133,29 @@ The confidentiality code of the document (`DocumentReference.securityLabel`) SHA
 levels of the health dossier defined in the value set
 [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "normal" (SNOMED CT
 `17621005` Normal, "allgemein" in the EGDG) or "restricted" (SNOMED CT `263856008` Restricted, "privat" in the EGDG).
-Health professionals and health institutions with an access right may read documents of the level "normal".
-Documents of the level "restricted" can only be read by the holder, by the persons acting for the holder, and by the
+Health professionals and assistants may read documents of the level "normal", if the holder authorized the health
+professional or the institution.
+Documents of the level "restricted" can only be read by the holder, by representatives and community administrators, and by the
 health professionals, groups and health institutions to whom the holder granted access to the individual document (see
 [CH:PPQm](ppqm-consent.html#consent-access)).
 
-The holder, a representative, a legal representative or the administration may change the confidentiality code with
-[CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated). A [new version](#new-version-of-a-document) of a document
-carries its own confidentiality code.
+The holder, a representative, a legal representative or the community administrators may change the confidentiality
+code with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 ### Personal note
 
-The holder can record a personal note on a document where they do not agree with the author on the correctness of its
-data, or where the author is no longer practising (Art. 8 Abs. 4 EGDG). The note is conveyed in the extension
+The holder may record a personal note on a document, e.g. where the holder does not agree with the author on the
+correctness of its data (Art. 8 Abs. 4 EGDG). The note is conveyed in the extension
 [personalNote](StructureDefinition-ch-ext-personalnote.html) with the text of the note, the holder it belongs to and the
 time it was recorded. It is part of the metadata only: the document itself stays unchanged and no new version is
-provided. A document carries at most one personal note. The note is not part of `DocumentReference.description`,
-which carries the comment of the author.
+provided. A document may carry at most one personal note of the holder.
 
-A personal note is recorded with [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note), not when the document is
-provided.
+A personal note is recorded with [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
 
 ### New version of a document
 
-A document with incorrect data is corrected by a new version (Art. 8 Abs. 2 EGDG). The new version points with
-`DocumentReference.relatesTo` of type `replaces` to the document it corrects, and the replaced document gets the
-`status` `superseded` and stays accessible. A new version carries its own metadata, including the provider role, the
-provider institution and the confidentiality code of the user who provides it. How a new version is provided, and
-who may provide it, is described in [ITI-65](iti-65.html#correction-of-a-provided-document).
+A document may be updated by a new version, e.g. to correct a provided document. The new version points with
+`DocumentReference.relatesTo` of type `replaces` to the document it replaces, and the replaced document gets the
+`status` `superseded`. A new version may carry a new set of metadata in its DocumentReference, which may update the
+provider role, the provider institution and the confidentiality code. The Document Source sets them for the new
+version as described in [ITI-65](iti-65.html#correction-of-a-provided-document).

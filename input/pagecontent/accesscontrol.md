@@ -137,5 +137,8 @@ professional or the health institution is in effect.
 A technical user (`TCU`), e.g. a clinical archive system, requests access tokens without an authenticated natural
 person (see [Get Access Token [ITI-71]](iti-71.html#clinical-archive-systems)). A technical user may only use the
 transactions for which the grouping with the IUA Authorization Client allows `TCU` in the Remark column of the required
-actor groupings of the respective profile. Every actor serving a request of the Health Dossier API SHALL reject a request
+actor groupings of the respective profile ([CH:PIXm](iti-pixm.html#required-actor-grouping),
+[CH:PDQm](iti-pdqm.html#required-actor-grouping), [CH:MHD](iti-mhd.html#required-actor-groupings),
+[CH:mCSD](iti-mcsd.html#required-actor-grouping), [CH:PPQm](ppqm.html#actors-and-transactions),
+[CH:ATC](ch-atc.html#required-actor-groupings) and [RESTful ATNA](iti-restful-atna.html#required-actor-grouping)). Every actor serving a request of the Health Dossier API SHALL reject a request
 with an access token with the `subject_role` `TCU` for any other transaction.

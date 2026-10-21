@@ -84,7 +84,7 @@ This national extension enforces authentication and authorization for access con
 |-----------------------------------------------|---------------------------|-------------|--------------------------------------------------------------------|
 | Document Recipient                            | IUA Resource Server       | R           | -                                                                  |
 | Document Responder                            | IUA Resource Server       | R           | -                                                                  |
-| Document Source                               | IUA Authorization Client  | R           | `TCU` allowed for [ITI-65](iti-65.html), not allowed for [CH:MHD-1](ch-mhd-1.html) and [CH:MHD-2](ch-mhd-1.html)  |
+| Document Source                               | IUA Authorization Client  | R           | `TCU` allowed for [ITI-65](iti-65.html), not allowed for [CH:MHD-1](ch-mhd-1.html) and [CH:MHD-2](ch-mhd-2.html)  |
 | Document Consumer                             | IUA Authorization Client  | R           | `TCU` not allowed |
 
 <figcaption ID="2">Table 2: Grouping of MHD actors required by this national extension.</figcaption>

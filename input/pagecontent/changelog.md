@@ -145,10 +145,9 @@
     * Removed the extension for the SubmissionSet.Author.AuthorRole from the
       [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html): the role of the provider is carried in
       the DocumentReference only.
-    * [ITI-67](iti-67.html): added the search parameter `custodian` to find the documents provided by an institution;
-      the search parameters `author.given` and `author.family` of MHD are not supported, since the author is mostly
-      given as text (deviation from MHD). Replaced `author` by `custodian` in the MHD Document Consumer and Document Responder
-      CapabilityStatements.
+    * [ITI-67](iti-67.html): the search parameters `author.given` and `author.family` of MHD are not supported, since
+      the author is mostly given as text (deviation from MHD). Removed `author` from the MHD Document Consumer and
+      Document Responder CapabilityStatements.
     * Audit events of the document transactions ([ITI-65](iti-65.html), [ITI-68](iti-68.html),
       [CH:MHD-1](ch-mhd-1.html), [CH:MHD-2](ch-mhd-2.html)): the document is recorded only with its master identifier,
       not its title, type or confidentiality code (for ITI-65 one entity per document, naming the replaced document
