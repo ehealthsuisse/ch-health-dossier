@@ -85,10 +85,7 @@ The Client Registration Request SHALL contain the following parameters:
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
 space-separated values.
-- *jwks*: SHALL be a JSON Web Key Set (JWKS) containing the public keys used for client authentication. Each key in 
-the JWKS SHALL have a unique `kid` and SHALL include a `key_ops` member whose value is either `client-asymmetric` or 
-`http-signature`, indicating whether the key is used for asymmetric client authentication (JWT) or for HTTP message 
-signatures, respectively.
+- *jwks*: SHALL be a JSON Web Key Set (JWKS) containing the public key used for asymmetric client authentication (JWT).
 - *id_token*: SHALL be the signed JWT containing the identity token issued by the Identity Provider.
 - *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for 
 dGA Client Registration and SHALL NOT be present otherwise.
@@ -122,9 +119,9 @@ the current time does not exceed software statement expiration time `exp`.
 
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
 register the application with this `client_id`, the user ID and the issuer identifier from the `id_token`, and 
-the submitted metadata, including the public keys for client authentication.
+the submitted metadata, including the public key for client authentication.
 
-If a check fails, the Authorization Server SHALL reject the request with an error response as defined in
+If one of the above checks fail, the Authorization Server SHALL reject the request with an error response as defined in
 [RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`, `invalid_software_statement` or 
 `unapproved_software_statement`.
 
@@ -146,7 +143,6 @@ Host: server.example.com
 "scope":"foo bar",
 "jwks":{"keys": [{
     "kid":"1ec50019-0049",
-    "key-ops": [{"client-asymmetric"}], 
     "kty":"RSA",
     "e":"AQAB",
     "use":"sig",
@@ -157,19 +153,6 @@ Host: server.example.com
         6jM2AEysDQnCByqX5EtolTEa12BWDiqzn4BqzMMepEaZNtxO5iqgxGs-vmIC74ToGU
         HahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJ
         F166-WZg5lUZw"
-  }, {
-    "kid":"bb4239fc-1279", 
-    "key-ops": [{"http-signature"}], 
-    "kty":"RSA",
-    "e":"AQAB",
-    "use":"sig",
-    "alg":"RS256",
-    "n":"qoaJMjFdDHg-Hm6Upxoq2WT9DvVwJcpaPwYzmNvtP6rL7wlMICA8-FRTHgFWw_R9Cy
-        GqHUp7hmiILvTm1o_BB-ek8iO9p2bHse_Zqx1KiK6xcYWTuqRM23LHdd5xkPBjSR30p
-        LVNC-3dM34mvtlJ9Fn_SGOv2jJlD9-HUeIlwCCPM2nJEZbap_1M3vlSei1QJcbbMmDT
-        IKw88J2wIm8mcuk5EqdEPTjmYQNh8s4I27CTLmHj1Jhmlc70ZhsrgsULvdVxKJDlsGx
-        Itn3l6HbnJO_-clsyP2DAWS7rHRACNzYOgRmAyURIREqygtDLDg_6gzzWNSLa8_CLGH
-        wwirIyIQ"
   }]}, 
 "id_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJpZC1wcm92aWRlci
   IsInN1YiI6ImUyMDVhNmFjLTcxNDItNGYxMC1hMTNlLTJiYmUzZjc2Nzk5MiIsImF1ZCI6ImN
@@ -251,7 +234,6 @@ Pragma: no-cache
 "scope": "foo bar", 
 "jwks":{"keys": [{
     "kid":"1ec50019-0049",
-    "key-ops": [{"client-asymmetric-authentication"}],
     "kty":"RSA",
     "e":"AQAB",
     "use":"sig",
@@ -262,19 +244,6 @@ Pragma: no-cache
         6jM2AEysDQnCByqX5EtolTEa12BWDiqzn4BqzMMepEaZNtxO5iqgxGs-vmIC74ToGU
         HahLuUlzParD2hyHObw7wjYHNIgawrCKUPyx6ibdLwzL85OUCF3MPKTZTNt_UYtVNJ
         F166-WZg5lUZw"
-  }, {
-    "kid":"bb4239fc-1279", 
-    "key-ops": [{"http-signature"}], 
-    "kty":"RSA",
-    "e":"AQAB",
-    "use":"sig",
-    "alg":"RS256",
-    "n":"qoaJMjFdDHg-Hm6Upxoq2WT9DvVwJcpaPwYzmNvtP6rL7wlMICA8-FRTHgFWw_R9Cy
-        GqHUp7hmiILvTm1o_BB-ek8iO9p2bHse_Zqx1KiK6xcYWTuqRM23LHdd5xkPBjSR30p
-        LVNC-3dM34mvtlJ9Fn_SGOv2jJlD9-HUeIlwCCPM2nJEZbap_1M3vlSei1QJcbbMmDT
-        IKw88J2wIm8mcuk5EqdEPTjmYQNh8s4I27CTLmHj1Jhmlc70ZhsrgsULvdVxKJDlsGx
-        Itn3l6HbnJO_-clsyP2DAWS7rHRACNzYOgRmAyURIREqygtDLDg_6gzzWNSLa8_CLGH
-        wwirIyIQ"
   }]}
 }
 ```

@@ -30,7 +30,6 @@ to be incorporated into the transactions to access protected resources.
 1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
 2. [SMART Application Launch Framework Implementation Guide Release 2.2.0](http://www.hl7.org/fhir/smart-app-launch/)
 3. [OpenID Connect Core 1.0 incorporating errata set 2](https://openid.net/specs/openid-connect-core-1_0.html)
-4. [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
 
 
 ### Messages
@@ -116,8 +115,7 @@ succeeds, the IUA Authorization Server SHALL respond with the [Token Response](#
 defined below. In case the validation fails, the IUA Authorization Server SHALL respond with HTTP 401 Unauthorized or 
 HTTP 403 Forbidden error.
 
-When receiving a Token Request, the IUA Authorization Server SHALL: 
-- verify the http message signature as specified in [RFC 9421: HTTP Message Signatures](https://www.rfc-editor.org/info/rfc9421/).
+When receiving a Token Request, the IUA Authorization Server SHALL:
 - verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 - verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
 
@@ -212,9 +210,6 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:313
-Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
-Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
-Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -231,9 +226,6 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:376
-Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
-Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
-Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -252,9 +244,6 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:276
-Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
-Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
-Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -272,9 +261,6 @@ POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 Content-length:340
-Content-Digest:sha-512=:FmBZ...omitted for brevity...hO7g==:
-Signature-Input:sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="ec-signing-key";tag="fapi-2-request"
-Signature:sig1=:FTUm8...omitted for brevity...KEsOw==:
 
 grant_type=client_credentials
 &client_id=<client_id>
@@ -509,82 +495,33 @@ There are no CapabilityStatement resources defined for this transaction.
 
 ### Security Consideration
 
-IUA Authorization Clients, IUA Authorization Servers and IUA Resource Server actors SHALL support the JWS (signed)
-alternative of the JWT token as specified in the IUA Trial Implementation. To ensure the authenticity and integrity,
-the IUA Authorization Server SHALL sign the JWT token with its private key and IUA Resource Servers SHALL verify
-the signature of the JWT token with the Authorization Server's public key. The JWE alternative SHALL not be used.
+IUA Authorization Clients, IUA Authorization Servers, and IUA Resource Servers SHALL support the JSON Web Signature (JWS) 
+serialization of the JWT access token, as specified in 
+[IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
 
-When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
-the IUA Resource Servers SHALL verify that both have the same value.
+To ensure the integrity and authenticity of the access token:
+1. The IUA Authorization Server SHALL sign the JWT with its private key.
+2. The IUA Resource Server SHALL verify the signature using the public key of the IUA Authorization Server that issued the token. 
+
+IUA Resource Server SHALL reject any request whose access token signature validation fails.
+
+The JSON Web Encryption (JWE) serialization SHALL NOT be used.
+
+If a transaction contains the EPR-SPID both in the IUA access token and in the transaction body, the IUA Resource 
+Server SHALL verify that both values are identical. The IUA Resource Server SHALL reject the request if the values differ.
+
+To authenticate Access Token requests, the IUA Authorization Client SHALL include a client assertion in the form 
+of a signed JSON Web Token (JWT) in each request to the token endpoint, as defined in 
+[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint
+
+The IUA Authorization Server SHALL validate the client assertion by:
+1. verifying the signature against a public key registered for the client, and
+2. verifying the claims as required by the referenced SMART App Launch specification (e.g., iss, sub, aud, exp, and jti).
+
+The IUA Authorization Server SHALL reject the Access Token request if validation fails.
 
 The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
-
-#### Authenticity
-
-To ensure the authenticity of the request, the IUA Authorization Server SHALL add a signed JWT to the request as defined in [SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).  
-IUA Authorization Servers SHALL validate the client authentication JWT by verifying the signature and the claims.
-
-#### Integrity
-
-To ensure the integrity of token requests, IUA Authorization Clients SHALL sign requests to the
-token endpoint of the IUA Authorization Server with the clients' private key as defined in
-`RFC 9421 HTTP Message Signatures`. The signature SHALL cover the entire request content. The IUA Authorization Server 
-SHALL verify the requests signature with the clients public key exchanged during the client registration process.
-
-The requests signature SHALL cover the following components of the http message as defined in 
-`RFC 9421 HTTP Message Signatures`:
-
-- method (required): The http protocol name the value of it SHALL be `POST`.
-- target-uri (required): The URI of the IUA Authorization server.
-- content-digest (required): The digest of the http message as defined in `RFC 9530 Digest Fields`.
-- created (required): Creation time as a UNIX timestamp value of type Integer.
-- expires (required): Expiration time as a UNIX timestamp value of type Integer which SHALL be at max 60 seconds after
-  the creation time.
-- keyid (optional): The identifier for the key material as a String value.
-- tag (optional): An application-specific tag for the signature as a String value which MAY be used to transfer
-  additional information.
-
-Token requests SHALL use a http header with name `Signature-Input` the value of it SHALL be one or more metadata
-sets with a key uniquely identifying the message signatures within the HTTP message as defined in
-`RFC 9421 HTTP Message Signatures`.
-
-There SHALL be at least one signature metadata set created by the IUA Authorization Client, e.g.:
-
-```
-Signature-Input: sig1=("@method" "@target-uri" "content-digest");created=1764073861;expires=1764073921;keyid="snIZq-_NvzkKV-IdiM348BCz_RKdwmufnrPubsKKyio";tag="fapi-2-request"
-```
-
-Token requests SHALL use a http header with name `Signature` the value of it SHALL be one or more message signatures
-generated from the signature context of the target message with a key which uniquely identify the message signature
-as defined in RFC 9421 `HTTP Message Signatures`. There SHALL be at least one signature created by the
-IUA Authorization Client, e.g.:
-
-```
-Signature: sig1=:9FaAZovdKmr9LVmwnzyfRED1ws1dX1mZLIgIPTOyBTNi0HkNoLxVipp8ZyGGx6+XP+7WVRh1wNQk9xjunHhZOw==:
-```
-
-Token requests SHALL use a http header with name `Content-Digest` the value of it SHALL be the content digest of the
-request message with a key indicating the algorithm used as defined in `RFC 9530 Digest Fields`, e.g.:
-
-```
-Content-Digest: sha-512=:Lh6fzO9XALiY46o5xVyN9yZloKZ6pLJV0kz+VirU5b6rQd2ii7vrTt4gxe32HRuLtNYG2Kl7CnGwQjjDxQk4yA===:
-```
-
-IUA Authorization Server SHALL verify the signature of the token requests as specified in
-`RFC 9421 HTTP Message Signatures`.
-
-IUA Authorization Servers SHALL NOT implement any algorithm using a shared key (for example _HMAC_), and they SHALL
-implement at least the algorithm `RSASSA-PKCS1-v1_5 Using SHA-256`.
 
 #### Security Audit Considerations
 
 There is no audit event required for this transaction.
-
-### Additional notes
-
-The authors of this specification are aware, that the authenticity of the Get Access Token Request is double-checked, 
-first by validating the http signature of the request and second, when validating the signature of the client-asymmetric 
-authentication JWT. While the http signature is required to ensure the integrity (i.e., to verify that the request is 
-not tampered), the client-asymmetric authentication is kept to be compliant with the 
-[FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html) specification and all specifications
-which rely upon (e.g., the specification for the [EU Health Data Space](https://hl7.eu/fhir/health-data-api/))
