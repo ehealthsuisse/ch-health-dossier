@@ -1,6 +1,8 @@
 ### DSTU1 Release 2026-08-xx
 
 #### Resolved Issues
+* Added informal note to security consideration in dynamic client registration [#45](https://github.com/ehealthsuisse/ch-health-dossier/issues/45).   
+* Removed the requirement to sign IUA request messages with http signature [#33](https://github.com/ehealthsuisse/ch-health-dossier/issues/33).  
 * Use the term "holder" (Inhaberin oder Inhaber) for the person for whom the health dossier is kept, as in the EGDG, in
   all pages, profiles, code systems and examples; the FHIR and IHE names (Patient resource, PDQm, PIXm, Patient Audit
   Consumer and Patient Audit Record Repository) and the role code `PAT` "Patient" stay unchanged [#26](https://github.com/ehealthsuisse/ch-health-dossier/issues/26).
