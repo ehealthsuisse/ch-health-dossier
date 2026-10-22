@@ -95,14 +95,13 @@ The following national integration profiles are included in this implementation 
 Each patient has one active national identifier (EPR-SPID) which shall be used to identify the patient in transactions.
 This impacts the FHIR API in the following way:
 
-#### logical reference for patients and health care professionals, contained resources
+#### Logical Reference and Contained Resources
 
-1. No addressable patient resources: All references to patients are made by the identifier EPR-SPID since there is no
-   national master patient which could be referenced. This is the reason that IHE PIXm and PDQm with the $match
-   transaction have been selected and not IHE MHDS/PMIR. Systems may store the EPR-SPID.
-   Therefore, FHIR APIs require the support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm)
-   and the resources are profiled that a logical reference with the EPR-SPID identifier have to be provided.
-2. The same principle applies for health care professionals, they are identified by the GLN number and references to
+1. No addressable patient resources: All references to patients are made by the identifier EPR-SPID. Primary systems 
+   and digital health applications (dGA) may store the EPR-SPID. Therefore, FHIR APIs require the support of the 
+   patient logical identifier as a query parameter (e.g. MHD, CH:PPQm) and the resources are profiled that a logical 
+   reference with the EPR-SPID identifier have to be provided (see [Identifier](identifier.html)).
+2. The same principle applies for health care professionals, they are identified by the GLN and references to
    them need to include also the logical reference from other resources (e.g. DocumentReference).
 3. Information which has to be provided and has no own identity in the Health Dossier (e.g., as author and organization name in
    providing documents) are represented as contained resources.
