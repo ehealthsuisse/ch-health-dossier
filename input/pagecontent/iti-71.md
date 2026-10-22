@@ -116,8 +116,8 @@ defined below. In case the validation fails, the IUA Authorization Server SHALL 
 HTTP 403 Forbidden error.
 
 When receiving a Token Request, the IUA Authorization Server SHALL:
-- verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
-- verify that the IUA Authorization Client was registered during onboarding with the `client_id`.
+1. verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
+2. verify that the IUA Authorization Client was registered during onboarding with the `client_id`.
 
 ###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
@@ -169,8 +169,8 @@ When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authori
 ###### Clinical archive systems
 When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the
 IUA Authorization Server SHALL:
-- verify that the system has been registered during onboarding as a clinical archive system with a principal.
-- verify that the `principal_id` matches the GLN of the legally responsible person registered during onboarding.
+1. verify that the system has been registered during onboarding as a clinical archive system with a principal.
+2. verify that the `principal_id` matches the GLN of the legally responsible person registered during onboarding.
 
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
@@ -191,10 +191,10 @@ When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authori
 When receiving a Token Request with `subject_role` set to `PAT` from an IUA Authorization Client registered as a digital
 health application (see [Client Registration](client-registration.html)), the IUA Authorization Server SHALL, in
 addition to the verifications for [holders](#holders):
-- verify that a [digital health application](ppqm-consent.html#consent-digital-health-application) consent of the holder
+1. verify that a [digital health application](ppqm-consent.html#consent-digital-health-application) consent of the holder
   (`person_id`) with the `client_id` of the application as grantee is in effect.
-- issue the access token only for the actions granted in that consent.
-- record the time of the request, so that the consent can be deleted after three months without access (see the
+2. issue the access token only for the actions granted in that consent.
+3. record the time of the request, so that the consent can be deleted after three months without access (see the
   [Policy Repository rules](ppq-3.html#policy-repository-rules)).
 
 The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the
