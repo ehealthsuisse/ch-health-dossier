@@ -6,10 +6,10 @@ This page is work in progress.
 
 Access to data in the health dossier requires that the requesting user is identified.
 
-The actors participating in the health dossier MAY use different identifiers to represent the identity of a user. E.g. 
-an identity provider assigns an identifier to the user after identity proofing, while the logical reference to patients 
-in clinical documents uses a sectoral identifier issued by the Central Compensation Office CCO. These identifiers MUST be 
-linked to one another so that a user is uniquely and consistently identified across all actors.
+The actors participating in the health dossier may use different identifiers to represent the identity of a user. E.g. 
+an identity provider assigns an identifier to the user after identity proofing, while the reference to holders 
+in clinical documents uses a sectoral identifier issued by the Central Compensation Office (CCO). These identifiers must 
+be linked to one another so that a user is uniquely and consistently identified across all actors.
 
 This section specifies:
 - the identifiers used by each actor;
@@ -17,20 +17,37 @@ This section specifies:
 - the rules by which identifiers are linked or matched to each other.
 
 
-#### Identifier issued by Identity Provider
+#### Subject Identifier issued by Identity Provider
 
-Identity provider issue an identifier after identification of the user as part of the enrollment. This identifier is 
-used by the identity provider to internally identify the user, but is never presented to clients and therefore out of 
-scope. 
+The identity provider issues an identifier to the user after identification as part of enrollment. The identity provider 
+uses this identifier internally to identify the user. It is never presented to clients and is therefore out of scope 
+of this specification.
 
-In the health dossier we require the identity provider to present an identifier to client applications after 
-authentication in the identity token. To support single sign an cross application identification, the identifier 
-presented to the client applications SHALL be persistent (see [OpenID Connect](openid-connect.html)). 
+The health dossier requires the identity provider to present an identifier to client applications after authentication. 
+To support single sign-on and cross-application identification, this identifier SHALL be persistent 
+(see [OpenID Connect](openid-connect.html)).
 
+The identity provider SHALL convey the persistent identifier as the Subject Identifier in the `sub` claim of the 
+`id_token`, together with the user’s demographic data and any optional additional identifiers 
+(see [OpenID Connect](openid-connect.html#identity-token)).
 
+To identify the user in the health dossier, the Subject Identifier issued by the identity provider MUST be converted 
+to the identifier used in the health dossier. For this purpose, a client that accesses data in the health dossier 
+shall present the `id_token` with the [Get Access Token](iti-71.html#message-semantics) request. 
 
+#### Identifier mapping
 
+When receiving a Get Access Token request, the Authorization Server shall resolve the Subject Identifier issued by the 
+Identity Provider to a role dependent identifier used in the health dossier, i.e. the identifier used in the consent 
+resources which define the access rights of the user (see [PPM Consent](ppqm-consent.html)).
 
+Depending on the users' role, the IUA Authorization Server queries one of the databases which stores the mapping from
+the Subject Identifier and the identifier used in the health dossier. For instance, the database used for holder 
+and representatives may be the Master Patient Index, or the Provider Directory for health professionals, assistants 
+and community administrators. The details of the implementation are left to the vendor of the health information system 
+and are therefore out of scope of this specification.
+
+Ref to [Get Access Token](iti-71.html#the-jwt-ch_epr-extension)
 
 
 

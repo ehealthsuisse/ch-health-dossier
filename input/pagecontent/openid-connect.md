@@ -224,8 +224,8 @@ The Identity Token SHALL contain the following parameters:
 - *jti*: The value shall be a unique identifier of the ID Token.
 
 The Subject Identifier attribute SHALL be persistent and SHALL be unique for the combination of the 
-Subscriber, the Community and the Identity Provider to reduce the risk of cross application identification. 
-The Subject Identifier SHALL be confidential and never presented to the user or third party systems.
+Subscriber and the Identity Provider. The Subject Identifier SHALL be confidential and never presented to the user or 
+third party systems.
 
 The Identity Token MAY contain a session identifier in a *sid* attribute, if the Identity Provider 
 supports per session logout.

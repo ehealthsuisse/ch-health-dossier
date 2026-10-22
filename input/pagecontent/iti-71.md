@@ -321,15 +321,6 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 <figcaption>Table: user_id and user_id_qualifier of EPR user.</figcaption>
 
-<div markdown="1" class="stu-note">
-To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
-`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For holders and healthcare
-professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
-representatives, legal representatives and the administration no such identifier is defined: where the representative
-ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
-identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
-</div>
-
 <br/>
 
 ###### The JWT ch_group extension
