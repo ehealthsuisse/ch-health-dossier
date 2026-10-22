@@ -73,3 +73,17 @@ RuleSet: ChAuditEventIti104ExampleRules
     * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
   * type = $auditEntityType#2
   * role = $objectRole#4
+
+Instance: PatientPIXmFeed
+InstanceOf: CHPIXmPatientFeed
+Usage: #example
+* meta.security = $v3-ActReason#HTEST
+* identifier[EPR-SPID].system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* identifier[EPR-SPID].value = "761337610000000002"
+* name[0].family = "Muster"
+* name[=].given = "Franz"
+* name[+].family = "Muster"
+* name[=].family.extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier"
+* name[=].family.extension.valueCode = #BR
+* gender = #male
+* birthDate = "1995-01-27"

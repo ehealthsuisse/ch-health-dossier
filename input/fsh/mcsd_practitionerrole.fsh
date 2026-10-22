@@ -4,6 +4,8 @@ Id: CH.mCSD.PractitionerRole
 Title: "CH mCSD PractitionerRole"
 Description: "CH mCSD profile on PractitionerRole"
 * obeys ch-mcsd-practitionerrole-ihe-conformance
+* active 1..
+* active ^comment = "Required in the health dossier: the corresponding attribute is mandatory in the IHE HPD profile, and a query using the search parameter 'active' returns different results for instances in which the element is absent."
 * practitioner only Reference(CHmCSDPractitioner)
 * practitioner 1.. // From HPD
 * organization only Reference(CHmCSDOrganization)
@@ -53,3 +55,57 @@ Relationship in the Swiss examples"
 * organization = Reference(CHmCSDOrganizationPraxisP)
 * code = $sct#309343006 "Physician"
 * specialty = $medreg#1051 "General internal medicine"
+
+Instance: mCSD-No-peer-PractitionerRole-AnnAndrewsSpitalXOsteopathie
+InstanceOf: CHmCSDPractitionerRole
+Usage: #example
+* active = true
+* practitioner = Reference(mCSD-No-peer-Practitioner-DrAndrews)
+* organization = Reference(mCSD-No-peer-Organization-SpitalX-Osteopathie)
+* code = $sct#3842006 "Chiropractor"
+* specialty = urn:oid:2.16.756.5.30.1.127.3.5#1011 "Chiropractic specialist"
+
+Instance: mCSD-No-peer-PractitionerRole-HansMeierSpitalX
+InstanceOf: CHmCSDPractitionerRole
+Usage: #example
+* active = true
+* practitioner = Reference(mCSD-No-peer-Practitioner-DrAndrews)
+* organization = Reference(mCSD-No-peer-Organization-SpitalX-Osteopathie)
+* code = $sct#309343006 "Physician"
+* specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+
+Instance: mCSD-No-peer-PractitionerRole-RichardReynoldsSpitalX
+InstanceOf: CHmCSDPractitionerRole
+Usage: #example
+* active = true
+* practitioner = Reference(mCSD-No-peer-Practitioner-DrAndrews)
+* organization = Reference(mCSD-No-peer-Organization-SpitalX-Osteopathie)
+* code = $sct#309343006 "Physician"
+* specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+
+Instance: mCSD-Peer-to-peer-PractitionerRole-BastianBuxAuryn-Spital
+InstanceOf: CHmCSDPractitionerRole
+Usage: #example
+* active = true
+* practitioner = Reference(mCSD-No-peer-Practitioner-DrAndrews)
+* organization = Reference(mCSD-No-peer-Organization-SpitalX-Osteopathie)
+* code = $sct#309343006 "Physician"
+* specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+
+Instance: mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFurchur-Klinik
+InstanceOf: CHmCSDPractitionerRole
+Usage: #example
+* active = true
+* practitioner = Reference(mCSD-No-peer-Practitioner-DrAndrews)
+* organization = Reference(mCSD-No-peer-Organization-SpitalX-Osteopathie)
+* code = $sct#309343006 "Physician"
+* specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+
+Instance: mCSD-Peer-to-peer-PractitionerRole-KarlKoreanderFurchur-Klinik
+InstanceOf: CHmCSDPractitionerRole
+Usage: #example
+* active = true
+* practitioner = Reference(mCSD-No-peer-Practitioner-DrAndrews)
+* organization = Reference(mCSD-No-peer-Organization-SpitalX-Osteopathie)
+* code = $sct#309343006 "Physician"
+* specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"

@@ -328,3 +328,62 @@ Usage:      #example
 * entry[+].fullUrl = "http://example.com/AuditEvent/7b3d0a7e-1c1b-4f3e-9a55-2d1f0c6c8e04"
 * entry[=].resource = ChAuditTrailEventLogReadExample
 * entry[=].search.mode = #match
+
+Profile: ChAtcAuditEvent
+Parent: AuditEvent
+Id: ch-atc-auditevent
+Title: "CH ATC AuditEvent"
+Description: "CH ATC profile on AuditEvent"
+* ^status = #active
+* ^date = "2018-05-28"
+* entity ^slicing.discriminator[0].type = #value
+* entity ^slicing.discriminator[=].path = "type.code"
+* entity ^slicing.discriminator[+].type = #value
+* entity ^slicing.discriminator[=].path = "role.code"
+* entity ^slicing.rules = #open
+* entity contains
+    Patient 0..1 and
+    TraceContext 0..1
+* entity[Patient] ^short = "Patient"
+* entity[Patient].what 1..
+* entity[Patient].what.identifier 1..1
+* entity[Patient].what.identifier only Identifier
+* entity[Patient].what.identifier ^short = "Patient Id (EPR-SPID)"
+* entity[Patient].what.identifier.system 1..
+* entity[Patient].what.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3" (exactly)
+* entity[Patient].type 1..
+* entity[Patient].type.code 1..
+* entity[Patient].type.code = #1 (exactly)
+* entity[Patient].role 1..
+* entity[Patient].role.code 1..
+* entity[Patient].role.code = #1 (exactly)
+* entity[TraceContext] ^short = "Trace Context"
+* entity[TraceContext].what 1..
+* entity[TraceContext].what.identifier 1..1
+* entity[TraceContext].what.identifier only Identifier
+* entity[TraceContext].what.identifier.value 1..
+* entity[TraceContext].type 1..
+* entity[TraceContext].type.code 1..
+* entity[TraceContext].type.code = #4 (exactly)
+* entity[TraceContext].role 1..
+* entity[TraceContext].role.code 1..
+* entity[TraceContext].role.code = #26 (exactly)
+
+Instance: AuditEvent-entity-identifier
+InstanceOf: SearchParameter
+Usage: #definition
+* extension.url = "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status"
+* extension.valueCode = #trial-use
+* url = "http://fhir.ch/ig/ch-health-dossier/SearchParameter/AuditEvent-entity-identifier"
+* name = "SPEntityIdentifier"
+* status = #active
+* experimental = false
+* date = "2019-08-15"
+* description = "This parameter specifies unique identifier for the object. The parameter value should be identified in accordance to the entity type."
+* code = #entity-identifier
+* base = #AuditEvent
+* type = #token
+* expression = "AuditEvent.entity.what.identifier"
+* xpath = "f:AuditEvent/f:entity/f:what/f:identifier"
+* xpathUsage = #normal
+* multipleAnd = true

@@ -4,6 +4,8 @@ Id: CH.mCSD.Organization
 Title: "CH mCSD Organization"
 Description: "CH mCSD profile on Organization"
 * obeys ch-mcsd-organization-ihe-conformance
+* active 1..
+* active ^comment = "Required in the health dossier: the corresponding attribute is mandatory in the IHE HPD profile, and a query using the search parameter 'active' returns different results for instances in which the element is absent."
 * identifier 1..
 * identifier contains OID 1..1
 * identifier[OID] only OidIdentifier
@@ -168,3 +170,62 @@ institution (environment) as the type of the health institution."
 * active = true
 * type[+].coding = $sct#722172003 "Military health institution"
 * name = "Military health institution"
+
+Instance: mCSD-No-peer-Organization-SpitalX
+InstanceOf: CHmCSDOrganization
+Usage: #example
+* identifier[OID].system = "urn:ietf:rfc:3986"
+* identifier[OID].value = "urn:oid:2.16.10.89.201"
+* active = true
+* type[0] = $sct#394802001 "General medicine"
+* type[+] = $sct#22232009 "Hospital"
+* name = "Spital X"
+* telecom[0].system = #email
+* telecom[=].value = "test@test.fr"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 71 111 22 33"
+* address.use = #work
+* address.line[0] = "Spital X"
+* address.line[+] = "95 Rorschacher Strasse"
+* address.city = "St. Gallen"
+* address.state = "SG"
+* address.postalCode = "9007"
+* address.country = "CH"
+
+Instance: mCSD-No-peer-Organization-SpitalX-Osteopathie
+InstanceOf: CHmCSDOrganization
+Usage: #example
+* identifier[OID].system = "urn:ietf:rfc:3986"
+* identifier[OID].value = "urn:oid:2.16.10.89.202"
+* active = true
+* type[0] = $sct#416304004 "Osteopathic manipulative medicine"
+* type[+] = $sct#22232009 "Hospital"
+* name = "Spital X - Osteopathie"
+* telecom.system = #phone
+* telecom.value = "+41 71 111 23 24"
+* address.use = #work
+* address.line[0] = "Spital X - Osteopathie"
+* address.line[+] = "95 Rorschacher Strasse"
+* address.city = "St. Gallen"
+* address.state = "SG"
+* address.postalCode = "9007"
+* address.country = "CH"
+* partOf = Reference(mCSD-No-peer-Organization-SpitalX)
+
+Instance: mCSD-Peer-to-peer-Organization-Auryn-Spital
+InstanceOf: CHmCSDOrganization
+Usage: #example
+* identifier[OID].system = "urn:ietf:rfc:3986"
+* identifier[OID].value = "urn:oid:2.16.10.89.201"
+* active = true
+* type = $sct#22232009 "Hospital"
+* name = "Auryn-Spital"
+
+Instance: mCSD-Peer-to-peer-Organization-Fuchur-Klinik
+InstanceOf: CHmCSDOrganization
+Usage: #example
+* identifier[OID].system = "urn:ietf:rfc:3986"
+* identifier[OID].value = "urn:oid:2.16.10.89.214"
+* active = false
+* type = $sct#22232009 "Hospital"
+* name = "Fuchur-Klinik"

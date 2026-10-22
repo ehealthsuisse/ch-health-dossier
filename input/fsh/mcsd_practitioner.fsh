@@ -4,6 +4,8 @@ Id: CH.mCSD.Practitioner
 Title: "CH mCSD Practitioner"
 Description: "CH mCSD profile on Practitioner"
 * obeys ch-mcsd-practitioner-ihe-conformance
+* active 1..
+* active ^comment = "Required in the health dossier: the corresponding attribute is mandatory in the IHE HPD profile, and a query using the search parameter 'active' returns different results for instances in which the element is absent."
 * qualification 1.. // hcProfession is required
 
 
@@ -92,3 +94,128 @@ Description: "An example of CHmCSDPractitioner that contains the same informatio
 * communication[+].coding = $bcp47#fr
 * communication[+].coding = $bcp47#en
 * communication[+].coding = $bcp47#it
+
+Instance: mCSD-No-peer-Practitioner-DrAndrews
+InstanceOf: CHmCSDPractitioner
+Usage: #example
+* identifier[GLN].system = "urn:oid:2.51.1.3"
+* identifier[GLN].value = "7601002469197"
+* active = true
+* name.text = "Ann Andrews"
+* name.family = "Andrews"
+* name.given = "Ann"
+* name.prefix = "Dr."
+* telecom[0].system = #email
+* telecom[=].value = "ann.andrews@email.com"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 32 001 00 04"
+* gender = #female
+* qualification[0].code = $sct#3842006 "Chiropractor"
+* qualification[+].code = urn:oid:2.16.756.5.30.1.127.3.5#1011 "Chiropractic specialist"
+* communication[0] = urn:ietf:bcp:47#de
+* communication[+] = urn:ietf:bcp:47#fr
+* communication[+] = urn:ietf:bcp:47#en
+* communication[+] = urn:ietf:bcp:47#it
+
+Instance: mCSD-No-peer-Practitioner-DrMeier
+InstanceOf: CHmCSDPractitioner
+Usage: #example
+* identifier[GLN].system = "urn:oid:2.51.1.3"
+* identifier[GLN].value = "7601000194633"
+* active = true
+* name.text = "Hans Meier"
+* name.family = "Meier"
+* name.given = "Hans"
+* name.prefix = "Dr."
+* telecom[0].system = #email
+* telecom[=].value = "drhmeier@email.com"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 32 001 00 81"
+* gender = #male
+* qualification[0].code = $sct#309343006 "Physician"
+* qualification[+].code = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+* communication = urn:ietf:bcp:47#de
+
+Instance: mCSD-No-peer-Practitioner-DrReynolds
+InstanceOf: CHmCSDPractitioner
+Usage: #example
+* identifier[GLN].system = "urn:oid:2.51.1.3"
+* identifier[GLN].value = "7601002467377"
+* active = true
+* name.text = "Richard Reynolds"
+* name.family = "Reynolds"
+* name.given = "Richard"
+* name.prefix = "Dr."
+* telecom[0].system = #email
+* telecom[=].value = "rreynolds@email.com"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 32 001 00 99"
+* gender = #male
+* qualification[0].code = $sct#309343006 "Physician"
+* qualification[+].code = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+* communication[0] = urn:ietf:bcp:47#fr
+* communication[+] = urn:ietf:bcp:47#en
+* communication[+] = urn:ietf:bcp:47#it
+
+Instance: mCSD-Peer-to-peer-Practitioner-DrBux
+InstanceOf: CHmCSDPractitioner
+Usage: #example
+* identifier[GLN].system = "urn:oid:2.51.1.3"
+* identifier[GLN].value = "7601002469531"
+* active = false
+* name.text = "Bastian Bux"
+* name.family = "Bux"
+* name.given = "Bastian"
+* name.prefix = "Dr."
+* telecom[0].system = #email
+* telecom[=].value = "bBux@email.com"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 32 001 00 99"
+* gender = #male
+* qualification[0].code = $sct#309343006 "Physician"
+* qualification[+].code = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+* communication[0] = urn:ietf:bcp:47#fr
+* communication[+] = urn:ietf:bcp:47#en
+* communication[+] = urn:ietf:bcp:47#it
+
+Instance: mCSD-Peer-to-peer-Practitioner-DrGmork
+InstanceOf: CHmCSDPractitioner
+Usage: #example
+* identifier[GLN].system = "urn:oid:2.51.1.3"
+* identifier[GLN].value = "7601000394385"
+* active = true
+* name.text = "Gisi Gmork"
+* name.family = "Gmork"
+* name.given = "Gisi"
+* name.prefix = "Dr."
+* telecom[0].system = #email
+* telecom[=].value = "gGmork@email.com"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 32 001 00 99"
+* gender = #male
+* qualification[0].code = $sct#309343006 "Physician"
+* qualification[+].code = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
+* communication[0] = urn:ietf:bcp:47#fr
+* communication[+] = urn:ietf:bcp:47#en
+* communication[+] = urn:ietf:bcp:47#it
+
+Instance: mCSD-Peer-to-peer-Practitioner-DrKoreander
+InstanceOf: CHmCSDPractitioner
+Usage: #example
+* identifier[GLN].system = "urn:oid:2.51.1.3"
+* identifier[GLN].value = "7601000732385"
+* active = false
+* name.text = "Karl Koreander"
+* name.family = "Koreander"
+* name.given = "Karl"
+* name.prefix = "Dr."
+* telecom[0].system = #email
+* telecom[=].value = "Karl.Koreander@email.com"
+* telecom[+].system = #phone
+* telecom[=].value = "+41 32 001 00 04"
+* gender = #male
+* qualification.code = $sct#309343006 "Physician"
+* communication[0] = urn:ietf:bcp:47#de
+* communication[+] = urn:ietf:bcp:47#fr
+* communication[+] = urn:ietf:bcp:47#en
+* communication[+] = urn:ietf:bcp:47#it

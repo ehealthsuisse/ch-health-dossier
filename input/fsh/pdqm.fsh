@@ -300,3 +300,48 @@ RuleSet: ChAuditEventIti119ExampleRules
   * type = $auditEntityType#2
   * role = $objectRole#24
   * query = "ewogICJyZXNvdXJjZVR5cGUiIDogIlBhcmFtZXRlcnMiLAogICJwYXJhbWV0ZXIiIDogWwogICAgewogICAgICAibmFtZSIgOiAicmVzb3VyY2UiLAogICAgICAicmVzb3VyY2UiIDogewogICAgICAgICJyZXNvdXJjZVR5cGUiIDogIlBhdGllbnQiLAogICAgICAgICJuYW1lIiA6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgImZhbWlseSIgOiAiTXVzdGVyIiwKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJiaXJ0aERhdGUiIDogIjE5OTUtMDEtMjciCiAgICAgIH0KICAgIH0KICBdCn0="
+
+Instance: FranzMusterNeedsAbsoluteUrl
+InstanceOf: CHPDQmPatient
+Usage: #example
+* meta.security = $v3-ActReason#HTEST
+* identifier[EPR-SPID].system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* identifier[EPR-SPID].value = "761337610411353650"
+* name[0].family = "Muster"
+* name[=].given = "Franz"
+* name[+].family = "Muster"
+* name[=].family.extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier"
+* name[=].family.extension.valueCode = #BR
+* gender = #male
+* birthDate = "1995-01-27"
+
+Profile: ChEprFhirHumanName
+Parent: CHCoreHumanName
+Id: ch-epr-fhir-humanname
+Title: "CH EPR FHIR HumanName"
+Description: "The human name WITHOUT the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
+* ^date = "2020-07-27T00:00:00+10:00"
+* obeys ch-epr-fhir-1
+
+Profile: ChEprFhirBirthName
+Parent: CHCoreHumanName
+Id: ch-epr-fhir-birthname
+Title: "CH EPR FHIR BirthName"
+Description: "The birthname with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
+* ^date = "2020-07-07T00:00:00+10:00"
+* . ^short = "BirthName"
+* family 1.. MS
+* family ^short = "The birthname of the patient"
+* family.extension ..2
+* family.extension ^slicing.discriminator.type = #value
+* family.extension ^slicing.discriminator.path = "url"
+* family.extension ^slicing.rules = #closed
+* family.extension contains http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier|5.3.0 named iso21090-EN-qualifier 1..1
+* family.extension[iso21090-EN-qualifier].valueCode 1..1
+* family.extension[iso21090-EN-qualifier].valueCode = #BR (exactly)
+* family.extension[iso21090-EN-qualifier].valueCode ^short = "BR (Birth)"
+
+Invariant: ch-epr-fhir-1
+Description: "For birth name (iso21090-EN-qualifier BR) use slice 'name:BirthName'"
+Severity: #error
+Expression: "family.extension.where(url='http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier' and value='BR').exists()=false"

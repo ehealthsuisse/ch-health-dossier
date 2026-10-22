@@ -14,7 +14,7 @@ versions of its metadata, from the health dossier of a holder.
 
 ### Referenced Standards
 
-1. [Mobile access to Health Documents (MHD), Rev. 4.2.3 – Trial-Implementation, 2025-10-31](https://profiles.ihe.net/ITI/MHD/index.html)
+1. [Mobile access to Health Documents (MHD), Rev. {{site.data.fhir.ver.ihemhdfhir | split: "/" | last}}]({{site.data.fhir.ver.ihemhdfhir}})
 2. This MHD Profile is based on Release 4 of the [HL7® FHIR®](https://hl7.org/fhir/R4/index.html) standard.
 3. [FHIR Operations](https://hl7.org/fhir/R4/operations.html).
 
