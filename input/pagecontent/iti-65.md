@@ -4,7 +4,7 @@ Trial Implementation “Mobile Access to Health Documents”.
 
 ### Scope
 
-In the Swiss Health Dossier the transaction is used by the MHD Document Source to store documents in the Health Dossier.
+In the Swiss Health Dossier the transaction is used by the MHD Document Source to provide documents to the Health Dossier.
 
 ### Actor Roles
 
@@ -28,12 +28,8 @@ The FHIR `Bundle.meta.profile` shall have the following value:
 
 `https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle`
 
-The additional metadata of the Swiss Health Dossier is defined with:
-
-* [Author of the document](#author-of-the-document)
-* [Confidentiality code](#confidentiality-code)
-* [Provider role](#provider-role)
-* [Provider institution](#provider-institution)
+The metadata of the document is defined
+in [Document Sharing Metadata](document-sharing-metadata.html).
 
 The request Bundle SHALL follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)
 Profile. Examples:
@@ -44,18 +40,15 @@ Profile. Examples:
 - [document provided by the holder](Bundle-BundleProvideDocumentByPatient.html)
 - [document with the author as structured data](Bundle-BundleProvideDocumentStructuredAuthor.html)
 
-The `sourceId` extension of the SubmissionSet, which MHD requires, SHALL carry the OID of the application of the
-Document Source which provides the document. It is information only: no right to the document follows from it.
-
 The `DocumentReference.content.attachment.url` value SHALL point to the resource carrying the document content, which
-SHALL be included in the Bundle: a Binary resource, or the FHIR document Bundle resource for a FHIR document published
-with the [ITI-65 FHIR Documents Publish Option](#publishing-a-fhir-document) (see
+SHALL be included in the Bundle: a Binary resource, or the FHIR document Bundle resource for a FHIR document provided
+with the [ITI-65 FHIR Documents Publish Option](#providing-a-fhir-document) (see
 [Resolving references in Bundles](https://hl7.org/fhir/R4/bundle.html#references) for how to create a valid reference).
 
-##### Publishing a FHIR document
+##### Providing a FHIR document
 
 The Document Source and the Document Recipient SHALL support the ITI-65 FHIR Documents Publish Option (see
-[Actor options](iti-mhd.html#actor-options)). A FHIR document is published as the FHIR document Bundle resource itself,
+[Actor options](iti-mhd.html#actor-options)). A FHIR document is provided as the FHIR document Bundle resource itself,
 carried in the entry of the Provide Document Bundle, and is not converted to a base64 encoded Binary
 resource. `DocumentReference.content.attachment.url` points to that Bundle resource, `contentType` is
 `application/fhir+json` or `application/fhir+xml`, and `size` and `hash` SHALL be absent.
@@ -65,15 +58,15 @@ The document is retrieved as a native FHIR document Bundle resource as well, see
 
 Example: [Provide Document Bundle for a FHIR document](Bundle-BundleProvideFhirDocument.html).
 
-##### Correction of a published document
+##### Correction of a provided document
 
-To correct a document (see the use case [Correction of a published document by a healthcare
-professional](iti-mhd.html#use-cases)), the Document Source publishes the corrected document and points with
+To correct a document (see the use case [Healthcare professional corrects a provided
+document](iti-mhd.html#use-cases)), the Document Source provides the corrected document and points with
 `DocumentReference.relatesTo` of type `replaces` to the document it corrects. The Document Recipient SHALL set the
 `status` of the replaced document to `superseded` and SHALL keep it accessible: a superseded document is no longer
 returned when searching for the current documents, but it can still be found with the `status` search parameter in
 [ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html). The confidentiality code of the replaced document SHALL
-NOT be changed by the replacement. The Document Source sets the [confidentiality code](#confidentiality-code) of the
+NOT be changed by the replacement. The Document Source sets the [confidentiality code](document-sharing-metadata.html#confidentiality-code) of the
 new version, which may differ from the one of the replaced document.
 
 Examples: [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html), which
@@ -81,116 +74,39 @@ replaces the document [DocRefPdf](DocumentReference-DocRefPdf.html), and the rep
 [as returned by the Document Responder after the correction](DocumentReference-DocRefPdfSuperseded.html), with the
 `status` `superseded`.
 
-Who may publish a new version of a document depends on the role of the requester, and on the role of the user who
-provided the document to be replaced ([provider role](#provider-role)) and its
-[provider institution](#provider-institution):
+Who may provide a new version of a document depends on the role of the requester, and on the role of the user who
+provided the document to be replaced ([provider role](document-sharing-metadata.html#provider-role)) and its
+[provider institution](document-sharing-metadata.html#provider-institution):
 
 {:class="table table-bordered"}
-| Roles                  | Documents of which a new version may be published                                                    |
+| Roles                  | Documents of which a new version may be provided                                                     |
 |------------------------|------------------------------------------------------------------------------------------------------|
 | `PAT`, `REP`, `LEGREP`, `ADM` | The documents provided by the holder or by a person acting on their behalf, i.e. with the provider role `PAT`, `REP`, `LEGREP` or `ADM` |
 | `HCP`, `ASS`           | The documents whose provider institution is an institution or group the requester is a member of     |
 | `TCU`                  | The documents with the provider role `TCU` whose provider institution is the institution the technical user acts for |
 
-<figcaption ID="1">Table 1: Roles which may publish a new version of a document.</figcaption>
+<figcaption ID="1">Table 1: Roles which may provide a new version of a document.</figcaption>
 
 The roles are the ones of the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system, conveyed in the
-access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). A holder cannot publish a new version of
+access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). A holder cannot provide a new version of
 a document provided by a healthcare professional, an assistant or a technical user, but can record a
 [personal note](ch-mhd-1.html#recording-a-personal-note) on it. The Document Recipient SHALL reject a request to
 replace a document which the requester may not replace with HTTP `403 Forbidden` and an OperationOutcome with the issue
 code `forbidden`.
 
-The new version carries its own provider role and provider institution, the ones of the user who publishes it.
+The new version carries its own provider role and provider institution, the ones of the user who provides it.
 
-##### Author of the document
+##### Verification of the provider role and the provider institution
 
-The author of a document is information for the reader of the document metadata. The author is not necessarily the
-user who provides the document, e.g. where a holder provides the report of a treatment abroad, or where a clinical
-archive system provides the report of a healthcare professional. 
+The Document Recipient SHALL verify that the [provider role](document-sharing-metadata.html#provider-role) equals the
+role of the requester in the access token (`subject_role`, see [Get Access Token [ITI-71]](iti-71.html)).
 
-The author is optional and is given in one of three forms:
+Where the document carries a [provider institution](document-sharing-metadata.html#provider-institution), the Document
+Recipient SHALL verify that it is an institution or group the requester is a member of, i.e. that its OID is the one of
+the organization (`subject_organization_id`) or of one of the groups (`ch_group`) in the access token of the requester.
 
-1. **A single party as text**, i.e. a person, an institution, the holder or a related person: a logical reference
-   with the name in `author.display` and the kind of party in `author.type` (`Practitioner`, `Organization`, `Patient`
-   or `RelatedPerson`), see the example
-   [FHIR document](Bundle-BundleProvideFhirDocument.html).
-2. **A person and an institution as text**, i.e. a person together with the institution the person authored the
-   document for: a reference to a PractitionerRole contained in the DocumentReference, which carries the name of the
-   person in `practitioner.display` and the name of the institution in `organization.display`, each with the `type`.
-   This form fits where only the names are known, e.g. where a holder provides the report of a treatment abroad, see
-   the example [document provided by the holder](DocumentReference-DocRefPdfProvidedByPatient.html)
-   ([Provide Document Bundle](Bundle-BundleProvideDocumentByPatient.html)), or the example
-   [document provided by a healthcare professional](DocumentReference-DocRefPdf.html).
-3. **A person and an institution as structured data**, where the Document Source has them, e.g. the primary system of
-   a healthcare professional: a reference to a PractitionerRole contained in the DocumentReference, whose
-   `practitioner` and `organization` reference a Practitioner and an Organization which are also contained in the
-   DocumentReference. The Practitioner carries the structured name of the person, with the given name in
-   `name.given`, the family name in `name.family` and the title in `name.prefix`, the Organization the name of the
-   institution in `name` and its address in `address`, see the example [author as structured data](DocumentReference-DocRefPdfStructuredAuthor.html)
-   ([Provide Document Bundle](Bundle-BundleProvideDocumentStructuredAuthor.html)).
-
-In all forms the Document Source MAY add an identifier, e.g. the GLN of a healthcare professional, the OID of an
-institution or the EPR-SPID of the holder: in forms 1 and 2 to the reference, see the example
-[document provided by a clinical archive system](DocumentReference-DocRefPdfProvidedByArchive.html)
-([Provide Document Bundle](Bundle-BundleProvideDocumentByArchive.html)), in form 3 to the contained Practitioner and
-Organization.
-
-A DocumentReference carries at most one author. Where a document has more than one author, e.g. a FHIR document with
-more than one `Composition.author`, the Document Source SHALL give the main author.
-
-##### Confidentiality code
-
-The confidentiality code of the document (`DocumentReference.securityLabel`) SHALL be one of the two confidentiality
-levels of the health dossier defined in the value set
-[CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "normal" (SNOMED CT
-`17621005` Normal, "allgemein" in the EGDG) or "restricted" (SNOMED CT `263856008` Restricted, "privat" in the EGDG).
-Health professionals and health institutions with an access right may read documents of the level "normal".
-Documents of the level "restricted" can only be read by the holder, by the persons acting for the holder, and by the
-health professionals, groups and health institutions to whom the holder granted access to the individual document (see
-[CH:PPQm](ppqm-consent.html#consent-access)). The holder, a representative, a legal representative or the administration may
-change the confidentiality code with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated).
-
-##### Provider role
-
-The provider role is the role of the user who provided the document. It distinguishes documents provided by holders,
-their representatives or legal representatives from documents provided by healthcare professionals, assistants,
-technical users or the administration, and together with the [provider institution](#provider-institution) it
-determines who may publish a [new version](#correction-of-a-published-document) of the document or purge it.
-
-The provider role SHALL be conveyed in the DocumentReference with the extension
-[http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-provider-role](StructureDefinition-ch-ext-provider-role.html),
-with a value from the value set [CH Health Dossier Provider Role](ValueSet-HealthDossierProviderRole.html). The
-Document Source actor SHALL set it to the role of the current user. It SHALL NOT be changed with
-[Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated), and the Document Responder rejects
-such a request with an UnmodifiableMetadataError.
-
-The Document Recipient SHALL verify that the provider role equals the role of the requester in the access token
-(`subject_role`, see [Get Access Token [ITI-71]](iti-71.html)), and SHALL reject the request with HTTP `403 Forbidden`
-and an OperationOutcome with the issue code `forbidden` otherwise.
-
-##### Provider institution
-
-The provider institution is the health institution, or the group of healthcare professionals, on whose behalf a
-healthcare professional, an assistant or a technical user provides the document. It is conveyed in
-`DocumentReference.custodian` as a logical reference with the OID of the institution or group in
-`custodian.identifier`.
-
-The Document Source SHALL set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and
-SHALL NOT set it otherwise: a document provided by the holder, a representative, a legal representative or the
-administration has no provider institution.
-
-The Document Recipient SHALL verify that the provider institution is an institution or group the requester is a member
-of, i.e. that its OID is the one of the organization (`subject_organization_id`) or of one of the groups (`ch_group`)
-in the access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)), and SHALL reject the request with
-HTTP `403 Forbidden` and an OperationOutcome with the issue code `forbidden` otherwise.
-
-The provider institution SHALL NOT be changed with
-[Update Document Metadata [CH:MHD-1]](ch-mhd-1.html#metadata-which-may-be-updated). The healthcare professionals and
-assistants who are members of the provider institution may publish a
-[new version](#correction-of-a-published-document) of the document and may [purge](ch-mhd-2.html) it, and may find the
-documents their institution provided with the search parameter `custodian` of
-[Find Document References [ITI-67]](iti-67.html#documents-provided-by-an-institution).
+The Document Recipient SHALL reject a request which fails one of these verifications with HTTP `403 Forbidden` and an
+OperationOutcome with the issue code `forbidden`.
 
 #### Provide Document Bundle Response Message
 
@@ -212,9 +128,7 @@ The transaction SHALL use client authentication and authorization using an exten
 
 For every Provide Document Bundle [ITI-65] request, the Document Recipient SHALL enforce the access rules of the
 holder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
-The Document Recipient SHALL reject the request if the requester is not authorized to record data in the health
-dossier of the holder concerned, or if the holder has declared that the data of the treatment concerned shall not
-be recorded in their health dossier.
+The Document Recipient SHALL reject the request if the requester is not authorized to record data in the health dossier of the holder concerned.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 

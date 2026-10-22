@@ -92,11 +92,11 @@ grantee may read are not an action: they are given in `Consent.provision.securit
 * #read ^designation[+].language = #de-CH
 * #read ^designation[=].value = "Dokumente suchen und einsehen"
 
-* #record "Record documents" "Record new documents in the health dossier."
+* #record "Provide documents" "Provide new documents to the health dossier."
 * #record ^designation[+].language = #de-CH
 * #record ^designation[=].value = "Dokumente erfassen"
 
-* #delete "Delete documents" "Delete documents of the health dossier."
+* #delete "Purge documents" "Purge documents of the health dossier."
 * #delete ^designation[+].language = #de-CH
 * #delete ^designation[=].value = "Dokumente löschen"
 
@@ -166,7 +166,7 @@ health professionals and health institutions and the personal data of the holder
 grant."
 * ^experimental = false
 * HealthDossierConsentAction#read "Read documents"
-* HealthDossierConsentAction#delete "Delete documents"
+* HealthDossierConsentAction#delete "Purge documents"
 * HealthDossierConsentAction#edit-metadata "Edit document metadata"
 * HealthDossierConsentAction#edit-contact "Add contact data"
 * HealthDossierConsentAction#read-audit-trail "Read the audit trail"
@@ -182,8 +182,8 @@ Description: "The actions the holder may grant a digital health application. The
 Server may issue to the digital health application acting for the holder."
 * ^experimental = false
 * HealthDossierConsentAction#read "Read documents"
-* HealthDossierConsentAction#record "Record documents"
-* HealthDossierConsentAction#delete "Delete documents"
+* HealthDossierConsentAction#record "Provide documents"
+* HealthDossierConsentAction#delete "Purge documents"
 * HealthDossierConsentAction#edit-metadata "Edit document metadata"
 * HealthDossierConsentAction#read-demographics "Read personal data"
 * HealthDossierConsentAction#edit-contact "Add contact data"

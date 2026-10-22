@@ -8,7 +8,7 @@ Sample sequence diagrams to illustrate the usage for reading documents as a hold
 
 <div>{% include /3_02_read_hcp.svg %}</div>
 
-### User Access from an integrated Primary System to publish documents
+### User Access from an integrated Primary System to provide documents
 
 <div>{% include /3_02_write_hcp.svg %}</div>
 

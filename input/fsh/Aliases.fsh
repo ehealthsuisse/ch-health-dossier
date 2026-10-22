@@ -45,5 +45,4 @@ Alias: $DocumentEntry.healthcareFacilityTypeCode = http://fhir.ch/ig/ch-term/Val
 Alias: $DocumentEntry.practiceSettingCode = http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.practiceSettingCode
 Alias: $ch-mhd-submissionset = http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-submissionset
 Alias: $ch-mhd-documentreference = http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference
-Alias: $SubmissionSet.contentTypeCode = http://fhir.ch/ig/ch-term/ValueSet/SubmissionSet.contentTypeCode
 Alias: $purposeOfUse = urn:oid:2.16.756.5.30.1.127.3.10.5
