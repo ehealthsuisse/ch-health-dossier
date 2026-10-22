@@ -58,9 +58,9 @@ The following table lists the identifiers used in the health dossier and their i
 | user role               | health dossier identifier | issuer                                                                                   |
 |-------------------------|---------------------------|------------------------------------------------------------------------------------------|
 | Holder                  | EPR-SPID                  | [Central Compensation Office (CCO)](https://www.zas.admin.ch/en)                         |
-| Healthcare Professional | GLN                       | [refdata]([refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).) |
-| Assistant               | GLN                       | [refdata]([refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).) |
-| Administrator           | GLN                       | [refdata]([refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).) |
+| Healthcare Professional | GLN                       | [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln) |
+| Assistant               | GLN                       | [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln) |
+| Administrator           | GLN                       | [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln) |
 | Representative          | Representative ID         | health dossier information system                                                        |
 | Legal Representative    | Representative ID         | health dossier information system                                                        |
 {:class="table table-bordered"}
