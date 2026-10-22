@@ -4,14 +4,14 @@ Implementation “Internet User Authorization”.
 
 ### Scope
 
-The transaction is used by an IUA Authorization Client (e.g., portal, primary system or digital health app 
+The transaction is used by an IUA Authorization Client (e.g., portal, primary system or digital health app) 
 to pass claims to the IUA Authorization Server and to retrieve an access token which authorizes access to protected
 resources of the Health Dossier.
 
 Depending on the claims made by the IUA Authorization Client, two different flavors of access tokens SHALL be provided
 by the IUA Authorization Server:
 
-- Basic Access Token – IUA compliant access token authorizing access to the EPR end-points which are NOT protected by
+- Basic Access Token – IUA compliant access token authorizing access to the EPR endpoints which are NOT protected by
   the EPR role and attribute based authorization (e.g., for queries to the PDQm endpoints).
 - Extended Access Token – IUA compliant access token for the EPR endpoints which are protected by the EPR role and
   attribute based authorization (e.g., for the MHD endpoints).
@@ -19,10 +19,10 @@ by the IUA Authorization Server:
 ### Actor Roles
 
 **Actor:** IUA Authorization Client  
-**Role:** Communicates claims and optional IdP Token to the IUA Authorization Server and receives JWT access token.      
+**Role:** Communicates claims and optional IdP Token to the IUA Authorization Server and receives a JWT access token.      
 **Actor:** IUA Authorization Server  
 **Role:** Identifies and authenticates the IUA Authorization Client, verifies signatures and claims, authorizes the access 
-on behalf of the user and responds a JWT Access Token to the IUA Authorization Client
+on behalf of the user and responds with a JWT Access Token to the IUA Authorization Client
 to be incorporated into the transactions to access protected resources.
 
 ### Referenced Standards
@@ -42,10 +42,10 @@ This section specifies the national extensions for the client credential grant f
 
 <br/>
 
-| Step | Action                                                                                                   | Remark                      | 
-|------|----------------------------------------------------------------------------------------------------------|-----------------------------|
-| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics) | 
-| 01   | The IUA Authorization Server responds with the access token in the HTML body element.                    | See [Message Semantics](#message-semantics-1)|
+| Step | Action                                                                                                   | Remark                                        | 
+|------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| 00   | The IUA Authorization Client sends an Get Access Token Request to the IUA Authorization Server endpoint. | See [Message Semantics](#message-semantics)   | 
+| 01   | The IUA Authorization Server responds with the access token in the http body.                            | See [Message Semantics](#message-semantics-1) |
 {:class="table table-bordered"}
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -78,7 +78,7 @@ of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-serv
 <br/>
 
 The Token Request SHALL use the following Swiss extension:
-- person_id (optional/required): EPR-SPID identifier of the patient’s record and the patient assigning authority formatted in CX syntax, required for requesting extended access token.
+- person_id (optional/required): EPR-SPID identifier of the patient’s record and the patient assigning authority formatted in CX syntax, required for requesting an extended access token.
 - principal (optional/required): The name of the healthcare professional an assistant or a clinical archive system may act on behalf of.
 - principal_id (optional/required): The GLN of the healthcare professional an assistant or a clinical archive system may act on behalf of.
 - group (optional): The name of the organization or group a healthcare professional or assistant may act on behalf of.
@@ -90,14 +90,14 @@ The Token Request SHALL use the following Swiss extension:
 
 The scope parameter of the request MAY claim the following attributes:
 
-- There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token))
+- There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)
   for both basic and extended access tokens.
   The token SHALL convey the coded value of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), 
   `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5`, see the value set
   [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html)
   (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`). A technical user (`TCU`) uses `NORM`; the purpose of
   use `AUTO` (automatic upload) of the EPR is not used.
-- There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token))
+- There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)
   for both basic and extended access tokens.
   The token SHALL convey the coded value of the subject’s role. Allowed values are `PAT` (patient), `REP` (representative),
   `LEGREP` (legal representative), `HCP` (healthcare professional), `ASS` (assistant), `TCU` (technical user, clinical
@@ -117,29 +117,29 @@ HTTP 403 Forbidden error.
 
 When receiving a Token Request, the IUA Authorization Server SHALL:
 - verify the client authentication JWK as described in [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
-- verify, that the IUA Authorization Client was registered during onboarding with the `client_id`.
+- verify that the IUA Authorization Client was registered during onboarding with the `client_id`.
 
 ###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
 
 ###### Representatives
 When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the IUA Authorization Server SHALL:
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. if the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
@@ -150,8 +150,8 @@ When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authori
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant. 
@@ -163,20 +163,20 @@ When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authori
   of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
   superior groups and institutions up to the root level. 
 8. if no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
-  professional claimed in the `principal_id` to all groups or institutions the healthcare professional is member 
+  professional claimed in the `principal_id` to all groups or institutions the healthcare professional is a member 
   of, including all superior groups or institutions up to the root level.
 
 ###### Clinical archive systems
 When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the
 IUA Authorization Server SHALL:
 - verify that the system has been registered during onboarding as a clinical archive system with a principal.
-- verify that the `principal_id` matches the GLN of the legal responsible person registered during onboarding.
+- verify that the `principal_id` matches the GLN of the legally responsible person registered during onboarding.
 
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity provider accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by
+2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. read the subject identifier `sub` of the id token and resolve it to the ID of the administrator. 
 5. verify the administrator is registered with the same ID in the provider directory. 
@@ -203,7 +203,7 @@ actors serving the requests can identify the application and restrict the reques
 
 ##### Message Example
 
-A token request of a holder send from a portal or digital health app may look like:
+A token request of a holder sent from a portal or digital health app may look like:
 
 ```
 POST /token HTTP/1.1
@@ -301,7 +301,7 @@ the following table:
 ###### The JWT ch_epr extension
 
 The IUA Authorization Server and IUA Resource Server SHALL support this extension to convey the user's EPR identifier
-in the JWT access token of the Get Access Token Response. It's attributes are:
+in the JWT access token of the Get Access Token Response. Its attributes are:
 
 - user_id (required): The EPR subject identifier as defined in the table below.
 - user_id_qualifier (required): The subject identifier qualifier as defined in the table below.
@@ -319,7 +319,7 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 | Clinical Archive System (`TCU`) | GLN               | urn:gs1:gln                           |
 {:class="table table-bordered"}
 
-<figcaption>Table: user id and user id qualifier of EPR user.</figcaption>
+<figcaption>Table: user id and user id qualifier of EPR users.</figcaption>
 
 <br/>
 
@@ -429,7 +429,7 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
 }
 ```
 
-An extended JWT access token to be used to access by an assistant acting behalf of a healthcare professional for a
+An extended JWT access token to be used to access by an assistant acting on behalf of a healthcare professional for a
 holder SHALL have the additional extension `ch_delegation`:
 
 ```json
@@ -494,7 +494,7 @@ To ensure the integrity and authenticity of the access token:
 1. The IUA Authorization Server SHALL sign the JWT with its private key.
 2. The IUA Resource Server SHALL verify the signature using the public key of the IUA Authorization Server that issued the token. 
 
-IUA Resource Server SHALL reject any request whose access token signature validation fails.
+IUA Resource Servers SHALL reject any request whose access token signature validation fails.
 
 The JSON Web Encryption (JWE) serialization SHALL NOT be used.
 

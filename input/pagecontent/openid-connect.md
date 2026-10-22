@@ -1,12 +1,10 @@
-
-
 ### Scope
 
 This national extension defines restrictions and extensions to the 
 [OpenID Connect 1.0](https://openid.net/specs/openid-connect-core-1_0.html) authorization code flow to 
-retrieve EPR compliant identity token used to identify and authenticate users. 
+retrieve EPR compliant identity tokens used to identify and authenticate users. 
 
-Identity Provider SHALL provide trusted endpoints for Relying Parties implementing the OpenID Connect 1.0 authorization
+Identity Providers SHALL provide trusted endpoints for Relying Parties implementing the OpenID Connect 1.0 authorization
 code flow fulfilling the requirements defined in this section. Other flows supported by OpenID Connect SHALL not be 
 supported.
 
@@ -19,14 +17,14 @@ access data and documents from the EPR.
 
 Identity Provider - An Identity Provider is understood as a legal entity which manages the 
 user's primary authentication credentials and issues authenticators and assertions derived from
-those credentials. Identity Provider typically operate a Verifier and a Credential Service Provider,
-but may delegate the services to other provider on a contractual basis.
+those credentials. Identity Providers typically operate a Verifier and a Credential Service Provider,
+but may delegate the services to other providers on a contractual basis.
 
 Verifier - A verifier is understood as any Actor that corroborates identity information, by verifying the
 user's identity and by verifying the user’s possession and control of authenticators using an authentication 
 protocol.
 
-Credential Service Provider - A Credential Service Provider is understood as actor which registers,
+Credential Service Provider - A Credential Service Provider is understood as an actor which registers,
 verifies and provides assertion attributes of users. The Credential Service Provider typically
 operates Registration and Local Registration Authorities, but may delegate the services to other
 provider on a contractual basis.
@@ -36,7 +34,7 @@ operated according to documented processes detailed in a Certificate Policy (CP)
 Statement (CPS). The CA's processes SHALL meet the requirements of class 1 certificates defined within 
 the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0). They MAY 
 use this Certificate Authority to issue client certificates (mTLS) for Relying Parties. Identity providers 
-MAY delegate the service to other provider on a contractual basis. 
+MAY delegate the service to other providers on a contractual basis. 
 
 
 ### Referenced Standards
@@ -62,15 +60,15 @@ Figure 1: Authentication Sequence with OpenID Connect 1.0 Authorization Code Flo
 | SEQ     | Description                                                                                                                                                                                                                                                                                                     |
 |---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 01,02   | The user agent attempts to access a resource on the relying party on behalf of the user.                                                                                                                                                                                                                        |
-| 03      | The Relying Party presents the list of supported Identity Provider to the user.                                                                                                                                                                                                                                 |
+| 03      | The Relying Party presents the list of supported Identity Providers to the user.                                                                                                                                                                                                                                 |
 | 04,05   | The user selects an Identity Provider.                                                                                                                                                                                                                                                                          |
-| 06      | The Relying Party builds an Authentication Request containing the required request parameter and conveys it to the User Agent with a redirect to the authorization endpoint of the Identity Provider.                                                                                                           |
+| 06      | The Relying Party builds an Authentication Request containing the required request parameters and conveys it to the User Agent with a redirect to the authorization endpoint of the Identity Provider.                                                                                                           |
 | 07      | The User Agent sends the Authentication Request to the authorization endpoint via HTTP GET or POST protocol.                                                                                                                                                                                                    |
 | 08      | The Identity Provider determines whether the user has a logon security context that meets the default or requested authentication policy requirements. If not, the Verifier interacts with the browser to challenge the user to provide valid credentials.                                                      |
 | 09...11 | The Identity Provider communicates with the Authenticator(s) to authenticate the user. The user provides valid credentials and the Identity Provider creates a local logon security context for the user.                                                                                                       |
-| 12      | The Identity Provider presents a screen for the user to authorize the Relying Party to retrieve the identity data.This step MAY be omitted if the Relying Party application is a confidential client as defined in the OAuth specification and the users consent is stored in a policy or after the initial authorization. |
-| 13, 14  | The Identity Provider creates an Authentication Response conveying the Authorization Code and sends the Authorization Response to the User Agent with a redirect to the Relying Party.                                                                                                                          |
-| 15      | The Relying Party sends the Authentication Code to the Identity Provider in an Access Token Request using HTTP POST protocol and form serialization.                                                                                                                                                            |
+| 12      | The Identity Provider presents a screen for the user to authorize the Relying Party to retrieve the identity data. This step MAY be omitted if the Relying Party application is a confidential client as defined in the OAuth specification and the user's consent is stored in a policy or after the initial authorization. |
+| 13, 14  | The Identity Provider creates an Authentication Response conveying the Authorization Code and sends the Authentication Response to the User Agent with a redirect to the Relying Party.                                                                                                                          |
+| 15      | The Relying Party sends the Authorization Code to the Identity Provider in an Access Token Request using HTTP POST protocol and form serialization.                                                                                                                                                            |
 | 16      | The Identity Provider validates the request and responds with the Access Token Response conveying the Access and the ID Token.                                                                                                |
 | 17      | The Relying Party validates the ID Token and retrieves the user's Subject Identifier.                                                                                                                                                                                                                           |
 | 18,19   | Optionally the Relying Party uses the Access Token to retrieve user identity data using the OpenID Connect 1.0 UserInfo protocol.                                                                                                                                                                               |
@@ -110,11 +108,11 @@ The Authentication Request SHALL contain the following parameters:
 - *response_type*: The value SHALL be *code*.
 - *client_id*: The value SHALL be the Client Identifier the Relying 
   Party was registered with at the Identity Provider.
-- *redirect_uri*: SHALL convey the redirection URI the Access Token
+- *redirect_uri*: SHALL convey the redirection URIs the Access Token
   Response SHALL be sent to. Its value must match one of the
   redirection URI the Relying Party was registered at the Identity Provider.
 - *state*: SHALL convey an opaque value used to maintain the state
-  between the request and the response to mitigate Cross-Site Forgery
+  between the request and the response to mitigate Cross-Site Request Forgery
   attacks.
 - *nonce*: SHALL convey an opaque string passed through from the
   Authentication Request to the ID Token to mitigate replay attacks.
@@ -138,7 +136,7 @@ The Authentication Response SHALL contain the following parameters:
 - *code*: SHALL be an OAuth 2.0 compliant authorization code.
 - *state*: SHALL match the state parameter value of the Authentication Request.
 
-In case of an error the Identity Provider SHALL respond a HTTP Error as defined
+In case of an error the Identity Provider SHALL respond with an HTTP Error as defined
 in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#AuthError) specification.
 
 #### Access Token Request
@@ -167,21 +165,21 @@ The Identity Provider SHALL validate the Access Token Request as follows:
 3. Verify that the authorization code was issued to the Relying Party
    in response to an Authentication Request. 
 4. Verify that the authorization code was not used before. 
-5. Verify that the value of the *redirect_uri* parameter send with the
+5. Verify that the value of the *redirect_uri* parameter sent with the
    Access Token Request matches the one sent with the Authentication
    Request. 
-6. Verify that the value of the *redirect_uri* parameter send with the
-   Access Token Request matches one of the re-direct URIs registered
+6. Verify that the value of the *redirect_uri* parameter sent with the
+   Access Token Request matches one of the redirect URIs registered
    for the Relying Party. 
-7. Verify that the *code_verifier* matches the *code_challenge* send
+7. Verify that the *code_verifier* matches the *code_challenge* sent
    with the authentication request respecting the S256 code challenge
    method.
 
 #### Access Token Response
 
 The Access Token Response message SHALL be used by the Identity Provider to convey
-the Access Token and the ID Token to the Relying Party in response the
-Access Token Request. The Access Token Response message SHALL be send
+the Access Token and the ID Token to the Relying Party in response to the
+Access Token Request. The Access Token Response message SHALL be sent
 via the backchannel. The Access Token Response message SHALL be
 compliant with an OAuth 2.0 Access Token Response message.
 
@@ -189,7 +187,7 @@ The Access Token Response SHALL contain the following parameters:
 - *token_type*: The value SHALL be *Bearer.*
 - *expires_in --* The Token lifetime in seconds. The value SHALL be equal to *300* (5 minutes).
 - *access_token*: The value SHALL be an OAuth 2.0 compliant access token.
-- *id_token*: The value shall be an Identity Token as defined below.
+- *id_token*: The value SHALL be an Identity Token as defined below.
 
 In case of an error the Identity Provider SHALL respond a HTTP Error as defined
 in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#TokenErrorResponse) specification.
@@ -218,10 +216,10 @@ The Identity Token SHALL contain the following parameters:
 - *iss*: The value SHALL be a unique identifier of the Identity Provider as URL.
 - *sub*: The Subject Identifier of the user.
 - *aud*: The value SHALL be the Client Identifier the Relying Party is registered at the Identity Provider.
-- *exp*: The time restricting the lifetime of the token lifetime. The value SHALL be equal to the current time plus 5 minutes.
+- *exp*: The time restricting the lifetime of the token. The value SHALL be equal to the current time plus 5 minutes.
 - *iat*: The time the token was issued by the Identity Provider.
 - *nonce*: The value SHALL match the *nonce* value of the Authentication Request.
-- *jti*: The value shall be a unique identifier of the ID Token.
+- *jti*: The value SHALL be a unique identifier of the ID Token.
 
 The Subject Identifier attribute SHALL be persistent and SHALL be unique for the combination of the 
 Subscriber and the Identity Provider. The Subject Identifier SHALL be confidential and never presented to the user or 
@@ -237,7 +235,7 @@ The Relying Parties SHALL validate Identity Tokens as follows:
 1. Verify that the unique identifier of the Issuer matches the one registered for the Identity Provider. 
 2. Verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party. 
 3. Validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter. 
-4. Verify that the Identity Token is not expired and the current time is later or equal to the time the token was issued by the Identity Provider. 
+4. Verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider. 
 5. Verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request.
 
 ##### Message Example
@@ -284,13 +282,13 @@ The UserInfo Response SHALL contain the following parameters:
 - *sub*: The subject identifier of the user.
 - *first_name*: The first name of the user.
 - *family_name*: The family name of the user.
-- *gender*: The users coded gender with the value from the value set EprGender (2.16.756.5.30.1.127.3.10.1.25).
-- *birthdate*: The users date of birth as ISO 8601-1:2019 formatted string.
+- *gender*: The user's coded gender with the value from the value set EprGender (2.16.756.5.30.1.127.3.10.1.25).
+- *birthdate*: The user's date of birth as ISO 8601-1:2019 formatted string.
 
 If the Identity Provider delivers the GLN of healthcare professionals or assistants, the UserInfo Response 
 SHALL contain a *gln* parameter conveying the GLN of healthcare professionals and assistants.
 
-Identity Provider MAY provide other identity claims as defined in 
+Identity Providers MAY provide other identity claims as defined in 
 the [OpenID Connect 1.0 Core](https://openid.net/specs/openid-connect-core-1_0.html) specification.
 
 In case of an error the Identity Provider SHALL respond a HTTP Error as defined in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#UserInfoError) specification.
@@ -324,7 +322,7 @@ the requirements defined in this section.
 A *LogoutRequest* message SHALL convey the following parameters:
 - *id_token_hint*: SHALL convey the Identity Token previously issued by the Identity Provider.
 - *state*: SHALL convey an opaque value used to maintain the state
-   between the request and the response to mitigate Cross-Site Forgery attacks.
+   between the request and the response to mitigate Cross-Site Request Forgery attacks.
 
 The Logout Request MAY contain other claims which SHALL be ignored by the Identity Provider.
 
@@ -333,7 +331,7 @@ issued by the Identity Provider for the requesting Relying Party and the user.
 
 ##### Message Example
 
-The following listing displays a non-normative example for a Logout Request send by the Relying Party 
+The following listing displays a non-normative example for a Logout Request sent by the Relying Party 
 to redirect the user agent to the logout URL of the Identity Provider with the required *id_token_hint* 
 and *state* and an optional *post_logout_redirect_uri*:
 
@@ -346,7 +344,7 @@ Location: https://idp.com/logout?id_token_hint=eyJhbGciOiJIUz...&state=14424&pos
 
 #### Front-channel Communication
 
-The User Agent and the Identity Provider SHALL communicate through an authenticated protected channel using 
+The User Agent and the Identity Provider SHALL communicate through an authenticated and protected channel using 
 TLS 1.2 or higher. The Identity Provider SHALL identify and authenticate itself with X.509 certificates
 issued by a class 2 TLS certificate issued by a trusted certificate service provider according to ZertES; 
 SR 943.03 and listed by the Swiss Accreditation Service (SAS).
@@ -362,7 +360,7 @@ to Relying Parties.
 
 The Identity Provider SHALL identify and authenticate itself with class 2 X.509 certificates 
 issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss
-accreditation service (SAS).
+Accreditation Service (SAS).
 
 Identity Provider SHALL identify and authenticate the Relying Parties by using mutual TLS (mTLS) or the 
 *private_key_jwt* option defined in 
