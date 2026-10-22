@@ -108,6 +108,8 @@ pages:
     title: CH PPQm Consent
   openid-connect.md:
     title: OpenID Connect
+  identifier.md:
+    title: Identifier
   client-registration.md:
     title: Client Registration
   appendix.md:
@@ -163,6 +165,7 @@ menu:
     CH PPQm Consent: ppqm-consent.html
     DocumentReference: StructureDefinition-ch-mhd-documentreference.html
   Appendix:
+    Identifier: identifier.html
     OpenID Connect: openid-connect.html
     Client Registration: client-registration.html
     Profiles: profiles.html
