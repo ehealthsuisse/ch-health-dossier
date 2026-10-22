@@ -16,9 +16,9 @@ end box
 activate app
 
 ' Get metadata
-app -> mp_AuthorizationServer: GET /.well-known/smart-configuration
+app -> mp_AuthorizationServer: GET /.well-known/oauth-authorization-server
 activate mp_AuthorizationServer
-app <- mp_AuthorizationServer: Conformance statement incl. OAuth 2.1 endpoints
+app <- mp_AuthorizationServer: Authorization Server metadata
 deactivate mp_AuthorizationServer
 
 ' Get Access Token (Extended), the EPR-SPID is known to the clinical archive
