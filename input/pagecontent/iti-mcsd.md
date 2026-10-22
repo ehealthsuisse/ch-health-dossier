@@ -56,19 +56,10 @@ The access rules of the health dossier depend on two kinds of organizations in t
 
 - Community: a community managing health dossiers is marked with the code `community` of the code system
   [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html) (slice `type:community` of
-  [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html)). Its administration (`ADM`) acts only on the
-  health dossiers it manages; the IUA Authorization Server verifies the community of an administrator in the directory
-  (see [ITI-71](iti-71.html#administrators)) ([example](Organization-Community.html)).
+  [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html)).
 - Military health institution: a military health institution is marked with the SNOMED CT code
   `722172003` *Military health institution (environment)* of the value set
   [DocumentEntry.healthcareFacilityTypeCode](http://fhir.ch/ig/ch-term/ValueSet/DocumentEntry.healthcareFacilityTypeCode).
-  Its health professionals may record data only with the consent of the holder (Art. 14 para. 2 EGDG, see
-  [CH:PPQm](ppqm-consent.html#consent-military-recording)) ([example](Organization-MilitaryHealthInstitution.html)).
-
-<div markdown="1" class="stu-note">
-SNOMED CT has no concept for a community managing health dossiers yet. Once a concept is available (e.g. in the Swiss
-extension), the code `community` may be replaced by it.
-</div>
 
 ### Security Consideration
 
