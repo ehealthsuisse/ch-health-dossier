@@ -53,7 +53,7 @@ response as described in [Get Access Token](iti-71.html#the-jwt-ch_epr-extension
 Since clients must present the access token with every access to the services of the health dossier, the services 
 know the identity of the user for all requests and use it to enforce access rights. For example, the health dossier 
 identifier is used in the consent resources, which define the access rights of the 
-user (see [PPM Consent](ppqm-consent.html)).
+user (see [PPQm Consent](ppqm-consent.html)).
 
 #### Health Dossier Identifier and Issuer
 
@@ -78,7 +78,7 @@ This identifier shall be used to identify the patient in all transactions, the d
 
 This impacts the FHIR API in the following way:
 - All references to patients are made by the identifier EPR-SPID. 
-- The FHIR APIs support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm). 
+- The FHIR APIs support the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm). 
 - Resources are profiled that a logical reference with the EPR-SPID identifier is provided.
 
 ##### Healthcare Professionals
@@ -87,7 +87,7 @@ Healthcare Professionals are identified with a Global Location Number (GLN) issu
 
 This impacts the FHIR API in the following way:
 - All references to healthcare professionals are made by the GLN.
-- The FHIR APIs support of the GLN as a query parameter (e.g. CH:mCSD).
+- The FHIR APIs support the GLN as a query parameter (e.g. CH:mCSD).
 - Resources are profiled that a logical reference with the GLN identifier is provided.
 
 ##### Assistants
@@ -108,28 +108,34 @@ Administrators are identified with their Global Location Number (GLN) issued by 
 
 This impacts the FHIR API in the following way:
 - All references to administrators are made by the GLN.
-- The FHIR APIs support of the GLN as a query parameter (e.g. CH:mCSD).
+- The FHIR APIs support the GLN as a query parameter (e.g. CH:mCSD).
 - Resources are profiled that a logical reference with the GLN identifier is provided.
 
 ##### Representatives
 
-Holders may appoint representatives who may access the health dossier on their behalf. Holders may restrict the 
-access rights of representatives to certain transactions (see [PPQm Consent](ppqm-consent.html#consent-representative)).
-Representatives may be private persons, who may themselves be holders of a health dossier, as well as healthcare 
-professionals or assistants. Representatives are identified by an identifier issued by the health dossier 
+Holders may appoint representatives who may access the health dossier on their behalf. Representatives may 
+be private persons, who may themselves be holders of a health dossier, but may be healthcare professionals. 
+To avoid role collisions, representatives are identified by an identifier issued by the health dossier 
 information system.
 
 This impacts the FHIR API in the following way:
 - All references to representatives are made by the representative id issued by the health dossier information system.
-- The FHIR APIs support of the representative id as a query parameter.
+- The FHIR APIs support the representative id as a query parameter.
 - Resources are profiled that a logical reference with the representative id is provided.
 
 ##### Legal Representative
 
-The cantons may appoint representatives who may access the health dossier on behalf of the holder. Legal 
+The cantons may appoint representatives who shall manage the health dossier on behalf of the holder. Legal 
 representatives are identified by an identifier issued by the health dossier information system.
 
 The impact on the FHIR API is the same as for representatives.  
 
 ##### Groups and Institutions
+
+Groups and institutions are identified with a OID issued by the institution or the community. 
+
+This impacts the FHIR API in the following way:
+- All references to Groups and institutions are made by the OID.
+- The FHIR APIs OID of groups and institutions as a query parameter.
+- Resources are profiled that a logical reference with the OID of groups and institutions is provided.
 
