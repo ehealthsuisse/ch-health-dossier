@@ -50,7 +50,7 @@ Title:       "Audit Event for [ITI-65] Document Source: document provided by a h
 Description: "Audit event of the Document Source for the Provide Document Bundle BundleProvideDocument"
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2949)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2951)
@@ -64,7 +64,7 @@ Title:       "Audit Event for [ITI-65] Document Recipient: document provided by 
 Description: "Audit event of the Document Recipient for the Provide Document Bundle BundleProvideDocument"
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2949)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2951)
@@ -76,7 +76,7 @@ Instance:   ChAuditEventIti65SourceCorrectionExample
 InstanceOf: ChAuditEventIti65Source
 Title:       "Audit Event for [ITI-65] Document Source: new version of a document"
 Description: "Audit event of the Document Source for the Provide Document Bundle BundleProvideDocumentCorrection,
-with which a healthcare professional publishes the corrected version of a document: the entity of the document names
+with which a healthcare professional provides the corrected version of a document: the entity of the document names
 the document it replaces."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2953)
@@ -94,7 +94,7 @@ Instance:   ChAuditEventIti65RecipientCorrectionExample
 InstanceOf: ChAuditEventIti65Recipient
 Title:       "Audit Event for [ITI-65] Document Recipient: new version of a document"
 Description: "Audit event of the Document Recipient for the Provide Document Bundle BundleProvideDocumentCorrection,
-with which a healthcare professional publishes the corrected version of a document: the entity of the document names
+with which a healthcare professional provides the corrected version of a document: the entity of the document names
 the document it replaces."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2953)
@@ -114,7 +114,7 @@ Title:       "Audit Event for [ITI-65] Document Source: FHIR document"
 Description: "Audit event of the Document Source for the Provide Document Bundle BundleProvideFhirDocument"
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2954)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2955)
@@ -128,7 +128,7 @@ Title:       "Audit Event for [ITI-65] Document Recipient: FHIR document"
 Description: "Audit event of the Document Recipient for the Provide Document Bundle BundleProvideFhirDocument"
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2954)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventHcpRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2955)
@@ -143,7 +143,7 @@ Description: "Audit event of the Document Source for the Provide Document Bundle
 with which the holder provided a document herself: the main user is the holder, there is no institution or group."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2958)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventPatRules
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2956)
 * insert ChExampleAuditEventClientRules
@@ -157,7 +157,7 @@ Description: "Audit event of the Document Recipient for the Provide Document Bun
 with which the holder provided a document herself: the main user is the holder, there is no institution or group."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2958)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventPatRules
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2956)
 * insert ChExampleAuditEventServerRules(Health Dossier)
@@ -172,7 +172,7 @@ with which a clinical archive system provided a document: the main user is the t
 and the institution is the provider institution of the document."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2959)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventTcuRules
 * insert ChExampleAuditEventGroupRules(2.2.2.2, Spital X)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2957)
@@ -188,7 +188,7 @@ with which a clinical archive system provided a document: the main user is the t
 and the institution is the provider institution of the document."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2959)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventTcuRules
 * insert ChExampleAuditEventGroupRules(2.2.2.2, Spital X)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2957)
@@ -204,7 +204,7 @@ with which an assistant provided a document on behalf of a healthcare profession
 main user and the assistant the delegated user, as conveyed in the ch_delegation extension of the access token."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2961)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventAssRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2960)
@@ -220,7 +220,7 @@ with which an assistant provided a document on behalf of a healthcare profession
 main user and the assistant the delegated user, as conveyed in the ch_delegation extension of the access token."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2961)
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * insert ChExampleAuditEventAssRules
 * insert ChExampleAuditEventGroupRules(2.2.2.1, Praxis Seeblick)
 * insert ChExampleAuditEventEntityDocumentRules(document, 1.3.6.1.4.1.12559.11.13.2.1.2960)
@@ -660,7 +660,7 @@ Title:       "CH Audit Event for [CH:MHD-2] Document Source"
 Description: "This profile is used to define the CH Audit Event for the [CH:MHD-2] transaction and the actor 'Document
 Source'."
 * insert ChAuditEventChMhd2Rules
-* insert ChAuditEventTypeCodeRules(0, ATC_DOC_DELETE, Document removal)
+* insert ChAuditEventTypeCodeRules(0, ATC_DOC_DELETE, Document purged)
 * type = DCM#110106 "Export"
 * agent[documentSource] obeys val-audit-source
 
@@ -672,7 +672,7 @@ Title:       "CH Audit Event for [CH:MHD-2] Document Responder"
 Description: "This profile is used to define the CH Audit Event for the [CH:MHD-2] transaction and the actor 'Document
 Responder'."
 * insert ChAuditEventChMhd2Rules
-* insert ChAuditEventTypeCodeRules(1, ATC_DOC_DELETE, Document removal)
+* insert ChAuditEventTypeCodeRules(1, ATC_DOC_DELETE, Document purged)
 * type = DCM#110107 "Import"
 * agent[documentResponder] obeys val-audit-source
 
@@ -730,7 +730,7 @@ RuleSet: ChAuditEventChMhd2ExampleRules
 * insert ChExampleAuditEventEntityPatientRules
 * action = #D
 * subtype[chmhd2] = urn:e-health-suisse:event-type-code#CH-MHD-2 "Purge Document"
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_DELETE "Document removal"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_DELETE "Document purged"
 * agent[documentResponder].network.address = "http://example.org"
 * entity[documentReference]
   * what.reference = "http://example.org/DocumentReference/DocRefPdf"

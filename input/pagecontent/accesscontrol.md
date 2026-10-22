@@ -35,7 +35,7 @@ enforced from the access token, the directory and the metadata of the documents.
 | Right | Who | Legal basis |
 |---|---|---|
 | Record treatment-relevant data | Health professionals, and assistants on their behalf; military health professionals only with a [consent](ppqm-consent.html#consent-military-recording) | Art. 14 EGDG |
-| Search, view, publish a new version of and delete the documents provided by a member of the own group or health institution ([provider institution](iti-65.html#provider-institution)) | Health professionals and assistants registered as members of the group or health institution | Art. 8 EGDG |
+| Search, view, provide a new version of and purge the documents provided by a member of the own group or health institution ([provider institution](document-sharing-metadata.html#provider-institution)) | Health professionals and assistants registered as members of the group or health institution | Art. 8 EGDG |
 | Act on behalf of a health professional or health institution | Assistants (`ASS`), within the rights of the health professional (`principal_id`) | Art. 26 and 28 EGDG |
 | Maintain the directory entries of the own members | The administration of a community (`ADM`), and staff of a health institution authorized by the community | Art. 15 para. 2 EGDG |
 | View the directory of health professionals and health institutions | All authenticated users | — |
@@ -50,7 +50,7 @@ Policy Repository, its `provision.type` is permit and the date of the request is
 
 | Right | Who | Consent |
 |---|---|---|
-| Full access: search and view all documents, record, delete, change the confidentiality code and record a personal note, view the audit trail, view and add contact data, manage the consents | The holder (`PAT`), unless a legal representative is in effect | [Opening](ppqm-consent.html#consent-opening) |
+| Full access: search and view all documents, provide and purge documents, change the confidentiality code and record a personal note, view the audit trail, view and add contact data, manage the consents | The holder (`PAT`), unless a legal representative is in effect | [Opening](ppqm-consent.html#consent-opening) |
 | Search and view the documents of the level "normal", and the documents of the level "restricted" to which the grantee was granted access individually | The health professional, group or health institution granted, and every health professional and assistant registered as their member | [Access](ppqm-consent.html#consent-access), [indirect authorization](ppqm-consent.html#consent-indirect-authorization), [delegation](ppqm-consent.html#consent-delegation) |
 | Pass on the access right | As above, if the access right grants the action `delegate` | [Access](ppqm-consent.html#consent-access) |
 | Search and view the documents of the level "normal" in an emergency | All health professionals and assistants, with the purpose of use `EMER` | [Emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of type permit |
@@ -70,7 +70,7 @@ Who may add, update, delete and retrieve which consent is defined in
 #### Confidentiality levels
 
 Every document carries one of the two confidentiality levels "normal" and "restricted" (see
-[Confidentiality code](iti-65.html#confidentiality-code)). Health professionals, groups and health institutions with an
+[Confidentiality code](document-sharing-metadata.html#confidentiality-code)). Health professionals, groups and health institutions with an
 access right, an indirect authorization or a delegation, and all health professionals in an emergency, may only read
 documents of the level "normal". A document of the level "restricted" may only be read by the holder, the legal
 representative, a representative granted the level "restricted", the administration with a mandate of the holder, and
@@ -137,5 +137,8 @@ professional or the health institution is in effect.
 A technical user (`TCU`), e.g. a clinical archive system, requests access tokens without an authenticated natural
 person (see [Get Access Token [ITI-71]](iti-71.html#clinical-archive-systems)). A technical user may only use the
 transactions for which the grouping with the IUA Authorization Client allows `TCU` in the Remark column of the required
-actor groupings of the respective profile. Every actor serving a request of the Health Dossier API SHALL reject a request
+actor groupings of the respective profile ([CH:PIXm](iti-pixm.html#required-actor-grouping),
+[CH:PDQm](iti-pdqm.html#required-actor-grouping), [CH:MHD](iti-mhd.html#required-actor-groupings),
+[CH:mCSD](iti-mcsd.html#required-actor-grouping), [CH:PPQm](ppqm.html#actors-and-transactions),
+[CH:ATC](ch-atc.html#required-actor-groupings) and [RESTful ATNA](iti-restful-atna.html#required-actor-grouping)). Every actor serving a request of the Health Dossier API SHALL reject a request
 with an access token with the `subject_role` `TCU` for any other transaction.

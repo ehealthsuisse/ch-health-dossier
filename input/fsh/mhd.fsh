@@ -80,7 +80,7 @@ note: recording a note on a document which already has one replaces the existing
 * extension[providerRole] ^comment = "This extra metadata attribute SHALL be set by the Document Source actor to
 the role value of the current user, the Document Recipient verifies it against the role in the access token. It SHALL
 NOT be changed with Update Document Metadata [CH:MHD-1], the Document Responder rejects such a request with an
-UnmodifiableMetadataError. Together with the provider institution (`custodian`) it determines who may publish a new
+UnmodifiableMetadataError. Together with the provider institution (`custodian`) it determines who may provide a new
 version of the document or purge it."
 * masterIdentifier 1.. MS
 * masterIdentifier only $IHE.MHD.UniqueIdIdentifier
@@ -163,7 +163,7 @@ Update Document Metadata [CH:MHD-1]. It is not necessarily the institution of th
 * content.attachment.url ^short = "The ITI-68 endpoint to use, or a reference to the Binary or the FHIR document Bundle resource in the Bundle."
 * content.attachment.url ^comment = "When providing the document, this URL SHALL point to the resource carrying the
 document content, which SHALL be included in the Bundle: a Binary resource wrapping the document content, or, for a
-FHIR document published with the FHIR Documents Publish Option, the FHIR document Bundle resource itself. When
+FHIR document provided with the FHIR Documents Publish Option, the FHIR document Bundle resource itself. When
 retrieving the DocumentReference, this URL SHALL be the the one to use in ITI-68 transactions to retrieve the document
 content."
 * content.attachment.size ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
@@ -291,7 +291,7 @@ Description: "IHE MHD profile on Provide Document Bundle (ITI-65) transaction fo
 * entry[Documents].request.method MS
 * entry[FhirDocuments] ^sliceName = "FhirDocuments"
 * entry[FhirDocuments] ^mustSupport = true
-* entry[FhirDocuments] ^short = "A FHIR document, published with the ITI-65 FHIR Documents Publish Option"
+* entry[FhirDocuments] ^short = "A FHIR document, provided with the ITI-65 FHIR Documents Publish Option"
 * entry[FhirDocuments].resource 1.. MS
 * entry[FhirDocuments].resource only Bundle
 * entry[FhirDocuments].request 1.. MS
@@ -323,11 +323,6 @@ Parent: $IHE.MHD.Minimal.SubmissionSet
 Id: ch-mhd-submissionset
 Title: "CH MHD SubmissionSet"
 Description: "CH MHD SubmissionSet"
-* extension 2..
-* extension[designationType].value[x] from $SubmissionSet.contentTypeCode (required)
-* extension[designationType].value[x] ^short = "Fixed code 'Procedure' by the Swiss EPR"
-* extension[designationType] ^sliceName = "designationType"
-* extension[designationType] ^mustSupport = true
 * extension[sourceId] ^sliceName = "sourceId"
 * extension[sourceId] ^mustSupport = true
 * identifier[uniqueId] MS
@@ -479,9 +474,7 @@ provider institution in custodian."
 Instance: Inline-Instance-for-BundleProvideDocument-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
 * identifier.use = #usual
@@ -541,8 +534,8 @@ Usage: #inline
 
 Instance: BundleProvideDocument-Response
 InstanceOf: Bundle
-Title: "MHD Provide Document Bundle Response for PDF publication"
-Description: "MHD Provide Document Bundle Response for PDF publication"
+Title: "MHD Provide Document Bundle Response for a PDF document"
+Description: "MHD Provide Document Bundle Response for a provided PDF document"
 Usage: #example
 * meta.profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-providedocumentbundle-response"
 * type = #transaction-response
@@ -622,12 +615,12 @@ Usage: #example
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Correction of a published document [ITI-65]
+// Correction of a provided document [ITI-65]
 
 Instance: BundleProvideDocumentCorrection
 InstanceOf: CHMhdProvideDocumentBundle
 Title: "MHD Provide Document Bundle for a corrected document"
-Description: "Provide Document Bundle [ITI-65] with which a healthcare professional publishes the corrected version of
+Description: "Provide Document Bundle [ITI-65] with which a healthcare professional provides the corrected version of
 the document DocRefPdf. The new DocumentReference points with relatesTo of type replaces to the DocumentReference of
 the document it corrects; the Document Recipient sets the status of the replaced document to superseded (see
 DocRefPdfSuperseded) and keeps it accessible."
@@ -650,9 +643,7 @@ Usage: #example
 Instance: Inline-Instance-for-BundleProvideDocumentCorrection-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
 * identifier.use = #usual
@@ -716,7 +707,7 @@ Instance: DocRefPdfSuperseded
 InstanceOf: ch-mhd-documentreference
 Title: "DocumentReference of a replaced document (superseded)"
 Description: "The DocumentReference DocRefPdf as returned by the Document Responder after the corrected version of the
-document was published with BundleProvideDocumentCorrection: the status is superseded, the document stays accessible
+document was provided with BundleProvideDocumentCorrection: the status is superseded, the document stays accessible
 and can be found with the status search parameter of Find Document References [ITI-67]."
 Usage: #example
 * contained.resourceType = "PractitionerRole"
@@ -755,12 +746,12 @@ Usage: #example
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Publishing a FHIR document [ITI-65], FHIR Documents Publish Option
+// Providing a FHIR document [ITI-65], FHIR Documents Publish Option
 
 Instance: BundleProvideFhirDocument
 InstanceOf: CHMhdProvideDocumentBundle
 Title: "MHD Provide Document Bundle for a FHIR document"
-Description: "Provide Document Bundle [ITI-65] publishing a FHIR document with the ITI-65 FHIR Documents Publish
+Description: "Provide Document Bundle [ITI-65] providing a FHIR document with the ITI-65 FHIR Documents Publish
 Option: the FHIR document Bundle is carried as a resource in the FhirDocuments entry and is not converted to a base64
 encoded Binary resource. DocumentReference.content.attachment.url points to the Bundle entry, contentType is
 application/fhir+json, size and hash are absent."
@@ -783,9 +774,7 @@ Usage: #example
 Instance: Inline-Instance-for-BundleProvideFhirDocument-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
 * identifier.use = #usual
@@ -891,7 +880,7 @@ Title: "DocumentReference for a document provided by the holder"
 Description: "DocumentReference, as returned by the Document Responder, for a report of a treatment abroad which the
 holder provided herself with BundleProvideDocumentByPatient: the role of the
 provider is PAT and there is no provider institution (custodian). The author is the doctor of the foreign clinic who
-wrote the report, given as a contained PractitionerRole with the name of the doctor and of the clinic as text. Only the holder, or a person acting on her behalf, may publish a new version of this document
+wrote the report, given as a contained PractitionerRole with the name of the doctor and of the clinic as text. Only the holder, or a person acting on her behalf, may provide a new version of this document
 or purge it."
 Usage: #example
 * contained.resourceType = "PractitionerRole"
@@ -933,7 +922,7 @@ system of a health institution provided with BundleProvideDocumentByArchive: the
 role of the provider is TCU and the provider institution (custodian) is the institution operating the archive system.
 The author is given as a contained PractitionerRole with the name of the authoring person and of the authoring
 institution as text, together with their identifiers. The healthcare professionals and assistants of the provider
-institution and the archive system may publish a new version of this document."
+institution and the archive system may provide a new version of this document."
 Usage: #example
 * contained.resourceType = "PractitionerRole"
 * contained.id = "author"
@@ -997,9 +986,7 @@ Usage: #example
 Instance: Inline-Instance-for-BundleProvideDocumentByPatient-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.7"
 * identifier.use = #usual
@@ -1070,9 +1057,7 @@ Usage: #example
 Instance: Inline-Instance-for-BundleProvideDocumentByArchive-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.8"
 * identifier.use = #usual
@@ -1151,9 +1136,7 @@ Usage: #example
 Instance: Inline-Instance-for-BundleProvideDocumentByAssistant-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
 * identifier.use = #usual
@@ -1304,9 +1287,7 @@ Usage: #example
 Instance: Inline-Instance-for-BundleProvideDocumentStructuredAuthor-1
 InstanceOf: List
 Usage: #inline
-* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-designationType"
-* extension[=].valueCodeableConcept = $sct#71388002 "Procedure (procedure)"
-* extension[+].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
+* extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
 * identifier.use = #usual

@@ -237,7 +237,7 @@ Usage:      #inline
 * insert ChAuditTrailEventHcpRules
 * type = $auditEventType#rest "Restful Operation"
 * subtype[+] = $eventTypeCode#ITI-65 "Provide Document Bundle"
-* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document upload"
+* subtype[auditTrailType] = $healthDossierAuditEventType#ATC_DOC_CREATE "Document provided"
 * action = #C
 * agent[mainUser].requestor = true
 * agent[group].requestor = false
@@ -307,7 +307,7 @@ Usage:      #inline
 Instance:   ch-atc-iti-81-response-sample
 InstanceOf: ChAtcIti81Response
 Title:      "ITI-81 response: masked audit trail"
-Description: "The audit trail of Franziska Muster, masked to the day and sorted by date (`_sort=date`): a document uploaded by a healthcare
+Description: "The audit trail of Franziska Muster, masked to the day and sorted by date (`_sort=date`): a document provided by a healthcare
 professional, the document retrieved by an assistant on her behalf (only the role of the assistant), the emergency
 access excluded by the holder, and an earlier access of the holder to the audit trail. The assistant retrieved the
 document three times on that day; the duplicates are removed."

@@ -41,13 +41,13 @@ The Document Source shall be capable of accepting elements specified in profile 
 ##### Metadata which may be updated
 
 Only the metadata listed below may be updated with this transaction, and only by the roles listed for it. Every other
-change of the metadata requires a new version of the document to be published with
-[ITI-65](iti-65.html#correction-of-a-published-document).
+change of the metadata requires a new version of the document to be provided with
+[ITI-65](iti-65.html#correction-of-a-provided-document).
 
 {:class="table table-bordered"}
 | Metadata            | Element                                                              | Roles                             |
 |---------------------|----------------------------------------------------------------------|-----------------------------------|
-| [Confidentiality code](iti-65.html#confidentiality-code) | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
+| [Confidentiality code](document-sharing-metadata.html#confidentiality-code) | `DocumentReference.securityLabel`                                    | `PAT`, `REP`, `LEGREP`, `ADM`     |
 | Personal note        | extension [PersonalNote](StructureDefinition-ch-ext-personalnote.html)   | `PAT`, `REP`, `LEGREP`, `ADM` |
 
 <figcaption ID="1">Table 1: Metadata which may be updated, and the roles which may update it.</figcaption>
@@ -59,8 +59,8 @@ OperationOutcome with the error code
 [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
 
 In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
-([provider role](iti-65.html#provider-role)) and the
-[provider institution](iti-65.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
+([provider role](document-sharing-metadata.html#provider-role)) and the
+[provider institution](document-sharing-metadata.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
 stay the ones of the document as it was provided, also where a holder, a representative, a legal representative or
 the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
 in the audit event of the transaction.
@@ -69,8 +69,8 @@ in the audit event of the transaction.
 
 A holder, or a representative, a legal representative or an administrator acting on behalf of the holder, can record a personal note on a document (see use case [Holder adds a personal note to a document](iti-mhd.html#use-cases)). The Document Source records the note by updating
 the metadata of the document and adding a [PersonalNote](StructureDefinition-ch-ext-personalnote.html) extension, which
-carries the text of the note, the holder it belongs to and the time it was recorded. The document itself and its data
-stay unchanged and no new version of the document is published. 
+carries the text of the note, the holder it belongs to and the time it was recorded. The document 
+stays unchanged and no new version of the document is provided. 
 
 A document carries at most one personal note. Recording a note on a document which already has one replaces the
 existing note.
