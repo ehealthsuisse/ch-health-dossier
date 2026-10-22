@@ -4,6 +4,8 @@ Id: CH.mCSD.PractitionerRole
 Title: "CH mCSD PractitionerRole"
 Description: "CH mCSD profile on PractitionerRole"
 * obeys ch-mcsd-practitionerrole-ihe-conformance
+* active 1..
+* active ^comment = "Required in the health dossier: the corresponding attribute is mandatory in the IHE HPD profile, and a query using the search parameter 'active' returns different results for instances in which the element is absent."
 * practitioner only Reference(CHmCSDPractitioner)
 * practitioner 1.. // From HPD
 * organization only Reference(CHmCSDOrganization)

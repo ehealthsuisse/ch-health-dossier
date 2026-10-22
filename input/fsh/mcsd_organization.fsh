@@ -4,6 +4,8 @@ Id: CH.mCSD.Organization
 Title: "CH mCSD Organization"
 Description: "CH mCSD profile on Organization"
 * obeys ch-mcsd-organization-ihe-conformance
+* active 1..
+* active ^comment = "Required in the health dossier: the corresponding attribute is mandatory in the IHE HPD profile, and a query using the search parameter 'active' returns different results for instances in which the element is absent."
 * identifier 1..
 * identifier contains OID 1..1
 * identifier[OID] only OidIdentifier

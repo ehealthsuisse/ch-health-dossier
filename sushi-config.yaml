@@ -25,7 +25,7 @@ copyright: CC0-1.0
 jurisdiction: urn:iso:std:iso:3166#CH
 
 dependencies:
-  ch.fhir.ig.ch-term: 3.3.x
+  ch.fhir.ig.ch-term: 3.4.x
   ch.fhir.ig.ch-core: 7.0.0-ballot
   ihe.iti.pixm: 
     version: 3.1.0
@@ -34,7 +34,7 @@ dependencies:
     version: 3.2.0
     id: ihepdqmfhir
   ihe.iti.mhd: 
-    version: 4.2.3
+    version: 4.2.5
     id: ihemhdfhir
   ihe.iti.mcsd: 
     version: 4.0.0
@@ -43,7 +43,7 @@ dependencies:
     version: 1.1.4
   hl7.terminology.r4: 
     uri: http://terminology.hl7.org/ImplementationGuide/hl7.terminology
-    version: 6.5.0  
+    version: 7.1.0
 
 pages:
   index.md:
@@ -178,7 +178,7 @@ menu:
   Artifacts: artifacts.html
 
 resources:
-  CapabilityStatement/CH.EPR.App:
+  CapabilityStatement/CH.HealthDossier.App:
     exampleBoolean: false
   CapabilityStatement/CH.PDQm.Consumer:
     exampleBoolean: false
@@ -190,7 +190,7 @@ resources:
     exampleBoolean: false
   CapabilityStatement/CH.MHD.DocumentConsumer:
     exampleBoolean: false
-  CapabilityStatement/CH.EPR.API:
+  CapabilityStatement/CH.HealthDossier.API:
     exampleBoolean: false
   CapabilityStatement/CH.PIXm.Manager:
     exampleBoolean: false
@@ -208,8 +208,10 @@ resources:
     exampleBoolean: false
   CapabilityStatement/CH.PPQm.PolicySourceConsumer:
     exampleBoolean: false
-  CapabilityStatement/PatientAuditRecordServiceCapabilityStatement:
-    name: CapabilityStatement for the Patient Audit Record Service
+  CapabilityStatement/CH.ATC.PatientAuditConsumer:
+    exampleBoolean: false
+  CapabilityStatement/CH.ATC.PatientAuditRecordService:
+    name: CH:ATC Patient Audit Record Service (server)
     description: Defines the CapabilityStatement for the Patient Audit Record Service actor of ITI-81.
     exampleBoolean: false
   SearchParameter/AuditEvent-entity-identifier:

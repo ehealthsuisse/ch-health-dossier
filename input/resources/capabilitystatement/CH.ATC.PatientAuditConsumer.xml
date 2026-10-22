@@ -1,0 +1,59 @@
+<CapabilityStatement xmlns="http://hl7.org/fhir">
+    <id value="CH.ATC.PatientAuditConsumer"/>
+    <url value="http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.ATC.PatientAuditConsumer"/>
+    <name value="CH_ATC_PatientAuditConsumer"/>
+    <title value="CH:ATC Patient Audit Consumer (client)"/>
+    <status value="active"/>
+    <date value="2026-10-22"/>
+    <publisher value="eHealth Suisse"/>
+    <contact>
+        <name value="eHealth Suisse"/>
+        <telecom>
+            <system value="url"/>
+            <value value="https://www.e-health-suisse.ch"/>
+        </telecom>
+    </contact>
+    <description value="Defines the CapabilityStatement for the Patient Audit Consumer actor of ITI-81."/>
+    <kind value="requirements"/>
+    <fhirVersion value="4.0.1"/>
+    <format value="application/fhir+xml"/>
+    <format value="application/fhir+json"/>
+    <rest>
+        <mode value="client"/>
+        <documentation value="The Patient Audit Consumer initiates the Retrieve ATNA Audit Event [ITI-81] transaction with the Retrieve Audit Message Option to retrieve the audit trail of a health dossier from the Patient Audit Record Service."/>
+        <resource>
+            <type value="AuditEvent"/>
+            <supportedProfile value="http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditTrailEvent"/>
+            <documentation value="For Retrieve ATNA Audit Event [ITI-81]. The Patient Audit Consumer MAY use the _sort result parameter on date; when it relies on a specific order of the audit events, it SHALL request it with _sort."/>
+            <interaction>
+                <code value="search-type"/>
+                <documentation value="ITI-81"/>
+            </interaction>
+            <searchParam>
+                <name value="date"/>
+                <type value="date"/>
+            </searchParam>
+            <searchParam>
+                <name value="agent.identifier"/>
+                <type value="token"/>
+            </searchParam>
+            <searchParam>
+                <name value="entity.identifier"/>
+                <type value="token"/>
+                <documentation value="SHALL be included in every query and SHALL carry the EPR-SPID of the holder."/>
+            </searchParam>
+            <searchParam>
+                <name value="entity-type"/>
+                <type value="token"/>
+            </searchParam>
+            <searchParam>
+                <name value="entity-role"/>
+                <type value="token"/>
+            </searchParam>
+            <searchParam>
+                <name value="subtype"/>
+                <type value="token"/>
+            </searchParam>
+        </resource>
+    </rest>
+</CapabilityStatement>

@@ -85,7 +85,7 @@ transactions to retrieve that document's content.
 
 #### Find Document References Response Message
 
-The response Bundle SHALL follow the [CH MHD Find Document References Response message](StructureDefinition-ch-mhd-documentreference-bundle.html)
+The response Bundle SHOULD follow the [CH MHD Find Document References Response message](StructureDefinition-ch-mhd-documentreference-bundle.html)
 Profile ([example: MHD Find DocumentReferences](Bundle-Bundle-FindDocumentReferences.html)).
 
 #### CapabilityStatement Resource

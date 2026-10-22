@@ -32,6 +32,7 @@ Alias: $ch-epr-fhir-birthname = http://fhir.ch/ig/ch-health-dossier/StructureDef
 Alias: $ch-ext-patient-religion = http://hl7.org/fhir/StructureDefinition/patient-religion
 Alias: $ch-ext-provider-role = http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-provider-role
 Alias: $IHE.MHD.UniqueIdIdentifier = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.UniqueIdIdentifier
+Alias: $IHE.MHD.MHDIdentifierType = https://profiles.ihe.net/ITI/MHD/CodeSystem/IHE.MHD.MHDIdentifierType
 Alias: $IHE.MHD.FindDocumentReferencesResponseMessage = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.FindDocumentReferencesResponseMessage
 Alias: $IHE.MHD.Minimal.ProvideBundle = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle
 Alias: $IHE.MHD.Minimal.SubmissionSet = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.SubmissionSet

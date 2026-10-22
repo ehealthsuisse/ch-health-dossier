@@ -24,6 +24,38 @@
   `DocumentReference.subject` through the EPR-SPID to the holder, so that the chained search parameter
   `patient.identifier` finds the documents of the holder [#35](https://github.com/ehealthsuisse/ch-health-dossier/issues/35).
 * Integrated the ch-epr-fhir issues [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456), [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458) and [#460](https://github.com/ehealthsuisse/ch-epr-fhir/issues/460)
+* Aligned the dependencies with CH Core 7.0.0-ballot: CH Term 3.4.x and HL7 Terminology 7.1.0, the versions CH Core
+  depends on [ch-epr-fhir#484](https://github.com/ehealthsuisse/ch-epr-fhir/issues/484).
+* Updated to IHE MHD 4.2.5: the uniqueId and the entryUUID of the DocumentReference and of the SubmissionSet are
+  distinguished by `Identifier.type` with a code of
+  [MHD Identifier Type](https://profiles.ihe.net/ITI/MHD/CodeSystem-IHE.MHD.MHDIdentifierType.html) instead of
+  `Identifier.use` (CP-ITI-1328-01 in MHD 4.2.4); MHD 4.2.5 adds the Full-Text Search Option required in
+  [ITI-67](iti-67.html#full-text-search-option)
+  [ch-epr-fhir#462](https://github.com/ehealthsuisse/ch-epr-fhir/issues/462).
+* [ITI-67](iti-67.html#find-document-references-response-message): the response Bundle SHOULD (was SHALL) follow the
+  CH MHD Find Document References Response message (CP-ITI-1327-00); the CapabilityStatements of the Document
+  Consumer and the Document Responder list CH MHD DocumentReference as `supportedProfile`, and an update [CH:MHD-1] still
+  SHALL conform to it [ch-epr-fhir#492](https://github.com/ehealthsuisse/ch-epr-fhir/issues/492).
+* Fixed the slicing of `context.related` in the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html):
+  the discriminator is `identifier.system` (was `identifier`), so that the StudyInstanceUID slice can be evaluated, and
+  added the example [DocumentReference for a DICOM KOS Manifest](DocumentReference-DocRefKos.html)
+  [ch-epr-fhir#455](https://github.com/ehealthsuisse/ch-epr-fhir/issues/455).
+* The XDS entryUUID is no longer Must Support in the [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html),
+  and the examples of the DocumentReference no longer carry it.
+* mCSD: the element `active` is required in the [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html),
+  [CH mCSD PractitionerRole](StructureDefinition-CH.mCSD.PractitionerRole.html) and
+  [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html)
+  [ch-epr-fhir#451](https://github.com/ehealthsuisse/ch-epr-fhir/issues/451).
+* CH:ATC: published the CapabilityStatements for both actors of [ITI-81](iti-81.html), the
+  [Patient Audit Record Service](CapabilityStatement-CH.ATC.PatientAuditRecordService.html) (now active and
+  imported by the Health Dossier API) and the new
+  [Patient Audit Consumer](CapabilityStatement-CH.ATC.PatientAuditConsumer.html) (imported by the Health App)
+  [ch-epr-fhir#443](https://github.com/ehealthsuisse/ch-epr-fhir/issues/443),
+  [ch-epr-fhir#482](https://github.com/ehealthsuisse/ch-epr-fhir/issues/482).
+* [ITI-20](iti-20.html): reference updated to Add RESTful ATNA (Query and Feed) Rev. 3.6
+  [ch-epr-fhir#467](https://github.com/ehealthsuisse/ch-epr-fhir/issues/467).
+* Renamed the CapabilityStatements `CH.EPR.App` to [CH.HealthDossier.App](CapabilityStatement-CH.HealthDossier.App.html)
+  and `CH.EPR.API` to [CH.HealthDossier.API](CapabilityStatement-CH.HealthDossier.API.html).
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
     the Identity Token in in the *id_token* field of the token request. 
@@ -324,7 +356,7 @@
   * Renamed the actor Patient Audit Record Repository to Patient Audit Record Service, the profile
     `ChAuditEventIti81Repository` to [ChAuditEventIti81Service](StructureDefinition-ChAuditEventIti81Service.html) and
     the CapabilityStatement `PatientAuditRecordRepositoryCapabilityStatement` to
-    [PatientAuditRecordServiceCapabilityStatement](CapabilityStatement-PatientAuditRecordServiceCapabilityStatement.html).
+    [CH.ATC.PatientAuditRecordService](CapabilityStatement-CH.ATC.PatientAuditRecordService.html).
     The Patient Audit Record Service is not an Audit Record Repository: it derives the audit trail events required
     for the E-GD from the recorded audit events according to the privacy requirements (see
     [CH:ATC](ch-atc.html#patient-audit-record-service))

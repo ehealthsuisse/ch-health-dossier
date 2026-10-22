@@ -1,8 +1,18 @@
 <CapabilityStatement xmlns="http://hl7.org/fhir">
-    <id value="PatientAuditRecordServiceCapabilityStatement"/>
-    <title value="CapabilityStatement for the Patient Audit Record Service"/>
-    <status value="draft"/>
-    <date value="2024-11-19"/>
+    <id value="CH.ATC.PatientAuditRecordService"/>
+    <url value="http://fhir.ch/ig/ch-health-dossier/CapabilityStatement/CH.ATC.PatientAuditRecordService"/>
+    <name value="CH_ATC_PatientAuditRecordService"/>
+    <title value="CH:ATC Patient Audit Record Service (server)"/>
+    <status value="active"/>
+    <date value="2026-10-22"/>
+    <publisher value="eHealth Suisse"/>
+    <contact>
+        <name value="eHealth Suisse"/>
+        <telecom>
+            <system value="url"/>
+            <value value="https://www.e-health-suisse.ch"/>
+        </telecom>
+    </contact>
     <description value="Defines the CapabilityStatement for the Patient Audit Record Service actor of ITI-81."/>
     <kind value="requirements"/>
     <fhirVersion value="4.0.1"/>
