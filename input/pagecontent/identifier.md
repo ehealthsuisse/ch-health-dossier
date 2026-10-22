@@ -1,7 +1,3 @@
-<div markdown="1" class="dragon">
-This page is work in progress.
-</div>
-
 ### Scope
 
 Access to data in the health dossier requires that the requesting user is identified.
@@ -41,11 +37,11 @@ When receiving a Get Access Token request, the Authorization Server shall resolv
 Identity Provider to a role dependent identifier used in the health dossier as described in 
 [Get Access Token](iti-71.html#expected-actions).
 
-Depending on the users' role, the IUA Authorization Server queries one of the databases for the mapping from
-the Subject Identifier and the identifier used in the health dossier. For instance, the database used for holder 
-and representatives may be the Master Patient Index, or the Provider Directory for health professionals, assistants 
-and community administrators. The details of the implementation are left to the vendor of the health information system 
-and are therefore out of scope of this specification.
+Depending on the users' role, the IUA Authorization Server queries one of the databases of the health dossier information 
+system for the mapping from the Subject Identifier and the identifier used in the health dossier. For instance, the 
+database used for holder and representatives may be the Master Patient Index, or the Provider Directory for health 
+professionals, assistants and community administrators. The details of the implementation are left to the vendor of the 
+health information system and are therefore out of scope of this specification.
 
 The IUA Authorization Server responds the health dossier identifier in the access token of the Get Access Token 
 response as described in [Get Access Token](iti-71.html#the-jwt-ch_epr-extension).
@@ -59,21 +55,21 @@ user (see [PPQm Consent](ppqm-consent.html)).
 
 The following table lists the identifiers used in the health dossier and their issuers: 
 
-| user role               | health dossier identifier | issuer                            |
-|-------------------------|---------------------------|-----------------------------------|
-| Holder                  | EPR-SPID                  | Central Compensation Office (CCO) |
-| Healthcare Professional | GLN                       | refdata                           |
-| Assistant               | GLN                       | refdata                           |
-| Administrator           | GLN                       | refdata                           |
-| Representative          | Representative ID         | health dossier information system |
-| Legal Representative    | Representative ID         | health dossier information system |
+| user role               | health dossier identifier | issuer                                                                                   |
+|-------------------------|---------------------------|------------------------------------------------------------------------------------------|
+| Holder                  | EPR-SPID                  | [Central Compensation Office (CCO)](https://www.zas.admin.ch/en)                         |
+| Healthcare Professional | GLN                       | [refdata]([refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).) |
+| Assistant               | GLN                       | [refdata]([refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).) |
+| Administrator           | GLN                       | [refdata]([refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).) |
+| Representative          | Representative ID         | health dossier information system                                                        |
+| Legal Representative    | Representative ID         | health dossier information system                                                        |
 {:class="table table-bordered"}
 
 <figcaption>Table: User role, health dossier identifier and issuer.</figcaption>
 
 ##### Holder
 
-Holder are identified with the active national identifier (EPR-SPID) issued by the Central Compensation Office (CCO). 
+Holder are identified with the active national identifier (EPR-SPID) issued by the [Central Compensation Office (CCO)](https://www.zas.admin.ch/en). 
 This identifier shall be used to identify the patient in all transactions, the document metadata and the consent resources. 
 
 This impacts the FHIR API in the following way:
