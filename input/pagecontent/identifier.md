@@ -81,19 +81,18 @@ This impacts the FHIR API in the following way:
 - The FHIR APIs support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm). 
 - Resources are profiled that a logical reference with the EPR-SPID identifier is provided.
 
-##### Healthcare Professional
+##### Healthcare Professionals
 
-Healthcare Professionals are identified with the Global Location Number (GLN) issued 
-by [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln). 
+Healthcare Professionals are identified with a Global Location Number (GLN) issued by [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln). 
 
 This impacts the FHIR API in the following way:
 - All references to healthcare professionals are made by the GLN.
 - The FHIR APIs support of the GLN as a query parameter (e.g. CH:mCSD).
 - Resources are profiled that a logical reference with the GLN identifier is provided.
 
-##### Assistant
+##### Assistants
 
-Assistants which act on behalf of an healthcare professional or an institution, are identified with the 
+Assistants which act on behalf of an healthcare professional or an institution, are identified with a  
 Global Location Number (GLN) issued by [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).
 
 Assistants are identified with their GLN in the provider directory only. The GLN indicates the assistant’s relation 
@@ -101,61 +100,36 @@ to the healthcare professional, group, or institution on whose behalf the assist
 identified by their GLN in document metadata or consent resources, since they inherit the access rights of the 
 healthcare professional, group, or institution on whose behalf they act.
 
-##### Administrator
+##### Administrators
 
-##### Representative
+The Administrator role applies to all employees of the community and may perform tasks on behalf of holder, 
+healthcare professionals and institutions (see [PPQm Consent](ppqm-consent.html#consent-community-mandate)). 
+Administrators are identified with their Global Location Number (GLN) issued by [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).
+
+This impacts the FHIR API in the following way:
+- All references to administrators are made by the GLN.
+- The FHIR APIs support of the GLN as a query parameter (e.g. CH:mCSD).
+- Resources are profiled that a logical reference with the GLN identifier is provided.
+
+##### Representatives
+
+Holders may appoint representatives who may access the health dossier on their behalf. Holders may restrict the 
+access rights of representatives to certain transactions (see [PPQm Consent](ppqm-consent.html#consent-representative)).
+Representatives may be private persons, who may themselves be holders of a health dossier, as well as healthcare 
+professionals or assistants. Representatives are identified by an identifier issued by the health dossier 
+information system.
+
+This impacts the FHIR API in the following way:
+- All references to representatives are made by the representative id issued by the health dossier information system.
+- The FHIR APIs support of the representative id as a query parameter.
+- Resources are profiled that a logical reference with the representative id is provided.
 
 ##### Legal Representative
 
+The cantons may appoint representatives who may access the health dossier on behalf of the holder. Legal 
+representatives are identified by an identifier issued by the health dossier information system.
+
+The impact on the FHIR API is the same as for representatives.  
+
 ##### Groups and Institutions
 
-
-<br/>
-
-
-
-
-
-#### -----------------------------------------------------------------------------------------------------------------
-
-
-#### Representative ID and administrator GLN
-The identity provider only delivers the subject identifier (`sub`) of the identity token. For patients, healthcare
-professionals and assistants the IUA Authorization Server resolves it to an identifier which exists independently of
-the identity provider (e.g., EPR-SPID, GLN). For representatives, legal representatives and administrators the identifiers
-are issued as follows:
-
-- Representative ID: the Health Dossier system SHALL issue a representative ID when a
-  [representative](ppqm-consent.html#consent-representative) or a [legal representative](ppqm-consent.html#consent-legal-representative) consent is added. The identity of the
-  representative is proven by the patient who appoints the representative, the identity of the legal representative by
-  the instruction of the authority. The representative ID is a local identifier of the Health Dossier system with the
-  qualifier `urn:e-health-suisse:representative-id`. It identifies the grantee of the consent, a `RelatedPerson` of the
-  patient, which represents the relation between the representative and the patient.
-- Administrator GLN: an administrator SHALL have a GLN. The administrator is registered with the GLN in the provider
-  directory as a member of the community (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)).
-
-The IUA Authorization Server SHALL keep the link between the issuer `iss` and the subject identifier `sub` of the
-identity token and the representative ID or the GLN of the administrator. The link is set at the first login of the
-representative or administrator, once the IUA Authorization Server has verified that the person who logs in is the
-person the ID was issued for. A login with a further identity provider, or after a change of the identity provider, adds
-a link to the same ID; it SHALL NOT issue a new ID.
-
-<div markdown="1" class="stu-note">
-To be clarified:
-- how the IUA Authorization Server verifies at the first login that the person who logs in is the representative or
-  administrator the ID was issued for (e.g. with an activation code handed out when the ID is issued).
-- whether a person who represents several patients has one representative ID or one per patient.
-- if an identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization
-  Clients, and the link is needed per client.
-</div>
-
-<div markdown="1" class="stu-note">
-To be clarified: how the administrators of a community are identified and registered in the directory as its members.
-The [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a GLN and a qualification, which an
-administrator may not have. The identity provider only delivers the subject identifier (`sub`) of the identity token;
-the IUA Authorization Server resolves it to an administrator ID, which it conveys in the access token with the
-qualifier `urn:e-health-suisse:administrator-id` (see [ITI-71](iti-71.html#the-jwt-ch_epr-extension)). Where this
-administrator ID comes from, and how it is linked to the `sub` of the identity provider, is not defined yet.
-To be clarified: the [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html) requires a qualification,
-which an administrator may not have.
-</div>
