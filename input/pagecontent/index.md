@@ -2,8 +2,8 @@
 
 This implementation guide shall be used in conjunction with the definitions of integration profiles, actors and 
 transactions provided in Volumes 1 through 3 of the IHE IT Infrastructure Technical Framework. It specifies national 
-extensions of the IHE integration profiles in order to fulfil the Swiss regulations of the 
-EGDG ([de](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [fr](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [it](https://www.fedlex.admin.ch/eli/fga/2025/3399/de)).
+extensions of the IHE integration profiles in order to fulfill the Swiss regulations of the 
+EGDG ([de](https://www.fedlex.admin.ch/eli/fga/2025/3399/de), [fr](https://www.fedlex.admin.ch/eli/fga/2025/3399/fr), [it](https://www.fedlex.admin.ch/eli/fga/2025/3399/it)).
 
 For general information about the revision from the EPDG to the EGDG see [de](https://www.bag.admin.ch/de/epd-weiterentwickeln-totalrevision), [fr](https://www.bag.admin.ch/fr/developpement-du-dep-revision-complete), [it](https://www.bag.admin.ch/it/ulteriore-sviluppo-della-cip-revisione-totale)
 
@@ -45,7 +45,7 @@ The scope of this extension covers the following use cases:
 3. Read data and documents from the Health Dossier;
 4. Write data and documents to the Health Dossier;
 5. Write logs to the ATNA Audit Record Repository.
-6. Read audit trails for a holder according the Health Dossier requirements.
+6. Read audit trails for a holder according to the Health Dossier requirements.
 
 #### Profiles, grouped actors, actors and transactions
 
@@ -111,7 +111,7 @@ This impacts the FHIR API in the following way:
 This Implementation Guide profiles elements, cardinalities and bindings that are required by the use cases, law and
 ordinances of the Health Dossier, to ensure that the systems are interoperable. The specification defines the requirements on
 the API and exchange messages required by law and ordinances. Other elements, cardinalities and bindings are left as-is. E.g., a
-solution can add additional support with search parameters (which the FHIR specifications allows) or add additional
+solution can add additional support with search parameters (which the FHIR specification allows) or add additional
 transactions/profiles, as long as the law and ordinances of the Health Dossier are respected.
 
 ### IP Statements

@@ -24,10 +24,45 @@
   `DocumentReference.subject` through the EPR-SPID to the holder, so that the chained search parameter
   `patient.identifier` finds the documents of the holder [#35](https://github.com/ehealthsuisse/ch-health-dossier/issues/35).
 * Integrated the ch-epr-fhir issues [#456](https://github.com/ehealthsuisse/ch-epr-fhir/issues/456), [#458](https://github.com/ehealthsuisse/ch-epr-fhir/issues/458) and [#460](https://github.com/ehealthsuisse/ch-epr-fhir/issues/460)
+* Aligned the dependencies with CH Core 7.0.0-ballot: CH Term 3.4.x and HL7 Terminology 7.1.0, the versions CH Core
+  depends on [ch-epr-fhir#484](https://github.com/ehealthsuisse/ch-epr-fhir/issues/484).
+* Updated to IHE MHD 4.2.5: the uniqueId and the entryUUID of the DocumentReference and of the SubmissionSet are
+  distinguished by `Identifier.type` with a code of
+  [MHD Identifier Type](https://profiles.ihe.net/ITI/MHD/CodeSystem-IHE.MHD.MHDIdentifierType.html) instead of
+  `Identifier.use` (CP-ITI-1328-01 in MHD 4.2.4); MHD 4.2.5 adds the Full-Text Search Option required in
+  [ITI-67](iti-67.html#full-text-search-option)
+  [ch-epr-fhir#462](https://github.com/ehealthsuisse/ch-epr-fhir/issues/462).
+* [ITI-67](iti-67.html#find-document-references-response-message): the response Bundle SHOULD (was SHALL) follow the
+  CH MHD Find Document References Response message (CP-ITI-1327-00); the CapabilityStatements of the Document
+  Consumer and the Document Responder list CH MHD DocumentReference as `supportedProfile`, and an update [CH:MHD-1] still
+  SHALL conform to it [ch-epr-fhir#492](https://github.com/ehealthsuisse/ch-epr-fhir/issues/492).
+* Fixed the slicing of `context.related` in the [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html):
+  the discriminator is `identifier.system` (was `identifier`), so that the StudyInstanceUID slice can be evaluated, and
+  added the example [DocumentReference for a DICOM KOS Manifest](DocumentReference-DocRefKos.html)
+  [ch-epr-fhir#455](https://github.com/ehealthsuisse/ch-epr-fhir/issues/455).
+* The XDS entryUUID is no longer Must Support in the [CH MHD SubmissionSet](StructureDefinition-ch-mhd-submissionset.html),
+  and the examples of the DocumentReference no longer carry it.
+* mCSD: the element `active` is required in the [CH mCSD Practitioner](StructureDefinition-CH.mCSD.Practitioner.html),
+  [CH mCSD PractitionerRole](StructureDefinition-CH.mCSD.PractitionerRole.html) and
+  [CH mCSD Organization](StructureDefinition-CH.mCSD.Organization.html)
+  [ch-epr-fhir#451](https://github.com/ehealthsuisse/ch-epr-fhir/issues/451).
+* CH:ATC: published the CapabilityStatements for both actors of [ITI-81](iti-81.html), the
+  [Patient Audit Record Service](CapabilityStatement-CH.ATC.PatientAuditRecordService.html) (now active and
+  imported by the Health Dossier API) and the new
+  [Patient Audit Consumer](CapabilityStatement-CH.ATC.PatientAuditConsumer.html) (imported by the Health App)
+  [ch-epr-fhir#443](https://github.com/ehealthsuisse/ch-epr-fhir/issues/443),
+  [ch-epr-fhir#482](https://github.com/ehealthsuisse/ch-epr-fhir/issues/482).
+* [ITI-20](iti-20.html): reference updated to Add RESTful ATNA (Query and Feed) Rev. 3.6
+  [ch-epr-fhir#467](https://github.com/ehealthsuisse/ch-epr-fhir/issues/467).
+* Converted the remaining XML and JSON resources (examples, CapabilityStatements, SearchParameter and the profiles
+  `ch-atc-auditevent`, `ch-epr-fhir-humanname` and `ch-epr-fhir-birthname`) to FSH, and removed the unused example
+  `AllzeitBereit`.
+* Renamed the CapabilityStatements `CH.EPR.App` to [CH.HealthDossier.App](CapabilityStatement-CH.HealthDossier.App.html)
+  and `CH.EPR.API` to [CH.HealthDossier.API](CapabilityStatement-CH.HealthDossier.API.html).
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
-    the Identity Token in in the *id_token* field of the token request. 
-  * Add support for client-asymmetric authentication specified in FHIR Backend Service authentication section and is used in the European Health Data Space and UMZH Connect.  
+    the Identity Token in the *id_token* field of the token request. 
+  * Added support for client-asymmetric authentication specified in the FHIR Backend Service authentication section, which is used in the European Health Data Space and UMZH Connect.  
   * Added the [Client Registration](client-registration.html) page specifying the user authorized and the dGA dynamic
     client registration (RFC 7591) with `private_key_jwt` [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11).
   * Removed the SMART on FHIR standalone and EHR launch option. 
@@ -66,7 +101,7 @@
     [CH Audit Event with a Basic Auth Token](StructureDefinition-ChAuditEventBasicToken-mappings.html): for an access
     token with the `ch_delegation` extension (assistant) the healthcare professional (principal) is the main user
     and the authenticated assistant is the delegated user; the mapping had the two swapped. A technical user is the
-    main user, identified by the GLN of the legal responsible person. Described the two agents in [ITI-20](iti-20.html).
+    main user, identified by the GLN of the legally responsible person. Described the two agents in [ITI-20](iti-20.html).
   * Added the value set [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) (`NORM`, `EMER`)
     for the `purpose_of_use` of the access token in [ITI-71](iti-71.html), the consents and the audit events, instead
     of the CH Term value set `EprPurposeOfUse`. The purpose of use `AUTO` (automatic upload) is no longer used, the
@@ -88,6 +123,12 @@
     `XDSPatientIDReconciliationError` to `MetadataIdentifierError` and `PatientIDReconciliationError`.
   * Removed the unused NamingSystem `IheItiXds2013UniqueId` (`urn:ihe:iti:xds:2013:uniqueId`).
   * Distinct titles for the PPQm code systems and value sets with the same title.
+  * Corrected spelling and grammar in the pages, profiles, examples and diagrams; fixed the OID of the EPR-SPID in the
+    [ITI-104](iti-104.html) example request, the protected actor in the [RESTful ATNA](iti-restful-atna.html) security
+    consideration, the EGDG links in French and Italian, the birth date in the PDQm Match response example and the
+    description of the CH:MHD-1 confidentiality audit event examples, and renamed the PractitionerRole examples
+    `...Furchur-Klinik` to `...Fuchur-Klinik` (`KarlKoreanderFurchur-Klinik` to `KoreanderFuchur-Klinik`, as the id with
+    `Fuchur` still exceeds the path length allowed in the package).
 * OpenID Connect
   * Added the OpenID Connect page (Annex 8) specifying the authorization code flow, identity token, UserInfo and RP-initiated logout for EPR Identity Providers.
   * Aligned with CH EPR FHIR 5.0.0: added the `client_id` parameter to the
@@ -196,7 +237,7 @@
     (`DocumentReference.relatesTo` of type `replaces`) and
     [replaced document with status superseded](DocumentReference-DocRefPdfSuperseded.html).
   * Added the transaction [Purge Document [CH:MHD-2]](ch-mhd-2.html) with the synchronous operation
-    [`DocumentReference/[id]/$purge`](OperationDefinition-CHMhdPurge.html), modelled after the R6 `Patient/$purge`
+    [`DocumentReference/[id]/$purge`](OperationDefinition-CHMhdPurge.html), modeled after the R6 `Patient/$purge`
     operation, which irrevocably removes a document with all versions of its metadata. It replaces requesting the
     deletion with CH:MHD-1 by setting the DeletionStatus extension to `deletionRequested`; the DeletionStatus
     extension itself is kept for now.
@@ -209,7 +250,7 @@
     their health dossier deleted, the ones they recorded themselves as well as the ones a health professional or
     health institution published, with [CH:MHD-2](ch-mhd-2.html).
   * Added the use case [Patient adds a personal note to a document](iti-mhd.html#use-cases): where patient and author
-    do not agree on the correctness of a document, or the author is no longer practising, the patient can record a
+    do not agree on the correctness of a document, or the author is no longer practicing, the patient can record a
     personal note on the document, without a new version of the document. The note is recorded with
     [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note) in the new extension
     [CH Extension Personal Note](StructureDefinition-ch-ext-personalnote.html), which carries an `Annotation` with the
@@ -231,7 +272,7 @@
     (`urn:oid:2.16.756.5.30.1.127.3.10.19`) with the roles of the E-GD, succeeding the CH Term code system for eHealth
     roles (`urn:oid:2.16.756.5.30.1.127.3.10.6`): the two administrator roles Document Administrator (`DADM`) and
     Policy Administrator (`PADM`) are replaced by the single role `ADM` (Administration), and `LEGREP` (Gesetzliche
-    Vertretung) is added for the legal representative of a minor or of a person lacking capacity of judgement, as
+    Vertretung) is added for the legal representative of a minor or of a person lacking capacity of judgment, as
     distinct from a representative designated by the patient (`REP`). The OID still has to be registered with
     eHealth Suisse
   * Replaced the ValueSet `EprParticipant` with [CH Health Dossier Participant](ValueSet-HealthDossierParticipant.html),
@@ -251,7 +292,7 @@
   * The pages name the two levels by their SNOMED CT concepts, "normal" and "restricted", instead of the EGDG terms
     "allgemein" and "privat"; [ITI-65](document-sharing-metadata.html#confidentiality-code) gives the mapping.
 * PPQm
-  * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalogue of the E-GD authorization system: a
+  * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalog of the E-GD authorization system: a
     Consent records one decision of the patient per consent type, instead of the image of an EPR policy set template.
     Separated the rights by law from the rights by consent, described a use case per consent type and added the
     authorization of the transactions by consent type and role.
@@ -324,7 +365,7 @@
   * Renamed the actor Patient Audit Record Repository to Patient Audit Record Service, the profile
     `ChAuditEventIti81Repository` to [ChAuditEventIti81Service](StructureDefinition-ChAuditEventIti81Service.html) and
     the CapabilityStatement `PatientAuditRecordRepositoryCapabilityStatement` to
-    [PatientAuditRecordServiceCapabilityStatement](CapabilityStatement-PatientAuditRecordServiceCapabilityStatement.html).
+    [CH.ATC.PatientAuditRecordService](CapabilityStatement-CH.ATC.PatientAuditRecordService.html).
     The Patient Audit Record Service is not an Audit Record Repository: it derives the audit trail events required
     for the E-GD from the recorded audit events according to the privacy requirements (see
     [CH:ATC](ch-atc.html#patient-audit-record-service))

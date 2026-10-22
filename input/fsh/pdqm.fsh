@@ -15,15 +15,15 @@ Description: "The patient demographics and identifier information provided in a 
 * name[HumanName] only $ch-epr-fhir-humanname
 * name[HumanName] ^short = "A name associated with the patient"
 * name[BirthName] only $ch-epr-fhir-birthname
-* name[BirthName] ^short = "The birthname of the patient"
-* name[BirthName] ^comment = "The birthname is added with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
+* name[BirthName] ^short = "The birth name of the patient"
+* name[BirthName] ^comment = "The birth name is added with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
 * contact[nameOfParent] 0..* MS
 * contact[nameOfParent].gender MS
 
 Mapping: CHPDQmPatientEch0213
 Source: CHPDQmPatient
 Target: "http://www.ech.ch/xmlns/eCH-0213/1"
-Title: "Mapping to CH-0213"
+Title: "Mapping to eCH-0213"
 Description: """
 Element mapping of the eCH-0213 personFromUPIType payload
 
@@ -94,7 +94,7 @@ and to constrain the output parameters to use the [PDQm Patient Profile](Structu
   * use = #out
   * min = 1
   * max = "1"
-  * documentation = "A bundle contain a set of Patient records that represent possible matches, optionally it MAY also contain an OperationOutcome with further information about the search results (such as warnings or information messages, such as a count of records that were close but eliminated) If the operation was unsuccessful, then an OperationOutcome MAY be returned along with a BadRequest status Code (e.g. security issue, or insufficient properties in patient fragment - check against profile). Note: as this is the only out parameter, it is a resource, and it has the name 'return', the result of this operation is returned directly as a resource"
+  * documentation = "A bundle containing a set of Patient records that represent possible matches, optionally it MAY also contain an OperationOutcome with further information about the search results (such as warnings or information messages, such as a count of records that were close but eliminated) If the operation was unsuccessful, then an OperationOutcome MAY be returned along with a BadRequest status Code (e.g. security issue, or insufficient properties in patient fragment - check against profile). Note: as this is the only out parameter, it is a resource, and it has the name 'return', the result of this operation is returned directly as a resource"
   * type = #Bundle
   * targetProfile[+] = Canonical(CHPDQmMatchParametersOut)
 
@@ -156,8 +156,8 @@ The PDQm Patient Profile for $match Input SHALL be provided as input to the ITI-
 * name[HumanName] only $ch-epr-fhir-humanname
 * name[HumanName] ^short = "A name associated with the patient"
 * name[BirthName] only $ch-epr-fhir-birthname
-* name[BirthName] ^short = "The birthname of the patient"
-* name[BirthName] ^comment = "The birthname is added with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
+* name[BirthName] ^short = "The birth name of the patient"
+* name[BirthName] ^comment = "The birth name is added with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
 * name[HumanName] MS                          // LivingSubjectName
 * name[BirthName] MS                          // MothersMaidenName
 * gender MS                                   // LivingSubjectAdministrativeGender
@@ -177,8 +177,8 @@ The PDQm Patient Profile for $match Input SHALL be provided as input to the ITI-
 Profile: ChPdqmResponseTooManyResults
 Parent: OperationOutcome
 Id: ch-pdqm-toomanyresults
-Title: "CH PDQm OperationOutcome Too Many Results"   // need to be put it ig.xml
-Description: "A profile on the OperationOutcome to indicate that the search is not complete (too many results)."   // need to be put it ig.xml
+Title: "CH PDQm OperationOutcome Too Many Results"   // need to be put in ig.xml
+Description: "A profile on the OperationOutcome to indicate that the search is not complete (too many results)."   // need to be put in ig.xml
 * issue.severity = #warning 
 * issue.code = #incomplete
 
@@ -223,8 +223,8 @@ Usage: #inline
 
 Instance: PDQm-QueryResponse
 InstanceOf: CHPDQmMatchParametersOut
-Title: "PDQm Match response message"               // need to be put it ig.xml
-Description: "CH PDQm Match response message example result for Franz Muster, 27.1.1995"           // need to be put it ig.xml
+Title: "PDQm Match response message"               // need to be put in ig.xml
+Description: "CH PDQm Match response message example result for Franz Muster, 27.1.1995"           // need to be put in ig.xml
 Usage: #example
 * type = #searchset
 * total = 1
@@ -239,8 +239,8 @@ Usage: #example
 
 Instance: PDQm-QueryResponseTooManyResults
 InstanceOf: CHPDQmMatchParametersOut
-Title: "PDQm Match response message too many results"    // need to be put it ig.xml
-Description: "CH PDQm Match response message with too many results indication" // need to be put it ig.xml
+Title: "PDQm Match response message too many results"    // need to be put in ig.xml
+Description: "CH PDQm Match response message with too many results indication" // need to be put in ig.xml
 Usage: #example
 * type = #searchset
 * total = 0
@@ -300,3 +300,48 @@ RuleSet: ChAuditEventIti119ExampleRules
   * type = $auditEntityType#2
   * role = $objectRole#24
   * query = "ewogICJyZXNvdXJjZVR5cGUiIDogIlBhcmFtZXRlcnMiLAogICJwYXJhbWV0ZXIiIDogWwogICAgewogICAgICAibmFtZSIgOiAicmVzb3VyY2UiLAogICAgICAicmVzb3VyY2UiIDogewogICAgICAgICJyZXNvdXJjZVR5cGUiIDogIlBhdGllbnQiLAogICAgICAgICJuYW1lIiA6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgImZhbWlseSIgOiAiTXVzdGVyIiwKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJiaXJ0aERhdGUiIDogIjE5OTUtMDEtMjciCiAgICAgIH0KICAgIH0KICBdCn0="
+
+Instance: FranzMusterNeedsAbsoluteUrl
+InstanceOf: CHPDQmPatient
+Usage: #example
+* meta.security = $v3-ActReason#HTEST
+* identifier[EPR-SPID].system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* identifier[EPR-SPID].value = "761337610411353650"
+* name[0].family = "Muster"
+* name[=].given = "Franz"
+* name[+].family = "Muster"
+* name[=].family.extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier"
+* name[=].family.extension.valueCode = #BR
+* gender = #male
+* birthDate = "1995-01-27"
+
+Profile: ChEprFhirHumanName
+Parent: CHCoreHumanName
+Id: ch-epr-fhir-humanname
+Title: "CH EPR FHIR HumanName"
+Description: "The human name WITHOUT the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
+* ^date = "2020-07-27T00:00:00+10:00"
+* obeys ch-epr-fhir-1
+
+Profile: ChEprFhirBirthName
+Parent: CHCoreHumanName
+Id: ch-epr-fhir-birthname
+Title: "CH EPR FHIR BirthName"
+Description: "The birth name with the ISO 21090 qualifier https://www.hl7.org/fhir/extension-iso21090-en-qualifier.html BR"
+* ^date = "2020-07-07T00:00:00+10:00"
+* . ^short = "BirthName"
+* family 1.. MS
+* family ^short = "The birth name of the patient"
+* family.extension ..2
+* family.extension ^slicing.discriminator.type = #value
+* family.extension ^slicing.discriminator.path = "url"
+* family.extension ^slicing.rules = #closed
+* family.extension contains http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier|5.3.0 named iso21090-EN-qualifier 1..1
+* family.extension[iso21090-EN-qualifier].valueCode 1..1
+* family.extension[iso21090-EN-qualifier].valueCode = #BR (exactly)
+* family.extension[iso21090-EN-qualifier].valueCode ^short = "BR (Birth)"
+
+Invariant: ch-epr-fhir-1
+Description: "For birth name (iso21090-EN-qualifier BR) use slice 'name:BirthName'"
+Severity: #error
+Expression: "family.extension.where(url='http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier' and value='BR').exists()=false"

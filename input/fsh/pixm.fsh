@@ -2,7 +2,7 @@ Profile: CHPIXmPatientFeed
 Parent: CHPDQmPatient
 Id: ch-pixm-patient-feed
 Title: "CH PIXm Patient Feed"
-Description: "The patient contacts information which can be provided in the PIXm Feed."
+Description: "The patient contact information which can be provided in the PIXm Feed."
 * address MS
 * telecom MS
 
@@ -15,7 +15,7 @@ Title:       "CH Audit Event for [ITI-104] Patient Identity Source"
 Description: "This profile is used to define the CH Audit Event for the [ITI-104] transaction and the actor 'Patient
 Identity Source'."
 * insert ChAuditEventBasicRules
-* agent[client] ^short = "The 'Patient Identifier Source' actor (EPR application)"
+* agent[client] ^short = "The 'Patient Identity Source' actor (EPR application)"
 * agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 
 
@@ -25,7 +25,7 @@ Title:       "CH Audit Event for [ITI-104] Patient Identifier Cross-reference Ma
 Description: "This profile is used to define the CH Audit Event for the [ITI-104] transaction and the actor 'Patient
 Identifier Cross-reference Manager' when creating a patient."
 * insert ChAuditEventBasicRules
-* agent[client] ^short = "The 'Patient Identifier Source' actor (EPR application)"
+* agent[client] ^short = "The 'Patient Identity Source' actor (EPR application)"
 * agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
@@ -38,7 +38,7 @@ Title:       "CH Audit Event for [ITI-104] Patient Identifier Cross-reference Ma
 Description: "This profile is used to define the CH Audit Event for the [ITI-104] transaction and the actor 'Patient
 Identifier Cross-reference Manager' when updating a patient."
 * insert ChAuditEventBasicRules
-* agent[client] ^short = "The 'Patient Identifier Source' actor (EPR application)"
+* agent[client] ^short = "The 'Patient Identity Source' actor (EPR application)"
 * agent[server] ^short = "The 'Patient Identifier Cross-reference Manager' actor (Health Dossier API)"
 * entity[patient].what.identifier 1..1
   * value 1..1
@@ -73,3 +73,17 @@ RuleSet: ChAuditEventIti104ExampleRules
     * system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
   * type = $auditEntityType#2
   * role = $objectRole#4
+
+Instance: PatientPIXmFeed
+InstanceOf: CHPIXmPatientFeed
+Usage: #example
+* meta.security = $v3-ActReason#HTEST
+* identifier[EPR-SPID].system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* identifier[EPR-SPID].value = "761337610000000002"
+* name[0].family = "Muster"
+* name[=].given = "Franz"
+* name[+].family = "Muster"
+* name[=].family.extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier"
+* name[=].family.extension.valueCode = #BR
+* gender = #male
+* birthDate = "1995-01-27"

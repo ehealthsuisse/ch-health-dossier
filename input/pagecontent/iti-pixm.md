@@ -1,4 +1,4 @@
-This section specifies Swiss national extensions to Patient Identifier Cross-referencing for mobile (PIXm) profile. PIXm is [published](https://profiles.ihe.net/ITI/PIXm/index.html) as an IHE ITI Trial Implementation profile.
+This section specifies Swiss national extensions to the Patient Identifier Cross-referencing for mobile (PIXm) profile. PIXm is [published](https://profiles.ihe.net/ITI/PIXm/index.html) as an IHE ITI Trial Implementation profile.
 
 ###	Scope  
 In the Swiss Health Dossier, the PIXm profile ensures that different systems can update the patient contact information.
@@ -7,7 +7,7 @@ In the Swiss Health Dossier, the PIXm profile ensures that different systems can
 Patient data like address, contact information (phone number, e-mail) are allowed to be updated by a Health App.
 
 ###	Actors and Transactions, Content Specifications  
-This national extension adds restrictions to only allow updating of a contact information of a patient. 
+This national extension adds restrictions to only allow updating the contact information of a patient. 
 Otherwise there are no extensions or restrictions to the profile actors and the transaction. 
 
 <div>

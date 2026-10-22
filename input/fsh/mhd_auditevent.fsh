@@ -548,7 +548,7 @@ Instance:   ChAuditEventChMhd1ResponderExample
 InstanceOf: ChAuditEventChMhd1Responder
 Title:       "Audit Event for [CH:MHD-1] Document Responder: confidentiality code changed"
 Description: "Audit event of the Document Responder for the update of the confidentiality code of the document
-DocRefPdf by the holder. The confidentiality code itself is not recorded in the audit event."
+DocRefPdf by the holder. The new confidentiality code is recorded in the audit event."
 Usage:      #example
 * insert ChAuditEventChMhd1ExampleRules
 * insert ChAuditEventChMhd1ConfidentialityExampleRules

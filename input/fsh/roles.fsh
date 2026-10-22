@@ -32,7 +32,7 @@ granted them (Art. 11 para. 5 EGDG)."
 * #REP ^designation[=].value = "Vertretung"
 
 * #LEGREP "Legal representative" "A person exercising the rights of a holder who is a minor or who lacks capacity of
-judgement (Art. 12 EGDG). Unlike a representative designated by the holder (`REP`), the rights follow from the law and
+judgment (Art. 12 EGDG). Unlike a representative designated by the holder (`REP`), the rights follow from the law and
 not from a grant by the holder."
 * #LEGREP ^designation[+].language = #de-CH
 * #LEGREP ^designation[=].value = "Gesetzliche Vertretung"

@@ -10,7 +10,7 @@
   <div>
     <ul>
       <li>
-        <a href="CapabilityStatement-CH.EPR.App.html">Health App (client)</a>
+        <a href="CapabilityStatement-CH.HealthDossier.App.html">Health App (client)</a>
         <p>CapabilityStatement for Health App (client).</p>
         <ul>
            <li><a href="CapabilityStatement-CH.PDQm.Consumer.html">PDQm Consumer (client)</a> <p>CapabilityStatement for Actor PDQm Patient Demographics Query Consumer (client).</p>
@@ -43,6 +43,10 @@
             <a href="CapabilityStatement-CH.ATNA.AuditCreator.html">ATNA Audit Creator (client)</a>
             <p>CapabilityStatement for Client Actor in the IHE IT Infrastructure Technical Framework Supplement Add RESTful ATNA.</p>
           </li>
+          <li>
+            <a href="CapabilityStatement-CH.ATC.PatientAuditConsumer.html">CH:ATC Patient Audit Consumer (client)</a>
+            <p>CapabilityStatement for the Patient Audit Consumer actor of ITI-81 in the CH:ATC profile (client).</p>
+          </li>
         </ul>
       </li>
     </ul>
@@ -54,7 +58,7 @@
   <div>
     <ul>
       <li>
-        <a href="CapabilityStatement-CH.EPR.API.html">Health Dossier API (server)</a>
+        <a href="CapabilityStatement-CH.HealthDossier.API.html">Health Dossier API (server)</a>
         <p>CapabilityStatement for Health Dossier API (server).</p>
         <ul>
           <li>
@@ -81,6 +85,10 @@
           <li>
             <a href="CapabilityStatement-CH.ATNA.AuditRecordRepository.html">ATNA Audit Record Repository (server)</a>
             <p>CapabilityStatement for Server Actor in the IHE IT Infrastructure Technical Framework Supplement Add RESTful ATNA.</p>
+          </li>
+          <li>
+            <a href="CapabilityStatement-CH.ATC.PatientAuditRecordService.html">CH:ATC Patient Audit Record Service (server)</a>
+            <p>CapabilityStatement for the Patient Audit Record Service actor of ITI-81 in the CH:ATC profile (server).</p>
           </li>
         </ul>
       </li>

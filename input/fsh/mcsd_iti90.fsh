@@ -1,7 +1,7 @@
 Instance: mCSDITI90ResponseBundle
 InstanceOf: Bundle
 Title: "mCSD Find Matching Care Services Response Bundle"
-Description: "An example of ITI-90 response Bundle in the profile CH mCSD"
+Description: "An example of an ITI-90 response Bundle in the profile CH mCSD"
 * type = #searchset
 * id = "FindMatchingCareServicesResponse"
 * link[0].relation = #self

@@ -42,7 +42,7 @@ The PDQm Patient Demographics Supplier Actor requirements CapabilityStatement ex
 
 - Query against the FHIR endpoint to the Patient Resource endpoint
 - Using FHIR R4
-- shall support both json or xml encoding
+- shall support both json and xml encoding
 - TLS SHALL be used together with IUA basic access token
 - SHALL support the PDQm $match operation
 - SHALL return Patient Resources conforming to the PDQm Patient Profile

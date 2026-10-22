@@ -9,6 +9,6 @@ participant "Policy Source" as PolicySource
 participant "Policy Repository" as PolicyRepository
 
 "PolicySource" -> "PolicyRepository" : HTTP <b>POST</b> [baseUrl]\nPayload: Bundle of type "transaction"
-"PolicyRepository" --> "PolicySource" : HTTP response\nPayload: Bundle of type "transaction-outcome" / OperationOutcome
+"PolicyRepository" --> "PolicySource" : HTTP response\nPayload: Bundle of type "transaction-response" / OperationOutcome
 
 @enduml

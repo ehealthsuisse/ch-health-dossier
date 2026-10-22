@@ -5,7 +5,7 @@ An EPR App needs to submit audit records according to the IHE ITI profiles. The 
 supplement allows an EPR App to add audit events through a RESTful Feed to the Audit Record Repository.
 
 ###	Use Cases  
-No extensions or restrictions to the profile use cases are specified in the Swiss in national extension.
+No extensions or restrictions to the profile use cases are specified in the Swiss national extension.
 
 ### Actors and Transactions  
 No extensions or restrictions to the actors and transactions are specified in the Swiss national extension. 
@@ -33,5 +33,5 @@ This national extension enforces authentication and authorization for access con
 <br/>
 
 ### Security Consideration
-This national extension enforces authentication and authorization of access to the Patient Identifier Cross-reference
-Manager using the IUA profile as described in [IUA](iti-71.html).
+This national extension enforces authentication and authorization of access to the Audit Record
+Repository using the IUA profile as described in [IUA](iti-71.html).

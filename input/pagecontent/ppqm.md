@@ -79,7 +79,7 @@ The required actor groupings are shown in Table 3:
 | Policy Consumer   | IUA Authorization Client | R           | `TCU` not allowed |
 {:class="table table-bordered"}
 
-Table 3: CH:PPQm required actors groupings
+Table 3: CH:PPQm required actor groupings
 
 ### Referenced Standards
 

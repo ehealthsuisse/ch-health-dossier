@@ -1,6 +1,7 @@
 Alias: ReasonCodeExtension = http://hl7.org/fhir/StructureDefinition/workflow-reasonCode
 Alias: DCM = http://dicom.nema.org/resources/ontology/DCM
 Alias: $sct = http://snomed.info/sct
+Alias: $v3-ActReason = http://terminology.hl7.org/CodeSystem/v3-ActReason
 Alias: $m49.htm = http://unstats.un.org/unsd/methods/m49/m49.htm
 Alias: $v2-0203 = http://terminology.hl7.org/CodeSystem/v2-0203
 Alias: $MHDlistTypes = https://profiles.ihe.net/ITI/MHD/CodeSystem/MHDlistTypes
@@ -32,6 +33,7 @@ Alias: $ch-epr-fhir-birthname = http://fhir.ch/ig/ch-health-dossier/StructureDef
 Alias: $ch-ext-patient-religion = http://hl7.org/fhir/StructureDefinition/patient-religion
 Alias: $ch-ext-provider-role = http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-provider-role
 Alias: $IHE.MHD.UniqueIdIdentifier = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.UniqueIdIdentifier
+Alias: $IHE.MHD.MHDIdentifierType = https://profiles.ihe.net/ITI/MHD/CodeSystem/IHE.MHD.MHDIdentifierType
 Alias: $IHE.MHD.FindDocumentReferencesResponseMessage = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.FindDocumentReferencesResponseMessage
 Alias: $IHE.MHD.Minimal.ProvideBundle = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.ProvideBundle
 Alias: $IHE.MHD.Minimal.SubmissionSet = https://profiles.ihe.net/ITI/MHD/StructureDefinition/IHE.MHD.Minimal.SubmissionSet

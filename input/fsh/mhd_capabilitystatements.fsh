@@ -20,7 +20,7 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.resource[0].type = #DocumentReference
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference"
+* rest.resource[=].supportedProfile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].searchParam[0].name = "_id"
@@ -117,10 +117,11 @@ Usage: #definition
 * rest.security.cors = false
 * rest.security.description = "TLS SHALL be used together with IUA extended access token"
 * rest.resource[0].type = #DocumentReference
-* rest.resource[=].profile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference"
+* rest.resource[=].supportedProfile = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-documentreference"
 * rest.resource[=].interaction[0].code = #read
 * rest.resource[=].interaction[+].code = #search-type
 * rest.resource[=].interaction[+].code = #update
+* rest.resource[=].interaction[=].documentation = "Update Document Metadata [CH:MHD-1]: the updated DocumentReference SHALL conform to CH MHD DocumentReference."
 * rest.resource[=].operation[0].name = "purge"
 * rest.resource[=].operation[=].definition = "http://fhir.ch/ig/ch-health-dossier/OperationDefinition/CHMhdPurge"
 * rest.resource[=].operation[=].documentation = "Purge Document [CH:MHD-2]"

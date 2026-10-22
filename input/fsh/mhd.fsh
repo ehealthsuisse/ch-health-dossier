@@ -1,7 +1,7 @@
 Instance: MhdOperationOutcomeErrorMetadataIdentifierError
 InstanceOf: OperationOutcome
 Title: "MHD OperationOutcome DocumentReference update error identifiers"
-Description: "Error OperationOutcome that the updated DocumentReference has not same values for the identifiers"
+Description: "Error OperationOutcome that the updated DocumentReference does not have the same values for the identifiers"
 Usage: #example
 * issue[0].severity = #error
 * issue[=].code = #processing
@@ -10,7 +10,7 @@ Usage: #example
 Instance: MhdOperationOutcomeErrorPatientIDReconciliationError
 InstanceOf: OperationOutcome
 Title: "MHD OperationOutcome DocumentReference update error patient id reconciliation"
-Description: "Error OperationOutcome that the updated DocumentReference references not the same patient"
+Description: "Error OperationOutcome that the updated DocumentReference does not reference the same patient"
 Usage: #example
 * issue[0].severity = #error
 * issue[=].code = #processing
@@ -72,7 +72,7 @@ Description: "CH MHD Profile on CH Core DocumentReference"
      ChExtPersonalNote named personalNote 0..1 MS
 * extension[personalNote] ^short = "Personal note of the holder on the document"
 * extension[personalNote] ^comment = "The holder can record a personal note on a document where they do not agree with
-the author on the correctness of its data, or where the author is no longer practising. The note is recorded with the
+the author on the correctness of its data, or where the author is no longer practicing. The note is recorded with the
 metadata of the document, the document itself and its data stay unchanged. A document carries at most one personal
 note: recording a note on a document which already has one replaces the existing note. The note is not part of
 `DocumentReference.description`, which carries the comment of the author of the document."
@@ -164,7 +164,7 @@ Update Document Metadata [CH:MHD-1]. It is not necessarily the institution of th
 * content.attachment.url ^comment = "When providing the document, this URL SHALL point to the resource carrying the
 document content, which SHALL be included in the Bundle: a Binary resource wrapping the document content, or, for a
 FHIR document provided with the FHIR Documents Publish Option, the FHIR document Bundle resource itself. When
-retrieving the DocumentReference, this URL SHALL be the the one to use in ITI-68 transactions to retrieve the document
+retrieving the DocumentReference, this URL SHALL be the one to use in ITI-68 transactions to retrieve the document
 content."
 * content.attachment.size ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
 * content.attachment.hash ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
@@ -190,7 +190,7 @@ content."
 * context.practiceSetting ^binding.extension.valueString = "DocumentC80PracticeSetting"
 * context.practiceSetting ^binding.description = "Additional details about where the content was created (e.g. clinical specialty)."
 * context.related ^slicing.discriminator.type = #value
-* context.related ^slicing.discriminator.path = "identifier"
+* context.related ^slicing.discriminator.path = "identifier.system"
 * context.related ^slicing.rules = #open
 * context.related ^comment = "References to resources, or identifiers, the document is related to."
 * context.related contains
@@ -229,7 +229,7 @@ Profile: ChFindDocumentReferencesResponse
 Parent: Bundle
 Id: ch-mhd-documentreference-bundle
 Title: "CH MHD Find Document References Minimal Response message"
-Description: "A profile on the Find Document References Minimal Response message for ITI-68"
+Description: "A profile on the Find Document References Minimal Response message for ITI-67"
 * type = #searchset (exactly)
 * total 1..
 * entry ^slicing.discriminator.type = #profile
@@ -251,7 +251,7 @@ Description: "A profile on the Find Document References Minimal Response message
 * entry[OperationOutcome].resource ^type.profile = Canonical(OperationOutcome)
 
 Invariant: ch-mhd-bdl-1
-Description: "The fullUrl must be an absolute URL server address or an URI for UUID/OID"
+Description: "The fullUrl must be an absolute URL server address or a URI for UUID/OID"
 * severity = #error
 * expression = "startsWith('http') or startsWith('urn:uuid:') = true"
 
@@ -326,8 +326,7 @@ Description: "CH MHD SubmissionSet"
 * extension[sourceId] ^sliceName = "sourceId"
 * extension[sourceId] ^mustSupport = true
 * identifier[uniqueId] MS
-* identifier[entryUUID] MS
-* identifier ^short = "identifier, for uniqueID set use to usual"
+* identifier ^short = "Identifiers of the SubmissionSet; the slices are distinguished by Identifier.type (uniqueId, entryUUID)"
 * status MS
 * mode MS
 * code MS
@@ -401,10 +400,7 @@ Usage: #example
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:7261fa25-b36d-4660-a58a-d9df4370e985"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -426,6 +422,45 @@ Usage: #example
 * content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
 * context.facilityType = $sct#264358009 "General practice premises (environment)"
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
+
+Instance: DocRefKos
+InstanceOf: ch-mhd-documentreference
+Title: "DocumentReference for a DICOM KOS Manifest"
+Description: "DocumentReference for a DICOM KOS manifest of a radiology study, with the StudyInstanceUID of the imaging study in context.related"
+Usage: #example
+* contained.resourceType = "PractitionerRole"
+* contained.id = "author"
+* contained.practitioner.type = "Practitioner"
+* contained.practitioner.display = "Dr. med. Martina Musterarzt"
+* contained.organization.type = "Organization"
+* contained.organization.display = "Spital X, Institut für Radiologie"
+* extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
+* masterIdentifier.system = "urn:ietf:rfc:3986"
+* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2952"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
+* status = #current
+* type = $sct#900000000000471006 "Image reference"
+* category = $sct#371525003 "Clinical procedure report"
+* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
+* subject.identifier.value = "761337610411353650"
+* date = "2025-09-24T12:01:30+00:00"
+* author.reference = "#author"
+* custodian.type = "Organization"
+* custodian.identifier.system = "urn:ietf:rfc:3986"
+* custodian.identifier.value = "urn:oid:2.2.2.2"
+* custodian.display = "Spital X"
+* description = "Manifest of a radiology study"
+* securityLabel = $sct#17621005 "Normal (qualifier value)"
+* content.attachment.contentType = #application/dicom
+* content.attachment.language = #de-CH
+* content.attachment.url = "urn:uuid:9a1b6f30-27bd-4a0c-9a2f-6c8c2b0c1a77"
+* content.attachment.title = "Manifest of a radiology study"
+* content.attachment.creation = "2025-09-24T12:01:30+00:00"
+* content.format = urn:oid:1.2.840.10008.2.6.1#1.2.840.10008.5.1.4.1.1.88.59 "DICOM Manifest (DICOM KOS SOP Class UID)"
+* context.facilityType = $sct#722171005 "Diagnostic institution (environment)"
+* context.practiceSetting = $sct#394914008 "Radiology - specialty (qualifier value)"
+* context.related[StudyInstanceUID].identifier.system = "urn:dicom:uid"
+* context.related[StudyInstanceUID].identifier.value = "urn:oid:2.25.254740554952681474007791839575354065445"
 
 Instance: CHMhd1UpdateDocumentMetadataTransactionRequestExample
 InstanceOf: CHMhd1UpdateDocumentMetadataTransactionRequest
@@ -477,7 +512,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2949"
 * status = #current
@@ -500,10 +535,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:7261fa25-b36d-4660-a58a-d9df4370e985"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -588,10 +620,7 @@ Usage: #example
 * extension[personalNote].valueAnnotation.text = "Die im Bericht genannte Penicillin-Allergie ist nicht korrekt, ich habe keine bekannte Allergie. Die Praxis wurde am 2.10.2025 informiert."
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:7261fa25-b36d-4660-a58a-d9df4370e985"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -646,7 +675,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2953"
 * status = #current
@@ -669,10 +698,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2952"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:a4c8e2f6-1b3d-4e5f-8a9c-0d1e2f3a4b5c"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -719,10 +745,7 @@ Usage: #example
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2951"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:7261fa25-b36d-4660-a58a-d9df4370e985"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #superseded
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -777,7 +800,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2954"
 * status = #current
@@ -794,10 +817,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2955"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:b5d9f3a7-2c4e-4f6a-9b0d-1e2f3a4b5c6d"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -812,7 +832,7 @@ Usage: #inline
 * custodian.identifier.system = "urn:ietf:rfc:3986"
 * custodian.identifier.value = "urn:oid:2.2.2.1"
 * custodian.display = "Praxis Seeblick"
-* description = "Konsultationsbericht als FHIR Dokument"
+* description = "Konsultationsbericht als FHIR-Dokument"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/fhir+json
 * content.attachment.language = #de-CH
@@ -892,10 +912,7 @@ Usage: #example
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#PAT "Patient"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2956"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e90"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -937,10 +954,7 @@ Usage: #example
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#TCU "Technical user"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2957"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e5f"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -989,7 +1003,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.7"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2958"
 * status = #current
@@ -1012,10 +1026,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#PAT "Patient"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2956"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:2c7b0f4e-6a1d-4f3b-9e52-8d4a1c6b7e90"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -1060,7 +1071,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.8"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2959"
 * status = #current
@@ -1087,10 +1098,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#TCU "Technical user"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2957"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:5d9e1a3c-7b2f-4c8d-a6e4-0f1b2c3d4e5f"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -1139,7 +1147,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2961"
 * status = #current
@@ -1162,10 +1170,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#ASS "Assistant"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2960"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:8e3b5d7f-9a1c-4b2d-8c4e-6f7a8b9c0d1e"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -1205,10 +1210,7 @@ Usage: #example
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2965"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:9b4c6e8a-1d3f-4a5b-8c7d-2e4f6a8b0c1d"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
@@ -1290,7 +1292,7 @@ Usage: #inline
 * extension[0].url = "https://profiles.ihe.net/ITI/MHD/StructureDefinition/ihe-sourceId"
 * extension[=].valueIdentifier.system = "urn:ietf:rfc:3986"
 * extension[=].valueIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.5"
-* identifier.use = #usual
+* identifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * identifier.system = "urn:ietf:rfc:3986"
 * identifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.6.2965"
 * status = #current
@@ -1310,10 +1312,7 @@ Usage: #inline
 * extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
 * masterIdentifier.system = "urn:ietf:rfc:3986"
 * masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2965"
-* masterIdentifier.use = #usual
-* identifier.use = #official
-* identifier.system = "urn:ietf:rfc:3986"
-* identifier.value = "urn:uuid:9b4c6e8a-1d3f-4a5b-8c7d-2e4f6a8b0c1d"
+* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
 * status = #current
 * type = $sct#419891008 "Record artifact"
 * category = $sct#405624007 "Administrative documentation"
