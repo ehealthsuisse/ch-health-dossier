@@ -128,6 +128,8 @@
   * Aligned with CH EPR FHIR 5.0.0: added the `client_id` parameter to the
     [Access Token Request](openid-connect.html#access-token-request), the Access Token Response is returned to the
     request instead of the Redirection URI and the UserInfo example shows the payload of the signed JWT.
+  * Corrected spelling and grammar in the [OpenID Connect](openid-connect.html) and [ITI-71](iti-71.html) pages, and
+    fixed a broken link and unbalanced parentheses in [ITI-71](iti-71.html).
 * Sequence diagrams
   * Removed the SMART on FHIR sequence diagrams for patients and healthcare professionals (EHR launch).
   * Removed the mTLS option, the IUA JWT token option is now the regular IUA flow with the extended access token.
