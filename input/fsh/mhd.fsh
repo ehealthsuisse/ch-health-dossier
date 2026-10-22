@@ -1,7 +1,7 @@
 Instance: MhdOperationOutcomeErrorMetadataIdentifierError
 InstanceOf: OperationOutcome
 Title: "MHD OperationOutcome DocumentReference update error identifiers"
-Description: "Error OperationOutcome that the updated DocumentReference has not same values for the identifiers"
+Description: "Error OperationOutcome that the updated DocumentReference does not have the same values for the identifiers"
 Usage: #example
 * issue[0].severity = #error
 * issue[=].code = #processing
@@ -10,7 +10,7 @@ Usage: #example
 Instance: MhdOperationOutcomeErrorPatientIDReconciliationError
 InstanceOf: OperationOutcome
 Title: "MHD OperationOutcome DocumentReference update error patient id reconciliation"
-Description: "Error OperationOutcome that the updated DocumentReference references not the same patient"
+Description: "Error OperationOutcome that the updated DocumentReference does not reference the same patient"
 Usage: #example
 * issue[0].severity = #error
 * issue[=].code = #processing
@@ -72,7 +72,7 @@ Description: "CH MHD Profile on CH Core DocumentReference"
      ChExtPersonalNote named personalNote 0..1 MS
 * extension[personalNote] ^short = "Personal note of the holder on the document"
 * extension[personalNote] ^comment = "The holder can record a personal note on a document where they do not agree with
-the author on the correctness of its data, or where the author is no longer practising. The note is recorded with the
+the author on the correctness of its data, or where the author is no longer practicing. The note is recorded with the
 metadata of the document, the document itself and its data stay unchanged. A document carries at most one personal
 note: recording a note on a document which already has one replaces the existing note. The note is not part of
 `DocumentReference.description`, which carries the comment of the author of the document."
@@ -164,7 +164,7 @@ Update Document Metadata [CH:MHD-1]. It is not necessarily the institution of th
 * content.attachment.url ^comment = "When providing the document, this URL SHALL point to the resource carrying the
 document content, which SHALL be included in the Bundle: a Binary resource wrapping the document content, or, for a
 FHIR document provided with the FHIR Documents Publish Option, the FHIR document Bundle resource itself. When
-retrieving the DocumentReference, this URL SHALL be the the one to use in ITI-68 transactions to retrieve the document
+retrieving the DocumentReference, this URL SHALL be the one to use in ITI-68 transactions to retrieve the document
 content."
 * content.attachment.size ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
 * content.attachment.hash ^comment = "SHALL be absent where the document content is a FHIR document Bundle resource."
@@ -251,7 +251,7 @@ Description: "A profile on the Find Document References Minimal Response message
 * entry[OperationOutcome].resource ^type.profile = Canonical(OperationOutcome)
 
 Invariant: ch-mhd-bdl-1
-Description: "The fullUrl must be an absolute URL server address or an URI for UUID/OID"
+Description: "The fullUrl must be an absolute URL server address or a URI for UUID/OID"
 * severity = #error
 * expression = "startsWith('http') or startsWith('urn:uuid:') = true"
 
@@ -832,7 +832,7 @@ Usage: #inline
 * custodian.identifier.system = "urn:ietf:rfc:3986"
 * custodian.identifier.value = "urn:oid:2.2.2.1"
 * custodian.display = "Praxis Seeblick"
-* description = "Konsultationsbericht als FHIR Dokument"
+* description = "Konsultationsbericht als FHIR-Dokument"
 * securityLabel = $sct#17621005 "Normal (qualifier value)"
 * content.attachment.contentType = #application/fhir+json
 * content.attachment.language = #de-CH

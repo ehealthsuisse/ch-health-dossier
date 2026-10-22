@@ -10,9 +10,9 @@ This transaction is used to incorporate authorization information into HTTP REST
 ### Actor Roles
 
 **Actor:** IUA Authorization Client  
-**Role:** Authorization component of a HTTP RESTful transaction client.      
+**Role:** Authorization component of an HTTP RESTful transaction client.      
 **Actor:** IUA Resource Server  
-**Role:** Authorization component of a HTTP RESTful transaction server.
+**Role:** Authorization component of an HTTP RESTful transaction server.
 
 
 This national extension restricts the Actor options of the IUA Trial Implementation to comply to the legal requirements

@@ -55,7 +55,7 @@ pages:
   iti-pdqm.md:
     title: Patient Demographics Query for Mobile (PDQm)
   iti-pixm.md:
-    title: Patient Identifier Cross-reference for Mobile (PIXm)
+    title: Patient Identifier Cross-referencing for Mobile (PIXm)
   iti-mhd.md:
     title: Mobile Access to Health Documents (MHD)
   iti-restful-atna.md:
@@ -159,7 +159,7 @@ menu:
     Mobile Privacy Policy Feed [PPQ-3]: ppq-3.html
     Mobile Privacy Policy Bundle Feed [PPQ-4]: ppq-4.html
     Mobile Privacy Policy Retrieve [PPQ-5]: ppq-5.html
-    Retrieve Audit Event [ITI-81]: iti-81.html
+    Retrieve ATNA Audit Event [ITI-81]: iti-81.html
   Volume 3:
     CH:ATC Audit Event Content Profiles: volume3.html
     Document Sharing Metadata: document-sharing-metadata.html
@@ -171,7 +171,7 @@ menu:
     Extensions: extensions.html
     Terminology: terminology.html
     Capability Statements: capstatements.html
-    Sequence diagrams: sequencediagrams.html
+    Sequence Diagrams: sequencediagrams.html
     Enforcement of Access Rules: accesscontrol.html
     Trace Context: tracecontext.html
     Open Issues / Change Log: changelog.html
@@ -216,7 +216,7 @@ resources:
     exampleBoolean: false
   SearchParameter/AuditEvent-entity-identifier:
     name: Search Parameter AuditEvent entity.identifier
-    description: Defines the IHE RESTFul ATNA Query Parameter entity.identifier for an AuditEvent.
+    description: Defines the IHE RESTful ATNA Query Parameter entity.identifier for an AuditEvent.
     exampleBoolean: false
   StructureDefinition/ch-atc-auditevent:
     name: CH ATC AuditEvent
@@ -240,14 +240,14 @@ resources:
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-patient
   Bundle/PDQm-QueryResponse:
     name: PDQm Match response message
-    description: CH PDQm Match response message example result for Franz Muster, 27.1.1955
+    description: CH PDQm Match response message example result for Franz Muster, 27.1.1995
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-matchparametersout
   Bundle/PDQm-QueryResponseTooManyResults:
     name: PDQm Match response message too many results
     description: CH PDQm Match response message with too many results indication
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-matchparametersout
   OperationOutcome/PDQmResponseTooManyResults:
-    name: PDQm OperationOutcome too Many Results Example
+    name: PDQm OperationOutcome too many results Example
     description: An example on the OperationOutcome for too many search results.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-pdqm-toomanyresults
   OperationOutcome/MhdOperationOutcomeErrorUnmodifiableMetadataError:
@@ -257,11 +257,11 @@ resources:
     exampleBoolean: true
   OperationOutcome/MhdOperationOutcomeErrorPatientIDReconciliationError:
     name: MHD OperationOutcome DocumentReference update error patient id reconciliation
-    description: Error OperationOutcome that the updated DocumentReference references not the same patient
+    description: Error OperationOutcome that the updated DocumentReference does not reference the same patient
     exampleBoolean: true
   OperationOutcome/MhdOperationOutcomeErrorMetadataIdentifierError:
     name: MHD OperationOutcome DocumentReference update error identifiers
-    description: Error OperationOutcome that the updated DocumentReference has not same values for the identifiers
+    description: Error OperationOutcome that the updated DocumentReference does not have the same values for the identifiers
     exampleBoolean: true
   Practitioner/DrPeterPan:
     name: mCSD Practitioner Dr. Peter Pan
@@ -309,35 +309,35 @@ resources:
     description: CH:PPQm Retrieve Response Bundle
   AuditEvent/ChAuditEventIti65SourceExample:
     name: Example of audit event for an [ITI-65] transaction at Source
-    description: This example shows an  made by the Document Source for an ITI-65 transaction.
+    description: This example shows an audit event made by the Document Source for an ITI-65 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti65Source
   AuditEvent/ChAuditEventIti65RecipientExample:
     name: Example of audit event for an [ITI-65] transaction at Recipient
-    description: This example shows an  made by the Document Recipient for an ITI-65 transaction.
+    description: This example shows an audit event made by the Document Recipient for an ITI-65 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti65Recipient
   AuditEvent/ChAuditEventIti67ConsumerExample:
     name: Example of audit event for an [ITI-67] transaction at Consumer
-    description: This example shows an  made by the Document Consumer for an ITI-67 transaction.
+    description: This example shows an audit event made by the Document Consumer for an ITI-67 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti67Consumer
   AuditEvent/ChAuditEventIti67ResponderExample:
     name: Example of audit event for an [ITI-67] transaction at Responder
-    description: This example shows an  made by the Document Responder for an ITI-67 transaction.
+    description: This example shows an audit event made by the Document Responder for an ITI-67 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti67Responder
   AuditEvent/ChAuditEventIti68ConsumerExample:
     name: Example of audit event for an [ITI-68] transaction at Consumer
-    description: This example shows an  made by the Document Consumer for an ITI-68 transaction.
+    description: This example shows an audit event made by the Document Consumer for an ITI-68 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti68Consumer
   AuditEvent/ChAuditEventIti68ResponderExample:
     name: Example of audit event for an [ITI-68] transaction at Responder
-    description: This example shows an  made by the Document Responder for an ITI-68 transaction.
+    description: This example shows an audit event made by the Document Responder for an ITI-68 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti68Responder
   AuditEvent/ChAuditEventChMhd1SourceExample:
     name: Example of audit event for a [CH:MHD-1] transaction at Source
-    description: This example shows an  made by the Document Source for a CH:MHD-1 transaction.
+    description: This example shows an audit event made by the Document Source for a CH:MHD-1 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-source
   AuditEvent/ChAuditEventChMhd1ResponderExample:
     name: Example of audit event for a [CH:MHD-1] transaction at Responder
-    description: This example shows an  made by the Document Responder for a CH:MHD-1 transaction.
+    description: This example shows an audit event made by the Document Responder for a CH:MHD-1 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-updatedocumentmetadata-audit-responder
   AuditEvent/ChAuditEventChMhd2SourceExample:
     name: Example of audit event for a [CH:MHD-2] transaction at Source
@@ -349,19 +349,19 @@ resources:
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-mhd-purgedocument-audit-responder
   AuditEvent/ChAuditEventIti104SourceExample:
     name: Example of audit event for an [ITI-104] transaction at Source
-    description: This example shows an  made by the Patient Identity Source for an ITI-104 transaction.
+    description: This example shows an audit event made by the Patient Identity Source for an ITI-104 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti104Source
   AuditEvent/ChAuditEventIti104ManagerUpdateExample:
     name: Example of audit event for an [ITI-104] update transaction at Manager
-    description: This example shows an  made by the Patient Identifier Cross-reference Manager for an ITI-104 transaction that revised an existing Patient.
+    description: This example shows an audit event made by the Patient Identifier Cross-reference Manager for an ITI-104 transaction that revised an existing Patient.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti104ManagerUpdate
   AuditEvent/ChAuditEventIti119ConsumerExample:
     name: Example of audit event for an [ITI-119] transaction at Consumer
-    description: This example shows an  made by the Patient Demographics Consumer for an ITI-119 transaction.
+    description: This example shows an audit event made by the Patient Demographics Consumer for an ITI-119 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti119Consumer
   AuditEvent/ChAuditEventIti119SupplierExample:
     name: Example of audit event for an [ITI-119] transaction at Supplier
-    description: This example shows an  made by the Patient Demographics Supplier for an ITI-119 transaction.
+    description: This example shows an audit event made by the Patient Demographics Supplier for an ITI-119 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti119Supplier
   AuditEvent/ChAuditEventPpq3CreateExample:
     name: Example of audit event for a [PPQ-3] create transaction
@@ -381,31 +381,31 @@ resources:
     exampleBoolean: true
   AuditEvent/ChAuditEventPpq5ConsumerExample:
     name: Example of audit event for a [PPQ-5] transaction at Consumer
-    description: This example shows an  made by the Policy Consumer for a PPQ-5 transaction.
+    description: This example shows an audit event made by the Policy Consumer for a PPQ-5 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq5Consumer
   AuditEvent/ChAuditEventPpq5RepositoryExample:
     name: Example of audit event for a [PPQ-5] transaction at Repository
-    description: This example shows an  made by the Policy Repository for a PPQ-5 transaction.
+    description: This example shows an audit event made by the Policy Repository for a PPQ-5 transaction.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventPpq5Repository
   AuditEvent/ChAuditEventIti90ReadExample:
     name: Example of audit event for an [ITI-90] read transaction
-    description: This example shows an  made by the Query Client for an ITI-90 transaction that read an Organization.
+    description: This example shows an audit event made by the Query Client for an ITI-90 transaction that read an Organization.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti90Read
   AuditEvent/ChAuditEventIti90QueryExample:
     name: Example of audit event for an [ITI-90] query transaction
-    description: This example shows an  made by the Directory for an ITI-90 transaction that searched Practitioners.
+    description: This example shows an audit event made by the Directory for an ITI-90 transaction that searched Practitioners.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti90Query
   AuditEvent/ChAuditEventIti130CreateExample:
-    name: Example of audit event for a [ITI-130] create transaction
-    description: This example shows an AuditEvent made by the Data Source for a ITI-130 transaction that created a new PractitionerRole (relationship).
+    name: Example of audit event for an [ITI-130] create transaction
+    description: This example shows an AuditEvent made by the Data Source for an ITI-130 transaction that created a new PractitionerRole (relationship).
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti130Create
   AuditEvent/ChAuditEventIti130UpdateExample:
-    name: Example of audit event for a [ITI-130] update transaction
-    description: This example shows an AuditEvent made by the Directory for a ITI-130 transaction that updated an existing Practitioner.
+    name: Example of audit event for an [ITI-130] update transaction
+    description: This example shows an AuditEvent made by the Directory for an ITI-130 transaction that updated an existing Practitioner.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti130Update
   AuditEvent/ChAuditEventIti130DeleteExample:
-    name: Example of audit event for a [ITI-130] delete transaction
-    description: This example shows an AuditEvent made by the Directory for a ITI-130 transaction that deleted an Organization.
+    name: Example of audit event for an [ITI-130] delete transaction
+    description: This example shows an AuditEvent made by the Directory for an ITI-130 transaction that deleted an Organization.
     exampleCanonical: http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ChAuditEventIti130Delete
   Organization/mCSD-Peer-to-peer-Organization-Auryn-Spital:
     name: mCSD-Peer-to-peer-Organization-Auryn-Spital
@@ -449,11 +449,11 @@ resources:
   PractitionerRole/mCSD-Peer-to-peer-PractitionerRole-BastianBuxAuryn-Spital:
     name: mCSD-Peer-to-peer-PractitionerRole-BastianBuxAuryn-Spital
     description: Resource PractitionerRole BastianBuxAuryn-Spital
-  PractitionerRole/mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFurchur-Klinik:
-    name: mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFurchur-Klinik
-    description: Resource PractitionerRole GisiGmorkFurchur-Klinik
-  PractitionerRole/mCSD-Peer-to-peer-PractitionerRole-KarlKoreanderFurchur-Klinik:
-    name: mCSD-Peer-to-peer-PractitionerRole-KarlKoreanderFurchur-Klinik
+  PractitionerRole/mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFuchur-Klinik:
+    name: mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFuchur-Klinik
+    description: Resource PractitionerRole GisiGmorkFuchur-Klinik
+  PractitionerRole/mCSD-Peer-to-peer-PractitionerRole-KoreanderFuchur-Klinik:
+    name: mCSD-Peer-to-peer-PractitionerRole-KoreanderFuchur-Klinik
     description: Resource PractitionerRole KarlKoreanderFuchur-Klinik
 # For parameters defined by core FHIR see: 
 # http://build.fhir.org/codesystem-guide-parameter-code.html.

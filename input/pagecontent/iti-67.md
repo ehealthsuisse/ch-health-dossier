@@ -26,14 +26,14 @@ query parameters.
 
 #### Find Document References Request Message
 
-The Document Consumer SHALL include the search parameter patient.identifier with the oid of the EPR-SPID.
+The Document Consumer SHALL include the search parameter patient.identifier with the OID of the EPR-SPID.
 The holder is given in `DocumentReference.subject` as a logical reference with the EPR-SPID in `subject.identifier` (see
 [Holder](document-sharing-metadata.html#holder)). The Document Responder SHALL resolve this logical reference through
 the EPR-SPID to the holder in the community, so that the chained search parameter `patient.identifier` finds the
 documents of the holder.
 The search parameters of type [token](https://hl7.org/fhir/R4/search.html#token) SHALL contain both the system and the code.
 
-_Find Document Reference_ example **request**:
+_Find Document References_ example **request**:
 ```http
 GET [base]/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current HTTP/1.1
 Accept: application/fhir+json
@@ -46,7 +46,7 @@ The Document Responder SHALL support the [Full-Text Search Option](https://profi
 with the search parameter `full-text`, which specifies terms or phrases used to search the textual content of the documents
 (see [MHD Actor Options](iti-mhd.html#full-text-search-option)). The Document Consumer MAY use the `full-text` search parameter.
 
-_Find Document Reference_ example **request** with full-text search:
+_Find Document References_ example **request** with full-text search:
 ```http
 GET [base]/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current&full-text=diabetes%20AND%20%22chronic%20pain%22 HTTP/1.1
 Accept: application/fhir+json
@@ -59,7 +59,7 @@ The Document Responder SHALL support the search parameter `custodian` with the m
 documents provided on behalf of an institution or group (see
 [Provider institution](document-sharing-metadata.html#provider-institution)).
 
-_Find Document Reference_ example **request** for the documents provided by an institution:
+_Find Document References_ example **request** for the documents provided by an institution:
 ```http
 GET [base]/DocumentReference?patient.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&status=current&custodian:identifier=urn:ietf:rfc:3986|urn:oid:2.2.2.1 HTTP/1.1
 Accept: application/fhir+json

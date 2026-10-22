@@ -3,7 +3,7 @@ This section specifies Swiss national extensions to Internet User Authorization 
 
 ### Scope
 
-This national extension provides means to retrieve access tokens and to incorporate them to transactions
+This national extension provides means to retrieve access tokens and to incorporate them into transactions
 to authorize client applications and to evaluate user access rights when accessing protected resources of the 
 Swiss EPR. It therefore defines certain restrictions and extensions to the Internet User Authorization (IUA) 
 Profile [published](https://profiles.ihe.net/ITI/IUA/index.html).
@@ -23,7 +23,7 @@ to retrieve an authorization token to access the EPR.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to the EPR-SPID). The IUA Authorization
-Server responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and 
+Server responds with an IUA Authorization Token the portal shall incorporate into any transaction to retrieve the data and 
 documents from the holder's EPR.
 
 #### Holder Access from a digital health app
@@ -35,7 +35,7 @@ to retrieve an authorization token to access the holder's EPR.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to the EPR-SPID). The IUA Authorization
-Server responds an IUA Authorization Token the digital health app shall incorporate to all transaction to retrieve the 
+Server responds with an IUA Authorization Token the digital health app shall incorporate into all transactions to retrieve the 
 data and documents from the holder's EPR.
 
 #### User Access from a Primary System
@@ -51,7 +51,7 @@ of the user during onboarding.
 
 The Authorization Server validates the claims together with the data from the identity token and resolves additional
 information required to access the EPR (e.g., resolve the digital identity to GLN). The IUA Authorization Server
-responds an IUA Authorization Token the portal shall incorporate to any transaction to retrieve the data and documents
+responds with an IUA Authorization Token the primary system shall incorporate into any transaction to retrieve the data and documents
 from the holder's EPR.
 
 #### Writing documents from clinical archives
@@ -68,13 +68,13 @@ access the holder's EPR. The IUA Authorization Server verifies if the clinical a
 onboarding and authorized to access the EPR.
 
 The Authorization Server validates the claims and resolves additional information required to access the EPR. The IUA 
-Authorization Server responds an IUA Authorization Token the clinical archive system shall incorporate to any transaction 
+Authorization Server responds with an IUA Authorization Token the clinical archive system shall incorporate into any transaction 
 to retrieve the data and documents from the holder's EPR.
 
 ### Actors and Transactions
 
 This national extension enhances the requirements on transactions and the expected actions of the Actors of the IUA Trial
-Implementation to comply to the legal requirements of the Health Dossier.
+Implementation to comply with the legal requirements of the Health Dossier.
 
 <div>
 {%include IUA_actor_diagram.svg %}
@@ -107,13 +107,13 @@ The actors SHALL be grouped with other actors as follows:
 |------------------------------|--------------------------------------------------------|-------------|
 | Authorization Client         | CT Time Client                                         | R           |
 |                              | ATNA Secure Node with [STX:HTTPS IUA Option](https://profiles.ihe.net/ITI/IUA/index.html#9267-stx-https-iua-option) | R           |
-| Resource server              | CT Time Client                                         | R           |
+| Resource Server              | CT Time Client                                         | R           |
 |                              | ATNA Secure Node with [STX:HTTPS IUA Option](https://profiles.ihe.net/ITI/IUA/index.html#9267-stx-https-iua-option) | R           |
 | Authorization Server         | CT Time Client                                         | R           |
 | User Authentication Provider | CT Time Client                                         | R           |
 {:class="table table-bordered"}
 
-The grouping of actors with IUA Authorization Client and Resource Server actor are defined in the respective profile 
+The groupings of actors with IUA Authorization Client and Resource Server actor are defined in the respective profile 
 sections.
 
 ### Process Flow

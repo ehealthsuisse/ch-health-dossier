@@ -379,7 +379,7 @@ Usage: #definition
 * status = #active
 * experimental = false
 * date = "2019-08-15"
-* description = "This parameter specifies unique identifier for the object. The parameter value should be identified in accordance to the entity type."
+* description = "This parameter specifies the unique identifier of the object. The parameter value should be identified in accordance with the entity type."
 * code = #entity-identifier
 * base = #AuditEvent
 * type = #token

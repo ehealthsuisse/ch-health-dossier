@@ -14,7 +14,7 @@ Description: "CH mCSD profile on PractitionerRole"
 
 
 Invariant: ch-mcsd-practitionerrole-ihe-conformance
-Description: "The Practitioner needs to conform to IHE.mCSD.PractitionerRole"
+Description: "The PractitionerRole needs to conform to IHE.mCSD.PractitionerRole"
 Expression: "conformsTo('https://profiles.ihe.net/ITI/mCSD/StructureDefinition/IHE.mCSD.PractitionerRole')"
 Severity: #error
 
@@ -92,7 +92,7 @@ Usage: #example
 * code = $sct#309343006 "Physician"
 * specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
 
-Instance: mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFurchur-Klinik
+Instance: mCSD-Peer-to-peer-PractitionerRole-GisiGmorkFuchur-Klinik
 InstanceOf: CHmCSDPractitionerRole
 Usage: #example
 * active = true
@@ -101,7 +101,7 @@ Usage: #example
 * code = $sct#309343006 "Physician"
 * specialty = urn:oid:2.16.756.5.30.1.127.3.5#1051 "General internal medicine"
 
-Instance: mCSD-Peer-to-peer-PractitionerRole-KarlKoreanderFurchur-Klinik
+Instance: mCSD-Peer-to-peer-PractitionerRole-KoreanderFuchur-Klinik
 InstanceOf: CHmCSDPractitionerRole
 Usage: #example
 * active = true

@@ -177,7 +177,7 @@ Expression:     "lower().matches('^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-
 Severity:       #error
 
 Invariant:      ch-ppqm-date-format
-Description:    "Timestamp must have precision of days, i.e. not contain the time part"
+Description:    "The timestamp must have a precision of days, i.e. not contain the time part"
 Expression:     "toString().matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')"
 Severity:       #error
 
@@ -277,7 +277,7 @@ Title: "CH PPQm Consent: Access for a Health Professional, Group or Health Insti
 Description: "The holder grants a health professional, a group of health professionals or a health institution the
 right to read the documents of the confidentiality level 'normal' (Art. 11 para. 2 let. a, Art. 13 para. 1 EGDG),
 optionally for a limited period and with the right to pass it on. Every health professional and assistant registered
-in the directory as member of a group or health institution inherits the right of the group or institution. Access to
+in the directory as a member of a group or health institution inherits the right of the group or institution. Access to
 documents of the confidentiality level 'restricted' is granted individually in nested provisions."
 * category = HealthDossierConsentType#access
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-access"
@@ -499,7 +499,7 @@ Id: ch-ppqm-consent-digital-health-application
 Title: "CH PPQm Consent: Digital Health Application (C10)"
 Description: "The holder authorizes an admitted digital health application to access the health dossier on the
 holder's behalf for a chosen period (Art. 11 para. 2 let. c, Art. 16 EGDG). The actions granted are the scopes the
-IUA Authorization Server may issue to the application, which acts as client of the authenticated holder. The
+IUA Authorization Server may issue to the application, which acts as a client of the authenticated holder. The
 authorization is revoked automatically after three months of inactivity."
 * category = HealthDossierConsentType#digital-health-application
 * policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application"

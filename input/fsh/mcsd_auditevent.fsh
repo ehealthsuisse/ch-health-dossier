@@ -145,7 +145,7 @@ RuleSet: ChAuditEventIti130ExampleRules
   * who.display = "HPD"
   * requestor = false
   * network
-    * type = #5 // The address needs to be define in each example (transaction specific)
+    * type = #5 // The address needs to be defined in each example (transaction specific)
 * entity[traceparent]
   * what.identifier.value = "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00"
   * type = $auditEntityType#4 "Other"
