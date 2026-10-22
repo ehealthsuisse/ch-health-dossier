@@ -38,16 +38,40 @@ shall present the `id_token` with the [Get Access Token](iti-71.html#message-sem
 #### Identifier mapping
 
 When receiving a Get Access Token request, the Authorization Server shall resolve the Subject Identifier issued by the 
-Identity Provider to a role dependent identifier used in the health dossier, i.e. the identifier used in the consent 
-resources which define the access rights of the user (see [PPM Consent](ppqm-consent.html)).
+Identity Provider to a role dependent identifier used in the health dossier as described in 
+[Get Access Token](iti-71.html#expected-actions).
 
-Depending on the users' role, the IUA Authorization Server queries one of the databases which stores the mapping from
+Depending on the users' role, the IUA Authorization Server queries one of the databases for the mapping from
 the Subject Identifier and the identifier used in the health dossier. For instance, the database used for holder 
 and representatives may be the Master Patient Index, or the Provider Directory for health professionals, assistants 
 and community administrators. The details of the implementation are left to the vendor of the health information system 
 and are therefore out of scope of this specification.
 
-Ref to [Get Access Token](iti-71.html#the-jwt-ch_epr-extension)
+The IUA Authorization Server responds the health dossier identifier in the access token of the Get Access Token 
+response as described in [Get Access Token](iti-71.html#the-jwt-ch_epr-extension).
+
+Since clients shall convey the access token with every access to the services of the health dossier, the services 
+know the identity of the user for all requests and use it to enforce access rights. For example, the health dossier 
+identifier is used in the consent resources, which define the access rights of the 
+user (see [PPM Consent](ppqm-consent.html)).
+
+#### Identifier Issuer
+
+The following table lists the identifiers used in the health dossier and their issuers: 
+
+| user role                       | health dossier identifier | issuer                            |
+|---------------------------------|---------------------------|-----------------------------------|
+| Patient (`PAT`)                 | EPR-SPID                  | Central Compensation Office (CCO) |
+| Healthcare Professional (`HCP`) | GLN                       | refdata                           |
+| Assistant (`ASS`)               | GLN                       | refdata                           |
+| Administrator (`ADM`)           | GLN                       | refdata                           |
+| Representative (`REP`)          | Representative ID         | health dossier information system |
+| Legal Representative (`LEGREP`) | Representative ID         | health dossier information system |
+{:class="table table-bordered"}
+
+<figcaption>Table: User role, health dossier identifier and issuer.</figcaption>
+
+<br/>
 
 
 
