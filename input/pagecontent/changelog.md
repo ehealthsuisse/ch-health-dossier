@@ -54,6 +54,9 @@
   [ch-epr-fhir#482](https://github.com/ehealthsuisse/ch-epr-fhir/issues/482).
 * [ITI-20](iti-20.html): reference updated to Add RESTful ATNA (Query and Feed) Rev. 3.6
   [ch-epr-fhir#467](https://github.com/ehealthsuisse/ch-epr-fhir/issues/467).
+* Converted the remaining XML and JSON resources (examples, CapabilityStatements, SearchParameter and the profiles
+  `ch-atc-auditevent`, `ch-epr-fhir-humanname` and `ch-epr-fhir-birthname`) to FSH, and removed the unused example
+  `AllzeitBereit`.
 * Renamed the CapabilityStatements `CH.EPR.App` to [CH.HealthDossier.App](CapabilityStatement-CH.HealthDossier.App.html)
   and `CH.EPR.API` to [CH.HealthDossier.API](CapabilityStatement-CH.HealthDossier.API.html).
 * IUA
