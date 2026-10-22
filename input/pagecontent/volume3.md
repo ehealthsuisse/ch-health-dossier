@@ -34,7 +34,7 @@ record it, the actor making the request MAY record it. A Patient Audit Consumer 
 types with the search parameter `subtype` (see [ITI-81](iti-81.html)).
 
 The code system succeeds the Audit Trail Consumption event types of the EPR
-([Codesystem 2.16.756.5.30.1.127.3.10.7](https://fhir.ch/ig/ch-term/CodeSystem-2.16.756.5.30.1.127.3.10.7.html)). The
+([Code system 2.16.756.5.30.1.127.3.10.7](https://fhir.ch/ig/ch-term/CodeSystem-2.16.756.5.30.1.127.3.10.7.html)). The
 codes whose meaning is unchanged keep their value. The document update (`ATC_DOC_UPDATE`) is split into the change of
 the confidentiality code and the recording of a personal note, and the new version of a document and the setting of the
 indirect authorization are added. The default confidentiality level (`ATC_POL_DEF_CONFLEVEL`), the exclusion list

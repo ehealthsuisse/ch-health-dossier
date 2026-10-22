@@ -4,7 +4,7 @@ The Retrieve ATNA Audit Event [ITI-81] transaction is defined in [IHE ITI TF-2: 
 
 #### Message Semantics
 
-The Retrieve ATNA Audit Event message shall be a HTTP GET request sent to the Patient Audit Record Service. This message is a FHIR search (see [http://hl7.org/fhir/R4/search.html](http://hl7.org/fhir/R4/search.html)) on AuditEvent Resources (see [http://hl7.org/fhir/R4/auditevent.html](http://hl7.org/fhir/R4/auditevent.html)). This "search" target is formatted as:
+The Retrieve ATNA Audit Event message shall be an HTTP GET request sent to the Patient Audit Record Service. This message is a FHIR search (see [http://hl7.org/fhir/R4/search.html](http://hl7.org/fhir/R4/search.html)) on AuditEvent Resources (see [http://hl7.org/fhir/R4/auditevent.html](http://hl7.org/fhir/R4/auditevent.html)). This "search" target is formatted as:
 
 ``` http
 <scheme>://<authority>/<path>/AuditEvent?date=ge[start-time]&date=le[stop-time]&<query>
@@ -24,12 +24,12 @@ where:
 
 #### Additional ATNA Search Parameters
 
-The Patient Audit Consumer may use the search parameters listed in Retrieve Audit Event [ITI-81]. The Patient Audit
+The Patient Audit Consumer may use the search parameters listed in Retrieve ATNA Audit Event [ITI-81]. The Patient Audit
 Record Service SHALL evaluate all search parameters on the masked audit events (see [Expected Actions](#expected-actions)),
 never on the recorded audit events: a search parameter on an element which is not returned, e.g. `address` or the
 identifier of an assistant, does not match any audit event.
 
-**entity.identifier** is a parameter of token type. This parameter specifies unique identifier for the object. The parameter value should be identified in accordance to the entity type;   
+**entity.identifier** is a parameter of token type. This parameter specifies the unique identifier of the object. The parameter value should be identified in accordance with the entity type;   
 For example:   
 ``` http
 http://example.com/fhir/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650

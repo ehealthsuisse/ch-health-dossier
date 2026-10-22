@@ -1,6 +1,6 @@
 ### Trace Context header
 
-For all transaction described in this implementation guide, the HTTP `traceparent` header is specified. This header 
+For all transactions described in this implementation guide, the HTTP `traceparent` header is specified. This header 
 is defined in the [W3C Trace Context Recommendation](https://www.w3.org/TR/trace-context/).
 
 The header value is made of four parts separated by dashes: the **version**, **trace-id**, **parent-id** and
@@ -36,7 +36,7 @@ It also links transactions to their audit events, through the whole `traceparent
 
 The `traceparent` header value of a transaction SHALL be added to the generated Audit Event: for the client,
 the header value of the request; for the responder, the header value of the response.
-It is described as an `AuditEvent.entity`, with the `type` and `role` element as demonstrated below.
+It is described as an `AuditEvent.entity`, with the `type` and `role` elements as demonstrated below.
 
 ```json
 {

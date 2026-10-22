@@ -27,7 +27,7 @@ The “Send Audit Resource Request Message – FHIR Feed Interaction” is used 
 ##### Trigger Events
 
 This message is sent when an actor that is grouped with Secure Node or Secure Application or an
-Audit Record Forwarder needs to post a single or multiple AuditEvent Resource to the Audit Record
+Audit Record Forwarder needs to post a single or multiple AuditEvent Resources to the Audit Record
 Repository.
 
 ##### Message Semantics
@@ -43,7 +43,7 @@ The user of the transaction is recorded from the access token in up to two agent
 
 - the main user (`agent[mainUser]`) is the responsible party: the holder, representative, legal representative,
   healthcare professional, administrator or technical user who made the request. A technical user is identified by
-  the GLN of the legal responsible person of the clinical archive system;
+  the GLN of the legally responsible person of the clinical archive system;
 - where an assistant made the request on behalf of a healthcare professional, i.e. the access token carries the
   `ch_delegation` extension, the healthcare professional (the principal) is the main user and the assistant is
   recorded as the delegated user (`agent[delegatedUser]`).

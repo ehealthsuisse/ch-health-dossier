@@ -61,8 +61,8 @@
   and `CH.EPR.API` to [CH.HealthDossier.API](CapabilityStatement-CH.HealthDossier.API.html).
 * IUA
   * Refactored the specification to use the IUA client credential flow for portals, primary systems and digital health apps and convey 
-    the Identity Token in in the *id_token* field of the token request. 
-  * Add support for client-asymmetric authentication specified in FHIR Backend Service authentication section and is used in the European Health Data Space and UMZH Connect.  
+    the Identity Token in the *id_token* field of the token request. 
+  * Added support for client-asymmetric authentication specified in the FHIR Backend Service authentication section, which is used in the European Health Data Space and UMZH Connect.  
   * Added the [Client Registration](client-registration.html) page specifying the user authorized and the dGA dynamic
     client registration (RFC 7591) with `private_key_jwt` [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11).
   * Removed the SMART on FHIR standalone and EHR launch option. 
@@ -101,7 +101,7 @@
     [CH Audit Event with a Basic Auth Token](StructureDefinition-ChAuditEventBasicToken-mappings.html): for an access
     token with the `ch_delegation` extension (assistant) the healthcare professional (principal) is the main user
     and the authenticated assistant is the delegated user; the mapping had the two swapped. A technical user is the
-    main user, identified by the GLN of the legal responsible person. Described the two agents in [ITI-20](iti-20.html).
+    main user, identified by the GLN of the legally responsible person. Described the two agents in [ITI-20](iti-20.html).
   * Added the value set [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) (`NORM`, `EMER`)
     for the `purpose_of_use` of the access token in [ITI-71](iti-71.html), the consents and the audit events, instead
     of the CH Term value set `EprPurposeOfUse`. The purpose of use `AUTO` (automatic upload) is no longer used, the
@@ -123,6 +123,12 @@
     `XDSPatientIDReconciliationError` to `MetadataIdentifierError` and `PatientIDReconciliationError`.
   * Removed the unused NamingSystem `IheItiXds2013UniqueId` (`urn:ihe:iti:xds:2013:uniqueId`).
   * Distinct titles for the PPQm code systems and value sets with the same title.
+  * Corrected spelling and grammar in the pages, profiles, examples and diagrams; fixed the OID of the EPR-SPID in the
+    [ITI-104](iti-104.html) example request, the protected actor in the [RESTful ATNA](iti-restful-atna.html) security
+    consideration, the EGDG links in French and Italian, the birth date in the PDQm Match response example and the
+    description of the CH:MHD-1 confidentiality audit event examples, and renamed the PractitionerRole examples
+    `...Furchur-Klinik` to `...Fuchur-Klinik` (`KarlKoreanderFurchur-Klinik` to `KoreanderFuchur-Klinik`, as the id with
+    `Fuchur` still exceeds the path length allowed in the package).
 * OpenID Connect
   * Added the OpenID Connect page (Annex 8) specifying the authorization code flow, identity token, UserInfo and RP-initiated logout for EPR Identity Providers.
   * Aligned with CH EPR FHIR 5.0.0: added the `client_id` parameter to the
@@ -231,7 +237,7 @@
     (`DocumentReference.relatesTo` of type `replaces`) and
     [replaced document with status superseded](DocumentReference-DocRefPdfSuperseded.html).
   * Added the transaction [Purge Document [CH:MHD-2]](ch-mhd-2.html) with the synchronous operation
-    [`DocumentReference/[id]/$purge`](OperationDefinition-CHMhdPurge.html), modelled after the R6 `Patient/$purge`
+    [`DocumentReference/[id]/$purge`](OperationDefinition-CHMhdPurge.html), modeled after the R6 `Patient/$purge`
     operation, which irrevocably removes a document with all versions of its metadata. It replaces requesting the
     deletion with CH:MHD-1 by setting the DeletionStatus extension to `deletionRequested`; the DeletionStatus
     extension itself is kept for now.
@@ -244,7 +250,7 @@
     their health dossier deleted, the ones they recorded themselves as well as the ones a health professional or
     health institution published, with [CH:MHD-2](ch-mhd-2.html).
   * Added the use case [Patient adds a personal note to a document](iti-mhd.html#use-cases): where patient and author
-    do not agree on the correctness of a document, or the author is no longer practising, the patient can record a
+    do not agree on the correctness of a document, or the author is no longer practicing, the patient can record a
     personal note on the document, without a new version of the document. The note is recorded with
     [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note) in the new extension
     [CH Extension Personal Note](StructureDefinition-ch-ext-personalnote.html), which carries an `Annotation` with the
@@ -266,7 +272,7 @@
     (`urn:oid:2.16.756.5.30.1.127.3.10.19`) with the roles of the E-GD, succeeding the CH Term code system for eHealth
     roles (`urn:oid:2.16.756.5.30.1.127.3.10.6`): the two administrator roles Document Administrator (`DADM`) and
     Policy Administrator (`PADM`) are replaced by the single role `ADM` (Administration), and `LEGREP` (Gesetzliche
-    Vertretung) is added for the legal representative of a minor or of a person lacking capacity of judgement, as
+    Vertretung) is added for the legal representative of a minor or of a person lacking capacity of judgment, as
     distinct from a representative designated by the patient (`REP`). The OID still has to be registered with
     eHealth Suisse
   * Replaced the ValueSet `EprParticipant` with [CH Health Dossier Participant](ValueSet-HealthDossierParticipant.html),
@@ -286,7 +292,7 @@
   * The pages name the two levels by their SNOMED CT concepts, "normal" and "restricted", instead of the EGDG terms
     "allgemein" and "privat"; [ITI-65](document-sharing-metadata.html#confidentiality-code) gives the mapping.
 * PPQm
-  * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalogue of the E-GD authorization system: a
+  * Adapted [CH:PPQm](ppqm.html) to the EGDG and the requirements catalog of the E-GD authorization system: a
     Consent records one decision of the patient per consent type, instead of the image of an EPR policy set template.
     Separated the rights by law from the rights by consent, described a use case per consent type and added the
     authorization of the transactions by consent type and role.

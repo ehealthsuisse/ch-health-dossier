@@ -108,20 +108,20 @@ The software statement contains the following claims:
 Upon receiving the registration request, the Authorization Server SHALL:
 
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the Identity Provider accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later or equal to the time the token was issued by 
+2. verify that the `id_token` is signed by one of the Identity Providers accepted for the health dossier.
+3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by 
 the Identity Provider.
 4. verify that the user identified by the `id_token` is entitled to the registration variant: a holder or their 
 representative for dGA Client Registration, a healthcare professional or assistant for User Authorized Client Registration.
 5. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process by 
 checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key, and checking that 
-the current time does not exceed software statement expiration time `exp`.
+the current time does not exceed the software statement expiration time `exp`.
 
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
 register the application with this `client_id`, the user ID and the issuer identifier from the `id_token`, and 
 the submitted metadata, including the public key for client authentication.
 
-If one of the above checks fail, the Authorization Server SHALL reject the request with an error response as defined in
+If one of the above checks fails, the Authorization Server SHALL reject the request with an error response as defined in
 [RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`, `invalid_software_statement` or 
 `unapproved_software_statement`.
 
@@ -277,7 +277,7 @@ The `id_token` SHALL be used solely for the purpose of authenticating and author
 registering user and the end user of the registered client application MAY be different persons. A client 
 application registration is therefore not bound to the identity of the registering user for the purpose of later 
 data access, and the authorization server SHALL NOT assume that the end user is the registering user. For instance, 
-a primary system may be registered by one health professional and is subsequently used by other health professionals 
+a primary system may be registered by one health professional and subsequently used by other health professionals 
 or assistants in the same practice.
 
 #### Client registration and data access

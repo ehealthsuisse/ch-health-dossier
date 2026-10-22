@@ -2,7 +2,7 @@ This page defines the metadata of the documents in the health dossier: which met
 set each one is bound to, and the element of the DocumentReference it is conveyed in. The metadata are the same in all
 document transactions: the Document Source provides them with [Provide Document Bundle [ITI-65]](iti-65.html), the
 Document Responder returns them with [Find Document References [ITI-67]](iti-67.html), and the holder may update some
-of them with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html). They are defined in the profiles
+of them with [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html). They are defined in the profile
 [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html).
 
 ### Document metadata
@@ -145,7 +145,7 @@ code with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 ### Personal note
 
 The holder may record a personal note on a document, e.g. where the holder does not agree with the author on the
-correctness of its data (Art. 8 Abs. 4 EGDG). The note is conveyed in the extension
+correctness of its data (Art. 8 para. 4 EGDG). The note is conveyed in the extension
 [personalNote](StructureDefinition-ch-ext-personalnote.html) with the text of the note, the holder it belongs to and the
 time it was recorded. It is part of the metadata only: the document itself stays unchanged and no new version is
 provided. A document may carry at most one personal note of the holder.

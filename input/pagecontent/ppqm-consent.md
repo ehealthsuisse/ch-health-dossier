@@ -187,7 +187,7 @@ EGDG).
 
 #### Legal representative {#consent-legal-representative}
 
-A legal representative exercises the rights of a holder who is a minor or lacks the capacity of judgement (Art. 12
+A legal representative exercises the rights of a holder who is a minor or lacks the capacity of judgment (Art. 12
 EGDG). The administration of the community records the legal representative on the instruction of the competent
 authority, never the holder.
 

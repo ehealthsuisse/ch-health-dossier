@@ -198,7 +198,7 @@ RuleSet: ChExampleAuditEventBaseRules(sourceSlice, destinationSlice, server)
   * type = DCM#110152 "Destination Role ID"
   * who.display = "{server}"
   * requestor = false
-  * network.type = #5 // The address needs to be define in each example (transaction specific)
+  * network.type = #5 // The address needs to be defined in each example (transaction specific)
 * entity[traceparent]
   * what.identifier.value = "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00"
   * type = $auditEntityType#4 "Other"
@@ -219,7 +219,7 @@ RuleSet: ChExampleAuditEventServerRules(server)
   * observer.display = "{server}"
 
 
-// Rules for an extended token for an healthcare professional
+// Rules for an extended token for a healthcare professional
 RuleSet: ChExampleAuditEventHcpRules
 * agent[mainUser]
   * role = $healthDossierRole#HCP "Healthcare professional"

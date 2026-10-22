@@ -124,7 +124,7 @@ The response message is a [Search Results Bundle](http://hl7.org/fhir/R4/bundle.
 **[Organizations](StructureDefinition-CH.mCSD.Organization.html)**,
 **[Practitioners](StructureDefinition-CH.mCSD.Practitioner.html)** and
 **[PractitionerRoles](StructureDefinition-CH.mCSD.PractitionerRole.html)**.
-[An example of response message](Bundle-FindMatchingCareServicesResponse.html) is provided.
+[An example of a response message](Bundle-FindMatchingCareServicesResponse.html) is provided.
 
 #### Retrieve Care Services Resource Message
 

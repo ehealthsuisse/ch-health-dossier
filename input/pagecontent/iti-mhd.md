@@ -3,8 +3,8 @@ This section specifies Swiss national extensions to the Mobile Access to Health 
 The national extension adds two transactions from the Document Source to the Document Responder, [Update Document Metadata [CH:MHD-1]](ch-mhd-1.html) and [Purge Document [CH:MHD-2]](ch-mhd-2.html).
 
 ### Scope  
-An Health App can query, retrieve or provide data to/from the Health Dossier API using the transaction of the MHD profile. 
-An Health App can update the metadata of a provided document and purge a provided document with this national extension.  
+A Health App can query, retrieve or provide data to/from the Health Dossier API using the transactions of the MHD profile. 
+A Health App can update the metadata of a provided document and purge a provided document with this national extension.  
 
 ###	Use Cases  
 The national extension supports the following Use Cases:
@@ -19,13 +19,13 @@ A holder, a representative, a healthcare professional or an assistant searches t
 A document was provided that contains incorrect data.  A healthcare professional or an assistant provides a new version of the document with the correct data; the incorrect document is neither overwritten nor removed, it remains accessible in the health dossier so that the correction stays traceable for the holder. How the corrected document is published is described in [ITI-65](iti-65.html#correction-of-a-provided-document).
 
 #### Healthcare professional purges a document provided for the wrong person
-A holder, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has provided a document to the health dossier of the wrong person. Such a document is not corrected by a new version but has to be purged, and the healthcare professional which provided it has to purge it. How the document is purged is described in [CH:MHD-2](ch-mhd-2.html).
+A holder, a healthcare professional, an assistant, or a technical user (e.g. the clinical archive system of a health institution) has provided a document to the health dossier of the wrong person. Such a document is not corrected by a new version but has to be purged, and the healthcare professional who provided it has to purge it. How the document is purged is described in [CH:MHD-2](ch-mhd-2.html).
 
 #### Holder changes confidentiality code of a document
-A holder wants to change the confidentiality code of one of his documents. The holder or a representative updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
+A holder wants to change the confidentiality code of one of his documents. The holder or a representative updates the confidentiality code in the Health App and the Health App submits the updated metadata through the Health Dossier API. How the confidentiality code is updated is described in [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 #### Holder adds a personal note to a document
-A holder and the healthcare professional which provided a document do not agree on the correctness of the data in that document. The holder or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
+A holder and the healthcare professional who provided a document do not agree on the correctness of the data in that document. The holder or a representative can then record a personal note on the document. The note is recorded with the metadata of the document, the document itself and its data stay unchanged and no new version of the document is published. How the note is recorded is described in [CH:MHD-1](ch-mhd-1.html#recording-a-personal-note).
 
 #### Holder purges a document
 A holder or a representative wants to purge a document of their health dossier. How the document is purged is described in [CH:MHD-2](ch-mhd-2.html).
@@ -48,7 +48,7 @@ The Find Document Lists [[ITI-66]](https://profiles.ihe.net/ITI/MHD/ITI-66.html)
 
 ### Actor options  
 
-Options that can be selected for each actor in this profile, are listed in the table below. 
+Options that can be selected for each actor in this profile are listed in the table below. 
 
 {:class="table table-bordered"}
 | Actor              | Options                                                                                   | Optionality |

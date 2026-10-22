@@ -158,7 +158,7 @@ authorization is added. The access to the audit trail keeps its code."
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[+].language = #it-CH
 * #ATC_POL_DIS_INDIRECT_AUT ^designation[=].value = "Escludere il conferimento indiretto di diritti d'accesso"
 
-* #ATC_LOG_READ "Accessing the Patient Audit Record Service" "Access to the patient audit reports service"
+* #ATC_LOG_READ "Accessing the Patient Audit Record Service" "Access to the Patient Audit Record Service"
 * #ATC_LOG_READ ^designation[+].language = #de-CH
 * #ATC_LOG_READ ^designation[=].value = "Zugriff auf den patientenbezogenen Auditprotokoll-Dienst"
 * #ATC_LOG_READ ^designation[+].language = #fr-CH

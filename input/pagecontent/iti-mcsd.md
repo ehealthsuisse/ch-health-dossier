@@ -18,7 +18,7 @@ The _Request Care Services Updates_ [ITI-91] transaction is not used in this nat
 
 A primary system wants to provide updated information about its healthcare organizations or professionals to a 
 directory.
-It can perform a [ITI-130](iti-130.html) request to update a resource.
+It can perform an [ITI-130](iti-130.html) request to update a resource.
 It offers an alternative to the HPD ITI-59 transaction, which is SOAP-based.
 
 ### Actors and Transactions, Content Specifications
@@ -87,7 +87,7 @@ using the IUA profile as described in [IUA](iti-71.html).
 ### Examples
 
 The examples of this national extension are based on the following structure of health institutions with their
-root and sub-organisations and of health professionals:
+root and sub-organizations and of health professionals:
 <img alt="Structure of the example health institutions and health professionals"
      style="max-width:100%"
      src="assets/images/ehealthsuisse_HPD_Structure.png" />

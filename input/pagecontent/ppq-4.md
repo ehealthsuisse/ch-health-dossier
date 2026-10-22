@@ -27,7 +27,7 @@ The request SHALL be sent to `[baseUrl]`.
 
 Upon receiving the HTTP `POST` request, the Policy Repository SHALL:
 - Validate the Bundle resource contained in the request body.
-- On each request entry, perform the operation specified the attribute `entry.request.method` on the embedded
+- On each request entry, perform the operation specified by the attribute `entry.request.method` on the embedded
   [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) resource, with the authorization, validation and
   Policy Repository rules of [PPQ-3](ppq-3.html#expected-actions-common-to-all-http-methods):
   - "POST" — add the consent.

@@ -35,9 +35,9 @@ enforced from the access token, the directory and the metadata of the documents.
 | Right | Who | Legal basis |
 |---|---|---|
 | Record treatment-relevant data | Health professionals, and assistants on their behalf; military health professionals only with a [consent](ppqm-consent.html#consent-military-recording) | Art. 14 EGDG |
-| Search, view, provide a new version of and purge the documents provided by a member of the own group or health institution ([provider institution](document-sharing-metadata.html#provider-institution)) | Health professionals and assistants registered as members of the group or health institution | Art. 8 EGDG |
+| Search, view, provide a new version of and purge the documents provided by a member of their own group or health institution ([provider institution](document-sharing-metadata.html#provider-institution)) | Health professionals and assistants registered as members of the group or health institution | Art. 8 EGDG |
 | Act on behalf of a health professional or health institution | Assistants (`ASS`), within the rights of the health professional (`principal_id`) | Art. 26 and 28 EGDG |
-| Maintain the directory entries of the own members | The administration of a community (`ADM`), and staff of a health institution authorized by the community | Art. 15 para. 2 EGDG |
+| Maintain the directory entries of its own members | The administration of a community (`ADM`), and staff of a health institution authorized by the community | Art. 15 para. 2 EGDG |
 | View the directory of health professionals and health institutions | All authenticated users | — |
 {:class="table table-bordered"}
 
@@ -107,7 +107,7 @@ of the holder for its community is in effect.
 
 | Activity of the administration | Legal basis | Rule |
 |---|---|---|
-| Maintain the directory entries of the own members ([ITI-130](iti-130.html)) | Art. 15 para. 2 EGDG, by law | No holder concerned; the entry belongs to the community. |
+| Maintain the directory entries of its own members ([ITI-130](iti-130.html)) | Art. 15 para. 2 EGDG, by law | No holder concerned; the entry belongs to the community. |
 | Open and dissolve a health dossier | Art. 22 and 24 EGDG | Recorded in the Register E-GD; the Policy Repository adds and deletes the consents itself (see [Opening](ppqm-consent.html#consent-opening)). |
 | Record a legal representative | Art. 12 para. 4 EGDG | Consent type [legal representative](ppqm-consent.html#consent-legal-representative); the instruction of the authority stays with the community. |
 | Process the content or the settings of a health dossier on behalf of the holder (documents, contact data, audit trail, consents) | Art. 15 para. 1 EGDG, on mandate of the holder | Consent type [community mandate](ppqm-consent.html#consent-community-mandate), per support case and until its end date. |

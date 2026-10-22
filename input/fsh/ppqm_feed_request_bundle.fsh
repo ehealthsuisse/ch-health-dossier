@@ -23,7 +23,7 @@ Description: "Bundle for Mobile Privacy Policy Bundle Feed requests"
 
 
 Invariant:      ch-epr-ppqm-method-equality
-Description:    "HTTP methods of all request shall be the same"
+Description:    "HTTP methods of all requests shall be the same"
 Expression:     "entry.request.method.distinct().count() = 1"
 Severity:       #error
 
