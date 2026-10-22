@@ -50,26 +50,65 @@ and are therefore out of scope of this specification.
 The IUA Authorization Server responds the health dossier identifier in the access token of the Get Access Token 
 response as described in [Get Access Token](iti-71.html#the-jwt-ch_epr-extension).
 
-Since clients shall convey the access token with every access to the services of the health dossier, the services 
+Since clients must present the access token with every access to the services of the health dossier, the services 
 know the identity of the user for all requests and use it to enforce access rights. For example, the health dossier 
 identifier is used in the consent resources, which define the access rights of the 
 user (see [PPM Consent](ppqm-consent.html)).
 
-#### Identifier Issuer
+#### Health Dossier Identifier and Issuer
 
 The following table lists the identifiers used in the health dossier and their issuers: 
 
-| user role                       | health dossier identifier | issuer                            |
-|---------------------------------|---------------------------|-----------------------------------|
-| Patient (`PAT`)                 | EPR-SPID                  | Central Compensation Office (CCO) |
-| Healthcare Professional (`HCP`) | GLN                       | refdata                           |
-| Assistant (`ASS`)               | GLN                       | refdata                           |
-| Administrator (`ADM`)           | GLN                       | refdata                           |
-| Representative (`REP`)          | Representative ID         | health dossier information system |
-| Legal Representative (`LEGREP`) | Representative ID         | health dossier information system |
+| user role               | health dossier identifier | issuer                            |
+|-------------------------|---------------------------|-----------------------------------|
+| Holder                  | EPR-SPID                  | Central Compensation Office (CCO) |
+| Healthcare Professional | GLN                       | refdata                           |
+| Assistant               | GLN                       | refdata                           |
+| Administrator           | GLN                       | refdata                           |
+| Representative          | Representative ID         | health dossier information system |
+| Legal Representative    | Representative ID         | health dossier information system |
 {:class="table table-bordered"}
 
 <figcaption>Table: User role, health dossier identifier and issuer.</figcaption>
+
+##### Holder
+
+Holder are identified with the active national identifier (EPR-SPID) issued by the Central Compensation Office (CCO). 
+This identifier shall be used to identify the patient in all transactions, the document metadata and the consent resources. 
+
+This impacts the FHIR API in the following way:
+- All references to patients are made by the identifier EPR-SPID. 
+- The FHIR APIs support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm). 
+- Resources are profiled that a logical reference with the EPR-SPID identifier is provided.
+
+##### Healthcare Professional
+
+Healthcare Professionals are identified with the Global Location Number (GLN) issued 
+by [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln). 
+
+This impacts the FHIR API in the following way:
+- All references to healthcare professionals are made by the GLN.
+- The FHIR APIs support of the GLN as a query parameter (e.g. CH:mCSD).
+- Resources are profiled that a logical reference with the GLN identifier is provided.
+
+##### Assistant
+
+Assistants which act on behalf of an healthcare professional or an institution, are identified with the 
+Global Location Number (GLN) issued by [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln).
+
+Assistants are identified with their GLN in the provider directory only. The GLN indicates the assistant’s relation 
+to the healthcare professional, group, or institution on whose behalf the assistant acts. Assistants are never 
+identified by their GLN in document metadata or consent resources, since they inherit the access rights of the 
+healthcare professional, group, or institution on whose behalf they act.
+
+##### Administrator
+
+##### Representative
+
+##### Legal Representative
+
+##### Groups and Institutions
+
 
 <br/>
 
@@ -78,23 +117,6 @@ The following table lists the identifiers used in the health dossier and their i
 
 
 #### -----------------------------------------------------------------------------------------------------------------
-
-#### Holder Identifier
-
-Each patient has one active national identifier (EPR-SPID) which shall be used to identify the patient in transactions.
-This impacts the FHIR API in the following way:
-
-#### logical reference for patients and health care professionals, contained resources
-
-- No addressable patient resources: All references to patients are made by the identifier EPR-SPID since there is no
-  national master patient which could be referenced. This is the reason that IHE PIXm and PDQm with the $match
-  transaction have been selected and not IHE MHDS/PMIR. Systems may store the EPR-SPID.
-  Therefore, FHIR APIs require the support of the patient logical identifier as a query parameter (e.g. MHD, CH:PPQm)
-  and the resources are profiled that a logical reference with the EPR-SPID identifier have to be provided.
-- The same principle applies for health care professionals, they are identified by the GLN number and references to
-  them need to include also the logical reference from other resources (e.g. DocumentReference).
-- Information which has to be provided and has no own identity in the Health Dossier (e.g., as author and organization name in
-  document publishing) are represented as contained resources.
 
 
 #### Representative ID and administrator GLN
@@ -125,15 +147,6 @@ To be clarified:
 - whether a person who represents several patients has one representative ID or one per patient.
 - if an identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization
   Clients, and the link is needed per client.
-</div>
-
-<div markdown="1" class="stu-note">
-To be clarified: the identity provider only delivers the subject identifier (`sub`) of the identity token, never the
-`user_id_qualifier`, which the IUA Authorization Server sets according to the role. For patients and healthcare
-professionals the Authorization Server resolves `sub` to an identifier which exists independently (EPR-SPID, GLN). For
-representatives, legal representatives and the administration no such identifier is defined: where the representative
-ID and the administrator ID come from, and how they are linked to the `sub` of the identity provider, is open. If an
-identity provider issues pairwise subject identifiers per client, `sub` is not stable across IUA Authorization Clients.
 </div>
 
 <div markdown="1" class="stu-note">

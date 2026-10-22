@@ -310,7 +310,7 @@ in the JWT access token of the Get Access Token Response. It's attributes are:
 
 | user role                       | user_id           | user_id_qualifier                     | 
 |---------------------------------|-------------------|---------------------------------------|
-| Patient (`PAT`)                 | EPR-SPID          | urn:e-health-suisse:2015:epr-spid     |                                                                      
+| Holder (`PAT`)                  | EPR-SPID          | urn:e-health-suisse:2015:epr-spid     |                                                                      
 | Healthcare Professional (`HCP`) | GLN               | urn:gs1:gln                           |                                                                      
 | Assistant (`ASS`)               | GLN               | urn:gs1:gln                           |                                                                      
 | Representative (`REP`)          | Representative ID | urn:e-health-suisse:representative-id |                                                                      
