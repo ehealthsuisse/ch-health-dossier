@@ -74,6 +74,11 @@
     [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) (`2.16.756.5.30.1.127.3.10.19`) with all roles
     (`PAT`, `REP`, `LEGREP`, `HCP`, `ASS`, `TCU`, `ADM`), corrected `LREP` to `LEGREP` and the role of the assistant
     in the JWT example to `ASS`.
+  * Updated to IUA Revision 2.5 ([ch-epr-fhir#498](https://github.com/ehealthsuisse/ch-epr-fhir/pull/498)): the JWT
+    claims `subject_role` and `purpose_of_use` in [ITI-71](iti-71.html) are arrays of FHIR Coding (CP-ITI-1255) with
+    exactly one Coding, also in the basic access token example; signed JWT access tokens remain required in
+    [ITI-71](iti-71.html#security-consideration) and [ITI-72](iti-72.html), although IUA 2.5 made the signature optional.
+    This is a breaking change for systems reading the access tokens.
   * Corrected the `purpose_of_use` system in the JWT examples of [ITI-71](iti-71.html) from
     `urn:uuid:2.16.756.5.30.1.127.3.10.5` to `urn:oid:2.16.756.5.30.1.127.3.10.5`.
   * Replaced the CH:XUA Authenticate User transaction with the user authentication specified in

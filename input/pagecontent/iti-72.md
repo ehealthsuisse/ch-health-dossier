@@ -24,12 +24,13 @@ Introspection Option SHALL NOT be used.
 
 ### Referenced Standards
 
-1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.3](https://profiles.ihe.net/ITI/IUA/index.html)
+1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
 
 ### Security Consideration
 
-IUA Authorization Clients, Authorization Servers and Resource Server actors SHALL use the JWS (signed) alternative
-of the JWT token as specified in the IUA Trial Implementation. The JWE alternative SHALL not be used.
+IUA Authorization Clients, Authorization Servers and Resource Server actors SHALL use signed JWT access tokens (JWS)
+as specified in [ITI-71](iti-71.html#security-consideration). Unsigned JWT access tokens SHALL NOT be used. The JSON Web
+Encryption (JWE) serialization SHALL NOT be used.
 
 When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
 the Resource Servers SHALL verify that both are the same.
