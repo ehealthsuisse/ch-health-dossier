@@ -151,10 +151,10 @@ Target:  "https://www.bag.admin.ch/epra"
 Title:   "CH JWT Basic/Extended Token without delegation"
 Description: "Access token of a holder, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the GLN of the legal responsible person of the clinical archive system."
 * agent[mainUser]
-  * role         -> "extensions.ihe_iua.subject_role"
+  * role         -> "extensions.ihe_iua.subject_role[0]"
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
-  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use" "The actor serving the request records NORM instead of EMER where the request is permitted by a right by law or an access right"
+  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use[0]" "The actor serving the request records NORM instead of EMER where the request is permitted by a right by law or an access right"
 * agent[group]
   * who.identifier -> "extensions.ch_group.id" "One agent for each group recorded"
   * name           -> "extensions.ch_group.name" "One agent for each group recorded"
@@ -169,9 +169,9 @@ Description: "Access token of an assistant acting on behalf of a healthcare prof
   * role         -> "HCP" "The principal is a healthcare professional, the role is not conveyed in the token"
   * altId        -> "extensions.ch_delegation.principal_id"
   * name         -> "extensions.ch_delegation.principal"
-  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use" "The actor serving the request records NORM instead of EMER where the request is permitted by a right by law or an access right"
+  * purposeOfUse -> "extensions.ihe_iua.purpose_of_use[0]" "The actor serving the request records NORM instead of EMER where the request is permitted by a right by law or an access right"
 * agent[delegatedUser]
-  * role         -> "extensions.ihe_iua.subject_role" "ASS"
+  * role         -> "extensions.ihe_iua.subject_role[0]" "ASS"
   * altId        -> "extensions.ch_epr.user_id"
   * name         -> "extensions.ihe_iua.subject_name"
 * agent[group]

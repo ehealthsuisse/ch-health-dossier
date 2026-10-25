@@ -291,8 +291,8 @@ the following table:
 | subject_name            | R/R                             | The username as text.                                                     | 
 | subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
 | subject_organization_id | O/O                             | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community. |
-| subject_role            | R/R                             | Code indicating the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
-| purpose_of_use          | R/R                             | Code indicating the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
+| subject_role            | R/R                             | Array of FHIR Coding with exactly one Coding of the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
+| purpose_of_use          | R/R                             | Array of FHIR Coding with exactly one Coding of the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
 | person_id               | O/R                             | SHALL be the EPR-SPID of the holder's EPR.                                |
 {:class="table table-bordered"}
 
@@ -372,7 +372,19 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
   "extensions": {
     "ihe_iua": {
-      "subject_name": "Martina Musterarzt"
+      "subject_name": "Martina Musterarzt",
+      "subject_role": [
+        {
+          "system": "urn:oid:2.16.756.5.30.1.127.3.10.19",
+          "code": "HCP"
+        }
+      ],
+      "purpose_of_use": [
+        {
+          "system": "urn:oid:2.16.756.5.30.1.127.3.10.5",
+          "code": "NORM"
+        }
+      ]
     },
     "ch_epr": {
       "user_id": "2000000090092",
@@ -398,14 +410,18 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
     "ihe_iua": {
       "subject_name": "Martina Musterarzt",
       "person_id": "761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO",
-      "subject_role": {
-        "system": "urn:oid:2.16.756.5.30.1.127.3.10.19",
-        "code": "HCP"
-      },
-      "purpose_of_use": {
-        "system": "urn:oid:2.16.756.5.30.1.127.3.10.5",
-        "code": "NORM"
-      }
+      "subject_role": [
+        {
+          "system": "urn:oid:2.16.756.5.30.1.127.3.10.19",
+          "code": "HCP"
+        }
+      ],
+      "purpose_of_use": [
+        {
+          "system": "urn:oid:2.16.756.5.30.1.127.3.10.5",
+          "code": "NORM"
+        }
+      ]
     },
     "ch_epr": {
       "user_id": "2000000090092",
@@ -445,14 +461,18 @@ holder SHALL have the additional extension `ch_delegation`:
     "ihe_iua": {
       "subject_name": "Dagmar Musterassistent",
       "person_id": "761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO",
-      "subject_role": {
-        "system": "urn:oid:2.16.756.5.30.1.127.3.10.19",
-        "code": "ASS"
-      },
-      "purpose_of_use": {
-        "system": "urn:oid:2.16.756.5.30.1.127.3.10.5",
-        "code": "NORM"
-      }
+      "subject_role": [
+        {
+          "system": "urn:oid:2.16.756.5.30.1.127.3.10.19",
+          "code": "ASS"
+        }
+      ],
+      "purpose_of_use": [
+        {
+          "system": "urn:oid:2.16.756.5.30.1.127.3.10.5",
+          "code": "NORM"
+        }
+      ]
     },
     "ch_epr": {
       "user_id": "2000000090108",
@@ -496,7 +516,8 @@ To ensure the integrity and authenticity of the access token:
 
 IUA Resource Servers SHALL reject any request whose access token signature validation fails.
 
-The JSON Web Encryption (JWE) serialization SHALL NOT be used.
+Unsigned JWT access tokens SHALL NOT be used. The JSON Web Encryption (JWE) serialization SHALL NOT be used. Since
+Revision 2.5 IUA no longer requires the JWT access token to be signed; the signature remains required for the Health Dossier.
 
 If a transaction contains the EPR-SPID both in the IUA access token and in the transaction body, the IUA Resource 
 Server SHALL verify that both values are identical. The IUA Resource Server SHALL reject the request if the values differ.
