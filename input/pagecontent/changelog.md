@@ -67,6 +67,10 @@
   * Added the [Client Registration](client-registration.html) page specifying the user authorized and the dGA dynamic
     client registration (RFC 7591) with `private_key_jwt` [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11).
   * Removed the SMART on FHIR standalone and EHR launch option. 
+  * Aligned [ITI-103](iti-103.html) with IUA and RFC 8414 for the client credentials flow: the metadata is retrieved
+    from `/.well-known/oauth-authorization-server` (was `/.well-known/smart-configuration`), `token_endpoint_auth_methods_supported`
+    with `private_key_jwt` is required, the SMART attributes `capabilities` and `management_endpoint` and the
+    `revocation_endpoint` are removed, and `authorization_endpoint` is optional.
   * Removed the specification of the TCU option, the separate token flow for technical users, since TCU requests are
     now usual client credential requests without an identity token of a user. The `TCU` role and the onboarding checks
     for clinical archive systems in [ITI-71](iti-71.html#clinical-archive-systems) remain. 
