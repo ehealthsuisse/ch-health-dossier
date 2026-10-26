@@ -148,6 +148,7 @@ IUA Authorization Clients acting as digital health applications (dGA) SHALL clai
 
 <figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
 
+<br/>
 Note: The parameters need to be url encoded, see message examples.
 
 ##### Expected Actions

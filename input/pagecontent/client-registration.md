@@ -8,10 +8,15 @@ The `client_id` SHALL be unique to the IUA Authorization Client. The client pass
 Server in every Token Request. The IUA Authorization Server uses the `client_id` to identify the client application
 and to determine which scopes are authorized.
 
-This page explains how a client application obtains its `client_id` and registers the metadata the IUA Authorization
-Server requires, such as the requested scopes and the public keys used for client authentication.
+This profile explains how a client application can use the OAuth dynamic registration protocol to obtain 
+its `client_id` and registers the metadata the IUA Authorization Server requires, such as the requested 
+scopes and the public keys used for client authentication.
 
-This specification covers two variants of dynamic client registration. In both, the request is authorized by a natural
+This profile uses per-instance client registration, meaning each installed instance of a client is registered separately. 
+For example, a primary system is registered once for each instance deployed in a practice or institution, and all users 
+of that instance share this registration.
+
+This profile covers two variants of dynamic client registration. In both, the request is authorized by a natural
 person who is authenticated at an Identity Provider accepted for the Swiss Health Dossier.
 - *User Authorized Client Registration:* SHALL be used by healthcare professionals or assistants to register
   a primary system.
