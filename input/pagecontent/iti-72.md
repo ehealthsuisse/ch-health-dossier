@@ -16,15 +16,26 @@ This transaction is used to incorporate authorization information into HTTP REST
 
 
 This national extension restricts the Actor options of the IUA Trial Implementation to comply to the legal requirements
-of the Swiss EPR.
+of the Swiss health record.
 
-The IUA Trial Implementation supports three options for the Authorization Token format; the JWT Token, the SAML Token
-and the Token Introspection option. Since this national extension will apply to cross community communication, the Token
-Introspection Option SHALL NOT be used.
+This national extension supports the JWT Token option only. The SAML Token and Introspection option allowed from 
+the IUA Trial Implementation SHALL NOT be used.
 
 ### Referenced Standards
 
 1. [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
+
+### Expected Actions
+
+When receiving a request the Resource Server SHALL: 
+1. Verify the signature of the access token using the public key of the IUA Authorization Server that issued it.
+2. Introspect the access token and ensure that it has not expired.
+
+The Resource Server SHALL also:
+1. Verify that the transaction is permitted by the token's `scope`, as defined in [ITI-71](iti-71.html#message-semantics).
+2. Enforce the access rights defined in the holder-specific consent, as specified in [CH PPQm Consent](ppqm-consent.html).
+
+The Resource Server MAY delegate the access decision to a policy enforcement service.
 
 ### Security Consideration
 
@@ -33,6 +44,7 @@ as specified in [ITI-71](iti-71.html#security-consideration). Unsigned JWT acces
 Encryption (JWE) serialization SHALL NOT be used.
 
 When receiving requests of transactions where the EPR-SPID is provided in the IUA token and in the transaction body,
-the Resource Servers SHALL verify that both are the same.
+the Resource Server SHALL verify that the `patient_id` attribute of the access token corresponds to the 
+patient referenced in the resource request.
 
 The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
