@@ -89,7 +89,7 @@ The Client Registration Request SHALL contain the following parameters:
 - *token_endpoint_auth_method*: SHALL be `private_key_jwt`.
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
-space-separated values.
+space-separated values (see [ITI-71](https://build.fhir.org/ig/ehealthsuisse/ch-health-dossier/branches/master/en/iti-71.html#message-semantics)).
 - *jwks*: SHALL be a JSON Web Key Set (JWKS) containing the public key used for asymmetric client authentication (JWT).
 - *id_token*: SHALL be the signed JWT containing the identity token issued by the Identity Provider.
 - *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for 
@@ -107,6 +107,7 @@ The software statement contains the following claims:
 - *iss*: The identifier of the FOPH, `2.16.756.5.30.1.129`.
 - *iat*: The Unix timestamp at which the FOPH issued the statement.
 - *exp*: The Unix timestamp at which the software statement expires.
+- *scope*: The scope granted by the FOPH for the dGA software and version. 
 
 ##### Expected Actions
 
@@ -145,7 +146,7 @@ Host: server.example.com
 "client_name":"Personal Health Assistant App",
 "token_endpoint_auth_method":"private_key_jwt",
 "grant_types":["client_credentials"], 
-"scope":"foo bar",
+"scope":"purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/Binary.cruds",
 "jwks":{"keys": [{
     "kid":"1ec50019-0049",
     "kty":"RSA",
@@ -173,12 +174,15 @@ Host: server.example.com
   iIsImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbHRoIEFzc2lzdGFudCBBcHAiLCJjbGllbn
   RfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGx
   lLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6IjIuMTYuNzU2LjUuMzAuMS4xMjkiLCJp
-  YXQiOjE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NX0.uWal3hRgns3g6tIdH_C3uKS2IFh4h
-  jXNZ_BWjC9pHHzklrk1XSPfLfPbiyfMJ5GeOkhghz_vHhmkQnbtZmSq9TzA4j42C_uV0tX3Yx
-  A2OqcTOXQCWxaX6TZupPlftoI9G1QXXMEmaoxfEC90baCOulhSKkV9L-sARKJUdPeKegml9o8
-  wBaZDhvS80U1fIC6LrG2D7p9oHvjFS8BuMVdF0GfueQhncCPkz7Mbn4Mqlyh0srpFsFE8vaOb
-  qZ1w3QKEGBJpfYeVRV9hqBh9XIYLZwgReEb7WXH6kkGqoDArQlUadi8ihewiTuzY8qGrjbark
-  1m64as6bq3OOLFbMeo2RA" 
+  YXQiOjE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NSwic2NvcGUiOiJwdXJwb3NlX29mX3VzZ
+  T11cm46b2lkOjIuMTYuNzU2LjUuMzAuMS4xMjcuMy4xMC41fE5PUk0gc3ViamVjdF9yb2xlPX
+  VybjpvaWQ6Mi4xNi43NTYuNS4zMC4xLjEyNy4zLjEwLjE5fFBBVCBwYXRpZW50L0RvY3VtZW5
+  0UmVmZXJlbmNlLmNydWRzIHBhdGllbnQvQmluYXJ5LmNydWRzIn0.tC9KJfFqDmGzRcGJgkl-
+  nbfZp6RiM4c8RqV5d1HENH0HCU0SqDd32jyRpPRdSbTbOLteGakxLVxLsrraL9rIQC4T6fcnY
+  hyQcYjZq5PuF9C_2XPKFffHTaCd3Qd8XuebTzAkiHzfrr6bZkIN6SzK0b_w-QuHRzKKRu7Wv7
+  hDpwBiLPxg9TW77KTvkP6wwYISawcsmS7HFdpAd4iLU5flqjF9h9jR79EgB6zi5WSjT47ial1
+  NyGUrbg7cQz_OrgVLe5TMWhXsCb6vJYrhRSyAD5KAD_YfPfSu2sUusP1VXjga3kP4TdGBF8ED
+  NQBzUeQJxkut-nN43QtymL6hpMKh5Q" 
 }
 ```
 
@@ -193,7 +197,8 @@ Where the `software_statement` payload may look like:
 "tos_uri": "https://example.org/terms-of-service/", 
 "iss": "2.16.756.5.30.1.129", 
 "iat": 1788874695, 
-"exp": 1899974695
+"exp": 1899974695, 
+"scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/Binary.cruds"
 }
 ```
 
@@ -236,7 +241,8 @@ Pragma: no-cache
 "client_id_issued_at": 1791095100,
 "token_endpoint_auth_method": "private_key_jwt",
 "grant_types": ["client_credentials"],
-"scope": "foo bar", 
+"scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT 
+          patient/DocumentReference.cruds patient/Binary.cruds user/Practitioner.rs user/Organization.rs", 
 "jwks":{"keys": [{
     "kid":"1ec50019-0049",
     "kty":"RSA",
