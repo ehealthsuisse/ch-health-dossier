@@ -286,14 +286,14 @@ authorization (i.e., read and write documents).
 The IUA Authorization Server and IUA Resource Server SHALL support the IUA JWT extension with claims as defined in
 the following table:
 
-| JWT Claim (Extension)   | Optionality (Basic/ Extended)   | Remark                                                                    |
-|-------------------------|---------------------------------|---------------------------------------------------------------------------|
-| subject_name            | R/R                             | The username as text.                                                     | 
-| subject_organization    | O/O                             | The name of the user’s organization or institution as text.               |
-| subject_organization_id | O/O                             | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community. |
-| subject_role            | R/R                             | Array of FHIR Coding with exactly one Coding of the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system. |
-| purpose_of_use          | R/R                             | Array of FHIR Coding with exactly one Coding of the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
-| person_id               | O/R                             | SHALL be the EPR-SPID of the holder's EPR.                                |
+| JWT Claim (Extension)   | Optionality (Basic/ Extended) | Remark                                                                                                                                                             |
+|-------------------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| subject_name            | R/R                           | The username as text.                                                                                                                                              | 
+| subject_organization    | O/O                           | The name of the user’s organization or institution as text.                                                                                                        |
+| subject_organization_id | O/O                           | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community.                                                         |
+| subject_role            | R/R                           | Array of FHIR Coding with exactly one Coding of the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system.                    |
+| purpose_of_use          | R/R                           | Array of FHIR Coding with exactly one Coding of the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
+| person_id               | O/R                           | SHALL be the EPR-SPID of the holder's EPR.                                                                                                                         |
 {:class="table table-bordered"}
 
 <figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the ihe_iua extension.</figcaption>  
@@ -370,6 +370,7 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
   "nbf": 1587294460,
   "iat": 1587294460,
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
+  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/Patient.rs",
   "extensions": {
     "ihe_iua": {
       "subject_name": "Martina Musterarzt",
@@ -406,6 +407,7 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
   "nbf": 1587294460,
   "iat": 1587294460,
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
+  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.cruds user/Binary.cruds",
   "extensions": {
     "ihe_iua": {
       "subject_name": "Martina Musterarzt",
@@ -445,7 +447,7 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
 }
 ```
 
-An extended JWT access token to be used to access by an assistant acting on behalf of a healthcare professional for a
+An extended JWT access token to be used to access the documents of a holder by an assistant acting on behalf of a healthcare professional for a
 holder SHALL have the additional extension `ch_delegation`:
 
 ```json
@@ -457,6 +459,7 @@ holder SHALL have the additional extension `ch_delegation`:
   "nbf": 1587294460,
   "iat": 1587294460,
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
+  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.cruds user/Binary.cruds",
   "extensions": {
     "ihe_iua": {
       "subject_name": "Dagmar Musterassistent",
