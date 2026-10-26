@@ -27,9 +27,10 @@ the IUA Trial Implementation SHALL NOT be used.
 
 ### Expected Actions
 
-When receiving a request the Resource Server SHALL: 
+When receiving a request, the Resource Server SHALL: 
 1. Verify the signature of the access token using the public key of the IUA Authorization Server that issued it.
 2. Introspect the access token and ensure that it has not expired.
+3. Verify that the URL in the `resource` attribute of the access token matches the base URL of itself.
 
 The Resource Server SHALL also:
 1. Verify that the transaction is permitted by the token's `scope`, as defined in [ITI-71](iti-71.html#message-semantics).

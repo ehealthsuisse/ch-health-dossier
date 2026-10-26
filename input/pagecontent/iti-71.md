@@ -67,7 +67,7 @@ type with Swiss extensions:
 - client_id (required): The ID the IUA Authorization Client is registered at the IUA Authorization Server.
 - scope (required): The scope claimed by the IUA Authorization Client, as defined below. Required for requesting
   both basic and extended access tokens.
-- resource (optional): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
+- resource (required): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 <br/>
 
@@ -258,6 +258,7 @@ grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
+&resource=https%3A%2F%2FresourceServer.com
 &scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/Binary.cruds
 &id_token=<signed identity token>
 ```
@@ -274,6 +275,7 @@ grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
+&resource=https%3A%2F%2FresourceServer.com
 &id_token=<signed identity token>
 &scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs user/DocumentReference.cruds user/Binary.cruds
 &person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO 
@@ -292,6 +294,7 @@ grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
+&resource=https%3A%2F%2FresourceServer.com
 &principal=<the-principal-name>
 &principal_id=<the-principal-id>
 &scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c patient/Binary.c user/Patient.rs
@@ -309,6 +312,7 @@ grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
+&resource=https%3A%2F%2FresourceServer.com
 &principal=<the-principal-name>
 &principal_id=<the-principal-id>
 &scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c patient/Binary.c user/Patient.rs
@@ -408,7 +412,7 @@ A basic JWT access token returned by the IUA Authorization Server and to be used
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "aud": "http://ResourceServerURL.ch",
+  "resource": "http://resourceServer.ch",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,
@@ -445,7 +449,7 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "aud": "http://mhdResourceServerURL.ch",
+  "resource": "http://resourceServer.ch",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,
@@ -497,7 +501,7 @@ holder SHALL have the additional extension `ch_delegation`:
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "aud": "http://mhdResourceServerURL.ch",
+  "resource": "http://resourceServer.ch",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,
