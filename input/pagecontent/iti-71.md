@@ -88,23 +88,65 @@ The Token Request SHALL use the following Swiss extension:
   the [Identity Token](openid-connect.html#identity-token) as specified in [OpenID Connect](openid-connect.html). 
 <br/>
 
-The scope parameter of the request MAY claim the following attributes:
+IUA Authorization Clients SHALL claim the following scopes for both basic and extended access tokens:
 
-- There SHALL be a scope with name `purpose_of_use` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)
-  for both basic and extended access tokens.
-  The token SHALL convey the coded value of the current transaction’s purpose of use. Allowed values are `NORM` (normal access), 
-  `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5`, see the value set
-  [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html)
-  (e.g.: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`). A technical user (`TCU`) uses `NORM`; the purpose of
-  use `AUTO` (automatic upload) of the EPR is not used.
-- There SHALL be a scope with name `subject_role` in FHIR [token format](https://www.hl7.org/fhir/search.html#token)
-  for both basic and extended access tokens.
-  The token SHALL convey the coded value of the subject’s role. Allowed values are `PAT` (patient), `REP` (representative),
-  `LEGREP` (legal representative), `HCP` (healthcare professional), `ASS` (assistant), `TCU` (technical user, clinical
-  archive) or `ADM` (administration) from the code system [CH Health Dossier Role](CodeSystem-HealthDossierRole.html)
-  `2.16.756.5.30.1.127.3.10.19` (e.g.: `subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP`).
-- IUA Authorization Clients may claim other scopes as defined in the 
-  [SMART on FHIR specification](https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html).
+- `purpose_of_use`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).
+  The scope SHALL convey the coded purpose of use of the current transaction. Allowed values are `NORM` (normal access)
+  and `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5`
+  (see value set [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html)),
+  e.g. `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`. A technical user (`TCU`) SHALL use `NORM`.
+- `subject_role`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).
+  The scope SHALL convey the coded role of the subject. Allowed values from code system
+  [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) (`2.16.756.5.30.1.127.3.10.19`) are:
+  `PAT` (patient), `REP` (representative), `LEGREP` (legal representative), `HCP` (healthcare professional),
+  `ASS` (assistant), `TCU` (technical user, clinical archive) and `ADM` (administration),
+  e.g. `subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP`.
+
+In addition, IUA Authorization Clients SHALL claim the scopes used by IUA Resource Servers to authorize transactions,
+as defined in the [SMART on FHIR specification](https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html).
+
+The following tables list the scopes per application type.
+
+###### Clinical archive systems
+
+IUA Authorization Clients acting as clinical archive systems SHALL claim the scopes in the following table.
+
+| Scopes                                                               | Transactions | Rights                                                                     |
+|----------------------------------------------------------------------|--------------|----------------------------------------------------------------------------|
+| user/DocumentReference.c user/Binary.c                               | ITI-65       | Create document references and binaries.                                   |
+| user/Patient.rs                                                      | ITI-104      | Search and read the holder's demographics data.                            |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90       | Search and read data on healthcare professionals, groups and institutions. |
+{:class="table table-bordered"}
+
+<figcaption ID="archive-scopes">Table: Supported scopes for clinical archive systems.</figcaption>
+
+###### Primary systems
+
+IUA Authorization Clients acting as primary systems SHALL claim the scopes in the following table.
+
+| Scopes                                                               | Transactions           | Rights                                                                           |
+|----------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------------|
+| user/DocumentReference.cruds user/Binary.cruds                       | ITI-65, ITI-67, ITI-68 | Create, search, read, update and delete document references and binaries.        |
+| user/Patient.rs                                                      | ITI-104                | Search and read the holder's demographics data.                                  |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90                 | Search and read data on healthcare professionals, groups and institutions.       |
+| user/Consent.cruds                                                   | PPQ-3, PPQ-5           | Create, search, read, update and delete consents (delegation of access rights).  |
+{:class="table table-bordered"}
+
+<figcaption ID="primary-scopes">Table: Supported scopes for primary systems.</figcaption>
+
+###### Digital health applications (dGA)
+
+IUA Authorization Clients acting as digital health applications (dGA) SHALL claim the scopes in the following table.
+
+| Scopes                                                               | Transactions           | Rights                                                                            |
+|----------------------------------------------------------------------|------------------------|-----------------------------------------------------------------------------------|
+| patient/DocumentReference.cruds patient/Binary.cruds                 | ITI-65, ITI-67, ITI-68 | Create, search, read, update and delete document references and binaries.         |
+| patient/Patient.rus                                                  | ITI-104                | Search, read and update (contact data and notes) the holder's demographics data.  |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90                 | Search and read data on healthcare professionals, groups and institutions.        |
+| patient/Consent.cruds                                                | PPQ-3, PPQ-5           | Create, search, read, update and delete consents (access rights).                 |
+{:class="table table-bordered"}
+
+<figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
 
 Note: The parameters need to be url encoded, see message examples.
 
