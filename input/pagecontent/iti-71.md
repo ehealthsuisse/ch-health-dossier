@@ -215,7 +215,7 @@ grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/Binary.cruds
 &id_token=<signed identity token>
 ```
 
@@ -232,7 +232,7 @@ grant_type=client_credentials
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
 &id_token=<signed identity token>
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs user/DocumentReference.cruds user/Binary.cruds
 &person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO 
 ```
 
@@ -251,7 +251,7 @@ grant_type=client_credentials
 &client_assertion=<signed JWT>
 &principal=<the-principal-name>
 &principal_id=<the-principal-id>
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c patient/Binary.c user/Patient.rs
 ```
 
 A token request of a clinical archive system for an extended access token may look like:
@@ -268,7 +268,7 @@ grant_type=client_credentials
 &client_assertion=<signed JWT>
 &principal=<the-principal-name>
 &principal_id=<the-principal-id>
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c patient/Binary.c user/Patient.rs
 &person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO
 ```
 
