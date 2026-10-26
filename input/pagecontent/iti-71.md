@@ -4,7 +4,7 @@ Implementation “Internet User Authorization”.
 
 ### Scope
 
-The transaction is used by an IUA Authorization Client (e.g., portal, primary system or digital health app) 
+The transaction is used by an IUA Authorization Client (e.g. primary system, digital health app or clinical archive system) 
 to pass claims to the IUA Authorization Server and to retrieve an access token which authorizes access to protected
 resources of the Health Dossier.
 
@@ -56,7 +56,7 @@ This section specifies the national extensions for the client credential grant f
 
 ##### Trigger Events
 
-A clinical archive system aims to access the EPR to write documents, or a user authenticates in the portal, primary 
+A clinical archive system aims to access the EPR to write documents, or a user authenticates in a primary 
 system or in a digital health app to access data and Documents in the EPR. 
 
 ##### Message Semantics
@@ -203,7 +203,7 @@ actors serving the requests can identify the application and restrict the reques
 
 ##### Message Example
 
-A token request of a holder sent from a portal or digital health app may look like:
+A token request of a holder sent from a digital health app may look like:
 
 ```
 POST /token HTTP/1.1
