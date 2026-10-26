@@ -45,6 +45,11 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
   [#34](https://github.com/ehealthsuisse/ch-health-dossier/issues/34).
 * Aligned `subject_role` and `user_id` of the access token with the new roles, including the technical user
   [#18](https://github.com/ehealthsuisse/ch-health-dossier/issues/18).
+* Aligned [ITI-103](iti-103.html) with IUA and RFC 8414: the metadata is retrieved from
+  `/.well-known/oauth-authorization-server` and `private_key_jwt` is required as client authentication.
+* Updated to IUA Revision 2.5: the claims `subject_role` and `purpose_of_use` are arrays of FHIR Coding (breaking
+  change); signed JWT access tokens remain required
+  [ch-epr-fhir#498](https://github.com/ehealthsuisse/ch-epr-fhir/pull/498).
 
 #### OpenID Connect
 
