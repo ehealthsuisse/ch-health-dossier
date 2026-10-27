@@ -138,12 +138,13 @@ IUA Authorization Clients acting as primary systems SHALL claim the scopes in th
 
 IUA Authorization Clients acting as digital health applications (dGA) SHALL claim the scopes in the following table.
 
-| Scopes                                                               | Transactions           | Rights                                                                            |
-|----------------------------------------------------------------------|------------------------|-----------------------------------------------------------------------------------|
-| patient/DocumentReference.cruds patient/Binary.cruds                 | ITI-65, ITI-67, ITI-68 | Create, search, read, update and delete document references and binaries.         |
-| patient/Patient.rus                                                  | ITI-104                | Search, read and update (contact data and notes) the holder's demographics data.  |
-| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90                 | Search and read data on healthcare professionals, groups and institutions.        |
-| patient/Consent.cruds                                                | PPQ-3, PPQ-5           | Create, search, read, update and delete consents (access rights).                 |
+| Scopes                                                               | Transactions           | Rights                                                                           |
+|----------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------------|
+| patient/DocumentReference.cruds patient/Binary.cruds                 | ITI-65, ITI-67, ITI-68 | Create, search, read, update and delete document references and binaries.        |
+| patient/Patient.rus                                                  | ITI-104                | Search, read and update (contact data and notes) the holder's demographics data. |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90                 | Search and read data on healthcare professionals, groups and institutions.       |
+| patient/Consent.cruds                                                | PPQ-3, PPQ-5           | Create, search, read, update and delete consents (access rights).                |
+| patient/AuditEvent.rs                                                | ITI-81                 | Search and read the audit events specified in [CH ATC](iti-81.html).             |
 {:class="table table-bordered"}
 
 <figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
