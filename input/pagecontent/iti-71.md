@@ -78,7 +78,7 @@ of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-serv
 <br/>
 
 The Token Request SHALL use the following Swiss extension:
-- person_id (optional/required): EPR-SPID identifier of the patient’s record and the patient assigning authority formatted in CX syntax, required for requesting an extended access token.
+- person_id (optional/required): EPR-SPID identifier of the holders’s record and the assigning authority formatted in CX syntax, required for requesting an extended access token.
 - principal (optional/required): The name of the healthcare professional an assistant or a clinical archive system may act on behalf of.
 - principal_id (optional/required): The GLN of the healthcare professional an assistant or a clinical archive system may act on behalf of.
 - group (optional): The name of the organization or group a healthcare professional or assistant may act on behalf of.
@@ -323,7 +323,7 @@ grant_type=client_credentials
 ##### Message Semantics
 
 The response SHALL either convey a Basic Access Token in JWT format which grants basic access to the EPR (i.e., to
-access patient demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR
+access holders demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR
 authorization (i.e., read and write documents).
 
 ###### JSON Web Token Option
@@ -404,7 +404,7 @@ transaction, when performing requests to resources of the Health Dossier.
 
 ##### Message Example
 
-A basic JWT access token returned by the IUA Authorization Server and to be used to retrieve patient data may look like:
+A basic JWT access token returned by the IUA Authorization Server and to be used to retrieve holder data may look like:
 
 ```json
 {
