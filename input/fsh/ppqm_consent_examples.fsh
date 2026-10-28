@@ -270,32 +270,6 @@ Usage: #example
 * provision.actor.reference.identifier.value = "legalrepresentative6789"
 
 
-Instance: PpqmConsentDigitalHealthApplicationExample
-InstanceOf: ChPpqmConsentDigitalHealthApplication
-Title: "PPQm Consent: Digital Health Application"
-Description: "The holder authorizes a diabetes diary application to read the documents of the confidentiality level
-'normal' and to provide documents until 30 September 2027."
-Usage: #example
-* text.status = #generated
-* text.div = "<div xmlns='http://www.w3.org/1999/xhtml'><p>The diabetes diary may read the documents of the level 'normal' and provide documents until 2027-09-30.</p></div>"
-* identifier.value = "urn:uuid:111f1e4b-4c0c-4cf5-9882-646dccc81273"
-* category = HealthDossierConsentType#digital-health-application
-* insert PpqmConsentExampleHolder
-* dateTime = "2026-10-01T20:02:00+02:00"
-* insert PpqmConsentExamplePerformerHolder
-* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application"
-* provision.type = #permit
-* provision.period.start = "2026-10-01"
-* provision.period.end = "2027-09-30"
-* provision.actor.role = $healthDossierRole#PAT
-* provision.actor.reference.identifier.type.coding = $URI#urn:e-health-suisse:dga-client-id
-* provision.actor.reference.identifier.value = "diabetes-diary-app"
-* provision.actor.reference.display = "Diabetes diary"
-* provision.action[+] = HealthDossierConsentAction#read
-* provision.action[+] = HealthDossierConsentAction#record
-* provision.securityLabel = $sct#17621005 "Normal (qualifier value)"
-
-
 Instance: PpqmConsentMilitaryRecordingExample
 InstanceOf: ChPpqmConsentMilitaryRecording
 Title: "PPQm Consent: Recording by Military Health Professionals"

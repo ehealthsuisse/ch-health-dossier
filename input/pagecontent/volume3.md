@@ -90,8 +90,7 @@ authorization setting are only deleted when the health dossier is dissolved.
 
 A consent the Policy Repository deletes because of the request of a user, e.g. a delegation derived from a revoked
 access right or an indirect authorization deleted when the holder excludes the indirect authorization, is recorded with the user of that request as main user and the `traceparent` of that request, so that
-the holder sees it as a consequence of that request. A consent it deletes without a user, i.e. the authorization of a
-digital health application after three months without access and the consents of a dissolved health dossier, is
+the holder sees it as a consequence of that request. A consent it deletes without a user, i.e. the consents of a dissolved health dossier, is
 recorded with the Policy Repository as initiating agent and the reason of the deletion
 ([CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)).
 The consents the Policy Repository adds when the health dossier is opened are recorded with the Policy Repository as
