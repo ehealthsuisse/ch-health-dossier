@@ -385,9 +385,8 @@ rights to groups which typically are sub-organizations of the institutions, but 
 e.g., a tumor board with healthcare professionals from more than one institution.
 
 The Authorization Server and Resource Server SHALL support this extension in the JWT access token for a list of
-groups
-a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL be the groups of
-the healthcare professional the assistant is acting on behalf of.
+groups a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL 
+be the groups of the healthcare professional the assistant is acting on behalf of.
 
 Groups SHALL be wrapped in an `extensions` object with key `ch_group` with a JSON array containing one JSON object
 per group with the following attributes:
@@ -598,8 +597,26 @@ The Authorization Server SHALL reject the Access Token request if validation fai
 
 #### Client Authorization
 
+The Authorization Server SHALL provide a user interface that allows a user to authorize an instance of their 
+primary system or digital health application (dGA) to access the health dossier on the user’s behalf.
 
+The Authorization Server SHALL provide an HTTP endpoint that accepts a `client_id` as a request parameter. 
+An Authorization Client MAY redirect the user to this endpoint to start the User Authorization.
 
+When receiving a request, tha Authorization Server SHALL:
+1. Require the user to authenticate at one of the identity providers accepted for the health dossier.
+2. Resolve the application type (primary system or digital health application) from the client_id of the 
+Authorization Client, as registered during Client Registration.
+3. Present to the user the application type and the scopes the application may be granted. The presented scopes 
+SHALL be limited to the scopes that are listed for the application type in the tables of the Message Semantics section. 
+For digital health applications, the presented scopes SHALL additionally be limited to the scopes granted in the 
+digital health application software statement registered for the client_id.
+4. Allow the user to confirm or decline the authorization.
+5. Store the authorization decision of the user (the user, the client_id and the authorized scopes) as a user-specific setting.
+
+When responding to a Token Request from a primary system or digital health application, the IUA Authorization Server 
+SHALL verify that a stored authorization of the user exists for the `client_id`, and SHALL issue the access token 
+only for authorized scopes as specified in [Message Semantics](iti-71.html#expected-actions))
 
 #### Security Audit Considerations
 
