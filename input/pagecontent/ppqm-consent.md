@@ -38,8 +38,8 @@ and the overview of the consent types in [CH:PPQm](ppqm.html#consent-types)). Co
   [HealthDossierConsentAction](CodeSystem-HealthDossierConsentAction.html)).
 - Grantees and performers are referenced by identifier only, with the identifier type of the access token
   (`user_id_qualifier`, see [ITI-71](iti-71.html)): EPR-SPID for the holder, GLN for a health professional, the
-  organization ID for a group, health institution, community or authority, the representative ID for a
-  representative or legal representative, and the client ID for a digital health application.
+  organization ID for a group, health institution, community or authority, and the representative ID for a
+  representative or legal representative.
 
 ### Consent Types
 
@@ -200,38 +200,6 @@ rights of the holder, except appointing a representative; the rights are not lis
 Rules for the Policy Repository: when a legal representative is set up, the access rights of the holder are revoked,
 and all consents the holder took (with the holder as `performer`) are deleted.
 
-#### Digital health application {#consent-digital-health-application}
-
-The holder authorizes an admitted digital health application to access the health dossier on the holder's behalf
-(Art. 11 para. 2 let. c, Art. 16 EGDG), for a chosen period, and selects what the application may do:
-
-| Action | Right |
-|---|---|
-| `read` | Search and view the documents of the confidentiality levels in `provision.securityLabel` |
-| `record` | Provide documents |
-| `delete` | Purge documents |
-| `edit-metadata` | Change the confidentiality level of a document and record a comment |
-| `read-demographics` | View the personal data of the holder in the index of holders |
-| `edit-contact` | Add contact data to the personal data of the holder in the index of holders |
-| `read-directory` | View the directory of health professionals and health institutions |
-| `manage-access` | Grant and revoke [access rights](#consent-access) of health professionals, groups and health institutions |
-{:class="table table-bordered"}
-
-Table 2: Actions a holder may grant a digital health application
-
-The portal adds a [Digital health application](StructureDefinition-ch-ppqm-consent-digital-health-application.html)
-consent with the Mobile Privacy Policy Feed (PPQ-3) transaction
-([example](Consent-PpqmConsentDigitalHealthApplicationExample.html)), with the client ID of the application as
-grantee.
-
-The digital health application is an IUA Authorization Client acting for the authenticated holder; it is not a
-grantee of its own. The IUA Authorization Server issues an access token to the application only while the holder has
-a session with a recognized identity provider, and only with the scopes covered by the actions of the consent. With
-the action `manage-access`, the application acts as Policy Source for the access rights of the holder.
-
-Rules for the Policy Repository: the holder may revoke the authorization at any time by deleting the consent. The
-consent is deleted automatically after three months without access by the application.
-
 #### Recording by military health professionals {#consent-military-recording}
 
 Unlike civilian health professionals, military health professionals and health institutions record data in the
@@ -272,15 +240,14 @@ shown in Table 3. C = create, R = retrieve, U = update, D = delete.
 |---|---|---|---|---|---|---|
 | Opening | <samp>  R    </samp> | <samp>  R    </samp> | <samp>  R    </samp> | – | – | <samp>  R    </samp> (1, 3) |
 | Emergency access setting | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
-| Access | <samp>C R U D</samp> (4) | <samp>C R U D</samp> (2) | <samp>C R U D</samp> | <samp>  R    </samp> (5) | <samp>  R    </samp> (5) | <samp>C R U D</samp> (3) |
-| Indirect authorization | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R    </samp> (6) | <samp>C R    </samp> (6) | <samp>  R   D</samp> (3) |
+| Access | <samp>C R U D</samp> (4) | <samp>C R U D</samp> (2) | <samp>C R U D</samp> | <samp>  R    </samp> (4) | <samp>  R    </samp> (4) | <samp>C R U D</samp> (3) |
+| Indirect authorization | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R    </samp> (5) | <samp>C R    </samp> (5) | <samp>  R   D</samp> (3) |
 | Indirect authorization setting | <samp>  R U  </samp> | <samp>  R U  </samp> (2) | <samp>  R U  </samp> | – | – | <samp>  R U  </samp> (3) |
-| Delegation | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R U D</samp> (7) | <samp>C R U D</samp> (7) | <samp>  R   D</samp> (3) |
-| Representative | <samp>C R U D</samp> | <samp>  R    </samp> (8) | – | – | – | <samp>C R U D</samp> (3) |
+| Delegation | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>  R   D</samp> | <samp>C R U D</samp> (6) | <samp>C R U D</samp> (6) | <samp>  R   D</samp> (3) |
+| Representative | <samp>C R U D</samp> | <samp>  R    </samp> (7) | – | – | – | <samp>C R U D</samp> (3) |
 | Legal representative | – | – | <samp>  R    </samp> | – | – | <samp>C R U D</samp> |
-| Digital health application | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>  R   D</samp> (3) |
-| Military recording | <samp>C R U D</samp> | – | <samp>C R U D</samp> | <samp>  R    </samp> (5) | – | <samp>C R U D</samp> (3) |
-| Community mandate | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>C R   D</samp> (9) |
+| Military recording | <samp>C R U D</samp> | – | <samp>C R U D</samp> | <samp>  R    </samp> (4) | – | <samp>C R U D</samp> (3) |
+| Community mandate | <samp>C R U D</samp> | – | <samp>C R U D</samp> | – | – | <samp>C R   D</samp> (8) |
 {:class="table table-bordered"}
 
 Table 3: Authorization of the CH:PPQm transactions by consent type and role
@@ -294,14 +261,13 @@ Notes:
    authorization setting, `manage-access` for access rights.
 3. While a [community mandate](#consent-community-mandate) of the holder is in effect (Art. 15
    para. 1 EGDG).
-4. Also a digital health application acting for the holder, with the action `manage-access`.
-5. Consents in which the health professional, or a group or health institution the health professional or assistant
+4. Consents in which the health professional, or a group or health institution the health professional or assistant
    is a registered member of, is the grantee.
-6. If the indirect authorization setting is of type permit.
-7. Delegations derived from an access right of the health professional, or of a group or health institution the
+5. If the indirect authorization setting is of type permit.
+6. Delegations derived from an access right of the health professional, or of a group or health institution the
    health professional or assistant is a registered member of, with the action `delegate`.
-8. The consent appointing the representative.
-9. The administration adds a mandate it received with evidence of the mandate, and deletes it when the support case
+7. The consent appointing the representative.
+8. The administration adds a mandate it received with evidence of the mandate, and deletes it when the support case
    is closed.
 
 The role `TCU` is not allowed. Requests of the role `ADM` are only allowed for health dossiers managed by the community
