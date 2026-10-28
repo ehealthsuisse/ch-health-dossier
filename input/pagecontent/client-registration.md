@@ -169,20 +169,21 @@ Host: server.example.com
   Rwi__HAkY8bNGnZmrJaTIDh75SN7rZPSTyphwLC-0hH49r0AGZh20VP4WovVMTRuNsptOMgUs
   0-0UKxiNdyLaFzzELY0LBrIbQsTlwCIh63CFNWVLb8E93HNUgzEeImm7BVYv3ynBQtRNVdbjr
   b4aFCg1zI7MeSZ4bj2FDlS4Q9PZlHyL6vsGP642BG67Ai48pTR_w",
-"software_statement":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb2Z0d2FyZV9pZ
-  CI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhpbiI
-  sImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbHRoIEFzc2lzdGFudCBBcHAiLCJjbGllbnRfd
-  XJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9
-  yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6IjIuMTYuNzU2LjUuMzAuMS4xMjkiLCJpYXQiO
-  jE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NSwic2NvcGUiOiJwdXJwb3NlX29mX3VzZT11cm4
-  6b2lkOjIuMTYuNzU2LjUuMzAuMS4xMjcuMy4xMC41fE5PUk0gc3ViamVjdF9yb2xlPXVybjpva
-  WQ6Mi4xNi43NTYuNS4zMC4xLjEyNy4zLjEwLjE5fFBBVCBwYXRpZW50L0RvY3VtZW50UmVmZXJ
-  lbmNlLmNydWRzIHBhdGllbnQvTGlzdC5jIHBhdGllbnQvQmluYXJ5LmNyIHBhdGllbnQvQnVuZ
-  GxlLmNyIn0.tC9KJfFqDmGzRcGJgkl-nbfZp6RiM4c8RqV5d1HENH0HCU0SqDd32jyRpPRdSbT
-  bOLteGakxLVxLsrraL9rIQC4T6fcnYhyQcYjZq5PuF9C_2XPKFffHTaCd3Qd8XuebTzAkiHzfr
-  r6bZkIN6SzK0b_w-QuHRzKKRu7Wv7hDpwBiLPxg9TW77KTvkP6wwYISawcsmS7HFdpAd4iLU5f
-  lqjF9h9jR79EgB6zi5WSjT47ial1NyGUrbg7cQz_OrgVLe5TMWhXsCb6vJYrhRSyAD5KAD_YfP
-  fSu2sUusP1VXjga3kP4TdGBF8EDNQBzUeQJxkut-nN43QtymL6hpMKh5Q" 
+"software_statement":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZvcGgtZX
+  hhbXBsZS0yMDI2In0.eyJzb2Z0d2FyZV9pZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2Fy
+  ZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhpbiIsImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbH
+  RoIEFzc2lzdGFudCBBcHAiLCJjbGllbnRfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0
+  b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6Ij
+  IuMTYuNzU2LjUuMzAuMS4xMjkiLCJpYXQiOjE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NSwi
+  c2NvcGUiOiJwdXJwb3NlX29mX3VzZT11cm46b2lkOjIuMTYuNzU2LjUuMzAuMS4xMjcuMy4xMC
+  41fE5PUk0gc3ViamVjdF9yb2xlPXVybjpvaWQ6Mi4xNi43NTYuNS4zMC4xLjEyNy4zLjEwLjE5
+  fFBBVCBwYXRpZW50L0RvY3VtZW50UmVmZXJlbmNlLmNydWRzIHBhdGllbnQvTGlzdC5jIHBhdG
+  llbnQvQmluYXJ5LmNyIHBhdGllbnQvQnVuZGxlLmNyIn0.KcqnwFjGLFlxKds6LvVdB-iLvV7s
+  Gswo_ZK1-NJw597OQkuRca9lv0bHkbS6l_2ydmiqpXKrJD9R5VWLfvDnd9xU_sUOwgV9GpVObV
+  t88OJsRmF2MAfGHRJcjAuog4BYO2lxD0OVFDoQJ8HG7yLFb2WpCBcoiOu3y0y7-Sit0WxbMQEO
+  oEyyMBbtCPDg_LeVtU8IkRAzXcgqA3-p3FtzBTkxxH68hKMdhRN8r6xsD3bz2CR3yIWljv0zVY
+  4E5W4F0I4VVGEz0dCLkSJGPu6kcpuwswrzjklWsbhaf30vDuO3DaY_QAZ-42NHdsDTmwFcqc7O
+  yXoPniZ8R3-uCovpxg" 
 }
 ```
 
@@ -200,6 +201,25 @@ Where the `software_statement` payload may look like:
 "exp": 1899974695, 
 "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr"
 }
+```
+
+The software statement of this example is signed with the following example key of the FOPH (JWKS, `kid`
+`foph-example-2026`), which can be used to verify the signature. It is an example key only and SHALL NOT be used outside of testing:
+
+```json
+{"keys": [{
+    "kid":"foph-example-2026",
+    "kty":"RSA",
+    "e":"AQAB",
+    "use":"sig",
+    "alg":"RS256",
+    "n":"vDdrhrS4DOheQN3Sjz6UoVfBIjZS3YZb4tpMz2Nqfb8nrTFMtVnw6GUbT0o4yO8P
+        4M069zIV3leaKR5sJMD5PcJSgPMlxg54pENh-f4B58H6foPfcmtHfnuZqucW8lCX
+        k3BdAHW3hIbq9B7Kl8k2VHJ-PZFmIgYT3RHzy1JOcQvaNyIRWuOb9pbtfGQI1uwX
+        Ujusk9_iGFU_Xb3fYXGyiO2r6mUQVjf7yq9uRa57qrgpuXeEZ6ySmt4ASoAgHFHl
+        h1n7Mpk-VqZ5eAWQp0jf3fyQpG5c48tyvQKA6KlzKLjHBhIOzZWIXE6CsDq-mnOW
+        XzXljpLLLWcZrIr0qqAaAQ"
+  }]}
 ```
 
 #### Client Information Response
