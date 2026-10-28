@@ -2,11 +2,10 @@
 
 The following issues are open and will be addressed in a later release:
 
-* [#48](https://github.com/ehealthsuisse/ch-health-dossier/issues/48) OpenID Connect: change to client-asymmetric
-  authentication
-* [#32](https://github.com/ehealthsuisse/ch-health-dossier/issues/32) Consent and scopes of digital health applications
+* [#60](https://github.com/ehealthsuisse/ch-health-dossier/issues/60) Medical imaging and access
+* [#48](https://github.com/ehealthsuisse/ch-health-dossier/issues/48) OpenID Connect client-asymmetric authentication
 * [#27](https://github.com/ehealthsuisse/ch-health-dossier/issues/27) Server certificate requirements
-* [#13](https://github.com/ehealthsuisse/ch-health-dossier/issues/13) Changes to the value sets of the E-GD
+* [#13](https://github.com/ehealthsuisse/ch-health-dossier/issues/13) Changes to value sets
 
 ### Release 1.0.0-preview, 2026-10-29
 
