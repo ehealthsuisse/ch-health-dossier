@@ -79,8 +79,8 @@ of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-serv
 
 The Token Request SHALL use the following Swiss extension:
 - person_id (optional/required): EPR-SPID identifier of the holders’s record and the assigning authority formatted in CX syntax, required for requesting an extended access token.
-- principal (optional/required): The name of the healthcare professional an assistant or a clinical archive system may act on behalf of.
-- principal_id (optional/required): The GLN of the healthcare professional an assistant or a clinical archive system may act on behalf of.
+- principal (optional/required): The name of the healthcare professional an assistant may act on behalf of.
+- principal_id (optional/required): The GLN of the healthcare professional an assistant may act on behalf of.
 - group (optional): The name of the organization or group a healthcare professional or assistant may act on behalf of.
 - group_id (optional/required): The OID of the organization or group a healthcare professional or assistant is acting
   on behalf of. Required for an administrator (`ADM`): the OID of the community the administrator acts for.
@@ -161,7 +161,7 @@ Authorization Server SHALL respond with HTTP 401 Unauthorized or HTTP 403 Forbid
 
 When receiving a Token Request, the Authorization Server SHALL:
 1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication]().
-2. Verify that the Authorization Client was registered with the client_id during onboarding.
+2. Verify that the Authorization Client was registered with the `client_id` during onboarding.
 3. Determine the application type the Authorization Client was registered as during Client 
    Registration: clinical archive system, primary system or digital health application (dGA).
 4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](https://iti-71.html#message-semantics).
@@ -226,12 +226,6 @@ When receiving a Token Request with `subject_role` set to `ASS`, the Authorizati
 8. If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
   professional claimed in the `principal_id` to all groups or institutions the healthcare professional is a member 
   of, including all superior groups or institutions up to the root level.
-
-###### Clinical archive systems
-When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the
-Authorization Server SHALL:
-1. Verify that the system has been registered during onboarding as a clinical archive system with a principal.
-2. Verify that the `principal_id` matches the GLN of the legally responsible person registered during onboarding.
 
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the Authorization Server SHALL:
@@ -303,8 +297,6 @@ grant_type=client_credentials
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
 &resource=https%3A%2F%2FresourceServer.com
-&principal=<the-principal-name>
-&principal_id=<the-principal-id>
 &scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c patient/Binary.c user/Patient.rs
 ```
 
@@ -321,8 +313,6 @@ grant_type=client_credentials
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
 &resource=https%3A%2F%2FresourceServer.com
-&principal=<the-principal-name>
-&principal_id=<the-principal-id>
 &scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c user/Binary.c user/Patient.rs
 &person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO
 ```
