@@ -31,25 +31,25 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
 
 #### IUA
 
-* Portals, primary systems and digital health applications use the client credential flow and convey the identity
-  token of the user in the token request; the SMART on FHIR launch and the separate token flow for technical users are
-  removed [#3](https://github.com/ehealthsuisse/ch-health-dossier/issues/3).
+* Primary systems and digital health applications now use the client credential flow and convey the identity
+  token of the user in the token request; the more complex authorization code flow, SMART on FHIR EHR launch and App
+  launch are no longer required [#3](https://github.com/ehealthsuisse/ch-health-dossier/issues/3).
+* Extended the OAuth 2 client authorization to support digital health applications (dGA) [#32](https://github.com/ehealthsuisse/ch-health-dossier/issues/32).
+* Harmonized the OAuth 2 client authorization flow across all supported client types (primary systems, digital health 
+  applications, clinical archive systems). Scope claims for authorization are now handled uniformly, 
+  removing type-specific logic [#32](https://github.com/ehealthsuisse/ch-health-dossier/issues/32).
+* Simplified transactions for clinical archive systems with the TCU role. Requests from these systems no longer need to 
+  include the responsible natural person (principal) [#57](https://github.com/ehealthsuisse/ch-health-dossier/issues/57).
 * Clients authenticate with a signed JWT (client-asymmetric authentication of FHIR Backend Services) instead of an
   HTTP signature [#33](https://github.com/ehealthsuisse/ch-health-dossier/issues/33).
-* Added the [Client Registration](client-registration.html) page for the user authorized and the dynamic client
-  registration of digital health applications
+* Added the [Client Registration](client-registration.html) page for the user authorized and the dynamic client registration of digital health applications
   [#11](https://github.com/ehealthsuisse/ch-health-dossier/issues/11),
   [#17](https://github.com/ehealthsuisse/ch-health-dossier/issues/17),
   [#45](https://github.com/ehealthsuisse/ch-health-dossier/issues/45).
-* Specified the validation of the identity token by the IUA Authorization Server in [ITI-71](iti-71.html)
-  [#34](https://github.com/ehealthsuisse/ch-health-dossier/issues/34).
-* Aligned `subject_role` and `user_id` of the access token with the new roles, including the technical user
-  [#18](https://github.com/ehealthsuisse/ch-health-dossier/issues/18).
 * Aligned [ITI-103](iti-103.html) with IUA and RFC 8414: the metadata is retrieved from
   `/.well-known/oauth-authorization-server` and `private_key_jwt` is required as client authentication.
-* Updated to IUA Revision 2.5: the claims `subject_role` and `purpose_of_use` are arrays of FHIR Coding (breaking
-  change); signed JWT access tokens remain required
-  [ch-epr-fhir#498](https://github.com/ehealthsuisse/ch-epr-fhir/pull/498).
+* Updated to changes in the IUA Revision 2.5 standard: the claims `subject_role` and `purpose_of_use` now are arrays 
+  of FHIR Coding type [ch-epr-fhir#498](https://github.com/ehealthsuisse/ch-epr-fhir/pull/498).
 
 #### OpenID Connect
 
