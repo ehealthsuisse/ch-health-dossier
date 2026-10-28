@@ -160,20 +160,21 @@ the Authorization Server SHALL respond with the Token Response defined below. In
 Authorization Server SHALL respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error.
 
 When receiving a Token Request, the Authorization Server SHALL:
+1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication]().
+2. Verify that the Authorization Client was registered with the client_id during onboarding.
+3. Determine the application type the Authorization Client was registered as during Client 
+   Registration: clinical archive system, primary system or digital health application (dGA).
+4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](https://iti-71.html#message-semantics).
+5. Verify that every additional claimed scope is listed for that application type in the tables of the [Message Semantics](iti-71.html#message-semantics) section.
+6. Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope 
+   match a table entry for that application type. A scope that is not listed for the application 
+   type, or that requests more rights than listed, SHALL NOT be granted.
 
-1. Verify the client authentication JWK as described in SMART App launch Client Authentication.
-2. Verify that the Authorization Client was registered during onboarding with the client_id.
-3. Determine the application type the Authorization Client was registered as during client registration. 
-(clinical archive system, primary system or digital health application).
-4. Grant only the scopes allowed for that application type in the tables in section Message Semantics.
-5. Verify that both, the resource type and the rights (e.g. .c, .rs, .cruds) match the table entry.
-6. NOT grant a claimed scope that is not listed for the application type, or that requests more rights than listed.
+If the Authorization Client is registered as a digital health application, the IUA Authorization Server SHALL additionally:
+1. Verify that a software statement is registered for the client_id (see Client Registration).
+2. Issue the access token only for the scopes that are both listed in this specification and granted in the software statement.
 
-If the Authorization Client is registered as digital health application, the Authorization Server SHALL: 
-1. Verify that a digital health application software statement is registered for the `client_id` (see [Client Registration](client-registration.html)).
-2. Issue an access token for digital health application only for scopes granted in the software statement.
-
-If one of the above checks fail, the Authorization server SHALL respond with HTTP 403 Forbidden.  
+If one of the checks above fails, the IUA Authorization Server SHALL respond with HTTP 403 Forbidden.
 
 ###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server SHALL:
