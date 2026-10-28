@@ -99,18 +99,10 @@ grantee may read are not an action: they are given in `Consent.provision.securit
 * #edit-metadata ^designation[+].language = #de-CH
 * #edit-metadata ^designation[=].value = "Vertraulichkeitsstufe ändern und Kommentar erfassen"
 
-* #read-demographics "Read personal data" "View the personal data of the holder in the index of holders."
-* #read-demographics ^designation[+].language = #de-CH
-* #read-demographics ^designation[=].value = "Personendaten im Index einsehen"
-
 * #edit-contact "Add contact data" "Add contact data (address, e-mail, phone) to the personal data of the holder in the
 index of holders."
 * #edit-contact ^designation[+].language = #de-CH
 * #edit-contact ^designation[=].value = "Kontaktdaten im Index ergänzen"
-
-* #read-directory "Read the directory" "View the directory of health professionals, groups and health institutions."
-* #read-directory ^designation[+].language = #de-CH
-* #read-directory ^designation[=].value = "Verzeichnis der Gesundheitsfachpersonen und Gesundheitseinrichtungen einsehen"
 
 * #read-audit-trail "Read the audit trail" "View the log of the accesses to the health dossier."
 * #read-audit-trail ^designation[+].language = #de-CH
