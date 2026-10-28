@@ -42,10 +42,10 @@ This section specifies the national extensions for the client credential grant f
 
 <br/>
 
-| Step | Action                                                                                                   | Remark                                        | 
-|------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| 00   | The Authorization Client sends an Get Access Token Request to the Authorization Server endpoint. | See [Message Semantics](#message-semantics)   | 
-| 01   | The Authorization Server responds with the access token in the http body.                            | See [Message Semantics](#message-semantics-1) |
+| Step | Action                                                                                          | Remark                                        | 
+|------|-------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| 00   | The Authorization Client sends a Get Access Token Request to the Authorization Server endpoint. | See [Message Semantics](#message-semantics)   | 
+| 01   | The Authorization Server responds with the access token in the http body.                       | See [Message Semantics](#message-semantics-1) |
 {:class="table table-bordered"}
 
 <figcaption ID="11">Table: Actions in the HTTP sequence of the transaction.</figcaption>
@@ -67,7 +67,8 @@ type with Swiss extensions:
 - client_id (required): The ID the Authorization Client is registered at the Authorization Server.
 - scope (required): The scope claimed by the Authorization Client, as defined below. Required for requesting
   both basic and extended access tokens.
-- resource (required): Single valued identifier of the Resource Server API endpoint to be accessed.
+- resource (required): Single valued identifier of the Resource Server API endpoint to be accessed. Optional in IUA,
+  required in this national extension.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 <br/>
 
@@ -78,7 +79,7 @@ of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-serv
 <br/>
 
 The Token Request SHALL use the following Swiss extension:
-- person_id (optional/required): EPR-SPID identifier of the holders’s record and the assigning authority formatted in CX syntax, required for requesting an extended access token.
+- person_id (optional/required): EPR-SPID identifier of the holder’s record and the assigning authority formatted in CX syntax, required for requesting an extended access token.
 - principal (optional/required): The name of the healthcare professional an assistant may act on behalf of.
 - principal_id (optional/required): The GLN of the healthcare professional an assistant may act on behalf of.
 - group (optional): The name of the organization or group a healthcare professional or assistant may act on behalf of.
@@ -111,11 +112,12 @@ The following tables list the additional scopes per application type.
 
 Authorization Clients acting as clinical archive systems SHALL claim the scopes in the following table.
 
-| Scopes                                                               | Transactions | Rights                                                                     |
-|----------------------------------------------------------------------|--------------|----------------------------------------------------------------------------|
-| user/DocumentReference.c user/Binary.c                               | ITI-65       | Create document references and binaries.                                   |
-| user/Patient.rs                                                      | ITI-104      | Search and read the holder's demographics data.                            |
-| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90       | Search and read data on healthcare professionals, groups and institutions. |
+| Scopes                                                                 | Transactions | Rights                                                                                                                          |
+|------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------|
+| user/DocumentReference.c user/List.c user/Binary.c user/Bundle.c       | ITI-65       | Provide documents: create the document references, the SubmissionSet and the documents (Binary, or Bundle for a FHIR document). |
+| user/Patient.rs                                                        | ITI-119      | Search and read the holder's demographics data.                                                                                 |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs …   | ITI-90       | Search and read data on healthcare professionals, groups and institutions.                                                      |
+| user/AuditEvent.c                                                      | ITI-20       | Record audit events.                                                                                                            |
 {:class="table table-bordered"}
 
 <figcaption ID="archive-scopes">Table: Supported scopes for clinical archive systems.</figcaption>
@@ -124,33 +126,38 @@ Authorization Clients acting as clinical archive systems SHALL claim the scopes 
 
 Authorization Clients acting as primary systems SHALL claim the scopes in the following table.
 
-| Scopes                                                               | Transactions           | Rights                                                                           |
-|----------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------------|
-| user/DocumentReference.cruds user/Binary.cruds                       | ITI-65, ITI-67, ITI-68 | Create, search, read, update and delete document references and binaries.        |
-| user/Patient.rs                                                      | ITI-104                | Search and read the holder's demographics data.                                  |
-| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90                 | Search and read data on healthcare professionals, groups and institutions.       |
-| user/Consent.cruds                                                   | PPQ-3, PPQ-5           | Create, search, read, update and delete consents (delegation of access rights).  |
+| Scopes                                                                         | Transactions                                       | Rights                                                                                                    |
+|--------------------------------------------------------------------------------|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| user/DocumentReference.cruds user/List.c user/Binary.cr user/Bundle.cr         | ITI-65, ITI-67, ITI-68, CH:MHD-1, CH:MHD-2         | Provide, search and retrieve documents, update the document metadata and purge documents.                 |
+| user/Patient.rs                                                                | ITI-119                                            | Search and read the holder's demographics data.                                                           |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs …           | ITI-90                                             | Search and read data on healthcare professionals, groups and institutions.                                |
+| user/Consent.cruds                                                             | PPQ-3, PPQ-4, PPQ-5                                | Create, search, read, update and delete consents (delegation of access rights).                           |
+| user/AuditEvent.c                                                              | ITI-20                                             | Record audit events.                                                                                      |
 {:class="table table-bordered"}
 
 <figcaption ID="primary-scopes">Table: Supported scopes for primary systems.</figcaption>
 
-###### Digital health applications (dGA)
+###### Digital health applications
 
 Authorization Clients acting as digital health applications (dGA) SHALL claim the scopes in the following table.
 
-| Scopes                                                               | Transactions           | Rights                                                                           |
-|----------------------------------------------------------------------|------------------------|----------------------------------------------------------------------------------|
-| patient/DocumentReference.cruds patient/Binary.cruds                 | ITI-65, ITI-67, ITI-68 | Create, search, read, update and delete document references and binaries.        |
-| patient/Patient.rus                                                  | ITI-104                | Search, read and update (contact data and notes) the holder's demographics data. |
-| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs … | ITI-90                 | Search and read data on healthcare professionals, groups and institutions.       |
-| patient/Consent.cruds                                                | PPQ-3, PPQ-5           | Create, search, read, update and delete consents (access rights).                |
-| patient/AuditEvent.rs                                                | ITI-81                 | Search and read the audit events specified in [CH ATC](iti-81.html).             |
+| Scopes                                                                         | Transactions                                       | Rights                                                                                                    |
+|--------------------------------------------------------------------------------|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr | ITI-65, ITI-67, ITI-68, CH:MHD-1, CH:MHD-2     | Provide, search and retrieve documents, update the document metadata and purge documents.                 |
+| patient/Patient.rus                                                            | ITI-104, ITI-119                                   | Search and read the holder's demographics data (ITI-119), update the contact data and notes (ITI-104).    |
+| user/Practitioner.rs user/Organization.rs user/PractitionerRole.rs …           | ITI-90                                             | Search and read data on healthcare professionals, groups and institutions.                                |
+| patient/Consent.cruds                                                          | PPQ-3, PPQ-4, PPQ-5                                | Create, search, read, update and delete consents (access rights).                                         |
+| patient/AuditEvent.rs                                                          | ITI-81                                             | Search and read the audit events specified in [CH ATC](iti-81.html).                                      |
+| user/AuditEvent.c                                                              | ITI-20                                             | Record audit events.                                                                                      |
 {:class="table table-bordered"}
 
 <figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
 
 <br/>
-Note: The parameters need to be url encoded, see message examples.
+Note: The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values SHALL be URL
+encoded, e.g. the space between scopes as `+` or `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^`
+as `%5E` and `&` as `%26`. For readability, the message examples show the parameters decoded and on separate lines;
+an encoded example is given for the healthcare professional.
 
 
 ##### Expected Actions
@@ -160,12 +167,12 @@ the Authorization Server SHALL respond with the Token Response defined below. In
 Authorization Server SHALL respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error.
 
 When receiving a Token Request, the Authorization Server SHALL:
-1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication]().
+1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 2. Verify that the Authorization Client was registered with the `client_id` during onboarding.
 3. Determine the application type the Authorization Client was registered as during Client 
    Registration: clinical archive system, primary system or digital health application (dGA).
-4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](https://iti-71.html#message-semantics).
-5. Verify that every additional scope claim is listed for that application type in the tables of the [Message Semantics](iti-71.html#message-semantics) section.
+4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](#message-semantics).
+5. Verify that every additional scope claim is listed for that application type in the tables of the [Message Semantics](#message-semantics) section.
 6. Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope 
    match a table entry for that application type. A scope that is not listed for the application 
    type, or that requests more rights than listed, SHALL NOT be granted.
@@ -176,9 +183,9 @@ If the Authorization Client is registered as a digital health application, the A
 
 If the Authorization Client is registered as a digital health application or primary system, the Authorization Server SHALL additionally:
 1. Verify that the Authorization Client is authorized to access on behalf of the user. 
-2. Issue the access token only for the scopes authorized by the user (see [Security Considerations](iti-71.html#client-authorization)).
+2. Issue the access token only for the scopes authorized by the user (see [Client Authorization](#client-authorization)).
 
-If one of the checks above fails, the IUA Authorization Server SHALL respond with HTTP 403 Forbidden.
+If one of the checks above fails, the Authorization Server SHALL respond with HTTP 403 Forbidden.
 
 ###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server SHALL:
@@ -244,7 +251,7 @@ When receiving a Token Request with `subject_role` set to `ADM`, the Authorizati
 
 
 The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the actors serving the requests 
-can identify the application and restrict the requests to the actions of the consent (see [Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).
+can identify the application and restrict the requests to the granted scopes (see [Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).
 
 ##### Message Example
 
@@ -254,14 +261,13 @@ A token request of a holder sent from a digital health app may look like:
 POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
-Content-length:313
 
 grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
-&resource=https%3A%2F%2FresourceServer.com
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/Binary.cruds
+&resource=https://resourceServer.com
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr
 &id_token=<signed identity token>
 ```
 
@@ -271,16 +277,28 @@ A token request of a healthcare professional for an extended access token may lo
 POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
-Content-length:376
 
 grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
+&resource=https://resourceServer.com
+&id_token=<signed identity token>
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs user/DocumentReference.cruds user/List.c user/Binary.cr user/Bundle.cr
+&person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO
+```
+
+URL encoded, as sent in the HTTP body (line breaks added for readability):
+
+```
+grant_type=client_credentials
+&client_id=<client_id>
+&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+&client_assertion=<signed JWT>
 &resource=https%3A%2F%2FresourceServer.com
 &id_token=<signed identity token>
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs user/DocumentReference.cruds user/Binary.cruds
-&person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO 
+&scope=purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM+subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.19%7CHCP+user%2FPatient.rs+user%2FDocumentReference.cruds+user%2FList.c+user%2FBinary.cr+user%2FBundle.cr
+&person_id=761337610411353650%5E%5E%5E%262.16.756.5.30.1.127.3.10.3%26ISO
 ```
 
 A token request of a clinical archive system for a basic access token, which is requested without `person_id`, e.g.
@@ -290,14 +308,13 @@ to record its audit events with [Record Audit Event [ITI-20]](iti-20.html), may 
 POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
-Content-length:276
 
 grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
-&resource=https%3A%2F%2FresourceServer.com
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c patient/Binary.c user/Patient.rs
+&resource=https://resourceServer.com
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/AuditEvent.c
 ```
 
 A token request of a clinical archive system for an extended access token may look like:
@@ -306,14 +323,13 @@ A token request of a clinical archive system for an extended access token may lo
 POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
-Content-length:340
 
 grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=<signed JWT>
-&resource=https%3A%2F%2FresourceServer.com
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c user/Binary.c user/Patient.rs
+&resource=https://resourceServer.com
+&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c user/List.c user/Binary.c user/Bundle.c user/Patient.rs
 &person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO
 ```
 
@@ -323,7 +339,7 @@ grant_type=client_credentials
 ##### Message Semantics
 
 The response SHALL either convey a Basic Access Token in JWT format which grants basic access to the EPR (i.e., to
-access holders demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR
+access the holder's demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR
 authorization (i.e., read and write documents).
 
 ###### JSON Web Token Option
@@ -409,12 +425,13 @@ A basic JWT access token returned by the Authorization Server and to be used to 
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "resource": "http://resourceServer.ch",
+  "aud": "https://resourceServer.com",
+  "client_id": "6f0a2c1e-6b1f-4c43-9d5e-2a9f6f0e8b11",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
-  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/Patient.rs",
+  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs",
   "extensions": {
     "ihe_iua": {
       "subject_name": "Martina Musterarzt",
@@ -446,12 +463,13 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "resource": "http://resourceServer.ch",
+  "aud": "https://resourceServer.com",
+  "client_id": "6f0a2c1e-6b1f-4c43-9d5e-2a9f6f0e8b11",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
-  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.cruds user/Binary.cruds",
+  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/DocumentReference.cruds user/List.c user/Binary.cr user/Bundle.cr",
   "extensions": {
     "ihe_iua": {
       "subject_name": "Martina Musterarzt",
@@ -491,19 +509,20 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
 }
 ```
 
-An extended JWT access token to be used to access the documents of a holder by an assistant acting on behalf of a healthcare professional for a
-holder SHALL have the additional extension `ch_delegation`:
+An extended JWT access token to be used to access the documents of a holder by an assistant acting on behalf of a healthcare professional
+SHALL have the additional extension `ch_delegation`:
 
 ```json
 {
   "iss": "http://issuerAdress.ch",
   "sub": "UserId-bfe8a208-b9d0-4012-b2f5-168b949fc3cb",
-  "resource": "http://resourceServer.ch",
+  "aud": "https://resourceServer.com",
+  "client_id": "6f0a2c1e-6b1f-4c43-9d5e-2a9f6f0e8b11",
   "exp": 1587294580,
   "nbf": 1587294460,
   "iat": 1587294460,
   "jti": "c5436729-3f26-4dbf-abd3-2790dc7771a",
-  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.cruds user/Binary.cruds",
+  "scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|ASS user/DocumentReference.cruds user/List.c user/Binary.cr user/Bundle.cr",
   "extensions": {
     "ihe_iua": {
       "subject_name": "Dagmar Musterassistent",
@@ -553,8 +572,8 @@ There are no CapabilityStatement resources defined for this transaction.
 
 ### Security Consideration
 
-If a transaction contains the EPR-SPID both in the IUA access token and in the transaction body, the IUA Resource
-Server SHALL verify that both values are identical. The Resource Server SHALL reject the request if the values differ.
+The Resource Server SHALL verify that the EPR-SPID in the access token matches the holder of the request, as specified
+in [ITI-72](iti-72.html#expected-actions).
 
 The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
@@ -577,7 +596,7 @@ Resource Servers SHALL reject any request whose access token signature validatio
 
 To authenticate Access Token requests, the Authorization Client SHALL include a client assertion in the form
 of a signed JSON Web Token (JWT) in each request to the token endpoint, as defined in
-[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint
+[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).
 
 The Authorization Server SHALL validate the client assertion by:
 1. Verifying the signature against a public key registered for the client, and
@@ -593,20 +612,24 @@ primary system or digital health application (dGA) to access the health dossier 
 The Authorization Server SHALL provide an HTTP endpoint that accepts a `client_id` as a request parameter. 
 An Authorization Client MAY redirect the user to this endpoint to start the User Authorization.
 
-When receiving a request, tha Authorization Server SHALL:
+When receiving a request, the Authorization Server SHALL:
 1. Require the user to authenticate at one of the identity providers accepted for the health dossier.
 2. Resolve the application type (primary system or digital health application) from the client_id of the 
 Authorization Client, as registered during Client Registration.
 3. Present to the user the application type and the scopes the application may be granted. The presented scopes 
-SHALL be limited to the scopes that are listed for the application type in the tables of the Message Semantics section. 
+SHALL be limited to the scopes that are listed for the application type in the tables of the [Message Semantics](#message-semantics) section. 
 For digital health applications, the presented scopes SHALL additionally be limited to the scopes granted in the 
 digital health application software statement registered for the client_id.
 4. Allow the user to confirm or decline the authorization.
 5. Store the authorization decision of the user (the user, the client_id and the authorized scopes) as a user-specific setting.
 
-When responding to a Token Request from a primary system or digital health application, the IUA Authorization Server 
+When responding to a Token Request from a primary system or digital health application, the Authorization Server 
 SHALL verify that a stored authorization of the user exists for the `client_id`, and SHALL issue the access token 
-only for authorized scopes as specified in [Message Semantics](iti-71.html#expected-actions))
+only for authorized scopes as specified in [Expected Actions](#expected-actions).
+
+The user MAY revoke the authorization of a primary system or digital health application at any time. The Authorization
+Server SHALL delete the stored authorization of a digital health application after three months without access by the
+application.
 
 #### Security Audit Considerations
 
