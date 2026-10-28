@@ -168,80 +168,79 @@ When receiving a Token Request, the IUA Authorization Server SHALL:
 6. Verify that a digital health application software statement is registered for the `client_id` (see [Client Registration](client-registration.html)).
 7. Issue an access token for digital health application only for scopes granted in the software statement.
 8. NOT grant a claimed scope that is not listed for the application type, or that requests more rights than listed.
-9. respond with HTTP 403 Forbidden if the verification fails.
+9. Respond with HTTP 403 Forbidden if the verification fails.
 
 ###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the IUA Authorization Server SHALL:
-1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
+1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
-4. read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
+4. Read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
 
 ###### Representatives
 When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the IUA Authorization Server SHALL:
-1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
+1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
-4. read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
+4. Read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the IUA Authorization Server SHALL: 
-1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
+1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
-4. if the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
+4. If the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. 
-5. verify the healthcare professional is registered with the same GLN in the provider directory. 
-6. query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
+5. Verify the healthcare professional is registered with the same GLN in the provider directory. 
+6. Query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
 
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the IUA Authorization Server SHALL:
-1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
+1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
   Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the assistant. 
-5. verify the assistant is registered with the same GLN in the provider directory. 
-6. verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
+5. Verify the assistant is registered with the same GLN in the provider directory. 
+6. Verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
   `principal_id` claim. 
-7. if a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
+7. If a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
   professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute 
   of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
   superior groups and institutions up to the root level. 
-8. if no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
+8. If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
   professional claimed in the `principal_id` to all groups or institutions the healthcare professional is a member 
   of, including all superior groups or institutions up to the root level.
 
 ###### Clinical archive systems
 When receiving a Token Request from a clinical archive system with `subject_role` set to `TCU`, the
 IUA Authorization Server SHALL:
-1. verify that the system has been registered during onboarding as a clinical archive system with a principal.
-2. verify that the `principal_id` matches the GLN of the legally responsible person registered during onboarding.
+1. Verify that the system has been registered during onboarding as a clinical archive system with a principal.
+2. Verify that the `principal_id` matches the GLN of the legally responsible person registered during onboarding.
 
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the IUA Authorization Server SHALL:
-1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
-3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
+1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
+2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
-4. read the subject identifier `sub` of the id token and resolve it to the ID of the administrator. 
-5. verify the administrator is registered with the same ID in the provider directory. 
-6. verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
+4. Read the subject identifier `sub` of the id token and resolve it to the ID of the administrator. 
+5. Verify the administrator is registered with the same ID in the provider directory. 
+6. Verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization
   type `community` of [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html)), and that the
   administrator is registered as its member. 
-7. convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
+7. Convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
   the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
   by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
 
 
-The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the
-actors serving the requests can identify the application and restrict the requests to the actions of the consent (see
-[Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).
+The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the actors serving the requests 
+can identify the application and restrict the requests to the actions of the consent (see [Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).
 
 ##### Message Example
 
@@ -576,8 +575,8 @@ of a signed JSON Web Token (JWT) in each request to the token endpoint, as defin
 [SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint
 
 The IUA Authorization Server SHALL validate the client assertion by:
-1. verifying the signature against a public key registered for the client, and
-2. verifying the claims as required by the referenced SMART App Launch specification (e.g., iss, sub, aud, exp, and jti).
+1. Verifying the signature against a public key registered for the client, and
+2. Verifying the claims as required by the referenced SMART App Launch specification (e.g., iss, sub, aud, exp, and jti).
 
 The IUA Authorization Server SHALL reject the Access Token request if validation fails.
 
