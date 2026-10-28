@@ -67,7 +67,7 @@ type with Swiss extensions:
 - client_id (required): The ID the Authorization Client is registered at the Authorization Server.
 - scope (required): The scope claimed by the Authorization Client, as defined below. Required for requesting
   both basic and extended access tokens.
-- resource (required): Single valued identifier of the IUA Resource Server API endpoint to be accessed.
+- resource (required): Single valued identifier of the Resource Server API endpoint to be accessed.
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 <br/>
 
@@ -102,7 +102,7 @@ Authorization Clients SHALL claim the following scopes for both basic and extend
   `ASS` (assistant), `TCU` (technical user, clinical archive) and `ADM` (administration),
   e.g. `subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP`.
 
-In addition, Authorization Clients SHALL claim additional scopes used by IUA Resource Servers to authorize transactions,
+In addition, Authorization Clients SHALL claim additional scopes used by Resource Servers to authorize transactions,
 as defined in the [SMART on FHIR specification](https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html).
 
 The following tables list the additional scopes per application type.
@@ -165,21 +165,25 @@ When receiving a Token Request, the Authorization Server SHALL:
 3. Determine the application type the Authorization Client was registered as during Client 
    Registration: clinical archive system, primary system or digital health application (dGA).
 4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](https://iti-71.html#message-semantics).
-5. Verify that every additional claimed scope is listed for that application type in the tables of the [Message Semantics](iti-71.html#message-semantics) section.
+5. Verify that every additional scope claim is listed for that application type in the tables of the [Message Semantics](iti-71.html#message-semantics) section.
 6. Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope 
    match a table entry for that application type. A scope that is not listed for the application 
    type, or that requests more rights than listed, SHALL NOT be granted.
 
-If the Authorization Client is registered as a digital health application, the IUA Authorization Server SHALL additionally:
+If the Authorization Client is registered as a digital health application, the Authorization Server SHALL additionally:
 1. Verify that a software statement is registered for the client_id (see Client Registration).
 2. Issue the access token only for the scopes that are both listed in this specification and granted in the software statement.
+
+If the Authorization Client is registered as a digital health application or primary system, the Authorization Server SHALL additionally:
+1. Verify that the Authorization Client is authorized to access on behalf of the user. 
+2. Issue the access token only for the scopes authorized by the user (see [Security Considerations](iti-71.html#client-authorization)).
 
 If one of the checks above fails, the IUA Authorization Server SHALL respond with HTTP 403 Forbidden.
 
 ###### Holders
 When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server SHALL:
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
@@ -187,7 +191,7 @@ When receiving a Token Request with `subject_role` set to `PAT`, the Authorizati
 ###### Representatives
 When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the Authorization Server SHALL:
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
@@ -195,7 +199,7 @@ When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the
 ###### Healthcare Professionals 
 When receiving a Token Request with `subject_role` set to `HCP`, the Authorization Server SHALL: 
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. If the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. 
@@ -207,7 +211,7 @@ When receiving a Token Request with `subject_role` set to `HCP`, the Authorizati
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the Authorization Server SHALL:
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. If the `id_token` contains the GLN of the assistant, read the GLN from the `id_token`.
@@ -232,7 +236,7 @@ Authorization Server SHALL:
 ###### Administrators 
 When receiving a Token Request with `subject_role` set to `ADM`, the Authorization Server SHALL:
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
-2. Verify that the `id_token` is signed by one of the identity providers accepted for the health dossier.
+2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the ID of the administrator. 
@@ -334,7 +338,7 @@ authorization (i.e., read and write documents).
 
 ###### JSON Web Token Option
 
-The Authorization Server and IUA Resource Server SHALL support the IUA JWT extension with claims as defined in
+The Authorization Server and Resource Server SHALL support the IUA JWT extension with claims as defined in
 the following table:
 
 | JWT Claim (Extension)   | Optionality (Basic/ Extended) | Remark                                                                                                                                                             |
@@ -351,7 +355,7 @@ the following table:
 
 ###### The JWT ch_epr extension
 
-The Authorization Server and IUA Resource Server SHALL support this extension to convey the user's EPR identifier
+The Authorization Server and Resource Server SHALL support this extension to convey the user's EPR identifier
 in the JWT access token of the Get Access Token Response. Its attributes are:
 
 - user_id (required): The EPR subject identifier as defined in the table below.
@@ -380,7 +384,7 @@ Groups are the objects used in the access management of the Health Dossier. Hold
 rights to groups which typically are sub-organizations of the institutions, but may also cross institution boundaries,
 e.g., a tumor board with healthcare professionals from more than one institution.
 
-The Authorization Server and IUA Resource Server SHALL support this extension in the JWT access token for a list of
+The Authorization Server and Resource Server SHALL support this extension in the JWT access token for a list of
 groups
 a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL be the groups of
 the healthcare professional the assistant is acting on behalf of.
@@ -396,7 +400,7 @@ per group with the following attributes:
 ###### The JWT ch_delegation extension
 
 Delegation is used in the access management of the Health Dossier to indicate that a user of role Assistant is acting on
-behalf of a healthcare professional. The Authorization Server and IUA Resource Server SHALL support this extension
+behalf of a healthcare professional. The Authorization Server and Resource Server SHALL support this extension
 in the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of.
 
 Principals SHALL be wrapped in an `extensions` object with key `ch_delegation` and a JSON value object with attributes:
@@ -560,24 +564,30 @@ There are no CapabilityStatement resources defined for this transaction.
 
 ### Security Consideration
 
-Authorization Clients, Authorization Servers, and IUA Resource Servers SHALL support the JSON Web Signature (JWS) 
-serialization of the JWT access token, as specified in 
+If a transaction contains the EPR-SPID both in the IUA access token and in the transaction body, the IUA Resource
+Server SHALL verify that both values are identical. The Resource Server SHALL reject the request if the values differ.
+
+The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+
+#### JWT Signature
+
+Authorization Clients, Authorization Servers, and Resource Servers SHALL support the JSON Web Signature (JWS)
+serialization of the JWT access token, as specified in
 [IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
 
 To ensure the integrity and authenticity of the access token:
 1. The Authorization Server SHALL sign the JWT with its private key.
-2. The IUA Resource Server SHALL verify the signature using the public key of the Authorization Server that issued the token. 
-
-IUA Resource Servers SHALL reject any request whose access token signature validation fails.
+2. The Resource Server SHALL verify the signature using the public key of the Authorization Server that issued the token.
 
 Unsigned JWT access tokens SHALL NOT be used. The JSON Web Encryption (JWE) serialization SHALL NOT be used. Since
 Revision 2.5 IUA no longer requires the JWT access token to be signed; the signature remains required for the Health Dossier.
 
-If a transaction contains the EPR-SPID both in the IUA access token and in the transaction body, the IUA Resource 
-Server SHALL verify that both values are identical. The IUA Resource Server SHALL reject the request if the values differ.
+Resource Servers SHALL reject any request whose access token signature validation fails.
 
-To authenticate Access Token requests, the Authorization Client SHALL include a client assertion in the form 
-of a signed JSON Web Token (JWT) in each request to the token endpoint, as defined in 
+#### Client Authentication
+
+To authenticate Access Token requests, the Authorization Client SHALL include a client assertion in the form
+of a signed JSON Web Token (JWT) in each request to the token endpoint, as defined in
 [SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint
 
 The Authorization Server SHALL validate the client assertion by:
@@ -586,7 +596,10 @@ The Authorization Server SHALL validate the client assertion by:
 
 The Authorization Server SHALL reject the Access Token request if validation fails.
 
-The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+#### Client Authorization
+
+
+
 
 #### Security Audit Considerations
 
