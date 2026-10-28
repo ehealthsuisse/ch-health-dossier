@@ -9,8 +9,8 @@ Server in every Token Request. The IUA Authorization Server uses the `client_id`
 and to determine which scopes are authorized.
 
 This profile explains how a client application can use the OAuth dynamic registration protocol to obtain 
-its `client_id` and registers the metadata the IUA Authorization Server requires, such as the requested 
-scopes and the public keys used for client authentication.
+its `client_id` and register the metadata, such as the requested scopes and the public keys used for client 
+authentication.
 
 This profile uses per-instance client registration, meaning each installed instance of a client is registered separately. 
 For example, a primary system is registered once for each instance deployed in a practice or institution, and all users 
