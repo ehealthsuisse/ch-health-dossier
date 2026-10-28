@@ -155,9 +155,8 @@ Authorization Clients acting as digital health applications (dGA) SHALL claim th
 
 <br/>
 Note: The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values SHALL be URL
-encoded, e.g. the space between scopes as `+` or `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^`
-as `%5E` and `&` as `%26`. For readability, the message examples show the parameters decoded and on separate lines;
-an encoded example is given for the healthcare professional.
+encoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E`
+and `&` as `%26` (see the [message examples](#message-example)).
 
 
 ##### Expected Actions
@@ -255,54 +254,48 @@ can identify the application and restrict the requests to the granted scopes (se
 
 ##### Message Example
 
-A token request of a holder sent from a digital health app may look like:
+A token request of a holder sent from a digital health app may look like the following, with the decoded values:
+
+- `scope`: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr`
 
 ```
 POST /token HTTP/1.1
 Host: epr.auth-server.com
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=client_credentials
-&client_id=<client_id>
-&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-&client_assertion=<signed JWT>
-&resource=https://resourceServer.com
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr
-&id_token=<signed identity token>
-```
-
-A token request of a healthcare professional for an extended access token may look like:
-
-```
-POST /token HTTP/1.1
-Host: epr.auth-server.com
-Content-Type: application/x-www-form-urlencoded
-
-grant_type=client_credentials
-&client_id=<client_id>
-&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-&client_assertion=<signed JWT>
-&resource=https://resourceServer.com
-&id_token=<signed identity token>
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs user/DocumentReference.cruds user/List.c user/Binary.cr user/Bundle.cr
-&person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO
-```
-
-URL encoded, as sent in the HTTP body (line breaks added for readability):
-
-```
 grant_type=client_credentials
 &client_id=<client_id>
 &client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
 &client_assertion=<signed JWT>
 &resource=https%3A%2F%2FresourceServer.com
 &id_token=<signed identity token>
-&scope=purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM+subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.19%7CHCP+user%2FPatient.rs+user%2FDocumentReference.cruds+user%2FList.c+user%2FBinary.cr+user%2FBundle.cr
+&scope=purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM%20subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.19%7CPAT%20patient%2FDocumentReference.cruds%20patient%2FList.c%20patient%2FBinary.cr%20patient%2FBundle.cr
+```
+
+A token request of a healthcare professional for an extended access token may look like the following, with the decoded values:
+
+- `scope`: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP user/Patient.rs user/DocumentReference.cruds user/List.c user/Binary.cr user/Bundle.cr`
+- `person_id`: `761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO`
+
+```
+POST /token HTTP/1.1
+Host: epr.auth-server.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id=<client_id>
+&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
+&client_assertion=<signed JWT>
+&resource=https%3A%2F%2FresourceServer.com
+&id_token=<signed identity token>
+&scope=purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM%20subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.19%7CHCP%20user%2FPatient.rs%20user%2FDocumentReference.cruds%20user%2FList.c%20user%2FBinary.cr%20user%2FBundle.cr
 &person_id=761337610411353650%5E%5E%5E%262.16.756.5.30.1.127.3.10.3%26ISO
 ```
 
 A token request of a clinical archive system for a basic access token, which is requested without `person_id`, e.g.
-to record its audit events with [Record Audit Event [ITI-20]](iti-20.html), may look like:
+to record its audit events with [Record Audit Event [ITI-20]](iti-20.html), may look like the following, with the decoded values:
+
+- `scope`: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/AuditEvent.c`
 
 ```
 POST /token HTTP/1.1
@@ -311,13 +304,16 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
 &client_id=<client_id>
-&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
 &client_assertion=<signed JWT>
-&resource=https://resourceServer.com
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/AuditEvent.c
+&resource=https%3A%2F%2FresourceServer.com
+&scope=purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM%20subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.19%7CTCU%20user%2FAuditEvent.c
 ```
 
-A token request of a clinical archive system for an extended access token may look like:
+A token request of a clinical archive system for an extended access token may look like the following, with the decoded values:
+
+- `scope`: `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c user/List.c user/Binary.c user/Bundle.c user/Patient.rs`
+- `person_id`: `761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO`
 
 ```
 POST /token HTTP/1.1
@@ -326,11 +322,11 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
 &client_id=<client_id>
-&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer
 &client_assertion=<signed JWT>
-&resource=https://resourceServer.com
-&scope=purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|TCU user/DocumentReference.c user/List.c user/Binary.c user/Bundle.c user/Patient.rs
-&person_id=761337610411353650^^^&2.16.756.5.30.1.127.3.10.3&ISO
+&resource=https%3A%2F%2FresourceServer.com
+&scope=purpose_of_use%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.5%7CNORM%20subject_role%3Durn%3Aoid%3A2.16.756.5.30.1.127.3.10.19%7CTCU%20user%2FDocumentReference.c%20user%2FList.c%20user%2FBinary.c%20user%2FBundle.c%20user%2FPatient.rs
+&person_id=761337610411353650%5E%5E%5E%262.16.756.5.30.1.127.3.10.3%26ISO
 ```
 
 
