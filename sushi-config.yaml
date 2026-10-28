@@ -130,6 +130,8 @@ pages:
     title: Enforcement of Access Rules
   tracecontext.md:
     title: Trace Context
+  relation-eu-health-data-api.md:
+    title: Relation to EU Health Data API
   changelog.md:
     title: Open Issues / Change Log
 
@@ -177,6 +179,7 @@ menu:
     Sequence Diagrams: sequencediagrams.html
     Enforcement of Access Rules: accesscontrol.html
     Trace Context: tracecontext.html
+    Relation to EU Health Data API: relation-eu-health-data-api.html
     Open Issues / Change Log: changelog.html
   Artifacts: artifacts.html
 
