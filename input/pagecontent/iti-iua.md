@@ -122,13 +122,13 @@ For the process flow of this profile and its interplay with the other profiles s
 
 ### Security Consideration
 
-IUA Authorization Clients SHALL be identified by the **client_id** registered during onboarding. 
+IUA Authorization Clients SHALL be identified by the `client_id` registered during onboarding. 
 
 The authenticity of requests to the IUA Authorization Server SHALL be verified by a JWK as described in 
 [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). See [Get Access Token](iti-71.html#security-consideration) for details.  
 
-Applications implementing the IUA Authorization Client actor SHALL register the combination of the OAuth **client_id**, 
+Applications implementing the IUA Authorization Client actor SHALL register the combination of the OAuth `client_id`, 
 and the public key used for signing the authentication JWK during the onboarding process. 
 
-Applications implementing the IUA Authorization Server actor shall verify the combination of the OAuth **client_id**, 
+Applications implementing the IUA Authorization Server actor shall verify the combination of the OAuth `client_id`, 
 the URLs and the public key of all requests against the registered values and shall reject requests in case of mismatch.

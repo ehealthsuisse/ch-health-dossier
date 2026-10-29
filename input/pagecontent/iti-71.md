@@ -373,10 +373,14 @@ in the JWT access token of the Get Access Token Response. Its attributes are:
 | Representative (`REP`)          | Representative ID | urn:e-health-suisse:representative-id |                                                                      
 | Legal Representative (`LEGREP`) | Representative ID | urn:e-health-suisse:representative-id |                                                                      
 | Administration (`ADM`)          | GLN               | urn:e-health-suisse:administrator-id  |                                                                     
-| Clinical Archive System (`TCU`) | GLN               | urn:gs1:gln                           |
+| Clinical Archive System (`TCU`) | OID (see [note](#tcu-user-id)) | urn:e-health-suisse:technical-user-id |
 {:class="table table-bordered"}
 
 <figcaption>Table: user id and user id qualifier of EPR users.</figcaption>
+
+Note: For clinical archive systems the Authorization Server SHALL convey the OID
+registered with the `client_id` during onboarding as `user_id`, and the name of the clinical archive system as `subject_name`.
+{:#tcu-user-id}
 
 <br/>
 
