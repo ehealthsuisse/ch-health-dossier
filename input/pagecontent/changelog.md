@@ -7,6 +7,8 @@ The following issues are open and will be addressed in a later release:
 * [#32](https://github.com/ehealthsuisse/ch-health-dossier/issues/32) Consent and scopes of digital health applications
 * [#27](https://github.com/ehealthsuisse/ch-health-dossier/issues/27) Server certificate requirements
 * [#13](https://github.com/ehealthsuisse/ch-health-dossier/issues/13) Changes to the value sets of the E-GD
+* [#60](https://github.com/ehealthsuisse/ch-health-dossier/issues/60) Medical imaging and access
+* [#65](https://github.com/ehealthsuisse/ch-health-dossier/issues/65) Harmonize Wording / Logo / CI
 
 ### Release 1.0.0-preview, 2026-10-29
 
