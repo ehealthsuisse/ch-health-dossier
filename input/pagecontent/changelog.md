@@ -6,6 +6,7 @@ The following issues are open and will be addressed in a later release:
 * [#48](https://github.com/ehealthsuisse/ch-health-dossier/issues/48) OpenID Connect client-asymmetric authentication
 * [#27](https://github.com/ehealthsuisse/ch-health-dossier/issues/27) Server certificate requirements
 * [#13](https://github.com/ehealthsuisse/ch-health-dossier/issues/13) Changes to value sets
+* [#65](https://github.com/ehealthsuisse/ch-health-dossier/issues/65) Harmonize Wording / Logo / CI
 
 ### Release 1.0.0-preview, 2026-10-29
 

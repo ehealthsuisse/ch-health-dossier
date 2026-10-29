@@ -189,15 +189,7 @@ content."
 * context.practiceSetting ^binding.extension.url = "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName"
 * context.practiceSetting ^binding.extension.valueString = "DocumentC80PracticeSetting"
 * context.practiceSetting ^binding.description = "Additional details about where the content was created (e.g. clinical specialty)."
-* context.related ^slicing.discriminator.type = #value
-* context.related ^slicing.discriminator.path = "identifier.system"
-* context.related ^slicing.rules = #open
 * context.related ^comment = "References to resources, or identifiers, the document is related to."
-* context.related contains
-    StudyInstanceUID 0..1 MS
-* context.related[StudyInstanceUID].identifier MS
-* context.related[StudyInstanceUID].identifier only DicomStudyInstanceUidIdentifier
-* context.related[StudyInstanceUID].identifier ^short = "StudyInstanceUID of the imaging study: when a Document Source provides a DICOM KOS object, it SHALL provide the StudyInstanceUID found in the KOS object."
 
 Invariant: ch-mhd
 Description: "The DocumentReference needs to conform to IHE.MHD.Minimal.DocumentReference"
@@ -422,45 +414,6 @@ Usage: #example
 * content.format = urn:oid:2.16.756.5.30.1.127.3.10.10#urn:che:epr:EPR_Unstructured_Document "Unstructured EPR document"
 * context.facilityType = $sct#264358009 "General practice premises (environment)"
 * context.practiceSetting = $sct#394802001 "General medicine (qualifier value)"
-
-Instance: DocRefKos
-InstanceOf: ch-mhd-documentreference
-Title: "DocumentReference for a DICOM KOS Manifest"
-Description: "DocumentReference for a DICOM KOS manifest of a radiology study, with the StudyInstanceUID of the imaging study in context.related"
-Usage: #example
-* contained.resourceType = "PractitionerRole"
-* contained.id = "author"
-* contained.practitioner.type = "Practitioner"
-* contained.practitioner.display = "Dr. med. Martina Musterarzt"
-* contained.organization.type = "Organization"
-* contained.organization.display = "Spital X, Institut für Radiologie"
-* extension[providerRole].valueCoding = urn:oid:2.16.756.5.30.1.127.3.10.19#HCP "Healthcare professional"
-* masterIdentifier.system = "urn:ietf:rfc:3986"
-* masterIdentifier.value = "urn:oid:1.3.6.1.4.1.12559.11.13.2.1.2952"
-* masterIdentifier.type = $IHE.MHD.MHDIdentifierType#uniqueId
-* status = #current
-* type = $sct#900000000000471006 "Image reference"
-* category = $sct#371525003 "Clinical procedure report"
-* subject.identifier.system = "urn:oid:2.16.756.5.30.1.127.3.10.3"
-* subject.identifier.value = "761337610411353650"
-* date = "2025-09-24T12:01:30+00:00"
-* author.reference = "#author"
-* custodian.type = "Organization"
-* custodian.identifier.system = "urn:ietf:rfc:3986"
-* custodian.identifier.value = "urn:oid:2.2.2.2"
-* custodian.display = "Spital X"
-* description = "Manifest of a radiology study"
-* securityLabel = $sct#17621005 "Normal (qualifier value)"
-* content.attachment.contentType = #application/dicom
-* content.attachment.language = #de-CH
-* content.attachment.url = "urn:uuid:9a1b6f30-27bd-4a0c-9a2f-6c8c2b0c1a77"
-* content.attachment.title = "Manifest of a radiology study"
-* content.attachment.creation = "2025-09-24T12:01:30+00:00"
-* content.format = urn:oid:1.2.840.10008.2.6.1#1.2.840.10008.5.1.4.1.1.88.59 "DICOM Manifest (DICOM KOS SOP Class UID)"
-* context.facilityType = $sct#722171005 "Diagnostic institution (environment)"
-* context.practiceSetting = $sct#394914008 "Radiology - specialty (qualifier value)"
-* context.related[StudyInstanceUID].identifier.system = "urn:dicom:uid"
-* context.related[StudyInstanceUID].identifier.value = "urn:oid:2.25.254740554952681474007791839575354065445"
 
 Instance: CHMhd1UpdateDocumentMetadataTransactionRequestExample
 InstanceOf: CHMhd1UpdateDocumentMetadataTransactionRequest
