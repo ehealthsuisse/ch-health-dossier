@@ -159,19 +159,19 @@ The Access Token Request SHALL contain the following parameters:
 - *code_verifier*: The code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
 
 The Identity Provider SHALL validate the Access Token Request as follows:
-1. Identify the client using the client_id. 
+1. Identify the client using the `client_id`. 
 2. Authenticate the Relying Party, if the client application is
    registered as a confidential client. 
 3. Verify that the authorization code was issued to the Relying Party
    in response to an Authentication Request. 
 4. Verify that the authorization code was not used before. 
-5. Verify that the value of the *redirect_uri* parameter sent with the
+5. Verify that the value of the `redirect_uri` parameter sent with the
    Access Token Request matches the one sent with the Authentication
    Request. 
-6. Verify that the value of the *redirect_uri* parameter sent with the
+6. Verify that the value of the `redirect_uri` parameter sent with the
    Access Token Request matches one of the redirect URIs registered
    for the Relying Party. 
-7. Verify that the *code_verifier* matches the *code_challenge* sent
+7. Verify that the `code_verifier` matches the `code_challenge` sent
    with the authentication request respecting the S256 code challenge
    method.
 
@@ -184,7 +184,7 @@ via the backchannel. The Access Token Response message SHALL be
 compliant with an OAuth 2.0 Access Token Response message.
 
 The Access Token Response SHALL contain the following parameters:
-- *token_type*: The value SHALL be *Bearer.*
+- *token_type*: The value SHALL be Bearer.
 - *expires_in --* The Token lifetime in seconds. The value SHALL be equal to *300* (5 minutes).
 - *access_token*: The value SHALL be an OAuth 2.0 compliant access token.
 - *id_token*: The value SHALL be an Identity Token as defined below.
