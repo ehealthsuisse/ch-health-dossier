@@ -6,7 +6,7 @@ title: CH Health Dossier (R4)
 description: FHIR implementation guide to the Swiss Health Dossier
 status: active
 experimental: false
-date: 2026-06-09
+date: 2026-10-29
 version: 1.0.0-preview
 fhirVersion: 4.0.1
 copyrightYear: 2026+

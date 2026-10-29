@@ -9,6 +9,9 @@ For general information about the revision from the EPDG to the EGDG see [de](ht
 
 <div markdown="1" class="stu-note">
 
+This is a preliminary release of the CH Health Dossier Implementation Guide for review. It is based on the
+[CH EPR FHIR Implementation Guide 5.0.0](https://fhir.ch/ig/ch-epr-fhir/5.0.0/) and latest proposed changes and takes into account the legal requirements of the electronic health dossier (E-GD) according to the EGDG and the requirements catalogue of the E-GD authorization system. The specification may still change substantially.
+
 [Changelog](changelog.html) with significant changes, open and closed issues.
 
 </div>
