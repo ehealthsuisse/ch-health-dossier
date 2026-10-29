@@ -166,7 +166,6 @@ Expression:     "conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefini
                  conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-delegation') or
                  conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-representative') or
                  conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-legal-representative') or
-                 conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application') or
                  conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-military-recording') or
                  conformsTo('http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-community-mandate')"
 Severity:       #error
@@ -486,40 +485,6 @@ holder recorded are deleted."
 * provision.actor.reference obeys ch-ppqm-representative-id
 * provision.action 0..0
 * provision.securityLabel 0..0
-* provision.purpose 0..0
-* provision.provision 0..0
-
-
-// ---------------------------------------------------------------------------------------------------------------------
-// C10: digital health application
-
-Profile: ChPpqmConsentDigitalHealthApplication
-Parent: ChPpqmConsent
-Id: ch-ppqm-consent-digital-health-application
-Title: "CH PPQm Consent: Digital Health Application (C10)"
-Description: "The holder authorizes an admitted digital health application to access the health dossier on the
-holder's behalf for a chosen period (Art. 11 para. 2 let. c, Art. 16 EGDG). The actions granted are the scopes the
-IUA Authorization Server may issue to the application, which acts as a client of the authenticated holder. The
-authorization is revoked automatically after three months of inactivity."
-* category = HealthDossierConsentType#digital-health-application
-* policy.uri = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application"
-* performer only Reference(Patient or RelatedPerson)
-* performer ^short = "The holder or the legal representative"
-* source[x] 0..0
-* verification 0..0
-* provision.type = #permit
-* provision.period 1..1
-* provision.period.end 1..1
-* provision.actor 1..1
-* provision.actor.role = $healthDossierRole#PAT
-* provision.actor.role ^short = "The application acts for the holder"
-* provision.actor.reference only Reference(Device)
-* provision.actor.reference.identifier.type.coding = $URI#urn:e-health-suisse:dga-client-id
-* provision.actor.reference.identifier.value ^short = "The client_id the application is registered with at the IUA Authorization Server"
-* provision.action 1..*
-* provision.action from HealthDossierConsentDigitalHealthApplicationAction (required)
-* provision.securityLabel 0..2
-* provision obeys ch-ppqm-read-levels
 * provision.purpose 0..0
 * provision.provision 0..0
 

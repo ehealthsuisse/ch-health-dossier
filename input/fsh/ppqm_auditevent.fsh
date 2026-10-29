@@ -200,9 +200,8 @@ Parent:      ChAuditEventBasicToken
 Id:          ChAuditEventPpq3RepositoryDelete
 Title:       "CH Audit Event for the deletion of a consent by the Policy Repository"
 Description: "This profile is used to define the CH Audit Event of the Policy Repository when it deletes a consent
-itself, without the request of a user: the authorization of a digital health application expired after three months
-without access, or the health dossier was dissolved on request or on the death of the holder. The Policy Repository
-is the initiating agent; there is no user."
+itself, without the request of a user: the health dossier was dissolved on request or on the death of the holder. The
+Policy Repository is the initiating agent; there is no user."
 * insert ChAuditEventPpq3RepositoryRules
 * action = #D
 * insert ChAuditEventTypeCodeRules(1, ATC_POL_REMOVE_AUT_PART_AL, Remove authorization for participants to access level/date)
@@ -210,12 +209,12 @@ is the initiating agent; there is no user."
 * entity[data].detail contains deletionReason 1..1
 * entity[data].detail[deletionReason].type = "deletionReason"
 * entity[data].detail[deletionReason].value[x] only string
-* entity[data].detail[deletionReason] ^short = "Why the Policy Repository deleted the consent: inactivity | dissolution | death"
+* entity[data].detail[deletionReason] ^short = "Why the Policy Repository deleted the consent: dissolution | death"
 * entity[data].detail[deletionReason] obeys ch-ppqm-deletion-reason
 
 Invariant:   ch-ppqm-deletion-reason
-Description: "The reason SHALL be inactivity (digital health application without access for three months), dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the holder)"
-Expression:  "value.ofType(string) in ('inactivity' | 'dissolution' | 'death')"
+Description: "The reason SHALL be dissolution (health dossier dissolved on request) or death (health dossier dissolved on the death of the holder)"
+Expression:  "value.ofType(string) in ('dissolution' | 'death')"
 Severity:    #error
 
 
@@ -247,9 +246,9 @@ Usage:      #example
 
 Instance:   ChAuditEventPpq3RepositoryDeleteExample
 InstanceOf: ChAuditEventPpq3RepositoryDelete
-Title:      "Audit Event of the Policy Repository: digital health application expired"
-Description: "Audit event of the Policy Repository: the authorization of the diabetes diary is deleted after three
-months without access."
+Title:      "Audit Event of the Policy Repository: access right deleted on the death of the holder"
+Description: "Audit event of the Policy Repository: the access right of Dr. Bastian Bux is deleted when the health
+dossier is dissolved on the death of the holder."
 Usage:      #example
 * insert ChExampleAuditEventServerRules(Policy Repository)
 * insert ChExampleAuditEventEntityPatientRules
@@ -266,16 +265,16 @@ Usage:      #example
   * type = $auditEntityType#2 "System Object"
   * role = $objectRole#4 "Domain Resource"
   * what.identifier.system = "urn:ietf:rfc:3986"
-  * what.identifier.value = "urn:uuid:111f1e4b-4c0c-4cf5-9882-646dccc81273"
-  * name = "Diabetes diary"
+  * what.identifier.value = "urn:uuid:3733b8a5-52f5-49fc-b2d2-cad3d2b0b949"
+  * name = "Dr. Bastian Bux"
   * detail[consentType].type = "consentType"
-  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|digital-health-application"
+  * detail[consentType].valueString = "http://fhir.ch/ig/ch-health-dossier/CodeSystem/HealthDossierConsentType|access"
   * detail[grantee].type = "grantee"
-  * detail[grantee].valueString = "urn:e-health-suisse:dga-client-id|diabetes-diary-app"
+  * detail[grantee].valueString = "urn:gs1:gln|7601002469531"
   * detail[validityEnd].type = "validityEnd"
-  * detail[validityEnd].valueString = "2027-09-30"
+  * detail[validityEnd].valueString = "2027-03-31"
   * detail[deletionReason].type = "deletionReason"
-  * detail[deletionReason].valueString = "inactivity"
+  * detail[deletionReason].valueString = "death"
 
 
 RuleSet: ChAuditEventPpq3ExampleRules

@@ -84,7 +84,7 @@ The PPQ-3 response SHALL be created according to the section
 #### Trigger Event
 
 The Policy Source uses HTTP method `DELETE` to revoke an existing consent, e.g. when the holder revokes an access
-right or the authorization of a digital health application.
+right.
 
 #### Request Message
 
@@ -142,9 +142,8 @@ Policy Repository SHALL verify that:
 Table 1: Performer of the consent by the role of the requester
 
 A digital health application acting for the holder may only add, update or delete
-[access rights](ppqm-consent.html#consent-access), and only while a
-[digital health application](ppqm-consent.html#consent-digital-health-application) consent with the action `manage-access`
-for its client ID is in effect.
+[access rights](ppqm-consent.html#consent-access), and only if the access token grants the scope `patient/Consent.cruds`
+(see [ITI-71](iti-71.html#digital-health-applications)).
 
 The Policy Repository SHALL reject a request that is not authorized with HTTP `403 Forbidden` and an OperationOutcome
 with the issue code `forbidden`.
@@ -162,7 +161,6 @@ profile and the profile of its consent type, and SHALL verify the following rule
 | [Indirect authorization](ppqm-consent.html#consent-indirect-authorization) | The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of the holder SHALL be of type permit. The end date SHALL NOT be later than 60 days after the date the holder gave the consent (`dateTime`). |
 | [Delegation](ppqm-consent.html#consent-delegation) | The access right in `sourceReference` SHALL be in effect, SHALL grant the action `delegate`, and SHALL have the performer of the delegation, or a group or health institution the performer is a member of, as grantee. The end date of the delegation SHALL NOT be later than the end date of the access right. |
 | [Representative](ppqm-consent.html#consent-representative) | The performer SHALL be the holder; a representative SHALL NOT appoint a further representative, and a legal representative SHALL NOT appoint a representative. |
-| [Digital health application](ppqm-consent.html#consent-digital-health-application) | The client ID SHALL be the one of an admitted digital health application registered at the IUA Authorization Server, and the actions SHALL be within the scopes of its admission. |
 | [Military recording](ppqm-consent.html#consent-military-recording) | The grantee SHALL be an organization of the type `722172003` *Military health institution* (SNOMED CT) in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member. |
 | [Community mandate](ppqm-consent.html#consent-community-mandate) | The grantee SHALL be the community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Where the administration adds the mandate, the consent SHALL carry evidence of the mandate in `source[x]` or `verification`. |
 {:class="table table-bordered"}
@@ -185,7 +183,6 @@ following rules. The consents the Policy Repository adds, updates or deletes its
 | An [indirect authorization](ppqm-consent.html#consent-indirect-authorization) is added | The holder is notified. |
 | The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) is updated to type deny | The [indirect authorizations](ppqm-consent.html#consent-indirect-authorization) of the holder are deleted. |
 | An [access right](ppqm-consent.html#consent-access) is deleted, or its validity ends | The [delegations](ppqm-consent.html#consent-delegation) derived from it are deleted. |
-| A [digital health application](ppqm-consent.html#consent-digital-health-application) has not accessed the health dossier for three months | The consent is deleted. |
 | A document is purged with [Purge Document [CH:MHD-2]](ch-mhd-2.html) | The document is removed from the nested provisions of the access rights; a nested provision without documents is removed. |
 | The health dossier is dissolved in the Register E-GD, on request of the holder or the legal representative or on the death of the holder | All consents of the holder are deleted. |
 {:class="table table-bordered"}
@@ -235,6 +232,5 @@ The Policy Repository SHALL also record an audit event for every consent it adds
   deleted according to
   [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)
   with the reason of the deletion
-  ([example for a digital health application without access for three months](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):
-  `inactivity` for a digital health application without access for three months, `dissolution` and `death` for the
-  consents deleted when the health dossier is dissolved.
+  ([example for an access right deleted on the death of the holder](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):
+  `dissolution` and `death` for the consents deleted when the health dossier is dissolved.

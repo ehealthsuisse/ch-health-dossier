@@ -58,7 +58,7 @@ Policy Repository, its `provision.type` is permit and the date of the request is
 | The actions granted by the holder | The representative (`REP`) | [Representative](ppqm-consent.html#consent-representative) |
 | All rights of the holder, except appointing a representative | The legal representative (`LEGREP`) | [Legal representative](ppqm-consent.html#consent-legal-representative) |
 | All rights of the holder, for a support case until the end date | The administration of the community managing the health dossier (`ADM`) | [Community mandate](ppqm-consent.html#consent-community-mandate) |
-| The actions granted by the holder, acting for the authenticated holder | A digital health application | [Digital health application](ppqm-consent.html#consent-digital-health-application) |
+| The scopes authorized by the holder, acting for the authenticated holder | A digital health application | No consent: the authorization is stored by the Authorization Server (see [ITI-71](iti-71.html#client-authorization)) |
 | Record data | A military health professional or health institution | [Military recording](ppqm-consent.html#consent-military-recording) |
 {:class="table table-bordered"}
 
@@ -117,12 +117,11 @@ Table 3: Activities of the administration
 
 #### Digital health applications
 
-A digital health application is an IUA Authorization Client acting for the authenticated holder. The IUA Authorization
-Server issues it an access token with the `subject_role` `PAT` only while a
-[digital health application](ppqm-consent.html#consent-digital-health-application) consent for its `client_id` is in effect
-(see [ITI-71](iti-71.html#digital-health-applications)). Every actor serving a request of a digital health application
-SHALL restrict it to the actions granted in that consent, and to the confidentiality levels in its
-`provision.securityLabel`.
+A digital health application is an Authorization Client acting for the authenticated holder. The Authorization
+Server issues it an access token with the `subject_role` `PAT` only for the scopes listed for digital health
+applications (see [ITI-71](iti-71.html#digital-health-applications)), granted in its software statement and authorized
+by the holder (see [Client Authorization](iti-71.html#client-authorization)). Every actor serving a request of a digital
+health application SHALL restrict it to the scopes of the access token, in addition to the access rights of the holder.
 
 #### Military health professionals
 

@@ -1,17 +1,22 @@
 ### Scope
 
-This page describes how an IUA Authorization Client is registered at the IUA Authorization Server so that it can
+This page describes how an Authorization Client is registered at the Authorization Server so that it can
 request access tokens with [ITI-71](iti-71.html).
 
-In the Swiss Health Dossier, the IUA Authorization Server identifies each client application by its `client_id`.
-The `client_id` SHALL be unique to the IUA Authorization Client. The client passes it to the IUA Authorization
-Server in every Token Request. The IUA Authorization Server uses the `client_id` to identify the client application
+In the Swiss Health Dossier, the Authorization Server identifies each client application by its `client_id`.
+The `client_id` SHALL be unique to the Authorization Client. The client passes it to the Authorization
+Server in every Token Request. The Authorization Server uses the `client_id` to identify the client application
 and to determine which scopes are authorized.
 
-This page explains how a client application obtains its `client_id` and registers the metadata the IUA Authorization
-Server requires, such as the requested scopes and the public keys used for client authentication.
+This page explains how a client application can use the OAuth dynamic registration protocol to obtain 
+its `client_id` and register the metadata, such as the requested scopes and the public keys used for client 
+authentication.
 
-This specification covers two variants of dynamic client registration. In both, the request is authorized by a natural
+This page uses per-instance client registration, meaning each installed instance of a client is registered separately. 
+For example, a primary system is registered once for each instance deployed in a practice or institution, and all users 
+of that instance share this registration.
+
+This page covers two variants of dynamic client registration. In both, the request is authorized by a natural
 person who is authenticated at an Identity Provider accepted for the Swiss Health Dossier.
 - *User Authorized Client Registration:* SHALL be used by healthcare professionals or assistants to register
   a primary system.
@@ -84,7 +89,7 @@ The Client Registration Request SHALL contain the following parameters:
 - *token_endpoint_auth_method*: SHALL be `private_key_jwt`.
 - *grant_types*: SHALL be `client_credentials`.
 - *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
-space-separated values.
+space-separated values (see [ITI-71](iti-71.html#message-semantics)).
 - *jwks*: SHALL be a JSON Web Key Set (JWKS) containing the public key used for asymmetric client authentication (JWT).
 - *id_token*: SHALL be the signed JWT containing the identity token issued by the Identity Provider.
 - *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for 
@@ -102,6 +107,7 @@ The software statement contains the following claims:
 - *iss*: The identifier of the FOPH, `2.16.756.5.30.1.129`.
 - *iat*: The Unix timestamp at which the FOPH issued the statement.
 - *exp*: The Unix timestamp at which the software statement expires.
+- *scope*: The scope granted by the FOPH for the dGA software and version. 
 
 ##### Expected Actions
 
@@ -140,7 +146,7 @@ Host: server.example.com
 "client_name":"Personal Health Assistant App",
 "token_endpoint_auth_method":"private_key_jwt",
 "grant_types":["client_credentials"], 
-"scope":"foo bar",
+"scope":"purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr",
 "jwks":{"keys": [{
     "kid":"1ec50019-0049",
     "kty":"RSA",
@@ -163,17 +169,21 @@ Host: server.example.com
   Rwi__HAkY8bNGnZmrJaTIDh75SN7rZPSTyphwLC-0hH49r0AGZh20VP4WovVMTRuNsptOMgUs
   0-0UKxiNdyLaFzzELY0LBrIbQsTlwCIh63CFNWVLb8E93HNUgzEeImm7BVYv3ynBQtRNVdbjr
   b4aFCg1zI7MeSZ4bj2FDlS4Q9PZlHyL6vsGP642BG67Ai48pTR_w",
-"software_statement":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb2Z0d2FyZV9p
-  ZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2FyZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhpb
-  iIsImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbHRoIEFzc2lzdGFudCBBcHAiLCJjbGllbn
-  RfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGx
-  lLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6IjIuMTYuNzU2LjUuMzAuMS4xMjkiLCJp
-  YXQiOjE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NX0.uWal3hRgns3g6tIdH_C3uKS2IFh4h
-  jXNZ_BWjC9pHHzklrk1XSPfLfPbiyfMJ5GeOkhghz_vHhmkQnbtZmSq9TzA4j42C_uV0tX3Yx
-  A2OqcTOXQCWxaX6TZupPlftoI9G1QXXMEmaoxfEC90baCOulhSKkV9L-sARKJUdPeKegml9o8
-  wBaZDhvS80U1fIC6LrG2D7p9oHvjFS8BuMVdF0GfueQhncCPkz7Mbn4Mqlyh0srpFsFE8vaOb
-  qZ1w3QKEGBJpfYeVRV9hqBh9XIYLZwgReEb7WXH6kkGqoDArQlUadi8ihewiTuzY8qGrjbark
-  1m64as6bq3OOLFbMeo2RA" 
+"software_statement":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImZvcGgtZX
+  hhbXBsZS0yMDI2In0.eyJzb2Z0d2FyZV9pZCI6Ijg0MDEyLTM5MTM0LTM5MTIiLCJzb2Z0d2Fy
+  ZV92ZXJzaW9uIjoiMS4yLjUtZG9scGhpbiIsImNsaWVudF9uYW1lIjoiUGVyc29uYWwgSGVhbH
+  RoIEFzc2lzdGFudCBBcHAiLCJjbGllbnRfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy8iLCJ0
+  b3NfdXJpIjoiaHR0cHM6Ly9leGFtcGxlLm9yZy90ZXJtcy1vZi1zZXJ2aWNlLyIsImlzcyI6Ij
+  IuMTYuNzU2LjUuMzAuMS4xMjkiLCJpYXQiOjE3ODg4NzQ2OTUsImV4cCI6MTg5OTk3NDY5NSwi
+  c2NvcGUiOiJwdXJwb3NlX29mX3VzZT11cm46b2lkOjIuMTYuNzU2LjUuMzAuMS4xMjcuMy4xMC
+  41fE5PUk0gc3ViamVjdF9yb2xlPXVybjpvaWQ6Mi4xNi43NTYuNS4zMC4xLjEyNy4zLjEwLjE5
+  fFBBVCBwYXRpZW50L0RvY3VtZW50UmVmZXJlbmNlLmNydWRzIHBhdGllbnQvTGlzdC5jIHBhdG
+  llbnQvQmluYXJ5LmNyIHBhdGllbnQvQnVuZGxlLmNyIn0.KcqnwFjGLFlxKds6LvVdB-iLvV7s
+  Gswo_ZK1-NJw597OQkuRca9lv0bHkbS6l_2ydmiqpXKrJD9R5VWLfvDnd9xU_sUOwgV9GpVObV
+  t88OJsRmF2MAfGHRJcjAuog4BYO2lxD0OVFDoQJ8HG7yLFb2WpCBcoiOu3y0y7-Sit0WxbMQEO
+  oEyyMBbtCPDg_LeVtU8IkRAzXcgqA3-p3FtzBTkxxH68hKMdhRN8r6xsD3bz2CR3yIWljv0zVY
+  4E5W4F0I4VVGEz0dCLkSJGPu6kcpuwswrzjklWsbhaf30vDuO3DaY_QAZ-42NHdsDTmwFcqc7O
+  yXoPniZ8R3-uCovpxg" 
 }
 ```
 
@@ -188,8 +198,28 @@ Where the `software_statement` payload may look like:
 "tos_uri": "https://example.org/terms-of-service/", 
 "iss": "2.16.756.5.30.1.129", 
 "iat": 1788874695, 
-"exp": 1899974695
+"exp": 1899974695, 
+"scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr"
 }
+```
+
+The software statement of this example is signed with the following example key of the FOPH (JWKS, `kid`
+`foph-example-2026`), which can be used to verify the signature. It is an example key only and SHALL NOT be used outside of testing:
+
+```json
+{"keys": [{
+    "kid":"foph-example-2026",
+    "kty":"RSA",
+    "e":"AQAB",
+    "use":"sig",
+    "alg":"RS256",
+    "n":"vDdrhrS4DOheQN3Sjz6UoVfBIjZS3YZb4tpMz2Nqfb8nrTFMtVnw6GUbT0o4yO8P
+        4M069zIV3leaKR5sJMD5PcJSgPMlxg54pENh-f4B58H6foPfcmtHfnuZqucW8lCX
+        k3BdAHW3hIbq9B7Kl8k2VHJ-PZFmIgYT3RHzy1JOcQvaNyIRWuOb9pbtfGQI1uwX
+        Ujusk9_iGFU_Xb3fYXGyiO2r6mUQVjf7yq9uRa57qrgpuXeEZ6ySmt4ASoAgHFHl
+        h1n7Mpk-VqZ5eAWQp0jf3fyQpG5c48tyvQKA6KlzKLjHBhIOzZWIXE6CsDq-mnOW
+        XzXljpLLLWcZrIr0qqAaAQ"
+  }]}
 ```
 
 #### Client Information Response
@@ -231,7 +261,7 @@ Pragma: no-cache
 "client_id_issued_at": 1791095100,
 "token_endpoint_auth_method": "private_key_jwt",
 "grant_types": ["client_credentials"],
-"scope": "foo bar", 
+"scope": "purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|PAT patient/DocumentReference.cruds patient/List.c patient/Binary.cr patient/Bundle.cr",
 "jwks":{"keys": [{
     "kid":"1ec50019-0049",
     "kty":"RSA",

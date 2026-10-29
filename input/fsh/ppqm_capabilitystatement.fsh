@@ -97,6 +97,5 @@ RuleSet: PpqmConsentResourceRules
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-delegation"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-representative"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-legal-representative"
-* rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-digital-health-application"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-military-recording"
 * rest.resource[=].supportedProfile[+] = "http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ppqm-consent-community-mandate"
