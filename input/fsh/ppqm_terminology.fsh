@@ -54,11 +54,6 @@ EGDG)."
 * #legal-representative ^designation[+].language = #de-CH
 * #legal-representative ^designation[=].value = "Gesetzliche Stellvertretung"
 
-* #digital-health-application "Digital health application" "The holder authorizes a digital health application to
-access the health dossier on the holder's behalf (Art. 11 para. 2 let. c, Art. 16 EGDG)."
-* #digital-health-application ^designation[+].language = #de-CH
-* #digital-health-application ^designation[=].value = "Digitale Gesundheitsanwendung"
-
 * #military-recording "Recording by military health professionals" "The holder consents that military health
 professionals and health institutions record data in the health dossier (Art. 14 para. 2 EGDG)."
 * #military-recording ^designation[+].language = #de-CH
@@ -104,18 +99,10 @@ grantee may read are not an action: they are given in `Consent.provision.securit
 * #edit-metadata ^designation[+].language = #de-CH
 * #edit-metadata ^designation[=].value = "Vertraulichkeitsstufe ändern und Kommentar erfassen"
 
-* #read-demographics "Read personal data" "View the personal data of the holder in the index of holders."
-* #read-demographics ^designation[+].language = #de-CH
-* #read-demographics ^designation[=].value = "Personendaten im Index einsehen"
-
 * #edit-contact "Add contact data" "Add contact data (address, e-mail, phone) to the personal data of the holder in the
 index of holders."
 * #edit-contact ^designation[+].language = #de-CH
 * #edit-contact ^designation[=].value = "Kontaktdaten im Index ergänzen"
-
-* #read-directory "Read the directory" "View the directory of health professionals, groups and health institutions."
-* #read-directory ^designation[+].language = #de-CH
-* #read-directory ^designation[=].value = "Verzeichnis der Gesundheitsfachpersonen und Gesundheitseinrichtungen einsehen"
 
 * #read-audit-trail "Read the audit trail" "View the log of the accesses to the health dossier."
 * #read-audit-trail ^designation[+].language = #de-CH
@@ -175,22 +162,6 @@ grant."
 * HealthDossierConsentAction#manage-access "Manage access rights"
 
 
-ValueSet: HealthDossierConsentDigitalHealthApplicationAction
-Id: HealthDossierConsentDigitalHealthApplicationAction
-Title: "CH Health Dossier Consent Action for Digital Health Applications"
-Description: "The actions the holder may grant a digital health application. They are the scopes the IUA Authorization
-Server may issue to the digital health application acting for the holder."
-* ^experimental = false
-* HealthDossierConsentAction#read "Read documents"
-* HealthDossierConsentAction#record "Provide documents"
-* HealthDossierConsentAction#delete "Purge documents"
-* HealthDossierConsentAction#edit-metadata "Edit document metadata"
-* HealthDossierConsentAction#read-demographics "Read personal data"
-* HealthDossierConsentAction#edit-contact "Add contact data"
-* HealthDossierConsentAction#read-directory "Read the directory"
-* HealthDossierConsentAction#manage-access "Manage access rights"
-
-
 ValueSet: HealthDossierConsentActorRole
 Id: HealthDossierConsentActorRole
 Title: "CH Health Dossier Consent Actor Role"
@@ -203,20 +174,16 @@ Description: "The roles of the grantee of a consent of the electronic health dos
 * $healthDossierRole#ADM "Administration"
 
 
-// TODO: the qualifier `urn:e-health-suisse:dga-client-id` of a digital health application is not defined in ITI-71
-// yet; it has to be aligned with the client registration (issues #11 and #31).
 ValueSet: PpqmActorIdentifierType
 Title: "CH PPQm Actor Identifier Type"
 Description: "The identifier types (name qualifiers) of the actors and performers of a CH:PPQm Consent. They are the
-`user_id_qualifier` values of the access token (see ITI-71), together with the qualifiers of an organization and of a
-digital health application."
+`user_id_qualifier` values of the access token (see ITI-71), together with the qualifier of an organization."
 * ^experimental = false
 
 * $URI#urn:e-health-suisse:2015:epr-spid                   "EPR-SPID"
 * $URI#urn:e-health-suisse:representative-id               "Representative ID"
 * $URI#urn:gs1:gln                                         "GLN"
 * $URI#urn:oasis:names:tc:xspa:1.0:subject:organization-id "Organization ID"
-* $URI#urn:e-health-suisse:dga-client-id                   "Digital health application client ID"
 
 
 ValueSet: PpqmFeedRequestHttpMethod
