@@ -168,7 +168,7 @@ Instance:   ChAuditEventIti65SourceArchiveExample
 InstanceOf: ChAuditEventIti65Source
 Title:       "Audit Event for [ITI-65] Document Source: document provided by a clinical archive system"
 Description: "Audit event of the Document Source for the Provide Document Bundle BundleProvideDocumentByArchive,
-with which a clinical archive system provided a document: the main user is the technical user, identified by the GLN of the legal responsible person,
+with which a clinical archive system provided a document: the main user is the technical user, identified by the OID of the clinical archive system,
 and the institution is the provider institution of the document."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2959)
@@ -184,7 +184,7 @@ Instance:   ChAuditEventIti65RecipientArchiveExample
 InstanceOf: ChAuditEventIti65Recipient
 Title:       "Audit Event for [ITI-65] Document Recipient: document provided by a clinical archive system"
 Description: "Audit event of the Document Recipient for the Provide Document Bundle BundleProvideDocumentByArchive,
-with which a clinical archive system provided a document: the main user is the technical user, identified by the GLN of the legal responsible person,
+with which a clinical archive system provided a document: the main user is the technical user, identified by the OID of the clinical archive system,
 and the institution is the provider institution of the document."
 Usage:      #example
 * insert ChAuditEventIti65ExampleRules(1.3.6.1.4.1.12559.11.13.2.6.2959)

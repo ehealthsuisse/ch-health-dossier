@@ -63,6 +63,7 @@ The following table lists the identifiers used in the health dossier and their i
 | Administrator           | GLN                       | [refdata](https://www.refdata.ch/de/partner/abfrage/partner-refdatabase-gln) |
 | Representative          | Representative ID         | health dossier information system                                                        |
 | Legal Representative    | Representative ID         | health dossier information system                                                        |
+| Technical User          | OID                       | health institution operating the clinical archive system                                 |
 {:class="table table-bordered"}
 
 <figcaption>Table: User role, health dossier identifier and issuer.</figcaption>
@@ -135,3 +136,8 @@ This impacts the FHIR API in the following way:
 - The FHIR APIs OID of groups and institutions as a query parameter.
 - Resources are profiled that a logical reference with the OID of groups and institutions is provided.
 
+##### Technical Users
+
+Clinical archive systems access the health dossier as technical users (`TCU`) without an authenticated natural person.
+They are identified by an OID assigned by the health institution operating the system, which is registered together with
+the `client_id` of the system during onboarding (see [Get Access Token](iti-71.html#the-jwt-ch_epr-extension)).

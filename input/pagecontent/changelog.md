@@ -38,7 +38,9 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
   applications, clinical archive systems). Scope claims for authorization are now handled uniformly, 
   removing type-specific logic [#32](https://github.com/ehealthsuisse/ch-health-dossier/issues/32).
 * Simplified transactions for clinical archive systems with the TCU role. Requests from these systems no longer need to 
-  include the responsible natural person (principal) [#57](https://github.com/ehealthsuisse/ch-health-dossier/issues/57).
+  include the responsible natural person (principal); the clinical archive system is identified by the OID registered
+  with its `client_id` during onboarding instead of the GLN of the legally responsible person
+  [#57](https://github.com/ehealthsuisse/ch-health-dossier/issues/57).
 * Clients authenticate with a signed JWT (client-asymmetric authentication of FHIR Backend Services) instead of an
   HTTP signature [#33](https://github.com/ehealthsuisse/ch-health-dossier/issues/33).
 * Added the [Client Registration](client-registration.html) page for the user authorized and the dynamic client registration of digital health applications

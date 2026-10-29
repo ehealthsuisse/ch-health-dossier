@@ -144,12 +144,12 @@ Title:   "CH XUA Assertion"
 // The access token always describes the authenticated user in the ihe_iua and ch_epr extensions. Where that user acts
 // on behalf of a healthcare professional (assistant), the healthcare professional is conveyed in the ch_delegation
 // extension. In the audit event the main user is the responsible party, so the two cases map differently.
-// A technical user (TCU) has no ch_delegation extension: its user_id is the GLN of the legal responsible person.
+// A technical user (TCU) has no ch_delegation extension: its user_id is the OID of the clinical archive system.
 Mapping: ChJwtToAuditEventMapping
 Source:  ChAuditEventBasicToken
 Target:  "https://www.bag.admin.ch/epra"
 Title:   "CH JWT Basic/Extended Token without delegation"
-Description: "Access token of a holder, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the GLN of the legal responsible person of the clinical archive system."
+Description: "Access token of a holder, representative, legal representative, healthcare professional, administrator or technical user (no ch_delegation extension): the authenticated user is the main user, there is no delegated user. For a technical user the identifier is the OID of the clinical archive system."
 * agent[mainUser]
   * role         -> "extensions.ihe_iua.subject_role[0]"
   * altId        -> "extensions.ch_epr.user_id"
@@ -270,7 +270,7 @@ RuleSet: ChExampleAuditEventAssRules
 RuleSet: ChExampleAuditEventTcuRules
 * agent[mainUser]
   * role = $healthDossierRole#TCU "Technical user"
-  * altId = "7601000201041"
+  * altId = "urn:oid:2.2.2.2.1"
   * name = "Clinical archive system Spital X"
   * requestor = true
   * purposeOfUse = $purposeOfUse#NORM "Normal Access"
