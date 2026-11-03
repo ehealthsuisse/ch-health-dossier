@@ -53,16 +53,16 @@ change of the metadata requires a new version of the document to be provided wit
 <figcaption ID="1">Table 1: Metadata which may be updated, and the roles which may update it.</figcaption>
 
 The roles are the ones of the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system, conveyed in the
-access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). The Document Responder SHALL reject a
+access token of the requester (see [Get Access Token [ITI-71]](iti-71.html)). §chmhd1-1^ch-mhd-responder:The Document Responder **SHALL** reject a
 request which updates other metadata, or metadata which the role of the requester is not allowed to update, with an
 OperationOutcome with the error code
-[UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).
+[UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html).§
 
-In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
+§chmhd1-2^ch-mhd-source,ch-mhd-responder:In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document
 ([provider role](document-sharing-metadata.html#provider-role)) and the
-[provider institution](document-sharing-metadata.html#provider-institution) (`DocumentReference.custodian`) SHALL NOT be changed: they
+[provider institution](document-sharing-metadata.html#provider-institution) (`DocumentReference.custodian`) **SHALL NOT** be changed: they
 stay the ones of the document as it was provided, also where a holder, a representative, a legal representative or
-the administration updates the confidentiality code or records a personal note. Who updated the metadata is recorded
+the administration updates the confidentiality code or records a personal note.§ Who updated the metadata is recorded
 in the audit event of the transaction.
 
 ##### Recording a personal note
@@ -109,7 +109,7 @@ the request in its response message.
 
 1. Verify the submitted and existing DocumentReference have the same values for the identifiers. If these values are not identical, an OperationOutcome with the error code [MetadataIdentifierError](OperationOutcome-MhdOperationOutcomeErrorMetadataIdentifierError.html) should be returned.
 2. Verify the submitted and existing DocumentReference reference the same Patient. If these values are not identical, an OperationOutcome with the error code [PatientIDReconciliationError](OperationOutcome-MhdOperationOutcomeErrorPatientIDReconciliationError.html) should be returned.
-3. Check the submitted DocumentReference and determine if it contains only changes to attributes which the role of the requester may update, as described in [Metadata which may be updated](#metadata-which-may-be-updated). If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) SHALL be returned.
+3. §chmhd1-3^ch-mhd-responder:Check the submitted DocumentReference and determine if it contains only changes to attributes which the role of the requester may update, as described in [Metadata which may be updated](#metadata-which-may-be-updated). If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) **SHALL** be returned.§
 
 ##### Response Message
 See http://hl7.org/fhir/http.html#update for response.
@@ -117,44 +117,44 @@ See http://hl7.org/fhir/http.html#update for response.
 
 ### Security Consideration
 
-The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates. 
+§chmhd1-4^ch-mhd-source,ch-mhd-responder:The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates.§ 
 
-The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
+§chmhd1-5^ch-mhd-source,ch-mhd-responder:The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.§
 
-For every Update Document Metadata [CH:MHD-1] request, the Document Responder SHALL enforce the access rules of the
-holder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
-The Document Responder SHALL reject the request if the requester is not authorized to update the metadata of the
-document concerned.
+§chmhd1-6^ch-mhd-responder:For every Update Document Metadata [CH:MHD-1] request, the Document Responder **SHALL** enforce the access rules of the
+holder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).§
+§chmhd1-7^ch-mhd-responder:The Document Responder **SHALL** reject the request if the requester is not authorized to update the metadata of the
+document concerned.§
 
-The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+§chmhd1-8^ch-mhd-source,ch-mhd-responder:The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).§
 
 #### Security Audit Considerations
 
 ##### Document Source Audit
 
-The **Document Source** SHALL record an audit event according to
+§chmhd1-9^ch-mhd-source:The **Document Source** **SHALL** record an audit event according to
 [CH Audit Event for [CH:MHD-1] Document Source](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-source.html)
 ([example for a changed confidentiality code](AuditEvent-ChAuditEventChMhd1SourceExample.html),
-[example for a personal note](AuditEvent-ChAuditEventChMhd1SourcePersonalNoteExample.html)).
+[example for a personal note](AuditEvent-ChAuditEventChMhd1SourcePersonalNoteExample.html)).§
 
 ##### Document Responder Audit
 
-The **Document Responder** SHALL record an audit event according to
+§chmhd1-10^ch-mhd-responder:The **Document Responder** **SHALL** record an audit event according to
 [CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html)
-([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)).
+([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)).§
 
 The audit events record the document whose metadata is updated with its master identifier (not its title or type),
 and the user who updated it. What was updated is recorded as a subtype of the audit event, see
 [audit event types](volume3.html#audit-trail-consumption-event-types):
 
-- `ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed
-  ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity SHALL carry the new
-  confidentiality code (`entity.securityLabel`), the one before the update is not recorded. The new confidentiality
+- §chmhd1-11?^ch-mhd-source,ch-mhd-responder:`ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed
+  ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity **SHALL** carry the new
+  confidentiality code (`entity.securityLabel`), the one before the update is not recorded.§ The new confidentiality
   code is recorded if and only if the audit event has this subtype;
-- `ATC_DOC_UPDATE_NOTE` where a personal note was recorded or replaced
-  ([example](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html)). The text of the note SHALL NOT be
-  recorded in the audit event.
+- §chmhd1-12?^ch-mhd-source,ch-mhd-responder:`ATC_DOC_UPDATE_NOTE` where a personal note was recorded or replaced
+  ([example](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html)). The text of the note **SHALL NOT** be
+  recorded in the audit event.§
 
 An audit event carries both subtypes where a request changes the confidentiality code and records a personal note.
 
-For a [transaction](StructureDefinition-ch-mhd-1-updatedocumentmetadatatransactionrequest.html) instead of a direct PUT interaction, the actors SHALL also be able to record audit events for each Update Document Metadata Request Message in the Bundle.
+§chmhd1-13?^ch-mhd-source,ch-mhd-responder:For a [transaction](StructureDefinition-ch-mhd-1-updatedocumentmetadatatransactionrequest.html) instead of a direct PUT interaction, the actors **SHALL** also be able to record audit events for each Update Document Metadata Request Message in the Bundle.§

@@ -8,8 +8,8 @@ The transaction is used by an Authorization Client (e.g. primary system, digital
 to pass claims to the Authorization Server and to retrieve an access token which authorizes access to protected
 resources of the Health Dossier.
 
-Depending on the claims made by the Authorization Client, two different flavors of access tokens SHALL be provided
-by the Authorization Server:
+§iti71-1^ch-iua-authorization-server:Depending on the claims made by the Authorization Client, two different flavors of access tokens **SHALL** be provided
+by the Authorization Server:§
 
 - Basic Access Token – IUA compliant access token authorizing access to the EPR endpoints which are NOT protected by
   the EPR role and attribute based authorization (e.g., for queries to the PDQm endpoints).
@@ -61,8 +61,8 @@ system or in a digital health app to access data and Documents in the EPR.
 
 ##### Message Semantics
 
-The Authorization Client SHALL send an IUA compliant OAuth 2.1 Token Request for the client credential grant
-type with Swiss extensions:
+§iti71-2^ch-iua-authorization-client:The Authorization Client **SHALL** send an IUA compliant OAuth 2.1 Token Request for the client credential grant
+type with Swiss extensions:§
 - grant_type (required): The value of the parameter shall be `client_credentials`.
 - client_id (required): The ID the Authorization Client is registered at the Authorization Server.
 - scope (required): The scope claimed by the Authorization Client, as defined below. Required for requesting
@@ -72,13 +72,13 @@ type with Swiss extensions:
 - requested_token_type (optional): If present, the value shall be `urn:ietf:params:oauth:token-type:jwt`.
 <br/>
 
-The Token Request SHALL use the following extension defined in the client-confidential-asymmetric authentication profile
-of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html#backend-services) specification. 
+§iti71-3^ch-iua-authorization-client:The Token Request **SHALL** use the following extension defined in the client-confidential-asymmetric authentication profile
+of the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html#backend-services) specification.§ 
 - client_assertion_type (required): The value shall be `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
 - client_assertion (required): JWT as defined in [SMART App Launch, Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#client-authentication-asymmetric-public-key).
 <br/>
 
-The Token Request SHALL use the following Swiss extension:
+§iti71-4^ch-iua-authorization-client:The Token Request **SHALL** use the following Swiss extension:§
 - person_id (optional/required): EPR-SPID identifier of the holder’s record and the assigning authority formatted in CX syntax, required for requesting an extended access token.
 - principal (optional/required): The name of the healthcare professional an assistant may act on behalf of.
 - principal_id (optional/required): The GLN of the healthcare professional an assistant may act on behalf of.
@@ -89,28 +89,28 @@ The Token Request SHALL use the following Swiss extension:
   the [Identity Token](openid-connect.html#identity-token) as specified in [OpenID Connect](openid-connect.html). 
 <br/>
 
-Authorization Clients SHALL claim the following scopes for both basic and extended access tokens:
+§iti71-5^ch-iua-authorization-client:Authorization Clients **SHALL** claim the following scopes for both basic and extended access tokens:§
 
-- `purpose_of_use`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).
-  The scope SHALL convey the coded purpose of use of the current transaction. Allowed values are `NORM` (normal access)
+- §iti71-6^ch-iua-authorization-client:`purpose_of_use`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).
+  The scope **SHALL** convey the coded purpose of use of the current transaction. Allowed values are `NORM` (normal access)
   and `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5`
   (see value set [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html)),
-  e.g. `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`. A technical user (`TCU`) SHALL use `NORM`.
-- `subject_role`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).
-  The scope SHALL convey the coded role of the subject. Allowed values from code system
+  e.g. `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`.§ §iti71-7?^ch-iua-authorization-client:A technical user (`TCU`) **SHALL** use `NORM`.§
+- §iti71-8^ch-iua-authorization-client:`subject_role`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).
+  The scope **SHALL** convey the coded role of the subject. Allowed values from code system
   [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) (`2.16.756.5.30.1.127.3.10.19`) are:
   `PAT` (patient), `REP` (representative), `LEGREP` (legal representative), `HCP` (healthcare professional),
   `ASS` (assistant), `TCU` (technical user, clinical archive) and `ADM` (administration),
-  e.g. `subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP`.
+  e.g. `subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP`.§
 
-In addition, Authorization Clients SHALL claim additional scopes used by Resource Servers to authorize transactions,
-as defined in the [SMART on FHIR specification](https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html).
+In addition, §iti71-9^ch-iua-authorization-client:Authorization Clients **SHALL** claim additional scopes used by Resource Servers to authorize transactions,
+as defined in the [SMART on FHIR specification](https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html).§
 
 The following tables list the additional scopes per application type.
 
 ###### Clinical archive systems
 
-Authorization Clients acting as clinical archive systems SHALL claim the scopes in the following table.
+§iti71-10?^ch-iua-authorization-client:Authorization Clients acting as clinical archive systems **SHALL** claim the scopes in the following table.§
 
 | Scopes                                                                 | Transactions | Rights                                                                                                                          |
 |------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------|
@@ -124,7 +124,7 @@ Authorization Clients acting as clinical archive systems SHALL claim the scopes 
 
 ###### Primary systems
 
-Authorization Clients acting as primary systems SHALL claim the scopes in the following table.
+§iti71-11?^ch-iua-authorization-client:Authorization Clients acting as primary systems **SHALL** claim the scopes in the following table.§
 
 | Scopes                                                                         | Transactions                                       | Rights                                                                                                    |
 |--------------------------------------------------------------------------------|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
@@ -139,7 +139,7 @@ Authorization Clients acting as primary systems SHALL claim the scopes in the fo
 
 ###### Digital health applications
 
-Authorization Clients acting as digital health applications (dGA) SHALL claim the scopes in the following table.
+§iti71-12?^ch-iua-authorization-client:Authorization Clients acting as digital health applications (dGA) **SHALL** claim the scopes in the following table.§
 
 | Scopes                                                                         | Transactions                                       | Rights                                                                                                    |
 |--------------------------------------------------------------------------------|----------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
@@ -154,56 +154,72 @@ Authorization Clients acting as digital health applications (dGA) SHALL claim th
 <figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
 
 <br/>
-Note: The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values SHALL be URL
+Note: §iti71-13^ch-iua-authorization-client:The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values **SHALL** be URL
 encoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E`
-and `&` as `%26` (see the [message examples](#message-example)).
+and `&` as `%26` (see the [message examples](#message-example)).§
 
 
 ##### Expected Actions
 
-The Authorization Server SHALL validate the claims as described in the following sections. If the validation succeeds, 
-the Authorization Server SHALL respond with the Token Response defined below. In case the validation fails, the 
-Authorization Server SHALL respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error.
+§iti71-14^ch-iua-authorization-server:The Authorization Server **SHALL** validate the claims as described in the following sections.§ §iti71-15^ch-iua-authorization-server:If the validation succeeds, 
+the Authorization Server **SHALL** respond with the Token Response defined below.§ §iti71-16^ch-iua-authorization-server:In case the validation fails, the 
+Authorization Server **SHALL** respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error.§
 
-When receiving a Token Request, the Authorization Server SHALL:
+§iti71-17^ch-iua-authorization-server:When receiving a Token Request, the Authorization Server **SHALL**:§
 1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 2. Verify that the Authorization Client was registered with the `client_id` during onboarding.
 3. Determine the application type the Authorization Client was registered as during Client 
    Registration: clinical archive system, primary system or digital health application (dGA).
 4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](#message-semantics).
 5. Verify that every additional scope claim is listed for that application type in the tables of the [Message Semantics](#message-semantics) section.
-6. Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope 
+6. §iti71-18^ch-iua-authorization-server:Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope 
    match a table entry for that application type. A scope that is not listed for the application 
-   type, or that requests more rights than listed, SHALL NOT be granted.
+   type, or that requests more rights than listed, **SHALL NOT** be granted.§
 
-If the Authorization Client is registered as a digital health application, the Authorization Server SHALL additionally:
+§§iti71-19?^ch-iua-authorization-server:For a digital health application, the Authorization Server **SHALL** verify the registered software statement and issue the access token only for the scopes granted in it^If the Authorization Client is registered as a digital health application, the Authorization Server **SHALL** additionally:
+
 1. Verify that a software statement is registered for the client_id (see Client Registration).
 2. Issue the access token only for the scopes that are both listed in this specification and granted in the software statement.
 
-If the Authorization Client is registered as a digital health application or primary system, the Authorization Server SHALL additionally:
+§§
+
+§§iti71-20?^ch-iua-authorization-server:For a digital health application or primary system, the Authorization Server **SHALL** verify that the client is authorized to act on behalf of the user and issue the access token only for the scopes authorized by the user^If the Authorization Client is registered as a digital health application or primary system, the Authorization Server **SHALL** additionally:
+
 1. Verify that the Authorization Client is authorized to access on behalf of the user. 
 2. Issue the access token only for the scopes authorized by the user (see [Client Authorization](#client-authorization)).
 
-If one of the checks above fails, the Authorization Server SHALL respond with HTTP 403 Forbidden.
+§§
+
+§iti71-21^ch-iua-authorization-server:If one of the checks above fails, the Authorization Server **SHALL** respond with HTTP 403 Forbidden.§
 
 ###### Holders
-When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server SHALL:
+
+§§iti71-22?^ch-iua-authorization-server:For holders (PAT), the Authorization Server **SHALL** validate the id_token and resolve its subject to the SPID of the holder^When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server **SHALL**:
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
 
+§§
+
 ###### Representatives
-When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the Authorization Server SHALL:
+
+§§iti71-23?^ch-iua-authorization-server:For representatives (REP, LEGREP), the Authorization Server **SHALL** validate the id_token and resolve its subject to the ID of the representative^When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the Authorization Server **SHALL**:
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
+§§
+
 ###### Healthcare Professionals 
-When receiving a Token Request with `subject_role` set to `HCP`, the Authorization Server SHALL: 
+
+§§iti71-24?^ch-iua-authorization-server:For healthcare professionals (HCP), the Authorization Server **SHALL** validate the id_token, determine the GLN, verify it in the provider directory and resolve the groups and institutions of the healthcare professional^When receiving a Token Request with `subject_role` set to `HCP`, the Authorization Server **SHALL**: 
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
@@ -214,8 +230,10 @@ When receiving a Token Request with `subject_role` set to `HCP`, the Authorizati
 6. Query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
 
+§§
+
 ###### Assistants
-When receiving a Token Request with `subject_role` set to `ASS`, the Authorization Server SHALL:
+§iti71-25?^ch-iua-authorization-server:When receiving a Token Request with `subject_role` set to `ASS`, the Authorization Server **SHALL**:§
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
@@ -225,16 +243,18 @@ When receiving a Token Request with `subject_role` set to `ASS`, the Authorizati
 5. Verify the assistant is registered with the same GLN in the provider directory. 
 6. Verify the assistant is authorized to act on behalf of the healthcare professional declared in the 
   `principal_id` claim. 
-7. If a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
+7. §iti71-26?^ch-iua-authorization-server:If a `group_id` claim is present, the Authorization Server **SHALL** verify that the healthcare 
   professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute 
-  of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
-  superior groups and institutions up to the root level. 
-8. If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
+  of the request.§ §iti71-27?^ch-iua-authorization-server:If the healthcare professional is a member, the Authorization Server **SHALL** resolve the claimed group or institution to all 
+  superior groups and institutions up to the root level.§ 
+8. §iti71-28?^ch-iua-authorization-server:If no `group_id` claim is present, the authorization server **SHALL** resolve the GLN of the healthcare 
   professional claimed in the `principal_id` to all groups or institutions the healthcare professional is a member 
-  of, including all superior groups or institutions up to the root level.
+  of, including all superior groups or institutions up to the root level.§
 
 ###### Administrators 
-When receiving a Token Request with `subject_role` set to `ADM`, the Authorization Server SHALL:
+
+§§iti71-29?^ch-iua-authorization-server:For administrators (ADM), the Authorization Server **SHALL** validate the id_token, verify the administrator and the claimed community in the provider directory and convey the community in the access token^When receiving a Token Request with `subject_role` set to `ADM`, the Authorization Server **SHALL**:
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
@@ -248,9 +268,11 @@ When receiving a Token Request with `subject_role` set to `ADM`, the Authorizati
   the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
   by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
 
+§§
 
-The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the actors serving the requests 
-can identify the application and restrict the requests to the granted scopes (see [Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).
+
+§iti71-30^ch-iua-authorization-server:The access token **SHALL** carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the actors serving the requests 
+can identify the application and restrict the requests to the granted scopes (see [Enforcement of Access Rules](accesscontrol.html#digital-health-applications)).§
 
 ##### Message Example
 
@@ -334,14 +356,14 @@ grant_type=client_credentials
 
 ##### Message Semantics
 
-The response SHALL either convey a Basic Access Token in JWT format which grants basic access to the EPR (i.e., to
+§iti71-31^ch-iua-authorization-server:The response **SHALL** either convey a Basic Access Token in JWT format which grants basic access to the EPR (i.e., to
 access the holder's demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR
-authorization (i.e., read and write documents).
+authorization (i.e., read and write documents).§
 
 ###### JSON Web Token Option
 
-The Authorization Server and Resource Server SHALL support the IUA JWT extension with claims as defined in
-the following table:
+§iti71-32^ch-iua-authorization-server,ch-iua-resource-server:The Authorization Server and Resource Server **SHALL** support the IUA JWT extension with claims as defined in
+the following table:§
 
 | JWT Claim (Extension)   | Optionality (Basic/ Extended) | Remark                                                                                                                                                             |
 |-------------------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -350,15 +372,15 @@ the following table:
 | subject_organization_id | O/O                           | The OID of the user’s organization in URN notation. Required for the role `ADM`: the OID of the community.                                                         |
 | subject_role            | R/R                           | Array of FHIR Coding with exactly one Coding of the user role from the [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) code system.                    |
 | purpose_of_use          | R/R                           | Array of FHIR Coding with exactly one Coding of the purpose of use from the [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html) value set. |
-| person_id               | O/R                           | SHALL be the EPR-SPID of the holder's EPR.                                                                                                                         |
+| person_id               | O/R                           | §iti71-33^ch-iua-authorization-server:**SHALL** be the EPR-SPID of the holder's EPR.§                                                                                                                         |
 {:class="table table-bordered"}
 
 <figcaption id='jwttiua'>Table: Attributes of the IUA Get Access Token response in the ihe_iua extension.</figcaption>  
 
 ###### The JWT ch_epr extension
 
-The Authorization Server and Resource Server SHALL support this extension to convey the user's EPR identifier
-in the JWT access token of the Get Access Token Response. Its attributes are:
+§iti71-34^ch-iua-authorization-server,ch-iua-resource-server:The Authorization Server and Resource Server **SHALL** support this extension to convey the user's EPR identifier
+in the JWT access token of the Get Access Token Response.§ Its attributes are:
 
 - user_id (required): The EPR subject identifier as defined in the table below.
 - user_id_qualifier (required): The subject identifier qualifier as defined in the table below.
@@ -378,8 +400,8 @@ in the JWT access token of the Get Access Token Response. Its attributes are:
 
 <figcaption>Table: user id and user id qualifier of EPR users.</figcaption>
 
-Note: For clinical archive systems the Authorization Server SHALL convey the OID
-registered with the `client_id` during onboarding as `user_id`, and the name of the clinical archive system as `subject_name`.
+Note: §iti71-35?^ch-iua-authorization-server:For clinical archive systems the Authorization Server **SHALL** convey the OID
+registered with the `client_id` during onboarding as `user_id`, and the name of the clinical archive system as `subject_name`.§
 {:#tcu-user-id}
 
 <br/>
@@ -390,32 +412,32 @@ Groups are the objects used in the access management of the Health Dossier. Hold
 rights to groups which typically are sub-organizations of the institutions, but may also cross institution boundaries,
 e.g., a tumor board with healthcare professionals from more than one institution.
 
-The Authorization Server and Resource Server SHALL support this extension in the JWT access token for a list of
-groups a subject of role healthcare professional is a member of. For users of role assistant, the groups SHALL 
-be the groups of the healthcare professional the assistant is acting on behalf of.
+§iti71-36^ch-iua-authorization-server,ch-iua-resource-server:The Authorization Server and Resource Server **SHALL** support this extension in the JWT access token for a list of
+groups a subject of role healthcare professional is a member of.§ §iti71-37?^ch-iua-authorization-server:For users of role assistant, the groups **SHALL** 
+be the groups of the healthcare professional the assistant is acting on behalf of.§
 
-Groups SHALL be wrapped in an `extensions` object with key `ch_group` with a JSON array containing one JSON object
-per group with the following attributes:
+§iti71-38^ch-iua-authorization-server:Groups **SHALL** be wrapped in an `extensions` object with key `ch_group` with a JSON array containing one JSON object
+per group with the following attributes:§
 
-- id (required): The id of the group. Required for users of role healthcare professional and assistant.
-  The id SHALL be an OID in the format of a URN.
-- name (required): Name of the group. Required for users of role healthcare professional and assistant.
-  The name SHALL be a string.
+- §iti71-39^ch-iua-authorization-server:id (required): The id of the group. Required for users of role healthcare professional and assistant.
+  The id **SHALL** be an OID in the format of a URN.§
+- §iti71-40^ch-iua-authorization-server:name (required): Name of the group. Required for users of role healthcare professional and assistant.
+  The name **SHALL** be a string.§
 
 ###### The JWT ch_delegation extension
 
 Delegation is used in the access management of the Health Dossier to indicate that a user of role Assistant is acting on
-behalf of a healthcare professional. The Authorization Server and Resource Server SHALL support this extension
-in the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of.
+behalf of a healthcare professional. §iti71-41^ch-iua-authorization-server,ch-iua-resource-server:The Authorization Server and Resource Server **SHALL** support this extension
+in the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of.§
 
-Principals SHALL be wrapped in an `extensions` object with key `ch_delegation` and a JSON value object with attributes:
+§iti71-42^ch-iua-authorization-server:Principals **SHALL** be wrapped in an `extensions` object with key `ch_delegation` and a JSON value object with attributes:§
 - principal (optional) Name of the healthcare professional an assistant is acting on behalf of.
 - principal_id (optional) GLN of the healthcare professional an assistant is acting on behalf of.
 
 ##### Expected Actions
 
-The Authorization Client SHALL use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
-transaction, when performing requests to resources of the Health Dossier.
+§iti71-43^ch-iua-authorization-client:The Authorization Client **SHALL** use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
+transaction, when performing requests to resources of the Health Dossier.§
 
 ##### Message Example
 
@@ -456,8 +478,8 @@ A basic JWT access token returned by the Authorization Server and to be used to 
 }
 ```
 
-An extended JWT access token to be used to access the documents of a holder SHALL have the additional attributes of
-the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look like:
+§iti71-44^ch-iua-authorization-server:An extended JWT access token to be used to access the documents of a holder **SHALL** have the additional attributes of
+the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder.§ It may look like:
 
 ```json
 {
@@ -509,8 +531,8 @@ the `purpose_of_use`, `subject_role` and the EPR-SPID of the holder. It may look
 }
 ```
 
-An extended JWT access token to be used to access the documents of a holder by an assistant acting on behalf of a healthcare professional
-SHALL have the additional extension `ch_delegation`:
+§iti71-45?^ch-iua-authorization-server:An extended JWT access token to be used to access the documents of a holder by an assistant acting on behalf of a healthcare professional
+**SHALL** have the additional extension `ch_delegation`:§
 
 ```json
 {
@@ -572,64 +594,67 @@ There are no CapabilityStatement resources defined for this transaction.
 
 ### Security Consideration
 
-The Resource Server SHALL verify that the EPR-SPID in the access token matches the holder of the request, as specified
-in [ITI-72](iti-72.html#expected-actions).
+§iti71-46^ch-iua-resource-server:The Resource Server **SHALL** verify that the EPR-SPID in the access token matches the holder of the request, as specified
+in [ITI-72](iti-72.html#expected-actions).§
 
-The actors SHALL support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+§iti71-47^ch-iua-authorization-client,ch-iua-authorization-server:The actors **SHALL** support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html).§
 
 #### JWT Signature
 
-Authorization Clients, Authorization Servers, and Resource Servers SHALL support the JSON Web Signature (JWS)
+§iti71-48^ch-iua-authorization-client,ch-iua-authorization-server,ch-iua-resource-server:Authorization Clients, Authorization Servers, and Resource Servers **SHALL** support the JSON Web Signature (JWS)
 serialization of the JWT access token, as specified in
-[IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)
+[IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)§
 
 To ensure the integrity and authenticity of the access token:
-1. The Authorization Server SHALL sign the JWT with its private key.
-2. The Resource Server SHALL verify the signature using the public key of the Authorization Server that issued the token.
+1. §iti71-49^ch-iua-authorization-server:The Authorization Server **SHALL** sign the JWT with its private key.§
+2. §iti71-50^ch-iua-resource-server:The Resource Server **SHALL** verify the signature using the public key of the Authorization Server that issued the token.§
 
-Unsigned JWT access tokens SHALL NOT be used. The JSON Web Encryption (JWE) serialization SHALL NOT be used. Since
+§iti71-51^ch-iua-authorization-client,ch-iua-authorization-server,ch-iua-resource-server:Unsigned JWT access tokens **SHALL NOT** be used.§ §iti71-52^ch-iua-authorization-client,ch-iua-authorization-server,ch-iua-resource-server:The JSON Web Encryption (JWE) serialization **SHALL NOT** be used.§ Since
 Revision 2.5 IUA no longer requires the JWT access token to be signed; the signature remains required for the Health Dossier.
 
-Resource Servers SHALL reject any request whose access token signature validation fails.
+§iti71-53^ch-iua-resource-server:Resource Servers **SHALL** reject any request whose access token signature validation fails.§
 
 #### Client Authentication
 
-To authenticate Access Token requests, the Authorization Client SHALL include a client assertion in the form
+§iti71-54^ch-iua-authorization-client:To authenticate Access Token requests, the Authorization Client **SHALL** include a client assertion in the form
 of a signed JSON Web Token (JWT) in each request to the token endpoint, as defined in
-[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).
+[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).§
 
-The Authorization Server SHALL validate the client assertion by:
+§§iti71-55^ch-iua-authorization-server:The Authorization Server **SHALL** validate the signature and the claims of the client assertion^The Authorization Server **SHALL** validate the client assertion by:
+
 1. Verifying the signature against a public key registered for the client, and
 2. Verifying the claims as required by the referenced SMART App Launch specification (e.g., iss, sub, aud, exp, and jti).
 
-The Authorization Server SHALL reject the Access Token request if validation fails.
+§§
+
+§iti71-56^ch-iua-authorization-server:The Authorization Server **SHALL** reject the Access Token request if validation fails.§
 
 #### Client Authorization
 
-The Authorization Server SHALL provide a user interface that allows a user to authorize an instance of their 
-primary system or digital health application (dGA) to access the health dossier on the user’s behalf.
+§iti71-57^ch-iua-authorization-server:The Authorization Server **SHALL** provide a user interface that allows a user to authorize an instance of their 
+primary system or digital health application (dGA) to access the health dossier on the user’s behalf.§
 
-The Authorization Server SHALL provide an HTTP endpoint that accepts a `client_id` as a request parameter. 
+§iti71-58^ch-iua-authorization-server:The Authorization Server **SHALL** provide an HTTP endpoint that accepts a `client_id` as a request parameter.§ 
 An Authorization Client MAY redirect the user to this endpoint to start the User Authorization.
 
-When receiving a request, the Authorization Server SHALL:
+§iti71-59^ch-iua-authorization-server:When receiving a request, the Authorization Server **SHALL**:§
 1. Require the user to authenticate at one of the identity providers accepted for the health dossier.
 2. Resolve the application type (primary system or digital health application) from the client_id of the 
 Authorization Client, as registered during Client Registration.
-3. Present to the user the application type and the scopes the application may be granted. The presented scopes 
-SHALL be limited to the scopes that are listed for the application type in the tables of the [Message Semantics](#message-semantics) section. 
-For digital health applications, the presented scopes SHALL additionally be limited to the scopes granted in the 
-digital health application software statement registered for the client_id.
+3. §iti71-60^ch-iua-authorization-server:Present to the user the application type and the scopes the application may be granted. The presented scopes 
+**SHALL** be limited to the scopes that are listed for the application type in the tables of the [Message Semantics](#message-semantics) section.§ 
+§iti71-61?^ch-iua-authorization-server:For digital health applications, the presented scopes **SHALL** additionally be limited to the scopes granted in the 
+digital health application software statement registered for the client_id.§
 4. Allow the user to confirm or decline the authorization.
 5. Store the authorization decision of the user (the user, the client_id and the authorized scopes) as a user-specific setting.
 
-When responding to a Token Request from a primary system or digital health application, the Authorization Server 
-SHALL verify that a stored authorization of the user exists for the `client_id`, and SHALL issue the access token 
-only for authorized scopes as specified in [Expected Actions](#expected-actions).
+§iti71-62?^ch-iua-authorization-server:When responding to a Token Request from a primary system or digital health application, the Authorization Server 
+**SHALL** verify that a stored authorization of the user exists for the `client_id`, and **SHALL** issue the access token 
+only for authorized scopes as specified in [Expected Actions](#expected-actions).§
 
-The user MAY revoke the authorization of a primary system or digital health application at any time. The Authorization
-Server SHALL delete the stored authorization of a digital health application after three months without access by the
-application.
+The user MAY revoke the authorization of a primary system or digital health application at any time. §iti71-63?^ch-iua-authorization-server:The Authorization
+Server **SHALL** delete the stored authorization of a digital health application after three months without access by the
+application.§
 
 #### Security Audit Considerations
 

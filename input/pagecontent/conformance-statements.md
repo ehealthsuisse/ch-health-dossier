@@ -18,15 +18,15 @@ A few other notes:
 * Ids are not final until published in an official release. After that point, ids will not be changed.
 * The text of a statement may change from one release to another as long as its intent is the same. If the intent changes
   significantly, the old statement is removed and a new one with a new id is added.
-* The statements are expressed against actors that represent logical entities, e.g.
-  [PIXm Patient Identity Source](ActorDefinition-ch-pixm-source.html) and
-  [PIXm Patient Identifier Cross-reference Manager](ActorDefinition-ch-pixm-manager.html). How these map to real
-  systems depends on the implementation.
+* The statements are expressed against actors that represent logical entities (see the ActorDefinitions in the
+  [Artifacts](artifacts.html)). Generic statements for every server of the Health Dossier API are assigned to the
+  [IUA Resource Server](ActorDefinition-ch-iua-resource-server.html), generic client statements to the
+  [IUA Authorization Client](ActorDefinition-ch-iua-authorization-client.html). How the actors map to real systems
+  depends on the implementation.
+* Conditional statements only apply in specific situations (e.g. for an option, a client type or a role).
 
 The conformance statements are also available as a computable
 [Requirements resource](Requirements-fromNarrative.html) (represented in FHIR R4 as a Basic resource).
-
-Currently only the statements of [Patient Identity Feed FHIR [ITI-104]](iti-104.html) are marked.
 
 ### Conformance Statements
 

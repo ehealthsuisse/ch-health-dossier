@@ -30,7 +30,7 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
 * Updated the dependencies to CH Core 7.0.0-ballot and IHE MHD 4.2.5.
 * Added the appendix [Conformance Statements](conformance-statements.html): conformance statements in the narrative
   are marked with a stable id and the actor(s) they apply to, and are published as a computable Requirements resource
-  to support test coverage; as a pilot, the statements of [ITI-104](iti-104.html) are marked.
+  to support test coverage; ActorDefinitions are added for the actors of all profiles.
 
 #### IUA
 

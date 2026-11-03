@@ -82,9 +82,9 @@ Implementation to comply with the legal requirements of the Health Dossier.
 This figure shows the actors directly involved in the Internet User Authorization Profile and the relevant 
 transactions between them.
 
-The IUA Authorization Client SHALL authenticate the user at the User Authentication Provider, the Identity Provider, as
-specified in [OpenID Connect](openid-connect.html), acting as Relying Party. The IUA Authorization Client SHALL convey the
-resulting identity token in the `id_token` parameter of the [Get Access Token [ITI-71]](iti-71.html) request. Technical
+§iua-1?^ch-iua-authorization-client:The IUA Authorization Client **SHALL** authenticate the user at the User Authentication Provider, the Identity Provider, as
+specified in [OpenID Connect](openid-connect.html), acting as Relying Party.§ §iua-2?^ch-iua-authorization-client:The IUA Authorization Client **SHALL** convey the
+resulting identity token in the `id_token` parameter of the [Get Access Token [ITI-71]](iti-71.html) request.§ Technical
 users (`TCU`), e.g. clinical archive systems, request access tokens without an authenticated user and do not use
 OpenID Connect.
 
@@ -93,15 +93,15 @@ OpenID Connect.
 This national extension restricts the Actor options of the IUA Trial Implementation to comply with the legal requirements
 of the Health Dossier.
 
-The IUA Trial Implementation supports three options for the Authorization Token format. In this national extension 
-the JWT option is used and SHALL be supported by the IUA Authorization Server and IUA Resource Server. The SAML Token 
-option and the Introspection Option SHALL NOT be used.
+The IUA Trial Implementation supports three options for the Authorization Token format. §iua-3^ch-iua-authorization-server,ch-iua-resource-server:In this national extension 
+the JWT option is used and **SHALL** be supported by the IUA Authorization Server and IUA Resource Server.§ §iua-4^ch-iua-authorization-client,ch-iua-authorization-server,ch-iua-resource-server:The SAML Token 
+option and the Introspection Option **SHALL NOT** be used.§
 
-To support automated client configuration the Authorization Server actor SHALL support the Authorization Metadata option.
+§iua-5^ch-iua-authorization-server:To support automated client configuration the Authorization Server actor **SHALL** support the Authorization Metadata option.§
 
 ### Grouping
 
-The actors SHALL be grouped with other actors as follows:
+§§iua-6^ch-iua-authorization-client,ch-iua-resource-server,ch-iua-authorization-server,ch-oidc-identity-provider:All IUA actors **SHALL** be grouped with a CT Time Client, the Authorization Client and the Resource Server additionally with an ATNA Secure Node with the STX:HTTPS IUA Option^The actors **SHALL** be grouped with other actors as follows:
 
 | Actor                        | Actor to be grouped with                               | Optionality |
 |------------------------------|--------------------------------------------------------|-------------|
@@ -113,6 +113,8 @@ The actors SHALL be grouped with other actors as follows:
 | User Authentication Provider | CT Time Client                                         | R           |
 {:class="table table-bordered"}
 
+§§
+
 The groupings of actors with IUA Authorization Client and Resource Server actor are defined in the respective profile 
 sections.
 
@@ -122,13 +124,13 @@ For the process flow of this profile and its interplay with the other profiles s
 
 ### Security Consideration
 
-IUA Authorization Clients SHALL be identified by the `client_id` registered during onboarding. 
+§iua-7^ch-iua-authorization-client,ch-iua-authorization-server:IUA Authorization Clients **SHALL** be identified by the `client_id` registered during onboarding.§ 
 
-The authenticity of requests to the IUA Authorization Server SHALL be verified by a JWK as described in 
-[SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). See [Get Access Token](iti-71.html#security-consideration) for details.  
+§iua-8^ch-iua-authorization-server:The authenticity of requests to the IUA Authorization Server **SHALL** be verified by a JWK as described in 
+[SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html).§ See [Get Access Token](iti-71.html#security-consideration) for details.  
 
-Applications implementing the IUA Authorization Client actor SHALL register the combination of the OAuth `client_id`, 
-and the public key used for signing the authentication JWK during the onboarding process. 
+§iua-9^ch-iua-authorization-client:Applications implementing the IUA Authorization Client actor **SHALL** register the combination of the OAuth `client_id`, 
+and the public key used for signing the authentication JWK during the onboarding process.§ 
 
 Applications implementing the IUA Authorization Server actor shall verify the combination of the OAuth `client_id`, 
 the URLs and the public key of all requests against the registered values and shall reject requests in case of mismatch.

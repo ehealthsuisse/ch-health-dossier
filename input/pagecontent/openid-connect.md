@@ -4,9 +4,9 @@ This national extension defines restrictions and extensions to the
 [OpenID Connect 1.0](https://openid.net/specs/openid-connect-core-1_0.html) authorization code flow to 
 retrieve EPR compliant identity tokens used to identify and authenticate users. 
 
-Identity Providers SHALL provide trusted endpoints for Relying Parties implementing the OpenID Connect 1.0 authorization
-code flow fulfilling the requirements defined in this section. Other flows supported by OpenID Connect SHALL not be 
-supported.
+§oidc-1^ch-oidc-identity-provider:Identity Providers **SHALL** provide trusted endpoints for Relying Parties implementing the OpenID Connect 1.0 authorization
+code flow fulfilling the requirements defined in this section.§ §oidc-2^ch-oidc-identity-provider:Other flows supported by OpenID Connect **SHALL NOT** be 
+supported.§
 
 ### Definition of terms 
 
@@ -31,8 +31,8 @@ provider on a contractual basis.
 
 Certificate Authority - Identity provider MAY operate a managed Certificate Authority (CA) that is 
 operated according to documented processes detailed in a Certificate Policy (CP) and Certificate Practice
-Statement (CPS). The CA's processes SHALL meet the requirements of class 1 certificates defined within 
-the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0). They MAY 
+Statement (CPS). §oidc-3?^ch-oidc-identity-provider:The CA's processes **SHALL** meet the requirements of class 1 certificates defined within 
+the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0).§ They MAY 
 use this Certificate Authority to issue client certificates (mTLS) for Relying Parties. Identity providers 
 MAY delegate the service to other providers on a contractual basis. 
 
@@ -99,66 +99,67 @@ Table 2: OpenID Connect Logout Sequence
 
 #### Authentication Request
 
-The Authentication Request message SHALL be used by the Relying Party to
-initiate the authentication sequence. The Authentication Request message
-SHALL be compliant with an OAuth 2.0 Authentication Request message.
+§oidc-4^ch-oidc-relying-party:The Authentication Request message **SHALL** be used by the Relying Party to
+initiate the authentication sequence.§ §oidc-5^ch-oidc-relying-party:The Authentication Request message
+**SHALL** be compliant with an OAuth 2.0 Authentication Request message.§
 
-The Authentication Request SHALL contain the following parameters:
-- *scope*: The value SHALL be *openid*.
-- *response_type*: The value SHALL be *code*.
-- *client_id*: The value SHALL be the Client Identifier the Relying 
-  Party was registered with at the Identity Provider.
-- *redirect_uri*: SHALL convey the redirection URIs the Access Token
-  Response SHALL be sent to. Its value must match one of the
-  redirection URI the Relying Party was registered at the Identity Provider.
-- *state*: SHALL convey an opaque value used to maintain the state
+§oidc-6^ch-oidc-relying-party:The Authentication Request **SHALL** contain the following parameters:§
+- §oidc-7^ch-oidc-relying-party:*scope*: The value **SHALL** be *openid*.§
+- §oidc-8^ch-oidc-relying-party:*response_type*: The value **SHALL** be *code*.§
+- §oidc-9^ch-oidc-relying-party:*client_id*: The value **SHALL** be the Client Identifier the Relying 
+  Party was registered with at the Identity Provider.§
+- §oidc-10^ch-oidc-relying-party:*redirect_uri*: **SHALL** convey the redirection URIs the Access Token
+  Response **SHALL** be sent to. Its value must match one of the
+  redirection URI the Relying Party was registered at the Identity Provider.§
+- §oidc-11^ch-oidc-relying-party:*state*: **SHALL** convey an opaque value used to maintain the state
   between the request and the response to mitigate Cross-Site Request Forgery
-  attacks.
-- *nonce*: SHALL convey an opaque string passed through from the
-  Authentication Request to the ID Token to mitigate replay attacks.
+  attacks.§
+- §oidc-12^ch-oidc-relying-party:*nonce*: **SHALL** convey an opaque string passed through from the
+  Authentication Request to the ID Token to mitigate replay attacks.§
 - *code_challenge*: code challenge derived from the code verifier
   using the code challenge method as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
 - *code_challenge_method*: code challenge method indicator defined
   in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value must be S256.
 
-The Identity Provider SHALL validate the Authentication Request as specified in 
-the [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) specification.
+§oidc-13^ch-oidc-identity-provider:The Identity Provider **SHALL** validate the Authentication Request as specified in 
+the [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) specification.§
 
 #### Authentication Response
 
-The Authentication Response message SHALL be used by the Identity Provider as
+§oidc-14^ch-oidc-identity-provider:The Authentication Response message **SHALL** be used by the Identity Provider as
 response to the Authentication Request message to convey the
-authorization code after authenticating the user. The
-Authentication Response message SHALL be compliant with an OAuth 2.0
-Authentication Response message.
+authorization code after authenticating the user.§ §oidc-15^ch-oidc-identity-provider:The
+Authentication Response message **SHALL** be compliant with an OAuth 2.0
+Authentication Response message.§
 
-The Authentication Response SHALL contain the following parameters:
-- *code*: SHALL be an OAuth 2.0 compliant authorization code.
-- *state*: SHALL match the state parameter value of the Authentication Request.
+§oidc-16^ch-oidc-identity-provider:The Authentication Response **SHALL** contain the following parameters:§
+- §oidc-17^ch-oidc-identity-provider:*code*: **SHALL** be an OAuth 2.0 compliant authorization code.§
+- §oidc-18^ch-oidc-identity-provider:*state*: **SHALL** match the state parameter value of the Authentication Request.§
 
-In case of an error the Identity Provider SHALL respond with an HTTP Error as defined
-in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#AuthError) specification.
+§oidc-19?^ch-oidc-identity-provider:In case of an error the Identity Provider **SHALL** respond with an HTTP Error as defined
+in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#AuthError) specification.§
 
 #### Access Token Request
 
-The Access Token Request message SHALL be used by the Relying Party to
-resolve the authorization code to the Access and ID Token. The Access
-Token Request message SHALL be sent via the backchannel. The Access
-Token Request message SHALL be compliant with an OAuth 2.0 Access Token
-Request message.
+§oidc-20^ch-oidc-relying-party:The Access Token Request message **SHALL** be used by the Relying Party to
+resolve the authorization code to the Access and ID Token.§ §oidc-21^ch-oidc-relying-party:The Access
+Token Request message **SHALL** be sent via the backchannel.§ §oidc-22^ch-oidc-relying-party:The Access
+Token Request message **SHALL** be compliant with an OAuth 2.0 Access Token
+Request message.§
 
-The Access Token Request SHALL contain the following parameters:
-- *grant_type*: The value SHALL be authorization_code.
-- *code*: SHALL be the OAuth 2.0 compliant authorization code
-  retrieved with the Authentication Response.
-- *client_id*: SHALL be the Client Identifier the Relying
-  Party was registered with at the Identity Provider.
-- *redirect_uri*: SHALL convey the redirection URI the Access Token
-  Response SHALL be sent to. Its value must match the redirection URI
-  sent with the Authentication Request.
+§oidc-23^ch-oidc-relying-party:The Access Token Request **SHALL** contain the following parameters:§
+- §oidc-24^ch-oidc-relying-party:*grant_type*: The value **SHALL** be authorization_code.§
+- §oidc-25^ch-oidc-relying-party:*code*: **SHALL** be the OAuth 2.0 compliant authorization code
+  retrieved with the Authentication Response.§
+- §oidc-26^ch-oidc-relying-party:*client_id*: **SHALL** be the Client Identifier the Relying
+  Party was registered with at the Identity Provider.§
+- §oidc-27^ch-oidc-relying-party:*redirect_uri*: **SHALL** convey the redirection URI the Access Token
+  Response **SHALL** be sent to. Its value must match the redirection URI
+  sent with the Authentication Request.§
 - *code_verifier*: The code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
 
-The Identity Provider SHALL validate the Access Token Request as follows:
+§§oidc-28^ch-oidc-identity-provider:The Identity Provider **SHALL** validate the Access Token Request (client, client authentication, authorization code, redirect_uri, code_verifier)^The Identity Provider **SHALL** validate the Access Token Request as follows:
+
 1. Identify the client using the `client_id`. 
 2. Authenticate the Relying Party, if the client application is
    registered as a confidential client. 
@@ -175,22 +176,24 @@ The Identity Provider SHALL validate the Access Token Request as follows:
    with the authentication request respecting the S256 code challenge
    method.
 
+§§
+
 #### Access Token Response
 
-The Access Token Response message SHALL be used by the Identity Provider to convey
+§oidc-29^ch-oidc-identity-provider:The Access Token Response message **SHALL** be used by the Identity Provider to convey
 the Access Token and the ID Token to the Relying Party in response to the
-Access Token Request. The Access Token Response message SHALL be sent
-via the backchannel. The Access Token Response message SHALL be
-compliant with an OAuth 2.0 Access Token Response message.
+Access Token Request.§ §oidc-30^ch-oidc-identity-provider:The Access Token Response message **SHALL** be sent
+via the backchannel.§ §oidc-31^ch-oidc-identity-provider:The Access Token Response message **SHALL** be
+compliant with an OAuth 2.0 Access Token Response message.§
 
-The Access Token Response SHALL contain the following parameters:
-- *token_type*: The value SHALL be Bearer.
-- *expires_in --* The Token lifetime in seconds. The value SHALL be equal to *300* (5 minutes).
-- *access_token*: The value SHALL be an OAuth 2.0 compliant access token.
-- *id_token*: The value SHALL be an Identity Token as defined below.
+§oidc-32^ch-oidc-identity-provider:The Access Token Response **SHALL** contain the following parameters:§
+- §oidc-33^ch-oidc-identity-provider:*token_type*: The value **SHALL** be Bearer.§
+- §oidc-34^ch-oidc-identity-provider:*expires_in --* The Token lifetime in seconds. The value **SHALL** be equal to *300* (5 minutes).§
+- §oidc-35^ch-oidc-identity-provider:*access_token*: The value **SHALL** be an OAuth 2.0 compliant access token.§
+- §oidc-36^ch-oidc-identity-provider:*id_token*: The value **SHALL** be an Identity Token as defined below.§
 
-In case of an error the Identity Provider SHALL respond a HTTP Error as defined
-in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#TokenErrorResponse) specification.
+§oidc-37?^ch-oidc-identity-provider:In case of an error the Identity Provider **SHALL** respond a HTTP Error as defined
+in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#TokenErrorResponse) specification.§
 
 ##### Message Example
 
@@ -207,36 +210,38 @@ Content-Type: application/json
 
 #### Identity Token
 
-The Identity Token SHALL be used by the Identity Provider to convey the Subject Identifier to the Relying 
-Party. The Identity Token SHALL be compliant with the JSON Web Token and [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) specification.
+§oidc-38^ch-oidc-identity-provider:The Identity Token **SHALL** be used by the Identity Provider to convey the Subject Identifier to the Relying 
+Party.§ §oidc-39^ch-oidc-identity-provider:The Identity Token **SHALL** be compliant with the JSON Web Token and [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) specification.§
 
-Identity Tokens SHALL be cryptographically signed using [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/). 
+§oidc-40^ch-oidc-identity-provider:Identity Tokens **SHALL** be cryptographically signed using [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/).§ 
 
-The Identity Token SHALL contain the following parameters:
-- *iss*: The value SHALL be a unique identifier of the Identity Provider as URL.
+§oidc-41^ch-oidc-identity-provider:The Identity Token **SHALL** contain the following parameters:§
+- §oidc-42^ch-oidc-identity-provider:*iss*: The value **SHALL** be a unique identifier of the Identity Provider as URL.§
 - *sub*: The Subject Identifier of the user.
-- *aud*: The value SHALL be the Client Identifier the Relying Party is registered at the Identity Provider.
-- *exp*: The time restricting the lifetime of the token. The value SHALL be equal to the current time plus 5 minutes.
+- §oidc-43^ch-oidc-identity-provider:*aud*: The value **SHALL** be the Client Identifier the Relying Party is registered at the Identity Provider.§
+- §oidc-44^ch-oidc-identity-provider:*exp*: The time restricting the lifetime of the token. The value **SHALL** be equal to the current time plus 5 minutes.§
 - *iat*: The time the token was issued by the Identity Provider.
-- *nonce*: The value SHALL match the *nonce* value of the Authentication Request.
-- *jti*: The value SHALL be a unique identifier of the ID Token.
+- §oidc-45^ch-oidc-identity-provider:*nonce*: The value **SHALL** match the *nonce* value of the Authentication Request.§
+- §oidc-46^ch-oidc-identity-provider:*jti*: The value **SHALL** be a unique identifier of the ID Token.§
 
-The Subject Identifier attribute SHALL be persistent and SHALL be unique for the combination of the 
-Subscriber and the Identity Provider. The Subject Identifier SHALL be confidential and never presented to the user or 
-third party systems.
+§oidc-47^ch-oidc-identity-provider:The Subject Identifier attribute **SHALL** be persistent and **SHALL** be unique for the combination of the 
+Subscriber and the Identity Provider.§ §oidc-48^ch-oidc-identity-provider,ch-oidc-relying-party:The Subject Identifier **SHALL** be confidential and never presented to the user or 
+third party systems.§
 
 The Identity Token MAY contain a session identifier in a *sid* attribute, if the Identity Provider 
 supports per session logout.
 
-The Identity Token MAY contain other claims which SHALL be ignored by the Relying Party.
+§oidc-49^ch-oidc-relying-party:The Identity Token MAY contain other claims which **SHALL** be ignored by the Relying Party.§
 
-The Relying Parties SHALL validate Identity Tokens as follows:
+§§oidc-50^ch-oidc-relying-party:The Relying Party **SHALL** validate the Identity Token (issuer, aud, signature, expiry, nonce)^The Relying Parties **SHALL** validate Identity Tokens as follows:
 
 1. Verify that the unique identifier of the Issuer matches the one registered for the Identity Provider. 
 2. Verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party. 
 3. Validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter. 
 4. Verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider. 
 5. Verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request.
+
+§§
 
 ##### Message Example
 
@@ -254,12 +259,12 @@ The Relying Parties SHALL validate Identity Tokens as follows:
 
 #### UserInfo Request
 
-The UserInfo Request message SHALL be used by the Relying Party to retrieve identity data of the user from the Credential
-Service Provider via the backchannel. The UserInfo Request message SHALL
-be compliant to the [OpenID Connect 1.0 UserInfo Request](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo) message.
+§oidc-51^ch-oidc-relying-party:The UserInfo Request message **SHALL** be used by the Relying Party to retrieve identity data of the user from the Credential
+Service Provider via the backchannel.§ §oidc-52^ch-oidc-relying-party:The UserInfo Request message **SHALL**
+be compliant to the [OpenID Connect 1.0 UserInfo Request](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo) message.§
 
-The Relying Party SHALL send the Access Token in the HTTP Authorization header field as Bearer Token as defined 
-in [OAuth 2.0 Authorization Framework: Bearer Token Usage](https://www.rfc-editor.org/info/rfc6750/).
+§oidc-53^ch-oidc-relying-party:The Relying Party **SHALL** send the Access Token in the HTTP Authorization header field as Bearer Token as defined 
+in [OAuth 2.0 Authorization Framework: Bearer Token Usage](https://www.rfc-editor.org/info/rfc6750/).§
 
 ##### Message Example
 
@@ -274,27 +279,29 @@ http authorization header:
 
 #### UserInfo Response
 
-The UserInfo Response message SHALL be used by the Credential Service Provider to respond with the identity data of the user to
-UserInfo Requests from the Relying Party using back-channel communication. The UserInfo Response message SHALL be a JSON Web Token
-(JWT) compliant to the [OpenID Connect 1.0 UserInfo Response message](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo).
+§oidc-54^ch-oidc-identity-provider:The UserInfo Response message **SHALL** be used by the Credential Service Provider to respond with the identity data of the user to
+UserInfo Requests from the Relying Party using back-channel communication.§ §oidc-55^ch-oidc-identity-provider:The UserInfo Response message **SHALL** be a JSON Web Token
+(JWT) compliant to the [OpenID Connect 1.0 UserInfo Response message](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo).§
 
-The UserInfo Response SHALL contain the following parameters:
+§§oidc-56^ch-oidc-identity-provider:The UserInfo Response **SHALL** contain the parameters sub, first_name, family_name, gender and birthdate^The UserInfo Response **SHALL** contain the following parameters:
+
 - *sub*: The subject identifier of the user.
 - *first_name*: The first name of the user.
 - *family_name*: The family name of the user.
 - *gender*: The user's coded gender with the value from the value set EprGender (2.16.756.5.30.1.127.3.10.1.25).
 - *birthdate*: The user's date of birth as ISO 8601-1:2019 formatted string.
 
-If the Identity Provider delivers the GLN of healthcare professionals or assistants, the UserInfo Response 
-SHALL contain a *gln* parameter conveying the GLN of healthcare professionals and assistants.
+§§
+
+§oidc-57?^ch-oidc-identity-provider:If the Identity Provider delivers the GLN of healthcare professionals or assistants, the UserInfo Response 
+**SHALL** contain a *gln* parameter conveying the GLN of healthcare professionals and assistants.§
 
 Identity Providers MAY provide other identity claims as defined in 
 the [OpenID Connect 1.0 Core](https://openid.net/specs/openid-connect-core-1_0.html) specification.
 
-In case of an error the Identity Provider SHALL respond a HTTP Error as defined in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#UserInfoError) specification.
+§oidc-58?^ch-oidc-identity-provider:In case of an error the Identity Provider **SHALL** respond a HTTP Error as defined in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#UserInfoError) specification.§
 
-The UserInfo response message SHALL be signed using recommended cryptographic signature standards and the 
-signature SHALL be validated by the relying party.
+§oidc-59^ch-oidc-identity-provider:The UserInfo response message **SHALL** be signed using recommended cryptographic signature standards.§ §oidc-60^ch-oidc-relying-party:The signature of the UserInfo response message **SHALL** be validated by the Relying Party.§
 
 ##### Message Example
 
@@ -312,22 +319,22 @@ The following listing displays a (non-normative) example for the payload conveye
 
 #### Logout Request
 
-The *LogoutRequest* message SHALL be used by the Relying Party to initiate a logout of the user at the 
-Identity Provider.
+§oidc-61^ch-oidc-relying-party:The *LogoutRequest* message **SHALL** be used by the Relying Party to initiate a logout of the user at the 
+Identity Provider.§
 
-*LogoutRequest* messages SHALL be used by the Relying Party to redirect the User Agent to the Identity 
+§oidc-62^ch-oidc-relying-party:*LogoutRequest* messages **SHALL** be used by the Relying Party to redirect the User Agent to the Identity 
 Provider compliant with the [OpenID Connect RP-Initiated Logout 1.0](https://openid.net/specs/openid-connect-rpinitiated-1_0.html) specification and 
-the requirements defined in this section.
+the requirements defined in this section.§
 
-A *LogoutRequest* message SHALL convey the following parameters:
-- *id_token_hint*: SHALL convey the Identity Token previously issued by the Identity Provider.
-- *state*: SHALL convey an opaque value used to maintain the state
-   between the request and the response to mitigate Cross-Site Request Forgery attacks.
+§oidc-63^ch-oidc-relying-party:A *LogoutRequest* message **SHALL** convey the following parameters:§
+- §oidc-64^ch-oidc-relying-party:*id_token_hint*: **SHALL** convey the Identity Token previously issued by the Identity Provider.§
+- §oidc-65^ch-oidc-relying-party:*state*: **SHALL** convey an opaque value used to maintain the state
+   between the request and the response to mitigate Cross-Site Request Forgery attacks.§
 
-The Logout Request MAY contain other claims which SHALL be ignored by the Identity Provider.
+§oidc-66^ch-oidc-identity-provider:The Logout Request MAY contain other claims which **SHALL** be ignored by the Identity Provider.§
 
-The Identity Provider SHALL validate *LogoutRequest* messages by verifying that the Identity Token was 
-issued by the Identity Provider for the requesting Relying Party and the user.
+§oidc-67^ch-oidc-identity-provider:The Identity Provider **SHALL** validate *LogoutRequest* messages by verifying that the Identity Token was 
+issued by the Identity Provider for the requesting Relying Party and the user.§
 
 ##### Message Example
 
@@ -344,35 +351,35 @@ Location: https://idp.com/logout?id_token_hint=eyJhbGciOiJIUz...&state=14424&pos
 
 #### Front-channel Communication
 
-The User Agent and the Identity Provider SHALL communicate through an authenticated and protected channel using 
-TLS 1.2 or higher. The Identity Provider SHALL identify and authenticate itself with X.509 certificates
+§oidc-68^ch-oidc-identity-provider:The User Agent and the Identity Provider **SHALL** communicate through an authenticated and protected channel using 
+TLS 1.2 or higher.§ §oidc-69^ch-oidc-identity-provider:The Identity Provider **SHALL** identify and authenticate itself with X.509 certificates
 issued by a class 2 TLS certificate issued by a trusted certificate service provider according to ZertES; 
-SR 943.03 and listed by the Swiss Accreditation Service (SAS).
+SR 943.03 and listed by the Swiss Accreditation Service (SAS).§
 
 #### Back-channel Communication
 
-The Identity Provider SHALL communicate with Relying Parties through an authenticated
+§oidc-70^ch-oidc-identity-provider,ch-oidc-relying-party:The Identity Provider **SHALL** communicate with Relying Parties through an authenticated
 and protected back-channel using TLS 1.2 or higher for access token and user info requests and
-responses. 
+responses.§ 
 
-The Identity Provider SHALL NOT use redirects through an intermediary user agent (e.g., Web Browser) to send requests
-to Relying Parties.
+§oidc-71^ch-oidc-identity-provider:The Identity Provider **SHALL NOT** use redirects through an intermediary user agent (e.g., Web Browser) to send requests
+to Relying Parties.§
 
-The Identity Provider SHALL identify and authenticate itself with class 2 X.509 certificates 
+§oidc-72^ch-oidc-identity-provider:The Identity Provider **SHALL** identify and authenticate itself with class 2 X.509 certificates 
 issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss
-Accreditation Service (SAS).
+Accreditation Service (SAS).§
 
-Identity Provider SHALL identify and authenticate the Relying Parties by using mutual TLS (mTLS) or the 
+§oidc-73^ch-oidc-identity-provider,ch-oidc-relying-party:Identity Provider **SHALL** identify and authenticate the Relying Parties by using mutual TLS (mTLS) or the 
 *private_key_jwt* option defined in 
 the [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#ClientAuthentication) 
-specification.
+specification.§
 
-The Relying Party SHALL use a certificate issued by a Certificate Authority (CA) that is operated according to 
+§oidc-74^ch-oidc-relying-party:The Relying Party **SHALL** use a certificate issued by a Certificate Authority (CA) that is operated according to 
 documented processes detailed in a Certificate Policy (CP) and Certificate Practice Statement (CPS) for 
-digital signatures or the mTLS client certificate. 
+digital signatures or the mTLS client certificate.§ 
 
-The CA's processes SHALL meet the requirements of class 1 certificates defined within 
-the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0). This 
+§oidc-75^ch-oidc-identity-provider:The CA's processes **SHALL** meet the requirements of class 1 certificates defined within 
+the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0).§ This 
 Certificate Authority (CA) MAY be operated by the Identity Provider or MAY be delegated by the Identity Provider 
 to a provider on a contractual basis.
 
