@@ -1,0 +1,177 @@
+{
+  "resourceType": "Requirements",
+  "id": "fromNarrative",
+  "url": "http://fhir.ch/ig/ch-health-dossier/Requirements/fromNarrative",
+  "name": "FromNarrative",
+  "title": "Narrative Conformance Statements",
+  "status": "active",
+  "experimental": false,
+  "description": "Conformance statements found throughout the narrative of the IG consolidated into this computable resource for traceability purposes",
+  "actor": [
+    "http://fhir.ch/ig/ch-health-dossier/ActorDefinition/ch-pixm-manager",
+    "http://fhir.ch/ig/ch-health-dossier/ActorDefinition/ch-pixm-source"
+  ],
+  "_actor": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-actorkey",
+          "valueId": "ch-pixm-manager"
+        }
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-actorkey",
+          "valueId": "ch-pixm-source"
+        }
+      ]
+    }
+  ],
+  "statement": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-manager"
+        }
+      ],
+      "key": "iti104-1",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Patient Identifier Cross-reference Manager **SHALL** return an error for an Add Patient or a Resolve Duplicate Patient message."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        }
+      ],
+      "key": "iti104-2",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The identifier request parameter **SHALL** be the EPR-SPID."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        }
+      ],
+      "key": "iti104-3",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The patient data (see [Patient example](Patient-PatientPIXmFeed.html)) **SHALL** conform to the [PIXm Patient Feed profile](StructureDefinition-ch-pixm-patient-feed.html)."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        }
+      ],
+      "key": "iti104-4",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The EPR-SPID **SHALL** be added to Patient.identifier."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-manager"
+        }
+      ],
+      "key": "iti104-5",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "Any other provided data elements **SHALL** be ignored by the Patient Identifier Cross-reference Manager."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        },
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-manager"
+        }
+      ],
+      "key": "iti104-6",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        },
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-manager"
+        }
+      ],
+      "key": "iti104-7",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        },
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-manager"
+        }
+      ],
+      "key": "iti104-8",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The actors **SHALL** support the **traceparent** header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-source"
+        }
+      ],
+      "key": "iti104-9",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The **Patient Identity Source** **SHALL** record an audit event according to [CH Audit Event for [ITI-104] Patient Identity Source](StructureDefinition-ChAuditEventIti104Source.html) ([example](AuditEvent-ChAuditEventIti104SourceExample.html))."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-pixm-manager"
+        }
+      ],
+      "key": "iti104-10",
+      "label": "The Patient Identifier Cross-reference Manager SHALL record an audit event for a patient update",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Patient Identifier Cross-reference Manager SHALL record an audit event according to:\r\n\r\n[CH Audit Event for [ITI-104] Patient Identifier Cross-reference Manager / **Update** patient](StructureDefinition-ChAuditEventIti104ManagerUpdate.html) ([example](AuditEvent-ChAuditEventIti104ManagerUpdateExample.html))."
+    }
+  ]
+}
