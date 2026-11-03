@@ -31,8 +31,7 @@ provider on a contractual basis.
 
 Certificate Authority - Identity provider MAY operate a managed Certificate Authority (CA) that is 
 operated according to documented processes detailed in a Certificate Policy (CP) and Certificate Practice
-Statement (CPS). §oidc-3?^ch-oidc-identity-provider:The CA's processes **SHALL** meet the requirements of class 1 certificates defined within 
-the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0).§ They MAY 
+Statement (CPS). The requirements for the CA's processes are defined in [Back-channel Communication](#back-channel-communication). They MAY 
 use this Certificate Authority to issue client certificates (mTLS) for Relying Parties. Identity providers 
 MAY delegate the service to other providers on a contractual basis. 
 
@@ -108,18 +107,18 @@ initiate the authentication sequence.§ §oidc-5^ch-oidc-relying-party:The Authe
 - §oidc-8^ch-oidc-relying-party:*response_type*: The value **SHALL** be *code*.§
 - §oidc-9^ch-oidc-relying-party:*client_id*: The value **SHALL** be the Client Identifier the Relying 
   Party was registered with at the Identity Provider.§
-- §oidc-10^ch-oidc-relying-party:*redirect_uri*: **SHALL** convey the redirection URIs the Access Token
-  Response **SHALL** be sent to. Its value must match one of the
-  redirection URI the Relying Party was registered at the Identity Provider.§
+- §oidc-10^ch-oidc-relying-party:*redirect_uri*: **SHALL** convey the redirection URI the Authentication
+  Response **SHALL** be sent to. Its value **SHALL** match one of the
+  redirection URIs the Relying Party was registered with at the Identity Provider.§
 - §oidc-11^ch-oidc-relying-party:*state*: **SHALL** convey an opaque value used to maintain the state
   between the request and the response to mitigate Cross-Site Request Forgery
   attacks.§
 - §oidc-12^ch-oidc-relying-party:*nonce*: **SHALL** convey an opaque string passed through from the
   Authentication Request to the ID Token to mitigate replay attacks.§
-- *code_challenge*: code challenge derived from the code verifier
-  using the code challenge method as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
-- *code_challenge_method*: code challenge method indicator defined
-  in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value must be S256.
+- §oidc-76^ch-oidc-relying-party:*code_challenge*: **SHALL** convey the code challenge derived from the code verifier
+  using the code challenge method as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).§
+- §oidc-77^ch-oidc-relying-party:*code_challenge_method*: **SHALL** convey the code challenge method indicator defined
+  in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value **SHALL** be S256.§
 
 §oidc-13^ch-oidc-identity-provider:The Identity Provider **SHALL** validate the Authentication Request as specified in 
 the [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) specification.§
@@ -153,30 +152,28 @@ Request message.§
   retrieved with the Authentication Response.§
 - §oidc-26^ch-oidc-relying-party:*client_id*: **SHALL** be the Client Identifier the Relying
   Party was registered with at the Identity Provider.§
-- §oidc-27^ch-oidc-relying-party:*redirect_uri*: **SHALL** convey the redirection URI the Access Token
-  Response **SHALL** be sent to. Its value must match the redirection URI
-  sent with the Authentication Request.§
-- *code_verifier*: The code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
+- §oidc-27^ch-oidc-relying-party:*redirect_uri*: **SHALL** be the redirection URI sent with the
+  Authentication Request.§
+- §oidc-78^ch-oidc-relying-party:*code_verifier*: **SHALL** convey the code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/)
+  from which the *code_challenge* of the Authentication Request was derived.§
 
-§§oidc-28^ch-oidc-identity-provider:The Identity Provider **SHALL** validate the Access Token Request (client, client authentication, authorization code, redirect_uri, code_verifier)^The Identity Provider **SHALL** validate the Access Token Request as follows:
+§oidc-28^ch-oidc-identity-provider:The Identity Provider **SHALL** validate the Access Token Request as follows:§
 
-1. Identify the client using the `client_id`. 
-2. Authenticate the Relying Party, if the client application is
-   registered as a confidential client. 
-3. Verify that the authorization code was issued to the Relying Party
-   in response to an Authentication Request. 
-4. Verify that the authorization code was not used before. 
-5. Verify that the value of the `redirect_uri` parameter sent with the
+1. §oidc-79^ch-oidc-identity-provider:The Identity Provider **SHALL** identify the client using the `client_id`.§
+2. §oidc-80?^ch-oidc-identity-provider:The Identity Provider **SHALL** authenticate the Relying Party, if the client application is
+   registered as a confidential client.§
+3. §oidc-81^ch-oidc-identity-provider:The Identity Provider **SHALL** verify that the authorization code was issued to the Relying Party
+   in response to an Authentication Request.§
+4. §oidc-82^ch-oidc-identity-provider:The Identity Provider **SHALL** verify that the authorization code was not used before.§
+5. §oidc-83^ch-oidc-identity-provider:The Identity Provider **SHALL** verify that the value of the `redirect_uri` parameter sent with the
    Access Token Request matches the one sent with the Authentication
-   Request. 
-6. Verify that the value of the `redirect_uri` parameter sent with the
+   Request.§
+6. §oidc-84^ch-oidc-identity-provider:The Identity Provider **SHALL** verify that the value of the `redirect_uri` parameter sent with the
    Access Token Request matches one of the redirect URIs registered
-   for the Relying Party. 
-7. Verify that the `code_verifier` matches the `code_challenge` sent
-   with the authentication request respecting the S256 code challenge
-   method.
-
-§§
+   for the Relying Party.§
+7. §oidc-85^ch-oidc-identity-provider:The Identity Provider **SHALL** verify that the `code_verifier` matches the `code_challenge` sent
+   with the Authentication Request respecting the S256 code challenge
+   method.§
 
 #### Access Token Response
 
@@ -233,15 +230,13 @@ supports per session logout.
 
 §oidc-49^ch-oidc-relying-party:The Identity Token MAY contain other claims which **SHALL** be ignored by the Relying Party.§
 
-§§oidc-50^ch-oidc-relying-party:The Relying Party **SHALL** validate the Identity Token (issuer, aud, signature, expiry, nonce)^The Relying Parties **SHALL** validate Identity Tokens as follows:
+§oidc-50^ch-oidc-relying-party:The Relying Parties **SHALL** validate Identity Tokens as follows:§
 
-1. Verify that the unique identifier of the Issuer matches the one registered for the Identity Provider. 
-2. Verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party. 
-3. Validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter. 
-4. Verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider. 
-5. Verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request.
-
-§§
+1. §oidc-86^ch-oidc-relying-party:The Relying Party **SHALL** verify that the unique identifier of the Issuer matches the one registered for the Identity Provider.§
+2. §oidc-87^ch-oidc-relying-party:The Relying Party **SHALL** verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party.§
+3. §oidc-88^ch-oidc-relying-party:The Relying Party **SHALL** validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter.§
+4. §oidc-89^ch-oidc-relying-party:The Relying Party **SHALL** verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider.§
+5. §oidc-90^ch-oidc-relying-party:The Relying Party **SHALL** verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request.§
 
 ##### Message Example
 
@@ -331,7 +326,7 @@ the requirements defined in this section.§
 - §oidc-65^ch-oidc-relying-party:*state*: **SHALL** convey an opaque value used to maintain the state
    between the request and the response to mitigate Cross-Site Request Forgery attacks.§
 
-§oidc-66^ch-oidc-identity-provider:The Logout Request MAY contain other claims which **SHALL** be ignored by the Identity Provider.§
+§oidc-66^ch-oidc-identity-provider:The Logout Request MAY contain other parameters which **SHALL** be ignored by the Identity Provider.§
 
 §oidc-67^ch-oidc-identity-provider:The Identity Provider **SHALL** validate *LogoutRequest* messages by verifying that the Identity Token was 
 issued by the Identity Provider for the requesting Relying Party and the user.§
@@ -352,8 +347,8 @@ Location: https://idp.com/logout?id_token_hint=eyJhbGciOiJIUz...&state=14424&pos
 #### Front-channel Communication
 
 §oidc-68^ch-oidc-identity-provider:The User Agent and the Identity Provider **SHALL** communicate through an authenticated and protected channel using 
-TLS 1.2 or higher.§ §oidc-69^ch-oidc-identity-provider:The Identity Provider **SHALL** identify and authenticate itself with X.509 certificates
-issued by a class 2 TLS certificate issued by a trusted certificate service provider according to ZertES; 
+TLS 1.2 or higher.§ §oidc-69^ch-oidc-identity-provider:The Identity Provider **SHALL** identify and authenticate itself towards the User Agent with class 2
+X.509 certificates issued by a trusted certificate service provider according to ZertES; 
 SR 943.03 and listed by the Swiss Accreditation Service (SAS).§
 
 #### Back-channel Communication
@@ -365,8 +360,8 @@ responses.§
 §oidc-71^ch-oidc-identity-provider:The Identity Provider **SHALL NOT** use redirects through an intermediary user agent (e.g., Web Browser) to send requests
 to Relying Parties.§
 
-§oidc-72^ch-oidc-identity-provider:The Identity Provider **SHALL** identify and authenticate itself with class 2 X.509 certificates 
-issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss
+§oidc-72^ch-oidc-identity-provider:The Identity Provider **SHALL** identify and authenticate itself towards the Relying Parties with class 2
+X.509 certificates issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss
 Accreditation Service (SAS).§
 
 §oidc-73^ch-oidc-identity-provider,ch-oidc-relying-party:Identity Provider **SHALL** identify and authenticate the Relying Parties by using mutual TLS (mTLS) or the 

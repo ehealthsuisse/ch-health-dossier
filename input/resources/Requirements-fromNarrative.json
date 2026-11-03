@@ -4427,20 +4427,6 @@
       "extension": [
         {
           "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
-          "valueId": "ch-oidc-identity-provider"
-        }
-      ],
-      "key": "oidc-3",
-      "conformance": [
-        "SHALL"
-      ],
-      "conditionality": true,
-      "requirement": "The CA's processes **SHALL** meet the requirements of class 1 certificates defined within the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0)."
-    },
-    {
-      "extension": [
-        {
-          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
           "valueId": "ch-oidc-relying-party"
         }
       ],
@@ -4526,7 +4512,7 @@
       "conformance": [
         "SHALL"
       ],
-      "requirement": "**redirect_uri**: **SHALL** convey the redirection URIs the Access Token Response **SHALL** be sent to. Its value must match one of the redirection URI the Relying Party was registered at the Identity Provider."
+      "requirement": "**redirect_uri**: **SHALL** convey the redirection URI the Authentication Response **SHALL** be sent to. Its value **SHALL** match one of the redirection URIs the Relying Party was registered with at the Identity Provider."
     },
     {
       "extension": [
@@ -4748,7 +4734,7 @@
       "conformance": [
         "SHALL"
       ],
-      "requirement": "**redirect_uri**: **SHALL** convey the redirection URI the Access Token Response **SHALL** be sent to. Its value must match the redirection URI sent with the Authentication Request."
+      "requirement": "**redirect_uri**: **SHALL** be the redirection URI sent with the Authentication Request."
     },
     {
       "extension": [
@@ -4758,11 +4744,10 @@
         }
       ],
       "key": "oidc-28",
-      "label": "The Identity Provider SHALL validate the Access Token Request (client, client authentication, authorization code, redirect_uri, code_verifier)",
       "conformance": [
         "SHALL"
       ],
-      "requirement": "The Identity Provider SHALL validate the Access Token Request as follows:\r\n\r\n1. Identify the client using the`client_id`.\r\n1. Authenticate the Relying Party, if the client application is registered as a confidential client.\r\n1. Verify that the authorization code was issued to the Relying Party in response to an Authentication Request.\r\n1. Verify that the authorization code was not used before.\r\n1. Verify that the value of the`redirect_uri`parameter sent with the Access Token Request matches the one sent with the Authentication Request.\r\n1. Verify that the value of the`redirect_uri`parameter sent with the Access Token Request matches one of the redirect URIs registered for the Relying Party.\r\n1. Verify that the`code_verifier`matches the`code_challenge`sent with the authentication request respecting the S256 code challenge method."
+      "requirement": "The Identity Provider **SHALL** validate the Access Token Request as follows:"
     },
     {
       "extension": [
@@ -5051,11 +5036,10 @@
         }
       ],
       "key": "oidc-50",
-      "label": "The Relying Party SHALL validate the Identity Token (issuer, aud, signature, expiry, nonce)",
       "conformance": [
         "SHALL"
       ],
-      "requirement": "The Relying Parties SHALL validate Identity Tokens as follows:\r\n\r\n1. Verify that the unique identifier of the Issuer matches the one registered for the Identity Provider.\r\n1. Verify that the value of the**aud**parameter matches the Client Identifier of the Relying Party.\r\n1. Validate the signature according to[JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/)using the algorithm specified in the JWT**alg**Header Parameter.\r\n1. Verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider.\r\n1. Verify that a**nonce**claim is present and its value matches the one that was sent in the Authentication Request."
+      "requirement": "The Relying Parties **SHALL** validate Identity Tokens as follows:"
     },
     {
       "extension": [
@@ -5267,7 +5251,7 @@
         "SHALL",
         "MAY"
       ],
-      "requirement": "The Logout Request MAY contain other claims which **SHALL** be ignored by the Identity Provider."
+      "requirement": "The Logout Request MAY contain other parameters which **SHALL** be ignored by the Identity Provider."
     },
     {
       "extension": [
@@ -5306,7 +5290,7 @@
       "conformance": [
         "SHALL"
       ],
-      "requirement": "The Identity Provider **SHALL** identify and authenticate itself with X.509 certificates issued by a class 2 TLS certificate issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss Accreditation Service (SAS)."
+      "requirement": "The Identity Provider **SHALL** identify and authenticate itself towards the User Agent with class 2 X.509 certificates issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss Accreditation Service (SAS)."
     },
     {
       "extension": [
@@ -5350,7 +5334,7 @@
       "conformance": [
         "SHALL"
       ],
-      "requirement": "The Identity Provider **SHALL** identify and authenticate itself with class 2 X.509 certificates issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss Accreditation Service (SAS)."
+      "requirement": "The Identity Provider **SHALL** identify and authenticate itself towards the Relying Parties with class 2 X.509 certificates issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss Accreditation Service (SAS)."
     },
     {
       "extension": [
@@ -5394,6 +5378,202 @@
         "SHALL"
       ],
       "requirement": "The CA's processes **SHALL** meet the requirements of class 1 certificates defined within the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0)."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-76",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "**code_challenge**: **SHALL** convey the code challenge derived from the code verifier using the code challenge method as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/)."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-77",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "**code_challenge_method**: **SHALL** convey the code challenge method indicator defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value **SHALL** be S256."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-78",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "**code_verifier**: **SHALL** convey the code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/) from which the **code_challenge** of the Authentication Request was derived."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-79",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Identity Provider **SHALL** identify the client using the `client_id`."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-80",
+      "conformance": [
+        "SHALL"
+      ],
+      "conditionality": true,
+      "requirement": "The Identity Provider **SHALL** authenticate the Relying Party, if the client application is registered as a confidential client."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-81",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Identity Provider **SHALL** verify that the authorization code was issued to the Relying Party in response to an Authentication Request."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-82",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Identity Provider **SHALL** verify that the authorization code was not used before."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-83",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Identity Provider **SHALL** verify that the value of the `redirect_uri` parameter sent with the Access Token Request matches the one sent with the Authentication Request."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-84",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Identity Provider **SHALL** verify that the value of the `redirect_uri` parameter sent with the Access Token Request matches one of the redirect URIs registered for the Relying Party."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-identity-provider"
+        }
+      ],
+      "key": "oidc-85",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Identity Provider **SHALL** verify that the `code_verifier` matches the `code_challenge` sent with the Authentication Request respecting the S256 code challenge method."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-86",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Relying Party **SHALL** verify that the unique identifier of the Issuer matches the one registered for the Identity Provider."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-87",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Relying Party **SHALL** verify that the value of the **aud** parameter matches the Client Identifier of the Relying Party."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-88",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Relying Party **SHALL** validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT **alg** Header Parameter."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-89",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Relying Party **SHALL** verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-oidc-relying-party"
+        }
+      ],
+      "key": "oidc-90",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "The Relying Party **SHALL** verify that a **nonce** claim is present and its value matches the one that was sent in the Authentication Request."
     },
     {
       "extension": [
