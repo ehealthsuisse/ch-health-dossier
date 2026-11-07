@@ -2610,12 +2610,12 @@
         }
       ],
       "key": "iti71-22",
-      "label": "For holders (PAT), the Authorization Server SHALL validate the id_token and resolve its subject to the SPID of the holder",
+      "label": "For holders (PAT), the Authorization Server SHALL validate the id_token, resolve its subject to the SPID of the holder and verify that the person_id of the request is this SPID",
       "conformance": [
         "SHALL"
       ],
       "conditionality": true,
-      "requirement": "When receiving a Token Request with subject_role set to PAT, the Authorization Server SHALL:\r\n\r\n1. Verify that the issuer identifier`iss`matches the issuer identifier of an Identity Provider accepted for the health dossier.\r\n1. Verify that the`id_token`is signed by the identity provider resolved from`iss`.\r\n1. Verify that the`id_token`is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider.\r\n1. Read the subject identifier`sub`of the id token and resolve it to the SPID of the holder."
+      "requirement": "When receiving a Token Request with subject_role set to PAT, the Authorization Server SHALL:\r\n\r\n1. Verify that the issuer identifier`iss`matches the issuer identifier of an Identity Provider accepted for the health dossier.\r\n1. Verify that the`id_token`is signed by the identity provider resolved from`iss`.\r\n1. Verify that the`id_token`is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider.\r\n1. Read the subject identifier`sub`of the id token and resolve it to the SPID of the holder.\r\n1. If the Token Request contains`person_id`, verify that it is the SPID of the holder resolved in step 4."
     },
     {
       "extension": [

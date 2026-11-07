@@ -165,6 +165,12 @@ The Authorization Server **SHALL** validate the claims as described in the follo
 the Authorization Server **SHALL** respond with the Token Response defined below. In case the validation fails, the 
 Authorization Server **SHALL** respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error.
 
+The Authorization Server authenticates the user and the Authorization Client and binds the access token to the user,
+the role, the organization and the EPR-SPID of the holder (`person_id`). It does not evaluate the access rights to the
+health dossier (rights by law and consents of the holder): the Resource Server enforces them for each request (see
+[ITI-72](iti-72.html#expected-actions) and [Enforcement of Access Rules](accesscontrol.html)). An extended access
+token therefore does not grant access to the health dossier by itself.
+
 When receiving a Token Request, the Authorization Server **SHALL**:
 1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 2. Verify that the Authorization Client was registered with the `client_id` during onboarding.
@@ -201,6 +207,7 @@ When receiving a Token Request with `subject_role` set to `PAT`, the Authorizati
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
+5. If the Token Request contains `person_id`, verify that it is the SPID of the holder resolved in step 4.
 
 
 
