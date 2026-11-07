@@ -7,12 +7,14 @@ representative acting on their behalf.
 
 Health professionals and health institutions may view data of a health dossier only in the context of a treatment 
 and only where the holder has granted them the corresponding right. Where the holder gave consent 
-outside the Health Dossier system, the health professional or health institution SHALL confirm the receipt of that consent 
+outside the Health Dossier system, the health professional or health institution **SHALL** confirm the receipt of that consent 
 in the health dossier. In medical emergencies, health professionals and health institutions may access the health dossier 
 without a granted right, unless the holder has excluded emergency access.
 
-Every actor serving a request of the Health Dossier API SHALL evaluate and enforce these rules individually for each
-request, before any data is created, updated, returned or otherwise disclosed. The decision SHALL take into account:
+Every actor serving a request of the Health Dossier API **SHALL** evaluate and enforce these rules individually for each
+request, before any data is created, updated, returned or otherwise disclosed.
+
+The decision **SHALL** take into account:
 
 - the authenticated identity, the role, the organization and the purpose of use of the requester, as conveyed in the
   access token (see [Get Access Token [ITI-71]](iti-71.html));
@@ -21,7 +23,9 @@ request, before any data is created, updated, returned or otherwise disclosed. T
 - the rights by law and the consents in effect for the holder concerned, including those defined by a representative;
 - the confidentiality level of the data concerned.
 
-A request that is not permitted SHALL be rejected. Data the requester is not authorized to see SHALL NOT be included
+
+
+A request that is not permitted **SHALL** be rejected. Data the requester is not authorized to see **SHALL NOT** be included
 in a response.
 
 How the decision is reached, computed by the serving actor itself or obtained from a separate authorization decision
@@ -78,14 +82,14 @@ the grantees of an access right granting access to that document.
 
 #### Emergency access
 
-A request with the purpose of use `EMER` from a health professional or assistant SHALL be permitted for the documents
+A request with the purpose of use `EMER` from a health professional or assistant **SHALL** be permitted for the documents
 of the level "normal" only while the [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of the holder is of
 type permit. If the health professional, or a group or health institution in the access token, already holds an
-access right, the request SHALL be processed with that access right as a normal access, and SHALL NOT trigger a
-notification of the holder. Otherwise the holder SHALL be notified when an emergency access is activated, once for a
+access right, the request **SHALL** be processed with that access right as a normal access, and **SHALL NOT** trigger a
+notification of the holder. If no such access right is held, the holder **SHALL** be notified when an emergency access is activated, once for a
 sequence of emergency accesses of the same health professional or assistant.
 
-The actor serving the request SHALL record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use
+The actor serving the request **SHALL** record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use
 under which the request was permitted, not the one declared in the access token: `NORM` where the requester holds a
 right by law or an access right ([access](ppqm-consent.html#consent-access),
 [indirect authorization](ppqm-consent.html#consent-indirect-authorization),
@@ -97,9 +101,9 @@ token.
 #### Administration of the community
 
 The administration (`ADM`) acts only on the health dossiers managed by its community: the community of the
-administration (`subject_organization_id` of the access token, see [ITI-71](iti-71.html#administrators)) SHALL be the
-community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Requests for
-other health dossiers SHALL be rejected.
+administration (`subject_organization_id` of the access token, see [ITI-71](iti-71.html#administrators)) **SHALL** be the
+community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Requests of the administration for
+other health dossiers **SHALL** be rejected.
 
 The administration is not authorized generally by its role: it processes the content or the settings of a health
 dossier only per support case, while a [community mandate](ppqm-consent.html#consent-community-mandate)
@@ -121,7 +125,7 @@ A digital health application is an Authorization Client acting for the authentic
 Server issues it an access token with the `subject_role` `PAT` only for the scopes listed for digital health
 applications (see [ITI-71](iti-71.html#digital-health-applications)), granted in its software statement and authorized
 by the holder (see [Client Authorization](iti-71.html#client-authorization)). Every actor serving a request of a digital
-health application SHALL restrict it to the scopes of the access token, in addition to the access rights of the holder.
+health application **SHALL** restrict it to the scopes of the access token, in addition to the access rights of the holder.
 
 #### Military health professionals
 
@@ -139,5 +143,5 @@ transactions for which the grouping with the IUA Authorization Client allows `TC
 actor groupings of the respective profile ([CH:PIXm](iti-pixm.html#required-actor-grouping),
 [CH:PDQm](iti-pdqm.html#required-actor-grouping), [CH:MHD](iti-mhd.html#required-actor-groupings),
 [CH:mCSD](iti-mcsd.html#required-actor-grouping), [CH:PPQm](ppqm.html#actors-and-transactions),
-[CH:ATC](ch-atc.html#required-actor-groupings) and [RESTful ATNA](iti-restful-atna.html#required-actor-grouping)). Every actor serving a request of the Health Dossier API SHALL reject a request
+[CH:ATC](ch-atc.html#required-actor-groupings) and [RESTful ATNA](iti-restful-atna.html#required-actor-grouping)). Every actor serving a request of the Health Dossier API **SHALL** reject a request
 with an access token with the `subject_role` `TCU` for any other transaction.

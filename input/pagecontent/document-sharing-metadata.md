@@ -48,7 +48,7 @@ which MHD requires.
 | Unique Identifier of the submission | R | [`identifier:uniqueId`](StructureDefinition-ch-mhd-submissionset-definitions.html#List.identifier:uniqueId) |  |
 | Holder | R | [`subject`](StructureDefinition-ch-mhd-submissionset-definitions.html#List.subject) | The EPR-SPID in `subject.identifier` |
 | Date | R | [`date`](StructureDefinition-ch-mhd-submissionset-definitions.html#List.date) |  |
-| Source | R | [`extension:sourceId`](StructureDefinition-ch-mhd-submissionset-definitions.html#List.extension:sourceId) | The source SHALL carry the OID of the application of the Document Source which provides the document. It is information only: no right to the document follows from it. |
+| Source | R | [`extension:sourceId`](StructureDefinition-ch-mhd-submissionset-definitions.html#List.extension:sourceId) | The source **SHALL** carry the OID of the application of the Document Source which provides the document. It is information only: no right to the document follows from it. |
 
 <figcaption ID="2">Table 2: Metadata of a submission set.</figcaption>
 
@@ -90,9 +90,9 @@ and `organization.identifier` of the contained PractitionerRole, see the example
 contained Practitioner and Organization.
 
 A DocumentReference carries at most one author. Where a document has more than one author, e.g. a FHIR document with
-more than one `Composition.author`, the Document Source SHALL give the main author.
+more than one `Composition.author`, the Document Source **SHALL** give the main author.
 
-The author SHALL NOT be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated). Since the author is
+The author **SHALL NOT** be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated). Since the author is
 mostly given as text, the search parameters on the structured name of the author are not supported, see
 [ITI-67](iti-67.html#search-for-the-author-of-a-document).
 
@@ -104,11 +104,11 @@ technical users or the administration. Together with the [provider institution](
 determines who may provide a [new version](iti-65.html#correction-of-a-provided-document) of the document or
 [purge](ch-mhd-2.html) it.
 
-The provider role SHALL be conveyed in the DocumentReference with the extension
+The provider role **SHALL** be conveyed in the DocumentReference with the extension
 [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-provider-role](StructureDefinition-ch-ext-provider-role.html),
 with a value from the value set [CH Health Dossier Provider Role](ValueSet-HealthDossierProviderRole.html). The
-Document Source SHALL set it to the role of the current user, which the Document Recipient verifies against the access
-token (see [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution)). It SHALL NOT be
+Document Source **SHALL** set the provider role to the role of the current user, which the Document Recipient verifies against the access
+token (see [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution)). The provider role **SHALL NOT** be
 changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 ### Provider institution
@@ -119,17 +119,17 @@ healthcare professional, an assistant or a technical user provides the document.
 `custodian.identifier`, and optionally its name in `custodian.display`. It is not necessarily the institution of the
 author of the document.
 
-The Document Source SHALL set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and
-SHALL NOT set it otherwise. The Document Recipient verifies it against the access token (see
+The Document Source **SHALL** set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and
+**SHALL NOT** set it otherwise. The Document Recipient verifies it against the access token (see
 [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution)).
 
-The provider institution SHALL NOT be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated). The
+The provider institution **SHALL NOT** be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated). The
 healthcare professionals and assistants who are members of the provider institution may provide a
 [new version](iti-65.html#correction-of-a-provided-document) of the document and may [purge](ch-mhd-2.html) it.
 
 ### Confidentiality code
 
-The confidentiality code of the document (`DocumentReference.securityLabel`) SHALL be one of the two confidentiality
+The confidentiality code of the document (`DocumentReference.securityLabel`) **SHALL** be one of the two confidentiality
 levels of the health dossier defined in the value set
 [CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): "normal" (SNOMED CT
 `17621005` Normal, "allgemein" in the EGDG) or "restricted" (SNOMED CT `263856008` Restricted, "privat" in the EGDG).

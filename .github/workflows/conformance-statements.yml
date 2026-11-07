@@ -1,0 +1,27 @@
+name: Conformance statements
+
+# Checks input/data/conformance.json against the pages and reports RFC 2119 keywords outside a conformance
+# statement (the IG Publisher only does that for hl7.org/fhir IGs, see HL7/fhir-ig-publisher#1459).
+# Locally: python3 scripts/check_conformance.py [--suggest [--write]] [--ignore]
+
+on:
+  pull_request:
+    paths:
+      - 'input/pagecontent/**'
+      - 'input/data/conformance*.json'
+      - 'scripts/check_conformance.py'
+      - '.github/workflows/conformance-statements.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'input/pagecontent/**'
+      - 'input/data/conformance*.json'
+      - 'scripts/check_conformance.py'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check conformance statements
+        run: python3 scripts/check_conformance.py

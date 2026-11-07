@@ -1,0 +1,3401 @@
+{
+  "accesscontrol": [
+    {
+      "id": "access-1",
+      "conditional": true,
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "Where the holder gave consent \noutside the Health Dossier system, the health professional or health institution **SHALL** confirm the receipt of that consent \nin the health dossier."
+    },
+    {
+      "id": "access-2",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Every actor serving a request of the Health Dossier API **SHALL** evaluate and enforce these rules individually for each\nrequest, before any data is created, updated, returned or otherwise disclosed."
+    },
+    {
+      "id": "access-3",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "summary": "The access decision **SHALL** take into account the identity, role, organization and purpose of use of the requester, the directory entry and treatment context, the rights by law and consents, and the confidentiality level",
+      "text": "The decision **SHALL** take into account:\n\n- the authenticated identity, the role, the organization and the purpose of use of the requester, as conveyed in the\n  access token (see [Get Access Token [ITI-71]](iti-71.html));\n- for health professionals and health institutions, their entry in the directory of health professionals and health\n  institutions (see [Find Matching Care Services [ITI-90]](iti-90.html)) and the treatment context they assert;\n- the rights by law and the consents in effect for the holder concerned, including those defined by a representative;\n- the confidentiality level of the data concerned.\n\n"
+    },
+    {
+      "id": "access-4",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "A request that is not permitted **SHALL** be rejected."
+    },
+    {
+      "id": "access-5",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Data the requester is not authorized to see **SHALL NOT** be included\nin a response."
+    },
+    {
+      "id": "access-6",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "A request with the purpose of use `EMER` from a health professional or assistant **SHALL** be permitted for the documents\nof the level \"normal\" only while the [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of the holder is of\ntype permit."
+    },
+    {
+      "id": "access-7",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "If the health professional, or a group or health institution in the access token, already holds an\naccess right, the request **SHALL** be processed with that access right as a normal access, and **SHALL NOT** trigger a\nnotification of the holder."
+    },
+    {
+      "id": "access-8",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "If no such access right is held, the holder **SHALL** be notified when an emergency access is activated, once for a\nsequence of emergency accesses of the same health professional or assistant."
+    },
+    {
+      "id": "access-9",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "The actor serving the request **SHALL** record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use\nunder which the request was permitted, not the one declared in the access token: `NORM` where the requester holds a\nright by law or an access right ([access](ppqm-consent.html#consent-access),\n[indirect authorization](ppqm-consent.html#consent-indirect-authorization),\n[delegation](ppqm-consent.html#consent-delegation)) for the data concerned, also if the access token declares `EMER`;\n`EMER` only where the request was permitted by the emergency access alone."
+    },
+    {
+      "id": "access-10",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "the community of the\nadministration (`subject_organization_id` of the access token, see [ITI-71](iti-71.html#administrators)) **SHALL** be the\ncommunity managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening))."
+    },
+    {
+      "id": "access-11",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Requests of the administration for\nother health dossiers **SHALL** be rejected."
+    },
+    {
+      "id": "access-12",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Every actor serving a request of a digital\nhealth application **SHALL** restrict it to the scopes of the access token, in addition to the access rights of the holder."
+    },
+    {
+      "id": "access-13",
+      "conditional": true,
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Every actor serving a request of the Health Dossier API **SHALL** reject a request\nwith an access token with the `subject_role` `TCU` for any other transaction."
+    }
+  ],
+  "ch-atc": [
+    {
+      "id": "atc-1",
+      "actors": [
+        "ch-atc-patient-audit-consumer",
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "To claim compliance with this\nProfile, an actor **SHALL** support all required transactions (labeled \"R\")."
+    },
+    {
+      "id": "atc-2",
+      "actors": [
+        "ch-atc-patient-audit-consumer"
+      ],
+      "text": "The Patient Audit Consumer **SHALL NOT** display `recorded` as a time of day, since the time\nis masked to the day (see [Expected Actions of ITI-81](iti-81.html#expected-actions))."
+    },
+    {
+      "id": "atc-3",
+      "actors": [
+        "ch-atc-patient-audit-consumer",
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "This national extension enforces authentication and authorization for access control. Therefore actors of this profile\n**SHALL** be grouped with actors of other profiles according to the following table:"
+    }
+  ],
+  "ch-mhd-1": [
+    {
+      "id": "chmhd1-1",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** reject a\nrequest which updates other metadata, or metadata which the role of the requester is not allowed to update, with an\nOperationOutcome with the error code\n[UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html)."
+    },
+    {
+      "id": "chmhd1-2",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "In particular the author of the document (`DocumentReference.author`), the role of the user who provided the document\n([provider role](document-sharing-metadata.html#provider-role)) and the\n[provider institution](document-sharing-metadata.html#provider-institution) (`DocumentReference.custodian`) **SHALL NOT** be changed: they\nstay the ones of the document as it was provided, also where a holder, a representative, a legal representative or\nthe administration updates the confidentiality code or records a personal note."
+    },
+    {
+      "id": "chmhd1-3",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "Check the submitted DocumentReference and determine if it contains only changes to attributes which the role of the requester may update, as described in [Metadata which may be updated](#metadata-which-may-be-updated). If not, an OperationOutcome with the error code [UnmodifiableMetadataError](OperationOutcome-MhdOperationOutcomeErrorUnmodifiableMetadataError.html) **SHALL** be returned."
+    },
+    {
+      "id": "chmhd1-4",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates."
+    },
+    {
+      "id": "chmhd1-5",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "chmhd1-6",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "For every Update Document Metadata [CH:MHD-1] request, the Document Responder **SHALL** enforce the access rules of the\nholder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html)."
+    },
+    {
+      "id": "chmhd1-7",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** reject the request if the requester is not authorized to update the metadata of the\ndocument concerned."
+    },
+    {
+      "id": "chmhd1-8",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "chmhd1-9",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The **Document Source** **SHALL** record an audit event according to\n[CH Audit Event for [CH:MHD-1] Document Source](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-source.html)\n([example for a changed confidentiality code](AuditEvent-ChAuditEventChMhd1SourceExample.html),\n[example for a personal note](AuditEvent-ChAuditEventChMhd1SourcePersonalNoteExample.html))."
+    },
+    {
+      "id": "chmhd1-10",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The **Document Responder** **SHALL** record an audit event according to\n[CH Audit Event for [CH:MHD-1] Document Responder](StructureDefinition-ch-mhd-updatedocumentmetadata-audit-responder.html)\n([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html))."
+    },
+    {
+      "id": "chmhd1-11",
+      "conditional": true,
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "`ATC_DOC_UPDATE_CONFIDENTIALITY` where the confidentiality code was changed\n  ([example](AuditEvent-ChAuditEventChMhd1ResponderExample.html)). The document entity **SHALL** carry the new\n  confidentiality code (`entity.securityLabel`), the one before the update is not recorded."
+    },
+    {
+      "id": "chmhd1-12",
+      "conditional": true,
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "`ATC_DOC_UPDATE_NOTE` where a personal note was recorded or replaced\n  ([example](AuditEvent-ChAuditEventChMhd1ResponderPersonalNoteExample.html)). The text of the note **SHALL NOT** be\n  recorded in the audit event."
+    },
+    {
+      "id": "chmhd1-13",
+      "conditional": true,
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "For a [transaction](StructureDefinition-ch-mhd-1-updatedocumentmetadatatransactionrequest.html) instead of a direct PUT interaction, the actors **SHALL** also be able to record audit events for each Update Document Metadata Request Message in the Bundle."
+    }
+  ],
+  "ch-mhd-2": [
+    {
+      "id": "chmhd2-1",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The operation **SHALL** be invoked as a standalone HTTP request, it **SHALL NOT** be part of a batch or transaction Bundle."
+    },
+    {
+      "id": "chmhd2-2",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** process the Purge Document Request Message as follows:"
+    },
+    {
+      "id": "chmhd2-3",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The response **SHALL NOT** disclose whether a document the\n   requester is not allowed to access exists."
+    },
+    {
+      "id": "chmhd2-4",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "Any error that occurs during the processing **SHALL** cause the entire request to fail, nothing is removed and the Document\nResponder returns the status and the error in its response message."
+    },
+    {
+      "id": "chmhd2-5",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "After a successful purge the document and its metadata **SHALL NOT** be accessible anymore: a read of the DocumentReference\nor of the document responds with HTTP `404 Not Found`, and the DocumentReference is not returned by\n[Find Document References [ITI-67]](iti-67.html)."
+    },
+    {
+      "id": "chmhd2-6",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "Audit events recorded for the document, including the audit events of this transaction, **SHALL NOT** be purged."
+    },
+    {
+      "id": "chmhd2-7",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "On success, the Document Responder **SHALL** respond with HTTP `200 OK` and an OperationOutcome with an issue of severity\n`information` and code `informational`:"
+    },
+    {
+      "id": "chmhd2-8",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "On failure, the Document Responder **SHALL** respond with the HTTP status code as described in\n[Expected Actions](#expected-actions) and an OperationOutcome describing the error."
+    },
+    {
+      "id": "chmhd2-9",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates."
+    },
+    {
+      "id": "chmhd2-10",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "chmhd2-11",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "For every Purge Document [CH:MHD-2] request, the Document Responder **SHALL** enforce the access rules of the holder and of\nthe requesting health professional or health institution, as described in\n[Appendix: Enforcement of Access Rules](accesscontrol.html) and in\n[Roles which may purge a document](#roles-which-may-purge-a-document)."
+    },
+    {
+      "id": "chmhd2-12",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** reject the request\nif the requester is not authorized to purge the document concerned."
+    },
+    {
+      "id": "chmhd2-13",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "chmhd2-14",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The **Document Source** **SHALL** record an audit event according to\n[CH Audit Event for [CH:MHD-2] Document Source](StructureDefinition-ch-mhd-purgedocument-audit-source.html)\n([example](AuditEvent-ChAuditEventChMhd2SourceExample.html), and\n[example of a purge by the holder](AuditEvent-ChAuditEventChMhd2SourcePatientExample.html))."
+    },
+    {
+      "id": "chmhd2-15",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The **Document Responder** **SHALL** record an audit event according to\n[CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html)\n([example](AuditEvent-ChAuditEventChMhd2ResponderExample.html), and\n[example of a purge by the holder](AuditEvent-ChAuditEventChMhd2ResponderPatientExample.html))."
+    }
+  ],
+  "client-registration": [
+    {
+      "id": "clientreg-1",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The `client_id` **SHALL** be unique to the Authorization Client."
+    },
+    {
+      "id": "clientreg-2",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server"
+      ],
+      "text": "*User Authorized Client Registration:* **SHALL** be used by healthcare professionals or assistants to register\n  a primary system."
+    },
+    {
+      "id": "clientreg-3",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server"
+      ],
+      "text": "*dGA Client Registration:* **SHALL** be used by holders to register a digital health application\n  (dGA, e.g., a mobile health application)."
+    },
+    {
+      "id": "clientreg-4",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server"
+      ],
+      "text": "Dynamic client registration **SHALL NOT** be used for clinical archive systems with role `TCU` defined in \n[Internet User Authorization (IUA)](iti-iua.html)."
+    },
+    {
+      "id": "clientreg-5",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Client Registration Request **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "clientreg-6",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*client_name*: **SHALL** be a human-readable name of the client, to be presented to the end user."
+    },
+    {
+      "id": "clientreg-7",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*token_endpoint_auth_method*: **SHALL** be `private_key_jwt`.",
+      "before": "r.\n- "
+    },
+    {
+      "id": "clientreg-8",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*grant_types*: **SHALL** be `client_credentials`.",
+      "before": "r.\n- *token_endpoint_auth_method*: **SHALL** be `private_key_jwt`.\n- "
+    },
+    {
+      "id": "clientreg-9",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*scope*: **SHALL** be the list of scopes the client can use when requesting tokens, formatted as a string of\nspace-separated values (see [ITI-71](iti-71.html#message-semantics))."
+    },
+    {
+      "id": "clientreg-10",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*jwks*: **SHALL** be a JSON Web Key Set (JWKS) containing the public key used for asymmetric client authentication (JWT)."
+    },
+    {
+      "id": "clientreg-11",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*id_token*: **SHALL** be the signed JWT containing the identity token issued by the Identity Provider."
+    },
+    {
+      "id": "clientreg-12",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "*software_statement*: A signed JWT containing the software statement defined below. It **SHALL** be present for \ndGA Client Registration and **SHALL NOT** be present otherwise."
+    },
+    {
+      "id": "clientreg-13",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "The Authorization Server **SHALL** verify the issuer, the id_token, the entitlement of the user and the software statement of a registration request",
+      "text": "Upon receiving the registration request, the Authorization Server **SHALL**:\n\n1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.\n2. verify that the `id_token` is signed by one of the Identity Providers accepted for the health dossier.\n3. verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by \nthe Identity Provider.\n4. verify that the user identified by the `id_token` is entitled to the registration variant: a holder or their \nrepresentative for dGA Client Registration, a healthcare professional or assistant for User Authorized Client Registration.\n5. if a `software_statement` is present, verify that it was issued by the FOPH as part of the dGA admission process by \nchecking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key, and checking that \nthe current time does not exceed the software statement expiration time `exp`.\n\n"
+    },
+    {
+      "id": "clientreg-14",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If all checks succeed, the Authorization Server **SHALL** assign a unique `client_id` to the client application and\nregister the application with this `client_id`, the user ID and the issuer identifier from the `id_token`, and \nthe submitted metadata, including the public key for client authentication."
+    },
+    {
+      "id": "clientreg-15",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If one of the above checks fails, the Authorization Server **SHALL** reject the request with an error response as defined in\n[RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`, `invalid_software_statement` or \n`unapproved_software_statement`."
+    },
+    {
+      "id": "clientreg-16",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "This key is an example key only and **SHALL NOT** be used outside of testing"
+    },
+    {
+      "id": "clientreg-17",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Client Information Response **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "clientreg-18",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*client_id*: **SHALL** be a unique ID assigned by the Authorization Server."
+    },
+    {
+      "id": "clientreg-19",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*client_name*: **SHALL** be the client name from the request."
+    },
+    {
+      "id": "clientreg-20",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*client_id_issued_at*: **SHALL** be the Unix timestamp at which the Authorization Server issued the `client_id`."
+    },
+    {
+      "id": "clientreg-21",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*token_endpoint_auth_method*: **SHALL** be `private_key_jwt`.",
+      "before": "`.\n- "
+    },
+    {
+      "id": "clientreg-22",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*grant_types*: **SHALL** be `client_credentials`.",
+      "before": "`.\n- *token_endpoint_auth_method*: **SHALL** be `private_key_jwt`.\n- "
+    },
+    {
+      "id": "clientreg-23",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*scope*: **SHALL** be the list of scopes the client can use when requesting tokens, formatted as a string of\n  space-separated values."
+    },
+    {
+      "id": "clientreg-24",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "*jwks*: **SHALL** be the JSON Web Key Set from the request."
+    },
+    {
+      "id": "clientreg-25",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Authorization Client **SHALL** store the `client_id` and the metadata returned in the registration response, and\n**SHALL** use them in all subsequent Token Requests to the Authorization Server."
+    },
+    {
+      "id": "clientreg-26",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** use TLS 1.2 or higher for the dynamic registration endpoint."
+    },
+    {
+      "id": "clientreg-27",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Authorization Client \n**SHALL** verify the Authorization Server’s TLS certificate."
+    },
+    {
+      "id": "clientreg-28",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Authorization Client **SHALL** provide a JSON Web Key (JWK) that meets the Authorization Server’s requirements."
+    },
+    {
+      "id": "clientreg-29",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** support, at a minimum, the RS256 algorithm (RSASSA-PKCS1-v1_5 using SHA-256)."
+    },
+    {
+      "id": "clientreg-30",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "If a software statement is used, the Authorization Client **SHALL** keep it confidential and **SHALL NOT** present \nit to any party other than the Authorization Server."
+    },
+    {
+      "id": "clientreg-31",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "The authorization server **SHALL** use the id_token to verify that the registering user is a registered health dossier user and authorized to register a client application of the requested type",
+      "text": "The authorization server **SHALL** use the id_token to verify that:\n\n1. the registering user is a registered health dossier user; and\n2. the registering user is authorized to register a client application of the requested type, e.g. a health professional \nregistering a primary system or a holder registering a digital health application.\n\n"
+    },
+    {
+      "id": "clientreg-32",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The `id_token` **SHALL** be used solely for the purpose of authenticating and authorizing the registration."
+    },
+    {
+      "id": "clientreg-33",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "A client \napplication registration is therefore not bound to the identity of the registering user for the purpose of later \ndata access, and the authorization server **SHALL NOT** assume that the end user is the registering user."
+    },
+    {
+      "id": "clientreg-34",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "A client \napplication that has not been registered **SHALL NOT** be granted access to any health dossier service."
+    },
+    {
+      "id": "clientreg-35",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "Registration **SHALL NOT**, by itself, grant access to data in the health dossier."
+    },
+    {
+      "id": "clientreg-36",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "summary": "Access to dossier data **SHALL** be granted only if the user identity is verified, the operation is within the granted scopes and the user holds the required access rights",
+      "text": "Access to dossier data **SHALL** be granted \nonly if all the following conditions are met:\n\n1. the identity of the current user has been established and verified;\n2. the requested operation is within the scopes granted to the current user; and\n3. the current user holds the access rights required for the requested data, as configured by the dossier holder.\n\n"
+    },
+    {
+      "id": "clientreg-37",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The authorization server and the health dossier services **SHALL** evaluate these conditions for each access request."
+    },
+    {
+      "id": "clientreg-38",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "If any condition is not met, the request **SHALL** be rejected."
+    }
+  ],
+  "document-sharing-metadata": [
+    {
+      "id": "dsm-1",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The source **SHALL** carry the OID of the application of the Document Source which provides the document."
+    },
+    {
+      "id": "dsm-2",
+      "conditional": true,
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "Where a document has more than one author, e.g. a FHIR document with\nmore than one `Composition.author`, the Document Source **SHALL** give the main author."
+    },
+    {
+      "id": "dsm-3",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The author **SHALL NOT** be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated)."
+    },
+    {
+      "id": "dsm-4",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The provider role **SHALL** be conveyed in the DocumentReference with the extension\n[http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-provider-role](StructureDefinition-ch-ext-provider-role.html),\nwith a value from the value set [CH Health Dossier Provider Role](ValueSet-HealthDossierProviderRole.html)."
+    },
+    {
+      "id": "dsm-5",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The\nDocument Source **SHALL** set the provider role to the role of the current user, which the Document Recipient verifies against the access\ntoken (see [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution))."
+    },
+    {
+      "id": "dsm-6",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The provider role **SHALL NOT** be\nchanged with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated)."
+    },
+    {
+      "id": "dsm-7",
+      "conditional": true,
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The Document Source **SHALL** set the provider institution when the role of the current user is `HCP`, `ASS` or `TCU`, and\n**SHALL NOT** set it otherwise."
+    },
+    {
+      "id": "dsm-8",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-responder"
+      ],
+      "text": "The provider institution **SHALL NOT** be changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated)."
+    },
+    {
+      "id": "dsm-9",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The confidentiality code of the document (`DocumentReference.securityLabel`) **SHALL** be one of the two confidentiality\nlevels of the health dossier defined in the value set\n[CH Health Dossier Confidentiality Code](ValueSet-HealthDossierConfidentialityCode.html): \"normal\" (SNOMED CT\n`17621005` Normal, \"allgemein\" in the EGDG) or \"restricted\" (SNOMED CT `263856008` Restricted, \"privat\" in the EGDG)."
+    }
+  ],
+  "identifier": [
+    {
+      "id": "ident-1",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The health dossier requires the identity provider to present an identifier to client applications after authentication. \nTo support single sign-on and cross-application identification, this identifier **SHALL** be persistent \n(see [OpenID Connect](openid-connect.html))."
+    },
+    {
+      "id": "ident-2",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The identity provider **SHALL** convey the persistent identifier as the Subject Identifier in the `sub` claim of the \n`id_token`, together with the user’s demographic data and any optional additional identifiers \n(see [OpenID Connect](openid-connect.html#identity-token))."
+    },
+    {
+      "id": "ident-3",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "To identify the user in the health dossier, the Subject Identifier issued by the identity provider **SHALL** be converted \nto the identifier used in the health dossier."
+    }
+  ],
+  "iti-103": [
+    {
+      "id": "iti103-1",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-resource-server"
+      ],
+      "text": "The request **SHALL** neither use parameter nor body data and **SHALL NOT** include client credentials."
+    },
+    {
+      "id": "iti103-2",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** respond with the [Authorization Server Metadata Response](#authorization-server-metadata-response)."
+    },
+    {
+      "id": "iti103-3",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** respond with an HTTP response conveying a JSON formatted object as HTTP body \nelement, as defined in [RFC 8414, Section 2](https://www.rfc-editor.org/rfc/rfc8414#section-2)."
+    },
+    {
+      "id": "iti103-4",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The JSON object **SHALL**\nconvey the following attributes:"
+    },
+    {
+      "id": "iti103-5",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Client authentication methods supported by the token endpoint. **SHALL** include `private_key_jwt`."
+    },
+    {
+      "id": "iti103-6",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "**SHALL** include `client_credentials`."
+    },
+    {
+      "id": "iti103-7",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Array of JSON strings defining the format of the access token as provided by the Authorization Server. The array **SHALL** contain a single string with value `urn:ietf:params:oauth:token-type:jwt`."
+    },
+    {
+      "id": "iti103-8",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Authorization Client **SHALL** use the `token_endpoint` for the [Get Access Token [ITI-71]](iti-71.html) transaction."
+    },
+    {
+      "id": "iti103-9",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "The Resource Server **SHALL** use the keys of the `jwks_uri` document to verify the signature of the access tokens."
+    },
+    {
+      "id": "iti103-10",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-resource-server",
+        "ch-iua-authorization-server"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    }
+  ],
+  "iti-104": [
+    {
+      "id": "iti104-1",
+      "actors": [
+        "ch-pixm-manager"
+      ],
+      "text": "The Patient Identifier Cross-reference Manager **SHALL** return an error for an Add Patient or a Resolve Duplicate Patient message."
+    },
+    {
+      "id": "iti104-2",
+      "actors": [
+        "ch-pixm-source"
+      ],
+      "text": "The identifier request parameter **SHALL** be the EPR-SPID."
+    },
+    {
+      "id": "iti104-3",
+      "actors": [
+        "ch-pixm-source"
+      ],
+      "text": "The patient data (see [Patient example](Patient-PatientPIXmFeed.html)) **SHALL** conform to the [PIXm Patient Feed profile](StructureDefinition-ch-pixm-patient-feed.html)."
+    },
+    {
+      "id": "iti104-4",
+      "actors": [
+        "ch-pixm-source"
+      ],
+      "text": "The EPR-SPID **SHALL** be added to Patient.identifier."
+    },
+    {
+      "id": "iti104-5",
+      "actors": [
+        "ch-pixm-manager"
+      ],
+      "text": "Any other provided data elements **SHALL** be ignored by the Patient Identifier Cross-reference Manager."
+    },
+    {
+      "id": "iti104-6",
+      "actors": [
+        "ch-pixm-source",
+        "ch-pixm-manager"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "iti104-7",
+      "actors": [
+        "ch-pixm-source",
+        "ch-pixm-manager"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti104-8",
+      "actors": [
+        "ch-pixm-source",
+        "ch-pixm-manager"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti104-9",
+      "actors": [
+        "ch-pixm-source"
+      ],
+      "text": "The **Patient Identity Source** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-104] Patient Identity Source](StructureDefinition-ChAuditEventIti104Source.html)\n([example](AuditEvent-ChAuditEventIti104SourceExample.html))."
+    },
+    {
+      "id": "iti104-10",
+      "actors": [
+        "ch-pixm-manager"
+      ],
+      "summary": "The Patient Identifier Cross-reference Manager **SHALL** record an audit event for a patient update",
+      "text": "The **Patient Identifier Cross-reference Manager** **SHALL** record an audit event according to:\n\n[CH Audit Event for [ITI-104] Patient Identifier Cross-reference Manager / **Update** patient](StructureDefinition-ChAuditEventIti104ManagerUpdate.html)\n([example](AuditEvent-ChAuditEventIti104ManagerUpdateExample.html)).\n\n"
+    }
+  ],
+  "iti-119": [
+    {
+      "id": "iti119-1",
+      "conditional": true,
+      "actors": [
+        "ch-pdqm-consumer"
+      ],
+      "text": "When specifying the count parameter, no more than 5 matches **SHALL** be requested."
+    },
+    {
+      "id": "iti119-2",
+      "actors": [
+        "ch-pdqm-consumer"
+      ],
+      "text": "The HTTP body **SHALL** conform to the [PDQm Match Input Parameters profile](StructureDefinition-CHPDQmMatchParametersIn.html)."
+    },
+    {
+      "id": "iti119-3",
+      "conditional": true,
+      "actors": [
+        "ch-pdqm-supplier"
+      ],
+      "text": "If an AHVN13 identifier is provided in the request with the system identifier urn:oid:2.16.756.5.32, the _Patient Demographics Supplier_ **SHALL** take it into account when\n  matching."
+    },
+    {
+      "id": "iti119-4",
+      "actors": [
+        "ch-pdqm-supplier"
+      ],
+      "text": "Patient identifiers other than the EPR-SPID **SHALL NOT** be returned."
+    },
+    {
+      "id": "iti119-5",
+      "actors": [
+        "ch-pdqm-supplier"
+      ],
+      "text": "The patient data (see [Patient example](Patient-FranzMusterNeedsAbsoluteUrl.html)) **SHALL** conform to the [PDQm Patient profile](StructureDefinition-ch-pdqm-patient.html)."
+    },
+    {
+      "id": "iti119-6",
+      "actors": [
+        "ch-pdqm-supplier"
+      ],
+      "text": "The _Patient Demographics Supplier_ **SHALL** reference the _PDQm Patient_ profile or a derived constrained profile as a\n`supportedProfile` in the CapabilityStatement."
+    },
+    {
+      "id": "iti119-7",
+      "actors": [
+        "ch-pdqm-supplier"
+      ],
+      "text": "The response Bundle **SHALL** conform to the [PDQm Match Output Bundle profile](StructureDefinition-ch-pdqm-matchparametersout.html)."
+    },
+    {
+      "id": "iti119-8",
+      "actors": [
+        "ch-pdqm-consumer",
+        "ch-pdqm-supplier"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "iti119-9",
+      "actors": [
+        "ch-pdqm-consumer",
+        "ch-pdqm-supplier"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using a basic access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti119-10",
+      "actors": [
+        "ch-pdqm-consumer",
+        "ch-pdqm-supplier"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti119-11",
+      "actors": [
+        "ch-pdqm-consumer"
+      ],
+      "text": "The **Patient Demographics Consumer** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-119] Patient Demographics Consumer](StructureDefinition-ChAuditEventIti119Consumer.html)\n([example](AuditEvent-ChAuditEventIti119ConsumerExample.html))."
+    },
+    {
+      "id": "iti119-12",
+      "actors": [
+        "ch-pdqm-supplier"
+      ],
+      "text": "The **Patient Demographics Supplier** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-119] Patient Demographics Supplier](StructureDefinition-ChAuditEventIti119Supplier.html)\n([example](AuditEvent-ChAuditEventIti119SupplierExample.html))."
+    }
+  ],
+  "iti-130": [
+    {
+      "id": "iti130-1",
+      "actors": [
+        "ch-mcsd-data-source",
+        "ch-mcsd-directory"
+      ],
+      "text": "TLS **SHALL** be used."
+    },
+    {
+      "id": "iti130-2",
+      "actors": [
+        "ch-mcsd-data-source",
+        "ch-mcsd-directory"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti130-3",
+      "actors": [
+        "ch-mcsd-data-source",
+        "ch-mcsd-directory"
+      ],
+      "summary": "The Data Source and Directory **SHALL** record an audit event for the Create, Update and Delete operations",
+      "text": "The **Data Source** and **Directory** **SHALL** record an audit event for the operations according to:\n\n- [CH Audit Event for [ITI-130] Data Source & Directory / **Create**](StructureDefinition-ChAuditEventIti130Create.html)\n  ([example](AuditEvent-ChAuditEventIti130CreateExample.html)).\n- [CH Audit Event for [ITI-130] Data Source & Directory / **Update**](StructureDefinition-ChAuditEventIti130Update.html)\n  ([example](AuditEvent-ChAuditEventIti130UpdateExample.html)).\n- [CH Audit Event for [ITI-130] Data Source & Directory / **Delete**](StructureDefinition-ChAuditEventIti130Delete.html)\n  ([example](AuditEvent-ChAuditEventIti130DeleteExample.html)).\n\n"
+    }
+  ],
+  "iti-20": [
+    {
+      "id": "iti20-1",
+      "actors": [
+        "ch-atna-audit-record-repository"
+      ],
+      "text": "The Audit Record Repository **SHALL** support the ATX: FHIR Feed Option."
+    },
+    {
+      "id": "iti20-2",
+      "actors": [
+        "ch-atna-audit-creator",
+        "ch-atna-audit-record-repository"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "iti20-3",
+      "actors": [
+        "ch-atna-audit-creator",
+        "ch-atna-audit-record-repository"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using a basic access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti20-4",
+      "actors": [
+        "ch-atna-audit-creator",
+        "ch-atna-audit-record-repository"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    }
+  ],
+  "iti-65": [
+    {
+      "id": "iti65-1",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The request Bundle **SHALL** follow the [CH MHD Provide Document Bundle](StructureDefinition-ch-mhd-providedocumentbundle.html)\nProfile."
+    },
+    {
+      "id": "iti65-2",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The `DocumentReference.content.attachment.url` value **SHALL** point to the resource carrying the document content, which\n**SHALL** be included in the Bundle: a Binary resource, or the FHIR document Bundle resource for a FHIR document provided\nwith the [ITI-65 FHIR Documents Publish Option](#providing-a-fhir-document) (see\n[Resolving references in Bundles](https://hl7.org/fhir/R4/bundle.html#references) for how to create a valid reference)."
+    },
+    {
+      "id": "iti65-3",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient"
+      ],
+      "text": "The Document Source and the Document Recipient **SHALL** support the ITI-65 FHIR Documents Publish Option (see\n[Actor options](iti-mhd.html#actor-options))."
+    },
+    {
+      "id": "iti65-4",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "`DocumentReference.content.attachment.url` points to that Bundle resource, `contentType` is\n`application/fhir+json` or `application/fhir+xml`, and `size` and `hash` **SHALL** be absent."
+    },
+    {
+      "id": "iti65-5",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The Document Recipient **SHALL** set the\n`status` of the replaced document to `superseded` and **SHALL** keep it accessible: a superseded document is no longer\nreturned when searching for the current documents, but it can still be found with the `status` search parameter in\n[ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html)."
+    },
+    {
+      "id": "iti65-6",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The confidentiality code of the replaced document\n**SHALL NOT** be changed by the replacement."
+    },
+    {
+      "id": "iti65-7",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The Document Recipient **SHALL** reject a request to\nreplace a document which the requester may not replace with HTTP `403 Forbidden` and an OperationOutcome with the issue\ncode `forbidden`."
+    },
+    {
+      "id": "iti65-8",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The Document Recipient **SHALL** verify that the [provider role](document-sharing-metadata.html#provider-role) equals the\nrole of the requester in the access token (`subject_role`, see [Get Access Token [ITI-71]](iti-71.html))."
+    },
+    {
+      "id": "iti65-9",
+      "conditional": true,
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "Where the document carries a [provider institution](document-sharing-metadata.html#provider-institution), the Document\nRecipient **SHALL** verify that it is an institution or group the requester is a member of, i.e. that its OID is the one of\nthe organization (`subject_organization_id`) or of one of the groups (`ch_group`) in the access token of the requester."
+    },
+    {
+      "id": "iti65-10",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The Document Recipient **SHALL** reject a request which fails one of these verifications with HTTP `403 Forbidden` and an\nOperationOutcome with the issue code `forbidden`."
+    },
+    {
+      "id": "iti65-11",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The response Bundle **SHALL** follow the [CH MHD Provide Document Bundle Response](StructureDefinition-ch-mhd-providedocumentbundle-response.html)\nProfile ([example: Bundle: BundleProvideDocument-Response](Bundle-BundleProvideDocument-Response.html))."
+    },
+    {
+      "id": "iti65-12",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with \nserver certificates."
+    },
+    {
+      "id": "iti65-13",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti65-14",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "For every Provide Document Bundle [ITI-65] request, the Document Recipient **SHALL** enforce the access rules of the\nholder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html)."
+    },
+    {
+      "id": "iti65-15",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The Document Recipient **SHALL** reject the request if the requester is not authorized to record data in the health dossier of the holder concerned."
+    },
+    {
+      "id": "iti65-16",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti65-17",
+      "actors": [
+        "ch-mhd-source"
+      ],
+      "text": "The **Document Source** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-65] Document Source](StructureDefinition-ChAuditEventIti65Source.html) \n([example](AuditEvent-ChAuditEventIti65SourceExample.html))."
+    },
+    {
+      "id": "iti65-18",
+      "actors": [
+        "ch-mhd-recipient"
+      ],
+      "text": "The **Document Recipient** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-65] Document Recipient](StructureDefinition-ChAuditEventIti65Recipient.html)\n([example](AuditEvent-ChAuditEventIti65RecipientExample.html), for the DocumentReference\n[DocRefPdf](DocumentReference-DocRefPdf.html) provided with the\n[Provide Document Bundle](Bundle-BundleProvideDocument.html))."
+    }
+  ],
+  "iti-67": [
+    {
+      "id": "iti67-1",
+      "actors": [
+        "ch-mhd-consumer"
+      ],
+      "text": "The Document Consumer **SHALL** include the search parameter patient.identifier with the OID of the EPR-SPID."
+    },
+    {
+      "id": "iti67-2",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** resolve this logical reference through\nthe EPR-SPID to the holder in the community, so that the chained search parameter `patient.identifier` finds the\ndocuments of the holder."
+    },
+    {
+      "id": "iti67-3",
+      "actors": [
+        "ch-mhd-consumer"
+      ],
+      "text": "The search parameters of type [token](https://hl7.org/fhir/R4/search.html#token) **SHALL** contain both the system and the code."
+    },
+    {
+      "id": "iti67-4",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** support the [Full-Text Search Option](https://profiles.ihe.net/ITI/MHD/ITI-67.html#236741211-full-text-search-option)\nwith the search parameter `full-text`, which specifies terms or phrases used to search the textual content of the documents\n(see [MHD Actor Options](iti-mhd.html#full-text-search-option))."
+    },
+    {
+      "id": "iti67-5",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** support the search parameter `custodian` with the modifier `:identifier`, which finds the\ndocuments provided on behalf of an institution or group (see\n[Provider institution](document-sharing-metadata.html#provider-institution))."
+    },
+    {
+      "id": "iti67-6",
+      "actors": [
+        "ch-mhd-consumer"
+      ],
+      "text": "The search parameters\n`author.given` and `author.family` of the\n[Find Document References [ITI-67]](https://profiles.ihe.net/ITI/MHD/ITI-67.html) transaction of MHD, which would only\nfind the authors given as structured data, are therefore not supported: the Document Consumer **SHALL NOT** use them, and the Document Responder is not required to process them."
+    },
+    {
+      "id": "iti67-7",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** process the query to discover the DocumentReference entries that match the search parameters given."
+    },
+    {
+      "id": "iti67-8",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** set the `DocumentReference.content.attachment.url` value to the URL used in ITI-68\ntransactions to retrieve that document's content."
+    },
+    {
+      "id": "iti67-9",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The response Bundle **SHOULD** follow the [CH MHD Find Document References Response message](StructureDefinition-ch-mhd-documentreference-bundle.html)\nProfile ([example: MHD Find DocumentReferences](Bundle-Bundle-FindDocumentReferences.html))."
+    },
+    {
+      "id": "iti67-10",
+      "actors": [
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with \nserver certificates."
+    },
+    {
+      "id": "iti67-11",
+      "actors": [
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti67-12",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "For every Find Document References [ITI-67] request, the Document Responder **SHALL** enforce the access rules of the\nholder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html)."
+    },
+    {
+      "id": "iti67-13",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "DocumentReference resources the requester is not authorized to see **SHALL NOT** be included in the response."
+    },
+    {
+      "id": "iti67-14",
+      "actors": [
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti67-15",
+      "actors": [
+        "ch-mhd-consumer"
+      ],
+      "text": "The **Document Consumer** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-67] Document Consumer](StructureDefinition-ChAuditEventIti67Consumer.html) \n([example](AuditEvent-ChAuditEventIti67ConsumerExample.html))."
+    },
+    {
+      "id": "iti67-16",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The **Document Responder** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-67] Document Responder](StructureDefinition-ChAuditEventIti67Responder.html)\n([example](AuditEvent-ChAuditEventIti67ResponderExample.html))."
+    }
+  ],
+  "iti-68": [
+    {
+      "id": "iti68-1",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** return a FHIR document as a native FHIR document Bundle resource and **SHALL NOT** wrap it in a Binary resource."
+    },
+    {
+      "id": "iti68-2",
+      "actors": [
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with \nserver certificates."
+    },
+    {
+      "id": "iti68-3",
+      "actors": [
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti68-4",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "For every Retrieve Document [ITI-68] request, the Document Responder **SHALL** enforce the access rules of the holder\nand of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html)."
+    },
+    {
+      "id": "iti68-5",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Document Responder **SHALL** reject the request if the requester is not authorized to retrieve the document."
+    },
+    {
+      "id": "iti68-6",
+      "actors": [
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti68-7",
+      "actors": [
+        "ch-mhd-consumer"
+      ],
+      "text": "The **Document Consumer** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-68] Document Consumer](StructureDefinition-ChAuditEventIti68Consumer.html)\n([example](AuditEvent-ChAuditEventIti68ConsumerExample.html))."
+    },
+    {
+      "id": "iti68-8",
+      "actors": [
+        "ch-mhd-consumer"
+      ],
+      "text": "To record the master identifier of the\ndocument, the Document Consumer **SHALL** keep the DocumentReference it received before, e.g. in the response of [Find Document References [ITI-67]](iti-67.html), from which it took the URL."
+    },
+    {
+      "id": "iti68-9",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The **Document Responder** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-68] Document Responder](StructureDefinition-ChAuditEventIti68Responder.html)\n([example](AuditEvent-ChAuditEventIti68ResponderExample.html))."
+    },
+    {
+      "id": "iti68-10",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "To record the master identifier of the\ndocument, the Document Responder **SHALL** retrieve internally the DocumentReference of the document requested."
+    }
+  ],
+  "iti-71": [
+    {
+      "id": "iti71-1",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Depending on the claims made by the Authorization Client, two different flavors of access tokens **SHALL** be provided\nby the Authorization Server:"
+    },
+    {
+      "id": "iti71-2",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Authorization Client **SHALL** send an IUA compliant OAuth 2.1 Token Request for the client credential grant\ntype with Swiss extensions:"
+    },
+    {
+      "id": "iti71-3",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Token Request **SHALL** use the following extension defined in the client-confidential-asymmetric authentication profile\nof the [FHIR Backend Service](https://hl7.org/fhir/smart-app-launch/backend-services.html#backend-services) specification."
+    },
+    {
+      "id": "iti71-4",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Token Request **SHALL** use the following Swiss extension:"
+    },
+    {
+      "id": "iti71-5",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Authorization Clients **SHALL** claim the following scopes for both basic and extended access tokens:"
+    },
+    {
+      "id": "iti71-6",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "`purpose_of_use`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).\n  The scope **SHALL** convey the coded purpose of use of the current transaction. Allowed values are `NORM` (normal access)\n  and `EMER` (emergency access) from code system `2.16.756.5.30.1.127.3.10.5`\n  (see value set [CH Health Dossier Purpose of Use](ValueSet-HealthDossierPurposeOfUse.html)),\n  e.g. `purpose_of_use=urn:oid:2.16.756.5.30.1.127.3.10.5|NORM`."
+    },
+    {
+      "id": "iti71-7",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "A technical user (`TCU`) **SHALL** use `NORM`."
+    },
+    {
+      "id": "iti71-8",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "`subject_role`, in FHIR [token format](https://www.hl7.org/fhir/search.html#token).\n  The scope **SHALL** convey the coded role of the subject. Allowed values from code system\n  [CH Health Dossier Role](CodeSystem-HealthDossierRole.html) (`2.16.756.5.30.1.127.3.10.19`) are:\n  `PAT` (patient), `REP` (representative), `LEGREP` (legal representative), `HCP` (healthcare professional),\n  `ASS` (assistant), `TCU` (technical user, clinical archive) and `ADM` (administration),\n  e.g. `subject_role=urn:oid:2.16.756.5.30.1.127.3.10.19|HCP`."
+    },
+    {
+      "id": "iti71-9",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Authorization Clients **SHALL** claim additional scopes used by Resource Servers to authorize transactions,\nas defined in the [SMART on FHIR specification](https://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html)."
+    },
+    {
+      "id": "iti71-10",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Authorization Clients acting as clinical archive systems **SHALL** claim the scopes in the following table."
+    },
+    {
+      "id": "iti71-11",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Authorization Clients acting as primary systems **SHALL** claim the scopes in the following table."
+    },
+    {
+      "id": "iti71-12",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Authorization Clients acting as digital health applications (dGA) **SHALL** claim the scopes in the following table."
+    },
+    {
+      "id": "iti71-13",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values **SHALL** be URL\nencoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E`\nand `&` as `%26` (see the [message examples](#message-example))."
+    },
+    {
+      "id": "iti71-14",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** validate the claims as described in the following sections."
+    },
+    {
+      "id": "iti71-15",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If the validation succeeds, \nthe Authorization Server **SHALL** respond with the Token Response defined below."
+    },
+    {
+      "id": "iti71-16",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "In case the validation fails, the \nAuthorization Server **SHALL** respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error."
+    },
+    {
+      "id": "iti71-17",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "When receiving a Token Request, the Authorization Server **SHALL**:"
+    },
+    {
+      "id": "iti71-18",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope \n   match a table entry for that application type. A scope that is not listed for the application \n   type, or that requests more rights than listed, **SHALL NOT** be granted."
+    },
+    {
+      "id": "iti71-19",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "For a digital health application, the Authorization Server **SHALL** verify the registered software statement and issue the access token only for the scopes granted in it",
+      "text": "If the Authorization Client is registered as a digital health application, the Authorization Server **SHALL** additionally:\n\n1. Verify that a software statement is registered for the client_id (see Client Registration).\n2. Issue the access token only for the scopes that are both listed in this specification and granted in the software statement.\n\n"
+    },
+    {
+      "id": "iti71-20",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "For a digital health application or primary system, the Authorization Server **SHALL** verify that the client is authorized to act on behalf of the user and issue the access token only for the scopes authorized by the user",
+      "text": "If the Authorization Client is registered as a digital health application or primary system, the Authorization Server **SHALL** additionally:\n\n1. Verify that the Authorization Client is authorized to access on behalf of the user. \n2. Issue the access token only for the scopes authorized by the user (see [Client Authorization](#client-authorization)).\n\n"
+    },
+    {
+      "id": "iti71-21",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If one of the checks above fails, the Authorization Server **SHALL** respond with HTTP 403 Forbidden."
+    },
+    {
+      "id": "iti71-22",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "For holders (PAT), the Authorization Server **SHALL** validate the id_token and resolve its subject to the SPID of the holder",
+      "text": "When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server **SHALL**:\n\n1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.\n2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.\n3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by\n   the Identity Provider. \n4. Read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.\n\n"
+    },
+    {
+      "id": "iti71-23",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "For representatives (REP, LEGREP), the Authorization Server **SHALL** validate the id_token and resolve its subject to the ID of the representative",
+      "text": "When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the Authorization Server **SHALL**:\n\n1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.\n2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.\n3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by\n   the Identity Provider. \n4. Read the subject identifier `sub` of the id token and resolve it to the ID of the representative.\n\n"
+    },
+    {
+      "id": "iti71-24",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "For healthcare professionals (HCP), the Authorization Server **SHALL** validate the id_token, determine the GLN, verify it in the provider directory and resolve the groups and institutions of the healthcare professional",
+      "text": "When receiving a Token Request with `subject_role` set to `HCP`, the Authorization Server **SHALL**: \n\n1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.\n2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.\n3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by\n   the Identity Provider. \n4. If the `id_token` contains the GLN of the healthcare professional, read the GLN from the `id_token`. \n  Otherwise, read the subject identifier `sub` of the id token and resolve it to the GLN of the healthcare professional. \n5. Verify the healthcare professional is registered with the same GLN in the provider directory. \n6. Query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions \n  including all superior groups or institutions up to the root level.\n\n"
+    },
+    {
+      "id": "iti71-25",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "When receiving a Token Request with `subject_role` set to `ASS`, the Authorization Server **SHALL**:"
+    },
+    {
+      "id": "iti71-26",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If a `group_id` claim is present, the Authorization Server **SHALL** verify that the healthcare \n  professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute \n  of the request."
+    },
+    {
+      "id": "iti71-27",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If the healthcare professional is a member, the Authorization Server **SHALL** resolve the claimed group or institution to all \n  superior groups and institutions up to the root level."
+    },
+    {
+      "id": "iti71-28",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "If no `group_id` claim is present, the authorization server **SHALL** resolve the GLN of the healthcare \n  professional claimed in the `principal_id` to all groups or institutions the healthcare professional is a member \n  of, including all superior groups or institutions up to the root level."
+    },
+    {
+      "id": "iti71-29",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "For administrators (ADM), the Authorization Server **SHALL** validate the id_token, verify the administrator and the claimed community in the provider directory and convey the community in the access token",
+      "text": "When receiving a Token Request with `subject_role` set to `ADM`, the Authorization Server **SHALL**:\n\n1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.\n2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.\n3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by\n   the Identity Provider. \n4. Read the subject identifier `sub` of the id token and resolve it to the ID of the administrator. \n5. Verify the administrator is registered with the same ID in the provider directory. \n6. Verify that the organization claimed in `group_id` is registered in the provider directory as a community (organization\n  type `community` of [CH Health Dossier Organization Type](CodeSystem-HealthDossierOrganizationType.html)), and that the\n  administrator is registered as its member. \n7. Convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of\n  the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed\n  by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).\n\n"
+    },
+    {
+      "id": "iti71-30",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The access token **SHALL** carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the actors serving the requests \ncan identify the application and restrict the requests to the granted scopes (see [Enforcement of Access Rules](accesscontrol.html#digital-health-applications))."
+    },
+    {
+      "id": "iti71-31",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The response **SHALL** either convey a Basic Access Token in JWT format which grants basic access to the EPR (i.e., to\naccess the holder's demographic data), or an Extended Access Token to access resources protected by the role and attribute based EPR\nauthorization (i.e., read and write documents)."
+    },
+    {
+      "id": "iti71-32",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The Authorization Server and Resource Server **SHALL** support the IUA JWT extension with claims as defined in\nthe following table:"
+    },
+    {
+      "id": "iti71-33",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "**SHALL** be the EPR-SPID of the holder's EPR."
+    },
+    {
+      "id": "iti71-34",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The Authorization Server and Resource Server **SHALL** support this extension to convey the user's EPR identifier\nin the JWT access token of the Get Access Token Response."
+    },
+    {
+      "id": "iti71-35",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "For clinical archive systems the Authorization Server **SHALL** convey the OID\nregistered with the `client_id` during onboarding as `user_id`, and the name of the clinical archive system as `subject_name`."
+    },
+    {
+      "id": "iti71-36",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The Authorization Server and Resource Server **SHALL** support this extension in the JWT access token for a list of\ngroups a subject of role healthcare professional is a member of."
+    },
+    {
+      "id": "iti71-37",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "For users of role assistant, the groups **SHALL** \nbe the groups of the healthcare professional the assistant is acting on behalf of."
+    },
+    {
+      "id": "iti71-38",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Groups **SHALL** be wrapped in an `extensions` object with key `ch_group` with a JSON array containing one JSON object\nper group with the following attributes:"
+    },
+    {
+      "id": "iti71-39",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "id (required): The id of the group. Required for users of role healthcare professional and assistant.\n  The id **SHALL** be an OID in the format of a URN."
+    },
+    {
+      "id": "iti71-40",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "name (required): Name of the group. Required for users of role healthcare professional and assistant.\n  The name **SHALL** be a string."
+    },
+    {
+      "id": "iti71-41",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The Authorization Server and Resource Server **SHALL** support this extension\nin the JWT access token to identify the healthcare professional (principal) the assistant is acting on behalf of."
+    },
+    {
+      "id": "iti71-42",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Principals **SHALL** be wrapped in an `extensions` object with key `ch_delegation` and a JSON value object with attributes:"
+    },
+    {
+      "id": "iti71-43",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The Authorization Client **SHALL** use the access token as defined in the [IUA Incorporate Access Token](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)\ntransaction, when performing requests to resources of the Health Dossier."
+    },
+    {
+      "id": "iti71-44",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "An extended JWT access token to be used to access the documents of a holder **SHALL** have the additional attributes of\nthe `purpose_of_use`, `subject_role` and the EPR-SPID of the holder."
+    },
+    {
+      "id": "iti71-45",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "An extended JWT access token to be used to access the documents of a holder by an assistant acting on behalf of a healthcare professional\n**SHALL** have the additional extension `ch_delegation`:"
+    },
+    {
+      "id": "iti71-46",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "The Resource Server **SHALL** verify that the EPR-SPID in the access token matches the holder of the request, as specified\nin [ITI-72](iti-72.html#expected-actions)."
+    },
+    {
+      "id": "iti71-47",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server"
+      ],
+      "text": "The actors **SHALL** support the `traceparent` header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti71-48",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "Authorization Clients, Authorization Servers, and Resource Servers **SHALL** support the JSON Web Signature (JWS)\nserialization of the JWT access token, as specified in\n[IHE ITI Technical Framework Supplement Internet User Authorization (IUA) Revision 2.5](https://profiles.ihe.net/ITI/IUA/index.html)"
+    },
+    {
+      "id": "iti71-49",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** sign the JWT with its private key."
+    },
+    {
+      "id": "iti71-50",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "The Resource Server **SHALL** verify the signature using the public key of the Authorization Server that issued the token."
+    },
+    {
+      "id": "iti71-51",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "Unsigned JWT access tokens **SHALL NOT** be used."
+    },
+    {
+      "id": "iti71-52",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The JSON Web Encryption (JWE) serialization **SHALL NOT** be used."
+    },
+    {
+      "id": "iti71-53",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Resource Servers **SHALL** reject any request whose access token signature validation fails."
+    },
+    {
+      "id": "iti71-54",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "To authenticate Access Token requests, the Authorization Client **SHALL** include a client assertion in the form\nof a signed JSON Web Token (JWT) in each request to the token endpoint, as defined in\n[SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint)."
+    },
+    {
+      "id": "iti71-55",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "summary": "The Authorization Server **SHALL** validate the signature and the claims of the client assertion",
+      "text": "The Authorization Server **SHALL** validate the client assertion by:\n\n1. Verifying the signature against a public key registered for the client, and\n2. Verifying the claims as required by the referenced SMART App Launch specification (e.g., iss, sub, aud, exp, and jti).\n\n"
+    },
+    {
+      "id": "iti71-56",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** reject the Access Token request if validation fails."
+    },
+    {
+      "id": "iti71-57",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** provide a user interface that allows a user to authorize an instance of their \nprimary system or digital health application (dGA) to access the health dossier on the user’s behalf."
+    },
+    {
+      "id": "iti71-58",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization Server **SHALL** provide an HTTP endpoint that accepts a `client_id` as a request parameter."
+    },
+    {
+      "id": "iti71-59",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "When receiving a request, the Authorization Server **SHALL**:"
+    },
+    {
+      "id": "iti71-60",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "Present to the user the application type and the scopes the application may be granted. The presented scopes \n**SHALL** be limited to the scopes that are listed for the application type in the tables of the [Message Semantics](#message-semantics) section."
+    },
+    {
+      "id": "iti71-61",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "For digital health applications, the presented scopes **SHALL** additionally be limited to the scopes granted in the \ndigital health application software statement registered for the client_id."
+    },
+    {
+      "id": "iti71-62",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "When responding to a Token Request from a primary system or digital health application, the Authorization Server \n**SHALL** verify that a stored authorization of the user exists for the `client_id`, and **SHALL** issue the access token \nonly for authorized scopes as specified in [Expected Actions](#expected-actions)."
+    },
+    {
+      "id": "iti71-63",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The Authorization\nServer **SHALL** delete the stored authorization of a digital health application after three months without access by the\napplication."
+    }
+  ],
+  "iti-72": [
+    {
+      "id": "iti72-1",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The SAML Token option and the Token Introspection option\nof the IUA Trial Implementation **SHALL NOT** be used."
+    },
+    {
+      "id": "iti72-2",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "When receiving a request, the Resource Server **SHALL**:"
+    },
+    {
+      "id": "iti72-3",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "Verify that the `person_id` of the access token identifies the holder of the health dossier the request refers to,\n   if the request refers to a health dossier. The Resource Server **SHALL** reject the request if they differ."
+    },
+    {
+      "id": "iti72-4",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "summary": "The Resource Server **SHALL** verify that the transaction is permitted by the scope of the token and enforce the access rights of the holder-specific consent",
+      "text": "The Resource Server **SHALL** also:\n\n1. Verify that the transaction is permitted by the token's `scope`, as defined in [ITI-71](iti-71.html#message-semantics).\n2. Enforce the access rights defined in the holder-specific consent, as specified in [CH PPQm Consent](ppqm-consent.html).\n\n"
+    },
+    {
+      "id": "iti72-5",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "Authorization Clients, Authorization Servers and Resource Servers **SHALL** use signed JWT access tokens (JWS)\nas specified in [ITI-71](iti-71.html#security-consideration)."
+    },
+    {
+      "id": "iti72-6",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "Unsigned JWT access tokens **SHALL NOT** be used."
+    },
+    {
+      "id": "iti72-7",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The JSON Web\nEncryption (JWE) serialization **SHALL NOT** be used."
+    },
+    {
+      "id": "iti72-8",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-resource-server"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    }
+  ],
+  "iti-81": [
+    {
+      "id": "iti81-1",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The Patient Audit\nRecord Service **SHALL** evaluate all search parameters on the masked audit events (see [Expected Actions](#expected-actions)),\nnever on the recorded audit events: a search parameter on an element which is not returned, e.g. `address` or the\nidentifier of an assistant, does not match any audit event."
+    },
+    {
+      "id": "iti81-2",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The Patient Audit Record Service **SHALL** support the FHIR result parameter\n[`_sort`](http://hl7.org/fhir/R4/search.html#sort) with the search parameter `date` as sort key, in ascending\n(`_sort=date`) and descending (`_sort=-date`) order."
+    },
+    {
+      "id": "iti81-3",
+      "conditional": true,
+      "actors": [
+        "ch-atc-patient-audit-consumer"
+      ],
+      "text": "A Patient Audit Consumer which relies on a specific order of the audit\nevents **SHALL** request it with `_sort` and **SHALL NOT** assume a default order of the Patient Audit Record Service."
+    },
+    {
+      "id": "iti81-4",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The response **SHALL** conform to [Retrieve ATNA Audit Event [ITI-81] Response](StructureDefinition-CH-ATC.ITI-81.Response.html),\nand each audit event to [CH Audit Trail Event](StructureDefinition-ChAuditTrailEvent.html), see the\n[example](Bundle-ch-atc-iti-81-response-sample.html)."
+    },
+    {
+      "id": "iti81-5",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The Patient Audit Record Service **SHALL** apply the following rules to every audit event of the response, whoever\nperformed the event, including the holder and the representatives:"
+    },
+    {
+      "id": "iti81-6",
+      "actors": [
+        "ch-atc-patient-audit-consumer"
+      ],
+      "text": "<code>recorded</code> carries the start of that day\n    (<code>YYYY-MM-DDT00:00:00+01:00</code> or <code>+02:00</code>); it has no meaning beyond the day and <strong>SHALL NOT</strong> be\n    displayed as a time."
+    },
+    {
+      "id": "iti81-7",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "Audit events which are identical after the masking, apart from `id` and `meta`, **SHALL** be returned only once, so that the\nresponse does not show how often the same user performed the same action on the same data on one day."
+    },
+    {
+      "id": "iti81-8",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The Patient Audit Record Service **SHALL** remove the duplicates before paging the result; `Bundle.total`, where\nreturned, counts the audit events after the removal."
+    },
+    {
+      "id": "iti81-9",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The Patient Audit Record Service **SHALL** evaluate the search parameter `date` and the sort on the masked values, never\non the recorded time, so that a search with a time of day cannot narrow down the time of an event."
+    },
+    {
+      "id": "iti81-10",
+      "actors": [
+        "ch-atc-patient-audit-consumer"
+      ],
+      "text": "The Patient Audit\nConsumer **SHOULD** search with dates (`YYYY-MM-DD`)."
+    },
+    {
+      "id": "iti81-11",
+      "actors": [
+        "ch-atc-patient-audit-consumer",
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "iti81-12",
+      "actors": [
+        "ch-atc-patient-audit-consumer",
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti81-13",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "For every Retrieve ATNA Audit Event [ITI-81] request, the Patient Audit Record Service **SHALL** enforce the access\nrules as described in [Appendix: Enforcement of Access Rules](accesscontrol.html)."
+    },
+    {
+      "id": "iti81-14",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "Audit records the requester is not authorized to see **SHALL NOT** be included in the response."
+    },
+    {
+      "id": "iti81-15",
+      "actors": [
+        "ch-atc-patient-audit-consumer",
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "iti81-16",
+      "actors": [
+        "ch-atc-patient-audit-consumer"
+      ],
+      "text": "The **Patient Audit Consumer** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html)\n([example](AuditEvent-ChAuditEventIti81ConsumerExample.html))."
+    },
+    {
+      "id": "iti81-17",
+      "actors": [
+        "ch-atc-patient-audit-record-service"
+      ],
+      "text": "The **Patient Audit Record Service** **SHALL** record an audit event according to\n[CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)\n([example](AuditEvent-ChAuditEventIti81ServiceExample.html)) for every Retrieve ATNA Audit Event [ITI-81] request,\nwith the type `ATC_LOG_READ` in the audit trail of the holder, whoever made the request (the holder, a\nrepresentative, a legal representative or the administration)."
+    }
+  ],
+  "iti-90": [
+    {
+      "id": "iti90-1",
+      "actors": [
+        "ch-mcsd-query-client",
+        "ch-mcsd-directory"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "iti90-2",
+      "actors": [
+        "ch-mcsd-query-client",
+        "ch-mcsd-directory"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using a basic access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction."
+    },
+    {
+      "id": "iti90-3",
+      "actors": [
+        "ch-mcsd-query-client",
+        "ch-mcsd-directory"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    }
+  ],
+  "iti-iua": [
+    {
+      "id": "iua-1",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The IUA Authorization Client **SHALL** authenticate the user at the User Authentication Provider, the Identity Provider, as\nspecified in [OpenID Connect](openid-connect.html), acting as Relying Party."
+    },
+    {
+      "id": "iua-2",
+      "conditional": true,
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "The IUA Authorization Client **SHALL** convey the\nresulting identity token in the `id_token` parameter of the [Get Access Token [ITI-71]](iti-71.html) request."
+    },
+    {
+      "id": "iua-3",
+      "actors": [
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "In this national extension \nthe JWT option is used and **SHALL** be supported by the IUA Authorization Server and IUA Resource Server."
+    },
+    {
+      "id": "iua-4",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server",
+        "ch-iua-resource-server"
+      ],
+      "text": "The SAML Token \noption and the Introspection Option **SHALL NOT** be used."
+    },
+    {
+      "id": "iua-5",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "To support automated client configuration the Authorization Server actor **SHALL** support the Authorization Metadata option."
+    },
+    {
+      "id": "iua-6",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-resource-server",
+        "ch-iua-authorization-server",
+        "ch-oidc-identity-provider"
+      ],
+      "summary": "All IUA actors **SHALL** be grouped with a CT Time Client, the Authorization Client and the Resource Server additionally with an ATNA Secure Node with the STX:HTTPS IUA Option",
+      "text": "The actors **SHALL** be grouped with other actors as follows:\n\n| Actor                        | Actor to be grouped with                               | Optionality |\n|------------------------------|--------------------------------------------------------|-------------|\n| Authorization Client         | CT Time Client                                         | R           |\n|                              | ATNA Secure Node with [STX:HTTPS IUA Option](https://profiles.ihe.net/ITI/IUA/index.html#9267-stx-https-iua-option) | R           |\n| Resource Server              | CT Time Client                                         | R           |\n|                              | ATNA Secure Node with [STX:HTTPS IUA Option](https://profiles.ihe.net/ITI/IUA/index.html#9267-stx-https-iua-option) | R           |\n| Authorization Server         | CT Time Client                                         | R           |\n| User Authentication Provider | CT Time Client                                         | R           |\n{:class=\"table table-bordered\"}\n\n"
+    },
+    {
+      "id": "iua-7",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server"
+      ],
+      "text": "IUA Authorization Clients **SHALL** be identified by the `client_id` registered during onboarding."
+    },
+    {
+      "id": "iua-8",
+      "actors": [
+        "ch-iua-authorization-server"
+      ],
+      "text": "The authenticity of requests to the IUA Authorization Server **SHALL** be verified by a JWK as described in \n[SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html)."
+    },
+    {
+      "id": "iua-9",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Applications implementing the IUA Authorization Client actor **SHALL** register the combination of the OAuth `client_id`, \nand the public key used for signing the authentication JWK during the onboarding process."
+    }
+  ],
+  "iti-mhd": [
+    {
+      "id": "mhd-1",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The Find Document Lists [[ITI-66]](https://profiles.ihe.net/ITI/MHD/ITI-66.html) transaction defined in [MHD](https://profiles.ihe.net/ITI/MHD/index.html) **SHALL NOT** be made available in this context."
+    },
+    {
+      "id": "mhd-2",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient"
+      ],
+      "text": "The metadata defined in [Document Sharing Metadata](document-sharing-metadata.html) and the profile [CH MHD DocumentReference](StructureDefinition-ch-mhd-documentreference.html) **SHALL** be supported by the Document Source and Document Recipient."
+    },
+    {
+      "id": "mhd-3",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient"
+      ],
+      "text": "The [ITI-65 FHIR Documents Publish Option](https://profiles.ihe.net/ITI/MHD/index.html) **SHALL** be supported by the Document Source and Document Recipient, so that a FHIR document can be provided as a Document Bundle resource in raw format without converting to a base64 encoded binary."
+    },
+    {
+      "id": "mhd-4",
+      "actors": [
+        "ch-mhd-responder"
+      ],
+      "text": "The [Full-Text Search Option](https://profiles.ihe.net/ITI/MHD/1332_actor_options.html#13327-full-text-search-option) **SHALL** be supported by the Document Responder and MAY be supported by the Document Consumer, so that the textual content of the documents can be searched with the `full-text` search parameter in [ITI-67](iti-67.html#full-text-search-option)."
+    },
+    {
+      "id": "mhd-5",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient",
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "Therefore actors of this profile **SHALL** be grouped with actors of other profiles according to the following table:"
+    }
+  ],
+  "iti-pixm": [
+    {
+      "id": "pixm-1",
+      "actors": [
+        "ch-pixm-manager"
+      ],
+      "text": "The Mobile Patient Identifier Cross-reference Query [[ITI-83]](https://profiles.ihe.net/ITI/PIXm/ITI-83.html) transaction defined in [PIXm](https://profiles.ihe.net/ITI/PIXm/index.html) **SHALL NOT** be made available in this context."
+    }
+  ],
+  "iti-restful-atna": [
+    {
+      "id": "atna-1",
+      "actors": [
+        "ch-atna-audit-record-repository"
+      ],
+      "text": "The Audit Record Repository **SHALL** support the ATX: FHIR Feed Option."
+    }
+  ],
+  "openid-connect": [
+    {
+      "id": "oidc-1",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "Identity Providers **SHALL** provide trusted endpoints for Relying Parties implementing the OpenID Connect 1.0 authorization\ncode flow fulfilling the requirements defined in this section."
+    },
+    {
+      "id": "oidc-2",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "Other flows supported by OpenID Connect **SHALL NOT** be \nsupported."
+    },
+    {
+      "id": "oidc-4",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Authentication Request message **SHALL** be used by the Relying Party to\ninitiate the authentication sequence."
+    },
+    {
+      "id": "oidc-5",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Authentication Request message\n**SHALL** be compliant with an OAuth 2.0 Authentication Request message."
+    },
+    {
+      "id": "oidc-6",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Authentication Request **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "oidc-7",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*scope*: The value **SHALL** be *openid*."
+    },
+    {
+      "id": "oidc-8",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*response_type*: The value **SHALL** be *code*."
+    },
+    {
+      "id": "oidc-9",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*client_id*: The value **SHALL** be the Client Identifier the Relying \n  Party was registered with at the Identity Provider."
+    },
+    {
+      "id": "oidc-10",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*redirect_uri*: **SHALL** convey the redirection URI the Authentication\n  Response **SHALL** be sent to. Its value **SHALL** match one of the\n  redirection URIs the Relying Party was registered with at the Identity Provider."
+    },
+    {
+      "id": "oidc-11",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*state*: **SHALL** convey an opaque value used to maintain the state\n  between the request and the response to mitigate Cross-Site Request Forgery\n  attacks."
+    },
+    {
+      "id": "oidc-12",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*nonce*: **SHALL** convey an opaque string passed through from the\n  Authentication Request to the ID Token to mitigate replay attacks."
+    },
+    {
+      "id": "oidc-76",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*code_challenge*: **SHALL** convey the code challenge derived from the code verifier\n  using the code challenge method as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/)."
+    },
+    {
+      "id": "oidc-77",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*code_challenge_method*: **SHALL** convey the code challenge method indicator defined\n  in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value **SHALL** be S256."
+    },
+    {
+      "id": "oidc-13",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** validate the Authentication Request as specified in \nthe [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) specification."
+    },
+    {
+      "id": "oidc-14",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Authentication Response message **SHALL** be used by the Identity Provider as\nresponse to the Authentication Request message to convey the\nauthorization code after authenticating the user."
+    },
+    {
+      "id": "oidc-15",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The\nAuthentication Response message **SHALL** be compliant with an OAuth 2.0\nAuthentication Response message."
+    },
+    {
+      "id": "oidc-16",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Authentication Response **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "oidc-17",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*code*: **SHALL** be an OAuth 2.0 compliant authorization code."
+    },
+    {
+      "id": "oidc-18",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*state*: **SHALL** match the state parameter value of the Authentication Request."
+    },
+    {
+      "id": "oidc-19",
+      "conditional": true,
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "In case of an error the Identity Provider **SHALL** respond with an HTTP Error as defined\nin [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#AuthError) specification."
+    },
+    {
+      "id": "oidc-20",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Access Token Request message **SHALL** be used by the Relying Party to\nresolve the authorization code to the Access and ID Token."
+    },
+    {
+      "id": "oidc-21",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Access\nToken Request message **SHALL** be sent via the backchannel."
+    },
+    {
+      "id": "oidc-22",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Access\nToken Request message **SHALL** be compliant with an OAuth 2.0 Access Token\nRequest message."
+    },
+    {
+      "id": "oidc-23",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Access Token Request **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "oidc-24",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*grant_type*: The value **SHALL** be authorization_code."
+    },
+    {
+      "id": "oidc-25",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*code*: **SHALL** be the OAuth 2.0 compliant authorization code\n  retrieved with the Authentication Response."
+    },
+    {
+      "id": "oidc-26",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*client_id*: **SHALL** be the Client Identifier the Relying\n  Party was registered with at the Identity Provider."
+    },
+    {
+      "id": "oidc-27",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*redirect_uri*: **SHALL** be the redirection URI sent with the\n  Authentication Request."
+    },
+    {
+      "id": "oidc-78",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*code_verifier*: **SHALL** convey the code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/)\n  from which the *code_challenge* of the Authentication Request was derived."
+    },
+    {
+      "id": "oidc-28",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** validate the Access Token Request as follows:"
+    },
+    {
+      "id": "oidc-79",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** identify the client using the `client_id`."
+    },
+    {
+      "id": "oidc-80",
+      "conditional": true,
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** authenticate the Relying Party, if the client application is\n   registered as a confidential client."
+    },
+    {
+      "id": "oidc-81",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** verify that the authorization code was issued to the Relying Party\n   in response to an Authentication Request."
+    },
+    {
+      "id": "oidc-82",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** verify that the authorization code was not used before."
+    },
+    {
+      "id": "oidc-83",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** verify that the value of the `redirect_uri` parameter sent with the\n   Access Token Request matches the one sent with the Authentication\n   Request."
+    },
+    {
+      "id": "oidc-84",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** verify that the value of the `redirect_uri` parameter sent with the\n   Access Token Request matches one of the redirect URIs registered\n   for the Relying Party."
+    },
+    {
+      "id": "oidc-85",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** verify that the `code_verifier` matches the `code_challenge` sent\n   with the Authentication Request respecting the S256 code challenge\n   method."
+    },
+    {
+      "id": "oidc-29",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Access Token Response message **SHALL** be used by the Identity Provider to convey\nthe Access Token and the ID Token to the Relying Party in response to the\nAccess Token Request."
+    },
+    {
+      "id": "oidc-30",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Access Token Response message **SHALL** be sent\nvia the backchannel."
+    },
+    {
+      "id": "oidc-31",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Access Token Response message **SHALL** be\ncompliant with an OAuth 2.0 Access Token Response message."
+    },
+    {
+      "id": "oidc-32",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Access Token Response **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "oidc-33",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*token_type*: The value **SHALL** be Bearer."
+    },
+    {
+      "id": "oidc-34",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*expires_in --* The Token lifetime in seconds. The value **SHALL** be equal to *300* (5 minutes)."
+    },
+    {
+      "id": "oidc-35",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*access_token*: The value **SHALL** be an OAuth 2.0 compliant access token."
+    },
+    {
+      "id": "oidc-36",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*id_token*: The value **SHALL** be an Identity Token as defined below."
+    },
+    {
+      "id": "oidc-37",
+      "conditional": true,
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "In case of an error the Identity Provider **SHALL** respond a HTTP Error as defined\nin [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#TokenErrorResponse) specification."
+    },
+    {
+      "id": "oidc-38",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Token **SHALL** be used by the Identity Provider to convey the Subject Identifier to the Relying \nParty."
+    },
+    {
+      "id": "oidc-39",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Token **SHALL** be compliant with the JSON Web Token and [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) specification."
+    },
+    {
+      "id": "oidc-40",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "Identity Tokens **SHALL** be cryptographically signed using [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/)."
+    },
+    {
+      "id": "oidc-41",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Token **SHALL** contain the following parameters:"
+    },
+    {
+      "id": "oidc-42",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*iss*: The value **SHALL** be a unique identifier of the Identity Provider as URL."
+    },
+    {
+      "id": "oidc-43",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*aud*: The value **SHALL** be the Client Identifier the Relying Party is registered at the Identity Provider."
+    },
+    {
+      "id": "oidc-44",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*exp*: The time restricting the lifetime of the token. The value **SHALL** be equal to the current time plus 5 minutes."
+    },
+    {
+      "id": "oidc-45",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*nonce*: The value **SHALL** match the *nonce* value of the Authentication Request."
+    },
+    {
+      "id": "oidc-46",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "*jti*: The value **SHALL** be a unique identifier of the ID Token."
+    },
+    {
+      "id": "oidc-47",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Subject Identifier attribute **SHALL** be persistent and **SHALL** be unique for the combination of the \nSubscriber and the Identity Provider."
+    },
+    {
+      "id": "oidc-48",
+      "actors": [
+        "ch-oidc-identity-provider",
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Subject Identifier **SHALL** be confidential and never presented to the user or \nthird party systems."
+    },
+    {
+      "id": "oidc-49",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Identity Token MAY contain other claims which **SHALL** be ignored by the Relying Party."
+    },
+    {
+      "id": "oidc-50",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Parties **SHALL** validate Identity Tokens as follows:"
+    },
+    {
+      "id": "oidc-86",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** verify that the unique identifier of the Issuer matches the one registered for the Identity Provider."
+    },
+    {
+      "id": "oidc-87",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party."
+    },
+    {
+      "id": "oidc-88",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter."
+    },
+    {
+      "id": "oidc-89",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider."
+    },
+    {
+      "id": "oidc-90",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request."
+    },
+    {
+      "id": "oidc-51",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The UserInfo Request message **SHALL** be used by the Relying Party to retrieve identity data of the user from the Credential\nService Provider via the backchannel."
+    },
+    {
+      "id": "oidc-52",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The UserInfo Request message **SHALL**\nbe compliant to the [OpenID Connect 1.0 UserInfo Request](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo) message."
+    },
+    {
+      "id": "oidc-53",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** send the Access Token in the HTTP Authorization header field as Bearer Token as defined \nin [OAuth 2.0 Authorization Framework: Bearer Token Usage](https://www.rfc-editor.org/info/rfc6750/)."
+    },
+    {
+      "id": "oidc-54",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The UserInfo Response message **SHALL** be used by the Credential Service Provider to respond with the identity data of the user to\nUserInfo Requests from the Relying Party using back-channel communication."
+    },
+    {
+      "id": "oidc-55",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The UserInfo Response message **SHALL** be a JSON Web Token\n(JWT) compliant to the [OpenID Connect 1.0 UserInfo Response message](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo)."
+    },
+    {
+      "id": "oidc-56",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "summary": "The UserInfo Response **SHALL** contain the parameters sub, first_name, family_name, gender and birthdate",
+      "text": "The UserInfo Response **SHALL** contain the following parameters:\n\n- *sub*: The subject identifier of the user.\n- *first_name*: The first name of the user.\n- *family_name*: The family name of the user.\n- *gender*: The user's coded gender with the value from the value set EprGender (2.16.756.5.30.1.127.3.10.1.25).\n- *birthdate*: The user's date of birth as ISO 8601-1:2019 formatted string.\n\n"
+    },
+    {
+      "id": "oidc-57",
+      "conditional": true,
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "If the Identity Provider delivers the GLN of healthcare professionals or assistants, the UserInfo Response \n**SHALL** contain a *gln* parameter conveying the GLN of healthcare professionals and assistants."
+    },
+    {
+      "id": "oidc-58",
+      "conditional": true,
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "In case of an error the Identity Provider **SHALL** respond a HTTP Error as defined in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#UserInfoError) specification."
+    },
+    {
+      "id": "oidc-59",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The UserInfo response message **SHALL** be signed using recommended cryptographic signature standards."
+    },
+    {
+      "id": "oidc-60",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The signature of the UserInfo response message **SHALL** be validated by the Relying Party."
+    },
+    {
+      "id": "oidc-61",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The *LogoutRequest* message **SHALL** be used by the Relying Party to initiate a logout of the user at the \nIdentity Provider."
+    },
+    {
+      "id": "oidc-62",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*LogoutRequest* messages **SHALL** be used by the Relying Party to redirect the User Agent to the Identity \nProvider compliant with the [OpenID Connect RP-Initiated Logout 1.0](https://openid.net/specs/openid-connect-rpinitiated-1_0.html) specification and \nthe requirements defined in this section."
+    },
+    {
+      "id": "oidc-63",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "A *LogoutRequest* message **SHALL** convey the following parameters:"
+    },
+    {
+      "id": "oidc-64",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*id_token_hint*: **SHALL** convey the Identity Token previously issued by the Identity Provider."
+    },
+    {
+      "id": "oidc-65",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "*state*: **SHALL** convey an opaque value used to maintain the state\n   between the request and the response to mitigate Cross-Site Request Forgery attacks."
+    },
+    {
+      "id": "oidc-66",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Logout Request MAY contain other parameters which **SHALL** be ignored by the Identity Provider."
+    },
+    {
+      "id": "oidc-67",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** validate *LogoutRequest* messages by verifying that the Identity Token was \nissued by the Identity Provider for the requesting Relying Party and the user."
+    },
+    {
+      "id": "oidc-68",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The User Agent and the Identity Provider **SHALL** communicate through an authenticated and protected channel using \nTLS 1.2 or higher."
+    },
+    {
+      "id": "oidc-69",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** identify and authenticate itself towards the User Agent with class 2\nX.509 certificates issued by a trusted certificate service provider according to ZertES; \nSR 943.03 and listed by the Swiss Accreditation Service (SAS)."
+    },
+    {
+      "id": "oidc-70",
+      "actors": [
+        "ch-oidc-identity-provider",
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Identity Provider **SHALL** communicate with Relying Parties through an authenticated\nand protected back-channel using TLS 1.2 or higher for access token and user info requests and\nresponses."
+    },
+    {
+      "id": "oidc-71",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL NOT** use redirects through an intermediary user agent (e.g., Web Browser) to send requests\nto Relying Parties."
+    },
+    {
+      "id": "oidc-72",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The Identity Provider **SHALL** identify and authenticate itself towards the Relying Parties with class 2\nX.509 certificates issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss\nAccreditation Service (SAS)."
+    },
+    {
+      "id": "oidc-73",
+      "actors": [
+        "ch-oidc-identity-provider",
+        "ch-oidc-relying-party"
+      ],
+      "text": "Identity Provider **SHALL** identify and authenticate the Relying Parties by using mutual TLS (mTLS) or the \n*private_key_jwt* option defined in \nthe [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#ClientAuthentication) \nspecification."
+    },
+    {
+      "id": "oidc-74",
+      "actors": [
+        "ch-oidc-relying-party"
+      ],
+      "text": "The Relying Party **SHALL** use a certificate issued by a Certificate Authority (CA) that is operated according to \ndocumented processes detailed in a Certificate Policy (CP) and Certificate Practice Statement (CPS) for \ndigital signatures or the mTLS client certificate."
+    },
+    {
+      "id": "oidc-75",
+      "actors": [
+        "ch-oidc-identity-provider"
+      ],
+      "text": "The CA's processes **SHALL** meet the requirements of class 1 certificates defined within \nthe [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0)."
+    }
+  ],
+  "ppq-3": [
+    {
+      "id": "ppq3-1",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "the following HTTP methods **SHALL** be supported: `POST`, `PUT`, and `DELETE`."
+    },
+    {
+      "id": "ppq3-2",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request body **SHALL** represent a single Consent resource compliant to the\n[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile of its consent type.",
+      "before": ").\n\n#### Request Message\n\n"
+    },
+    {
+      "id": "ppq3-3",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The Policy\nSource **SHALL** assign a new UUID as `Consent.identifier`."
+    },
+    {
+      "id": "ppq3-4",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request **SHALL** be sent to `[baseUrl]/Consent`."
+    },
+    {
+      "id": "ppq3-5",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Upon receiving the HTTP POST request, the Policy Repository **SHALL**:"
+    },
+    {
+      "id": "ppq3-6",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "it **SHALL** be validated that no consent with the same identifier exists."
+    },
+    {
+      "id": "ppq3-7",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The PPQ-3 response **SHALL** be created according to the section\n[3.1.0.8](https://hl7.org/fhir/R4/http.html#create) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq3-8",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request body **SHALL** represent a single Consent resource compliant to the\n[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile of its consent type.",
+      "before": "s.\n\n#### Request Message\n\n"
+    },
+    {
+      "id": "ppq3-9",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request **SHALL** be sent to `[baseUrl]/Consent?identifier=[uuid]`.",
+      "before": "e.\n\n"
+    },
+    {
+      "id": "ppq3-10",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** implement the Conditional Update pattern described in section\n[3.1.0.4.3](https://hl7.org/fhir/R4/http.html#cond-update) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq3-11",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Upon receiving the HTTP PUT request, the Policy Repository **SHALL**:"
+    },
+    {
+      "id": "ppq3-12",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "it **SHALL** be validated that the identifier is the same as in the HTTP URL, and that the consent type\n  (`category`) and the patient are the same as in the stored consent."
+    },
+    {
+      "id": "ppq3-13",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The PPQ-3 response **SHALL** be created according to the section\n[3.1.0.4](https://hl7.org/fhir/R4/http.html#update) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq3-14",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request body **SHALL** be empty."
+    },
+    {
+      "id": "ppq3-15",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request **SHALL** be sent to `[baseUrl]/Consent?identifier=[uuid]`.",
+      "before": "y.\n\n"
+    },
+    {
+      "id": "ppq3-16",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** implement the Conditional Delete pattern described in section\n[3.1.0.7.1](https://hl7.org/fhir/R4/http.html#3.1.0.7.1) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq3-17",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Upon receiving the HTTP DELETE request, the Policy Repository **SHALL**:"
+    },
+    {
+      "id": "ppq3-18",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The PPQ-3 response **SHALL** be created according to the section\n[3.1.0.7](https://hl7.org/fhir/R4/http.html#delete) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq3-19",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** authorize the request by the consent type and the role of the requester (`subject_role`\nof the access token), as defined in\n[Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent)."
+    },
+    {
+      "id": "ppq3-20",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "summary": "The Policy Repository **SHALL** verify the patient, the community, the representative, the grantee and the performer against the access token",
+      "text": "In addition, the Policy Repository **SHALL** verify that:\n\n- the patient of the consent (`Consent.patient`) is the patient of the access token (`person_id`);\n- for the role `ADM`, the community of the administration (`subject_organization_id`) manages the health dossier\n  (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)), and, except for the\n  [legal representative](ppqm-consent.html#consent-legal-representative) and for adding a\n  [community mandate](ppqm-consent.html#consent-community-mandate), a community mandate of\n  the holder for that community is in effect;\n- for the role `REP`, the [representative](ppqm-consent.html#consent-representative) consent of the representative is\n  in effect and grants the action required by the consent type (see the notes of Table 3 of\n  [Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent));\n- for the roles `HCP` and `ASS`, the health professional the request is made for, or the group or health\n  institution in `group_id`, is the grantee of an [indirect authorization](ppqm-consent.html#consent-indirect-authorization),\n  and the grantee of the access right a [delegation](ppqm-consent.html#consent-delegation) is derived from;\n- the `performer` of the consent corresponds to the requester:\n\n| Role of the requester | `performer` |\n|---|---|\n| `PAT`, also a digital health application acting for the holder | The holder (EPR-SPID = `person_id`) |\n| `REP`, `LEGREP` | The representative or legal representative (representative ID = `user_id`). [Community mandate](ppqm-consent.html#consent-community-mandate) added by the legal representative: the legal representative |\n| `HCP`, `ASS` | [Indirect authorization](ppqm-consent.html#consent-indirect-authorization): the holder. [Delegation](ppqm-consent.html#consent-delegation): the health professional (GLN of the health professional the request is made for), or the group or health institution (`group_id`) |\n| `ADM` | [Legal representative](ppqm-consent.html#consent-legal-representative): the community or authority. [Community mandate](ppqm-consent.html#consent-community-mandate): the holder or the legal representative who gave the mandate. Other consent types, on mandate: the holder |\n{:class=\"table table-bordered\"}\n\nTable 1: Performer of the consent by the role of the requester\n\n"
+    },
+    {
+      "id": "ppq3-21",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** reject a request that is not authorized with HTTP `403 Forbidden` and an OperationOutcome\nwith the issue code `forbidden`."
+    },
+    {
+      "id": "ppq3-22",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** validate the Consent against the [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html)\nprofile and the profile of its consent type, and **SHALL** verify the following rules:"
+    },
+    {
+      "id": "ppq3-23",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The identifier, the consent type and the patient of a consent **SHALL NOT** be changed."
+    },
+    {
+      "id": "ppq3-24",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The `organization` of the opening **SHALL** be the community managing the health dossier in the Register E-GD."
+    },
+    {
+      "id": "ppq3-25",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The master identifiers in the nested provisions **SHALL** identify documents of the holder."
+    },
+    {
+      "id": "ppq3-26",
+      "conditional": true,
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "A representative **SHALL** only grant access to documents of the level \"restricted\" if the representative consent grants reading the level \"restricted\"."
+    },
+    {
+      "id": "ppq3-27",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of the holder **SHALL** be of type permit."
+    },
+    {
+      "id": "ppq3-28",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The end date **SHALL NOT** be later than 60 days after the date the holder gave the consent (`dateTime`)."
+    },
+    {
+      "id": "ppq3-29",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The access right in `sourceReference` **SHALL** be in effect, **SHALL** grant the action `delegate`, and **SHALL** have the performer of the delegation, or a group or health institution the performer is a member of, as grantee."
+    },
+    {
+      "id": "ppq3-30",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The end date of the delegation **SHALL NOT** be later than the end date of the access right."
+    },
+    {
+      "id": "ppq3-31",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The performer **SHALL** be the holder"
+    },
+    {
+      "id": "ppq3-32",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "a representative **SHALL NOT** appoint a further representative, and a legal representative **SHALL NOT** appoint a representative."
+    },
+    {
+      "id": "ppq3-33",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The grantee **SHALL** be an organization of the type `722172003` *Military health institution* (SNOMED CT) in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member."
+    },
+    {
+      "id": "ppq3-34",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The grantee **SHALL** be the community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening))."
+    },
+    {
+      "id": "ppq3-35",
+      "conditional": true,
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Where the administration adds the mandate, the consent **SHALL** carry evidence of the mandate in `source[x]` or `verification`."
+    },
+    {
+      "id": "ppq3-36",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** reject a request which fails the validation with HTTP `422 Unprocessable Entity` and an\nOperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if the resource cannot be parsed."
+    },
+    {
+      "id": "ppq3-37",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "After persisting or deleting a consent, or on an event of the Register E-GD, the Policy Repository **SHALL** apply the\nfollowing rules."
+    },
+    {
+      "id": "ppq3-38",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "ppq3-39",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in\n[IUA](iti-71.html) conveyed as defined in the\n[Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)\ntransaction."
+    },
+    {
+      "id": "ppq3-40",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "ppq3-41",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "summary": "The Policy Source and Policy Repository **SHALL** record an audit event for each PPQ-3 operation",
+      "text": "The **Policy Source** and **Policy Repository** **SHALL** record an audit event for each operation in the transaction according to:\n\n- [CH Audit Event for [PPQ-3] **Create** Privacy Policy](StructureDefinition-ChAuditEventPpq3Create.html)\n- [CH Audit Event for [PPQ-3] **Update** Privacy Policy](StructureDefinition-ChAuditEventPpq3Update.html)\n- [CH Audit Event for [PPQ-3] **Delete** Privacy Policy](StructureDefinition-ChAuditEventPpq3Delete.html)\n\n"
+    },
+    {
+      "id": "ppq3-42",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository\n**SHALL** record the type of the event in the audit trail as a subtype, and the consent type, the grantee and the end of\nthe validity of the consent as details of the consent entity\n([example for an indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html),\n[example for the exclusion of emergency access](AuditEvent-ChAuditEventPpq3UpdateExample.html),\n[example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html))."
+    },
+    {
+      "id": "ppq3-43",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "summary": "The Policy Repository **SHALL** record an audit event for every consent it adds, deletes or updates itself",
+      "text": "The Policy Repository **SHALL** also record an audit event for every consent it adds, deletes or updates itself under the [Policy Repository rules](#policy-repository-rules):\n\n- where the rule is applied because of the request of a user, according to the Delete or Update profile above, with\n  the user of that request as main user and the `traceparent` of that request: the delegations derived from a revoked\n  access right, the indirect authorizations deleted when the indirect authorization is excluded, the consents of the\n  holder deleted when a legal representative is set up, and the access rights updated when a document is purged;\n- where no user is involved, with the Policy Repository as initiating agent: the consents added when the health dossier\n  is opened according to\n  [CH Audit Event for the addition of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryCreate.html)\n  ([example for the emergency access setting](AuditEvent-ChAuditEventPpq3RepositoryCreateExample.html)), and the consents\n  deleted according to\n  [CH Audit Event for the deletion of a consent by the Policy Repository](StructureDefinition-ChAuditEventPpq3RepositoryDelete.html)\n  with the reason of the deletion\n  ([example for an access right deleted on the death of the holder](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):\n  `dissolution` and `death` for the consents deleted when the health dossier is dissolved.\n\n"
+    }
+  ],
+  "ppq-4": [
+    {
+      "id": "ppq4-1",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The only HTTP method which **SHALL** be supported is `POST`."
+    },
+    {
+      "id": "ppq4-2",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request body **SHALL** represent a single Bundle resource compliant to the\n[PpqmFeedRequestBundle](StructureDefinition-PpqmFeedRequestBundle.html) profile\n([example for an access right and a representative](Bundle-PpqmFeedRequestBundleAdd.html))."
+    },
+    {
+      "id": "ppq4-3",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The request **SHALL** be sent to `[baseUrl]`."
+    },
+    {
+      "id": "ppq4-4",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Upon receiving the HTTP `POST` request, the Policy Repository **SHALL**:"
+    },
+    {
+      "id": "ppq4-5",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Process the Bundle as a whole: if one entry fails, no entry **SHALL** be persisted."
+    },
+    {
+      "id": "ppq4-6",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The PPQ-4 response **SHALL** be created according to the section\n[3.1.0.11](https://hl7.org/fhir/R4/http.html#transaction) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq4-7",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "ppq4-8",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in\n[IUA](iti-71.html) conveyed as defined in the\n[Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)\ntransaction."
+    },
+    {
+      "id": "ppq4-9",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "ppq4-10",
+      "actors": [
+        "ch-ppqm-policy-source",
+        "ch-ppqm-policy-repository"
+      ],
+      "summary": "The Policy Source and Policy Repository **SHALL** record an audit event for each operation of the Bundle",
+      "text": "The **Policy Source** and **Policy Repository** **SHALL** record an audit event according to:\n\n- [CH Audit Event for [PPQ-3] **Create** Privacy Policy](StructureDefinition-ChAuditEventPpq3Create.html)\n- [CH Audit Event for [PPQ-3] **Update** Privacy Policy](StructureDefinition-ChAuditEventPpq3Update.html)\n- [CH Audit Event for [PPQ-3] **Delete** Privacy Policy](StructureDefinition-ChAuditEventPpq3Delete.html)\n\n"
+    }
+  ],
+  "ppq-5": [
+    {
+      "id": "ppq5-1",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The only HTTP method\nwhich **SHALL** be supported is `GET`."
+    },
+    {
+      "id": "ppq5-2",
+      "actors": [
+        "ch-ppqm-policy-consumer"
+      ],
+      "text": "The request body **SHALL** be empty."
+    },
+    {
+      "id": "ppq5-3",
+      "actors": [
+        "ch-ppqm-policy-consumer"
+      ],
+      "text": "The request **SHALL** contain the search parameter `patient:identifier`."
+    },
+    {
+      "id": "ppq5-4",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The _Policy Repository_ **SHALL** support the\nfollowing search parameters on the [Consent](StructureDefinition-ch-ppqm-consent.html) resource, and their\ncombination:"
+    },
+    {
+      "id": "ppq5-5",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Upon receiving the HTTP `GET` request, the Policy Repository **SHALL**:"
+    },
+    {
+      "id": "ppq5-6",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Authorize the request: the patient of the request **SHALL** be the patient of the access token (`person_id`)"
+    },
+    {
+      "id": "ppq5-7",
+      "conditional": true,
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "for\n  the role `ADM` the community of the administration (`subject_organization_id`) **SHALL** manage the health dossier."
+    },
+    {
+      "id": "ppq5-8",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "Consents the\n  requester may not retrieve **SHALL NOT** be included in the response, and their number **SHALL NOT** be disclosed."
+    },
+    {
+      "id": "ppq5-9",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The PPQ-5 response **SHALL** be created according to the section\n[3.1.0.9](https://hl7.org/fhir/R4/http.html#search) of the FHIR R4 specification."
+    },
+    {
+      "id": "ppq5-10",
+      "conditional": true,
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "If the response body\nis a Bundle, then it **SHALL** comply to the\n[PpqmRetrieveResponseBundle](StructureDefinition-PpqmRetrieveResponseBundle.html) profile\n([example](Bundle-PpqmRetrieveResponseBundle.html))."
+    },
+    {
+      "id": "ppq5-11",
+      "actors": [
+        "ch-ppqm-policy-consumer",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with\nserver certificates."
+    },
+    {
+      "id": "ppq5-12",
+      "actors": [
+        "ch-ppqm-policy-consumer",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The transaction **SHALL** use client authentication and authorization using an extended access token defined in\n[IUA](iti-71.html) conveyed as defined in the\n[Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)\ntransaction."
+    },
+    {
+      "id": "ppq5-13",
+      "actors": [
+        "ch-ppqm-policy-consumer",
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html)."
+    },
+    {
+      "id": "ppq5-14",
+      "actors": [
+        "ch-ppqm-policy-consumer"
+      ],
+      "text": "The **Policy Consumer** **SHALL** record an audit event according to\n[CH Audit Event for [PPQ-5] Policy Consumer](StructureDefinition-ChAuditEventPpq5Consumer.html)."
+    },
+    {
+      "id": "ppq5-15",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The **Policy Repository** **SHALL** record an audit event according to\n[CH Audit Event for [PPQ-5] Policy Repository](StructureDefinition-ChAuditEventPpq5Repository.html)."
+    }
+  ],
+  "ppqm": [
+    {
+      "id": "ppqm-1",
+      "actors": [
+        "ch-ppqm-policy-source"
+      ],
+      "text": "The actor **SHALL** support at least one transaction."
+    }
+  ],
+  "tracecontext": [
+    {
+      "id": "trace-1",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-resource-server"
+      ],
+      "text": "Actors of all transactions **SHALL** support the W3C Trace Context Recommendation."
+    },
+    {
+      "id": "trace-2",
+      "actors": [
+        "ch-iua-authorization-client"
+      ],
+      "text": "Actors of all transactions **SHOULD** send the HTTP header `traceparent` in requests."
+    },
+    {
+      "id": "trace-3",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "summary": "When serving incoming requests, each actor **SHALL** accept (or generate) the traceparent header and send its trace-id in all induced requests",
+      "text": "Moreover, when serving incoming requests, each actor **SHALL**:\n\n- Accept the HTTP header `traceparent` if it is contained in the incoming request and is a valid value, otherwise generate it.\n- Send the HTTP header `traceparent` in all requests induced by the incoming request, with the same value of the field **trace-id** as for the incoming request.\n\n"
+    },
+    {
+      "id": "trace-4",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-resource-server"
+      ],
+      "text": "The `traceparent` header value of a transaction **SHALL** be added to the generated Audit Event: for the client,\nthe header value of the request; for the responder, the header value of the response."
+    }
+  ],
+  "volume3": [
+    {
+      "id": "vol3-1",
+      "actors": [
+        "ch-iua-resource-server"
+      ],
+      "text": "The audit events carry, in addition to the code of the transaction, the type of the event in the audit trail of the\nholder as a subtype (`AuditEvent.subtype`), from the code system\n[CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html). The actor serving the request **SHALL**\nrecord it, the actor making the request MAY record it."
+    },
+    {
+      "id": "vol3-2",
+      "actors": [
+        "ch-mhd-source",
+        "ch-mhd-recipient",
+        "ch-mhd-consumer",
+        "ch-mhd-responder"
+      ],
+      "text": "The title, the type and the confidentiality code of the document **SHALL NOT** be\nrecorded in the audit events, with one exception: where the confidentiality code of a document was changed\n(`ATC_DOC_UPDATE_CONFIDENTIALITY`, see [CH:MHD-1](ch-mhd-1.html#security-audit-considerations)), the new\nconfidentiality code is recorded."
+    },
+    {
+      "id": "vol3-3",
+      "actors": [
+        "ch-ppqm-policy-repository"
+      ],
+      "text": "The Policy Repository **SHALL** record the type of the event in\nthe audit trail, the Policy Source MAY record it."
+    }
+  ]
+}

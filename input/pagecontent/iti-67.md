@@ -26,12 +26,12 @@ query parameters.
 
 #### Find Document References Request Message
 
-The Document Consumer SHALL include the search parameter patient.identifier with the OID of the EPR-SPID.
+The Document Consumer **SHALL** include the search parameter patient.identifier with the OID of the EPR-SPID.
 The holder is given in `DocumentReference.subject` as a logical reference with the EPR-SPID in `subject.identifier` (see
-[Holder](document-sharing-metadata.html#holder)). The Document Responder SHALL resolve this logical reference through
+[Holder](document-sharing-metadata.html#holder)). The Document Responder **SHALL** resolve this logical reference through
 the EPR-SPID to the holder in the community, so that the chained search parameter `patient.identifier` finds the
 documents of the holder.
-The search parameters of type [token](https://hl7.org/fhir/R4/search.html#token) SHALL contain both the system and the code.
+The search parameters of type [token](https://hl7.org/fhir/R4/search.html#token) **SHALL** contain both the system and the code.
 
 _Find Document References_ example **request**:
 ```http
@@ -42,7 +42,7 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 
 ##### Full-Text Search Option
 
-The Document Responder SHALL support the [Full-Text Search Option](https://profiles.ihe.net/ITI/MHD/ITI-67.html#236741211-full-text-search-option)
+The Document Responder **SHALL** support the [Full-Text Search Option](https://profiles.ihe.net/ITI/MHD/ITI-67.html#236741211-full-text-search-option)
 with the search parameter `full-text`, which specifies terms or phrases used to search the textual content of the documents
 (see [MHD Actor Options](iti-mhd.html#full-text-search-option)). The Document Consumer MAY use the `full-text` search parameter.
 
@@ -55,7 +55,7 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 
 ##### Documents provided by an institution
 
-The Document Responder SHALL support the search parameter `custodian` with the modifier `:identifier`, which finds the
+The Document Responder **SHALL** support the search parameter `custodian` with the modifier `:identifier`, which finds the
 documents provided on behalf of an institution or group (see
 [Provider institution](document-sharing-metadata.html#provider-institution)).
 
@@ -72,20 +72,20 @@ The author of a document is mostly given as text, and only where the Document So
 contained resources (see [Author](document-sharing-metadata.html#author)). The search parameters
 `author.given` and `author.family` of the
 [Find Document References [ITI-67]](https://profiles.ihe.net/ITI/MHD/ITI-67.html) transaction of MHD, which would only
-find the authors given as structured data, are therefore not supported: the Document Consumer SHALL NOT use them, and the Document Responder is not required to process them. This
+find the authors given as structured data, are therefore not supported: the Document Consumer **SHALL NOT** use them, and the Document Responder is not required to process them. This
 is a deviation from MHD. A document can be found by the name of its author with the
 [Full-Text Search Option](#full-text-search-option), where the name is part of the textual content of the document.
 
 ####  Expected Actions
 
-The Document Responder SHALL process the query to discover the DocumentReference entries that match the search parameters given.
+The Document Responder **SHALL** process the query to discover the DocumentReference entries that match the search parameters given.
 
-The Document Responder SHALL set the `DocumentReference.content.attachment.url` value to the URL used in ITI-68
+The Document Responder **SHALL** set the `DocumentReference.content.attachment.url` value to the URL used in ITI-68
 transactions to retrieve that document's content.
 
 #### Find Document References Response Message
 
-The response Bundle SHOULD follow the [CH MHD Find Document References Response message](StructureDefinition-ch-mhd-documentreference-bundle.html)
+The response Bundle **SHOULD** follow the [CH MHD Find Document References Response message](StructureDefinition-ch-mhd-documentreference-bundle.html)
 Profile ([example: MHD Find DocumentReferences](Bundle-Bundle-FindDocumentReferences.html)).
 
 #### CapabilityStatement Resource
@@ -96,27 +96,27 @@ The CapabilityStatement resource for the **Document Responder** is [MHD Document
 
 ### Security Consideration
 
-The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with 
+The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with 
 server certificates. 
 
-The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
+The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-For every Find Document References [ITI-67] request, the Document Responder SHALL enforce the access rules of the
+For every Find Document References [ITI-67] request, the Document Responder **SHALL** enforce the access rules of the
 holder and of the requesting health professional or health institution, as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
-DocumentReference resources the requester is not authorized to see SHALL NOT be included in the response.
+DocumentReference resources the requester is not authorized to see **SHALL NOT** be included in the response.
 
-The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Security Audit Considerations
 
 ##### Document Consumer Audit
 
-The **Document Consumer** SHALL record an audit event according to
+The **Document Consumer** **SHALL** record an audit event according to
 [CH Audit Event for [ITI-67] Document Consumer](StructureDefinition-ChAuditEventIti67Consumer.html) 
 ([example](AuditEvent-ChAuditEventIti67ConsumerExample.html)).
 
 ##### Document Responder Audit
 
-The **Document Responder** SHALL record an audit event according to
+The **Document Responder** **SHALL** record an audit event according to
 [CH Audit Event for [ITI-67] Document Responder](StructureDefinition-ChAuditEventIti67Responder.html)
 ([example](AuditEvent-ChAuditEventIti67ResponderExample.html)).

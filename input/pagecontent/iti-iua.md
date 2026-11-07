@@ -82,8 +82,8 @@ Implementation to comply with the legal requirements of the Health Dossier.
 This figure shows the actors directly involved in the Internet User Authorization Profile and the relevant 
 transactions between them.
 
-The IUA Authorization Client SHALL authenticate the user at the User Authentication Provider, the Identity Provider, as
-specified in [OpenID Connect](openid-connect.html), acting as Relying Party. The IUA Authorization Client SHALL convey the
+The IUA Authorization Client **SHALL** authenticate the user at the User Authentication Provider, the Identity Provider, as
+specified in [OpenID Connect](openid-connect.html), acting as Relying Party. The IUA Authorization Client **SHALL** convey the
 resulting identity token in the `id_token` parameter of the [Get Access Token [ITI-71]](iti-71.html) request. Technical
 users (`TCU`), e.g. clinical archive systems, request access tokens without an authenticated user and do not use
 OpenID Connect.
@@ -94,14 +94,14 @@ This national extension restricts the Actor options of the IUA Trial Implementat
 of the Health Dossier.
 
 The IUA Trial Implementation supports three options for the Authorization Token format. In this national extension 
-the JWT option is used and SHALL be supported by the IUA Authorization Server and IUA Resource Server. The SAML Token 
-option and the Introspection Option SHALL NOT be used.
+the JWT option is used and **SHALL** be supported by the IUA Authorization Server and IUA Resource Server. The SAML Token 
+option and the Introspection Option **SHALL NOT** be used.
 
-To support automated client configuration the Authorization Server actor SHALL support the Authorization Metadata option.
+To support automated client configuration the Authorization Server actor **SHALL** support the Authorization Metadata option.
 
 ### Grouping
 
-The actors SHALL be grouped with other actors as follows:
+The actors **SHALL** be grouped with other actors as follows:
 
 | Actor                        | Actor to be grouped with                               | Optionality |
 |------------------------------|--------------------------------------------------------|-------------|
@@ -113,6 +113,8 @@ The actors SHALL be grouped with other actors as follows:
 | User Authentication Provider | CT Time Client                                         | R           |
 {:class="table table-bordered"}
 
+
+
 The groupings of actors with IUA Authorization Client and Resource Server actor are defined in the respective profile 
 sections.
 
@@ -122,12 +124,12 @@ For the process flow of this profile and its interplay with the other profiles s
 
 ### Security Consideration
 
-IUA Authorization Clients SHALL be identified by the `client_id` registered during onboarding. 
+IUA Authorization Clients **SHALL** be identified by the `client_id` registered during onboarding. 
 
-The authenticity of requests to the IUA Authorization Server SHALL be verified by a JWK as described in 
+The authenticity of requests to the IUA Authorization Server **SHALL** be verified by a JWK as described in 
 [SMART App launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html). See [Get Access Token](iti-71.html#security-consideration) for details.  
 
-Applications implementing the IUA Authorization Client actor SHALL register the combination of the OAuth `client_id`, 
+Applications implementing the IUA Authorization Client actor **SHALL** register the combination of the OAuth `client_id`, 
 and the public key used for signing the authentication JWK during the onboarding process. 
 
 Applications implementing the IUA Authorization Server actor shall verify the combination of the OAuth `client_id`, 

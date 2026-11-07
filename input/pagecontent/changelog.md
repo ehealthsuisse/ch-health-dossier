@@ -28,6 +28,10 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
 * Added the appendix [Identifier](identifier.html) with a non-normative explanation of the identifiers and issuers used
   in the health dossier [#28](https://github.com/ehealthsuisse/ch-health-dossier/issues/28).
 * Updated the dependencies to CH Core 7.0.0-ballot and IHE MHD 4.2.5.
+* Added the appendix [Conformance Statements](conformance-statements.html): the conformance statements in the
+  narrative have a stable id and the actor(s) they apply to, are linked from the text and are published as a
+  computable Requirements resource to support test coverage; ActorDefinitions are added for the actors of all
+  profiles.
 
 #### IUA
 

@@ -12,6 +12,8 @@ fsh-generated/**
 TODO.md
 AGENTS.md
 CLAUDE.md
-Requirements-fromNarrative.json
+/Requirements-fromNarrative.json
 EGD
 EGDmd
+/local-template/package/.index.*
+/local-template/package/*/.index.*
