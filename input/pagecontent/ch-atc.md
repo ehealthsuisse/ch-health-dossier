@@ -12,8 +12,8 @@ with the role, and without duplicates, see [Expected Actions of ITI-81](iti-81.h
 
 ### Actors, Transactions and Content Modules
 
-Table 1 lists the transactions for each actor directly involved in the CH:ATC Profile. §atc-1^ch-atc-patient-audit-consumer,ch-atc-patient-audit-record-service:To claim compliance with this
-Profile, an actor **SHALL** support all required transactions (labeled "R").§
+Table 1 lists the transactions for each actor directly involved in the CH:ATC Profile. To claim compliance with this
+Profile, an actor **SHALL** support all required transactions (labeled "R").
 
 | Actors | Transactions | Initiator or Responder | Opt | Reference |
 | --- | --- | --- | --- | --- |
@@ -35,13 +35,13 @@ representative, a legal representative or the administration acting on the manda
 [Enforcement of Access Rules](accesscontrol.html)).
 
 The translation of the coded elements into the preferred language of the user and the display of the audit trail are
-not defined in this profile. §atc-2^ch-atc-patient-audit-consumer:The Patient Audit Consumer **SHALL NOT** display `recorded` as a time of day, since the time
-is masked to the day (see [Expected Actions of ITI-81](iti-81.html#expected-actions)).§
+not defined in this profile. The Patient Audit Consumer **SHALL NOT** display `recorded` as a time of day, since the time
+is masked to the day (see [Expected Actions of ITI-81](iti-81.html#expected-actions)).
 
 ### Required Actor Groupings
 
-§atc-3^ch-atc-patient-audit-consumer,ch-atc-patient-audit-record-service:This national extension enforces authentication and authorization for access control. Therefore actors of this profile
-**SHALL** be grouped with actors of other profiles according to the following table:§
+This national extension enforces authentication and authorization for access control. Therefore actors of this profile
+**SHALL** be grouped with actors of other profiles according to the following table:
 
 | Actor | Required Grouping | Optionality | Remark |
 |---|---|---|---|

@@ -15,3 +15,5 @@ CLAUDE.md
 /Requirements-fromNarrative.json
 EGD
 EGDmd
+/local-template/package/.index.*
+/local-template/package/*/.index.*

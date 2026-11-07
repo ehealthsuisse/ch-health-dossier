@@ -67,7 +67,7 @@ transactions (labeled "O").
 
 Table 2: CH:PPQm transactions
 
-Note 1: §ppqm-1^ch-ppqm-policy-source:The actor **SHALL** support at least one transaction.§
+Note 1: The actor **SHALL** support at least one transaction.
 
 The required actor groupings are shown in Table 3:
 

@@ -6,15 +6,15 @@ health institutions and connected digital health applications, exclude access in
 representative acting on their behalf.
 
 Health professionals and health institutions may view data of a health dossier only in the context of a treatment 
-and only where the holder has granted them the corresponding right. §access-1?^ch-ppqm-policy-source:Where the holder gave consent 
+and only where the holder has granted them the corresponding right. Where the holder gave consent 
 outside the Health Dossier system, the health professional or health institution **SHALL** confirm the receipt of that consent 
-in the health dossier.§ In medical emergencies, health professionals and health institutions may access the health dossier 
+in the health dossier. In medical emergencies, health professionals and health institutions may access the health dossier 
 without a granted right, unless the holder has excluded emergency access.
 
-§access-2^ch-iua-resource-server:Every actor serving a request of the Health Dossier API **SHALL** evaluate and enforce these rules individually for each
-request, before any data is created, updated, returned or otherwise disclosed.§
+Every actor serving a request of the Health Dossier API **SHALL** evaluate and enforce these rules individually for each
+request, before any data is created, updated, returned or otherwise disclosed.
 
-§§access-3^ch-iua-resource-server:The access decision **SHALL** take into account the identity, role, organization and purpose of use of the requester, the directory entry and treatment context, the rights by law and consents, and the confidentiality level^The decision **SHALL** take into account:
+The decision **SHALL** take into account:
 
 - the authenticated identity, the role, the organization and the purpose of use of the requester, as conveyed in the
   access token (see [Get Access Token [ITI-71]](iti-71.html));
@@ -23,10 +23,10 @@ request, before any data is created, updated, returned or otherwise disclosed.§
 - the rights by law and the consents in effect for the holder concerned, including those defined by a representative;
 - the confidentiality level of the data concerned.
 
-§§
 
-§access-4^ch-iua-resource-server:A request that is not permitted **SHALL** be rejected.§ §access-5^ch-iua-resource-server:Data the requester is not authorized to see **SHALL NOT** be included
-in a response.§
+
+A request that is not permitted **SHALL** be rejected. Data the requester is not authorized to see **SHALL NOT** be included
+in a response.
 
 How the decision is reached, computed by the serving actor itself or obtained from a separate authorization decision
 service, is out of scope of this specification.
@@ -82,28 +82,28 @@ the grantees of an access right granting access to that document.
 
 #### Emergency access
 
-§access-6?^ch-iua-resource-server:A request with the purpose of use `EMER` from a health professional or assistant **SHALL** be permitted for the documents
+A request with the purpose of use `EMER` from a health professional or assistant **SHALL** be permitted for the documents
 of the level "normal" only while the [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of the holder is of
-type permit.§ §access-7?^ch-iua-resource-server:If the health professional, or a group or health institution in the access token, already holds an
+type permit. If the health professional, or a group or health institution in the access token, already holds an
 access right, the request **SHALL** be processed with that access right as a normal access, and **SHALL NOT** trigger a
-notification of the holder.§ §access-8?^ch-iua-resource-server:If no such access right is held, the holder **SHALL** be notified when an emergency access is activated, once for a
-sequence of emergency accesses of the same health professional or assistant.§
+notification of the holder. If no such access right is held, the holder **SHALL** be notified when an emergency access is activated, once for a
+sequence of emergency accesses of the same health professional or assistant.
 
-§access-9^ch-iua-resource-server:The actor serving the request **SHALL** record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use
+The actor serving the request **SHALL** record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use
 under which the request was permitted, not the one declared in the access token: `NORM` where the requester holds a
 right by law or an access right ([access](ppqm-consent.html#consent-access),
 [indirect authorization](ppqm-consent.html#consent-indirect-authorization),
 [delegation](ppqm-consent.html#consent-delegation)) for the data concerned, also if the access token declares `EMER`;
-`EMER` only where the request was permitted by the emergency access alone.§ The audit trail of the holder thus shows
+`EMER` only where the request was permitted by the emergency access alone. The audit trail of the holder thus shows
 an emergency access only where one took place. The actor making the request records the purpose of use of the access
 token.
 
 #### Administration of the community
 
-The administration (`ADM`) acts only on the health dossiers managed by its community: §access-10?^ch-iua-resource-server:the community of the
+The administration (`ADM`) acts only on the health dossiers managed by its community: the community of the
 administration (`subject_organization_id` of the access token, see [ITI-71](iti-71.html#administrators)) **SHALL** be the
-community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)).§ §access-11?^ch-iua-resource-server:Requests of the administration for
-other health dossiers **SHALL** be rejected.§
+community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Requests of the administration for
+other health dossiers **SHALL** be rejected.
 
 The administration is not authorized generally by its role: it processes the content or the settings of a health
 dossier only per support case, while a [community mandate](ppqm-consent.html#consent-community-mandate)
@@ -124,8 +124,8 @@ Table 3: Activities of the administration
 A digital health application is an Authorization Client acting for the authenticated holder. The Authorization
 Server issues it an access token with the `subject_role` `PAT` only for the scopes listed for digital health
 applications (see [ITI-71](iti-71.html#digital-health-applications)), granted in its software statement and authorized
-by the holder (see [Client Authorization](iti-71.html#client-authorization)). §access-12?^ch-iua-resource-server:Every actor serving a request of a digital
-health application **SHALL** restrict it to the scopes of the access token, in addition to the access rights of the holder.§
+by the holder (see [Client Authorization](iti-71.html#client-authorization)). Every actor serving a request of a digital
+health application **SHALL** restrict it to the scopes of the access token, in addition to the access rights of the holder.
 
 #### Military health professionals
 
@@ -143,5 +143,5 @@ transactions for which the grouping with the IUA Authorization Client allows `TC
 actor groupings of the respective profile ([CH:PIXm](iti-pixm.html#required-actor-grouping),
 [CH:PDQm](iti-pdqm.html#required-actor-grouping), [CH:MHD](iti-mhd.html#required-actor-groupings),
 [CH:mCSD](iti-mcsd.html#required-actor-grouping), [CH:PPQm](ppqm.html#actors-and-transactions),
-[CH:ATC](ch-atc.html#required-actor-groupings) and [RESTful ATNA](iti-restful-atna.html#required-actor-grouping)). §access-13?^ch-iua-resource-server:Every actor serving a request of the Health Dossier API **SHALL** reject a request
-with an access token with the `subject_role` `TCU` for any other transaction.§
+[CH:ATC](ch-atc.html#required-actor-groupings) and [RESTful ATNA](iti-restful-atna.html#required-actor-grouping)). Every actor serving a request of the Health Dossier API **SHALL** reject a request
+with an access token with the `subject_role` `TCU` for any other transaction.

@@ -1,7 +1,7 @@
 ### Scope
 
 This transaction is used by the Policy Source to add, update, or delete a single consent of a health dossier.
-Correspondingly, §ppq3-1^ch-ppqm-policy-repository:the following HTTP methods **SHALL** be supported: `POST`, `PUT`, and `DELETE`.§
+Correspondingly, the following HTTP methods **SHALL** be supported: `POST`, `PUT`, and `DELETE`.
 
 ### HTTP Method POST
 
@@ -17,25 +17,25 @@ authorizes a health professional (see the use cases per [consent type](ppqm.html
 
 #### Request Message
 
-§ppq3-2^ch-ppqm-policy-source:The request body **SHALL** represent a single Consent resource compliant to the
-[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile of its consent type.§ §ppq3-3^ch-ppqm-policy-source:The Policy
-Source **SHALL** assign a new UUID as `Consent.identifier`.§
+The request body **SHALL** represent a single Consent resource compliant to the
+[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile of its consent type. The Policy
+Source **SHALL** assign a new UUID as `Consent.identifier`.
 
-§ppq3-4^ch-ppqm-policy-source:The request **SHALL** be sent to `[baseUrl]/Consent`.§
+The request **SHALL** be sent to `[baseUrl]/Consent`.
 
 #### Expected Actions
 
-§ppq3-5^ch-ppqm-policy-repository:Upon receiving the HTTP POST request, the Policy Repository **SHALL**:§
+Upon receiving the HTTP POST request, the Policy Repository **SHALL**:
 - Authorize the request as described in [Authorization](#authorization).
 - Validate the Consent resource contained in the request body as described in [Validation](#validation). In
-  particular, §ppq3-6^ch-ppqm-policy-repository:it **SHALL** be validated that no consent with the same identifier exists.§
+  particular, it **SHALL** be validated that no consent with the same identifier exists.
 - Persist the Consent and apply the [Policy Repository rules](#policy-repository-rules).
 - Create a PPQ-3 response according to the transaction outcome.
 
 #### Response Message
 
-§ppq3-7^ch-ppqm-policy-repository:The PPQ-3 response **SHALL** be created according to the section
-[3.1.0.8](https://hl7.org/fhir/R4/http.html#create) of the FHIR R4 specification.§
+The PPQ-3 response **SHALL** be created according to the section
+[3.1.0.8](https://hl7.org/fhir/R4/http.html#create) of the FHIR R4 specification.
 
 ### HTTP Method PUT
 
@@ -51,28 +51,28 @@ an access right, or excludes emergency access.
 
 #### Request Message
 
-§ppq3-8^ch-ppqm-policy-source:The request body **SHALL** represent a single Consent resource compliant to the
-[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile of its consent type.§
+The request body **SHALL** represent a single Consent resource compliant to the
+[CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html) profile and to the profile of its consent type.
 
-§ppq3-9^ch-ppqm-policy-source:The request **SHALL** be sent to `[baseUrl]/Consent?identifier=[uuid]`.§
+The request **SHALL** be sent to `[baseUrl]/Consent?identifier=[uuid]`.
 
 #### Expected Actions
 
-§ppq3-10^ch-ppqm-policy-repository:The Policy Repository **SHALL** implement the Conditional Update pattern described in section
-[3.1.0.4.3](https://hl7.org/fhir/R4/http.html#cond-update) of the FHIR R4 specification.§
+The Policy Repository **SHALL** implement the Conditional Update pattern described in section
+[3.1.0.4.3](https://hl7.org/fhir/R4/http.html#cond-update) of the FHIR R4 specification.
 
-§ppq3-11^ch-ppqm-policy-repository:Upon receiving the HTTP PUT request, the Policy Repository **SHALL**:§
+Upon receiving the HTTP PUT request, the Policy Repository **SHALL**:
 - Authorize the request as described in [Authorization](#authorization), for the stored and the updated consent.
 - Validate the Consent resource contained in the request body as described in [Validation](#validation). In
-  particular, §ppq3-12^ch-ppqm-policy-repository:it **SHALL** be validated that the identifier is the same as in the HTTP URL, and that the consent type
-  (`category`) and the patient are the same as in the stored consent.§
+  particular, it **SHALL** be validated that the identifier is the same as in the HTTP URL, and that the consent type
+  (`category`) and the patient are the same as in the stored consent.
 - Persist the Consent and apply the [Policy Repository rules](#policy-repository-rules).
 - Create a PPQ-3 response according to the transaction outcome.
 
 #### Response Message
 
-§ppq3-13^ch-ppqm-policy-repository:The PPQ-3 response **SHALL** be created according to the section
-[3.1.0.4](https://hl7.org/fhir/R4/http.html#update) of the FHIR R4 specification.§
+The PPQ-3 response **SHALL** be created according to the section
+[3.1.0.4](https://hl7.org/fhir/R4/http.html#update) of the FHIR R4 specification.
 
 ###	HTTP Method DELETE
 
@@ -88,16 +88,16 @@ right.
 
 #### Request Message
 
-§ppq3-14^ch-ppqm-policy-source:The request body **SHALL** be empty.§
+The request body **SHALL** be empty.
 
-§ppq3-15^ch-ppqm-policy-source:The request **SHALL** be sent to `[baseUrl]/Consent?identifier=[uuid]`.§
+The request **SHALL** be sent to `[baseUrl]/Consent?identifier=[uuid]`.
 
 #### Expected Actions
 
-§ppq3-16^ch-ppqm-policy-repository:The Policy Repository **SHALL** implement the Conditional Delete pattern described in section
-[3.1.0.7.1](https://hl7.org/fhir/R4/http.html#3.1.0.7.1) of the FHIR R4 specification.§
+The Policy Repository **SHALL** implement the Conditional Delete pattern described in section
+[3.1.0.7.1](https://hl7.org/fhir/R4/http.html#3.1.0.7.1) of the FHIR R4 specification.
 
-§ppq3-17^ch-ppqm-policy-repository:Upon receiving the HTTP DELETE request, the Policy Repository **SHALL**:§
+Upon receiving the HTTP DELETE request, the Policy Repository **SHALL**:
 - Authorize the request as described in [Authorization](#authorization), for the stored consent.
 - Validate the request as described in [Validation](#validation).
 - Delete the consent referenced in the request and apply the [Policy Repository rules](#policy-repository-rules).
@@ -105,18 +105,18 @@ right.
 
 #### Response Message
 
-§ppq3-18^ch-ppqm-policy-repository:The PPQ-3 response **SHALL** be created according to the section
-[3.1.0.7](https://hl7.org/fhir/R4/http.html#delete) of the FHIR R4 specification.§
+The PPQ-3 response **SHALL** be created according to the section
+[3.1.0.7](https://hl7.org/fhir/R4/http.html#delete) of the FHIR R4 specification.
 
 ### Expected Actions Common to All HTTP Methods
 
 #### Authorization
 
-§ppq3-19^ch-ppqm-policy-repository:The Policy Repository **SHALL** authorize the request by the consent type and the role of the requester (`subject_role`
+The Policy Repository **SHALL** authorize the request by the consent type and the role of the requester (`subject_role`
 of the access token), as defined in
-[Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent).§
+[Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent).
 
-§§ppq3-20^ch-ppqm-policy-repository:The Policy Repository **SHALL** verify the patient, the community, the representative, the grantee and the performer against the access token^In addition, the Policy Repository **SHALL** verify that:
+In addition, the Policy Repository **SHALL** verify that:
 
 - the patient of the consent (`Consent.patient`) is the patient of the access token (`person_id`);
 - for the role `ADM`, the community of the administration (`subject_organization_id`) manages the health dossier
@@ -142,41 +142,41 @@ of the access token), as defined in
 
 Table 1: Performer of the consent by the role of the requester
 
-§§
+
 
 A digital health application acting for the holder may only add, update or delete
 [access rights](ppqm-consent.html#consent-access), and only if the access token grants the scope `patient/Consent.cruds`
 (see [ITI-71](iti-71.html#digital-health-applications)).
 
-§ppq3-21^ch-ppqm-policy-repository:The Policy Repository **SHALL** reject a request that is not authorized with HTTP `403 Forbidden` and an OperationOutcome
-with the issue code `forbidden`.§
+The Policy Repository **SHALL** reject a request that is not authorized with HTTP `403 Forbidden` and an OperationOutcome
+with the issue code `forbidden`.
 
 #### Validation
 
-§ppq3-22^ch-ppqm-policy-repository:The Policy Repository **SHALL** validate the Consent against the [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html)
-profile and the profile of its consent type, and **SHALL** verify the following rules:§
+The Policy Repository **SHALL** validate the Consent against the [CH PPQm Consent](StructureDefinition-ch-ppqm-consent.html)
+profile and the profile of its consent type, and **SHALL** verify the following rules:
 
 | Consent type | Rule |
 |---|---|
-| All | Except for the opening, a consent can only be added while an [opening](ppqm-consent.html#consent-opening) of the holder is in effect. §ppq3-23^ch-ppqm-policy-source,ch-ppqm-policy-repository:The identifier, the consent type and the patient of a consent **SHALL NOT** be changed.§ |
-| [Opening](ppqm-consent.html#consent-opening), [emergency access setting](ppqm-consent.html#consent-emergency-access-setting), [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) | At most one consent of each of these types per holder. They are only added and deleted by the Policy Repository, when the health dossier is opened or dissolved (see [Policy Repository rules](#policy-repository-rules)); the emergency access setting and the indirect authorization setting are updated to the type permit or deny. §ppq3-24^ch-ppqm-policy-repository:The `organization` of the opening **SHALL** be the community managing the health dossier in the Register E-GD.§ |
-| [Access](ppqm-consent.html#consent-access) | §ppq3-25^ch-ppqm-policy-source,ch-ppqm-policy-repository:The master identifiers in the nested provisions **SHALL** identify documents of the holder.§ §ppq3-26?^ch-ppqm-policy-source,ch-ppqm-policy-repository:A representative **SHALL** only grant access to documents of the level "restricted" if the representative consent grants reading the level "restricted".§ |
-| [Indirect authorization](ppqm-consent.html#consent-indirect-authorization) | §ppq3-27^ch-ppqm-policy-repository:The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of the holder **SHALL** be of type permit.§ §ppq3-28^ch-ppqm-policy-source,ch-ppqm-policy-repository:The end date **SHALL NOT** be later than 60 days after the date the holder gave the consent (`dateTime`).§ |
-| [Delegation](ppqm-consent.html#consent-delegation) | §ppq3-29^ch-ppqm-policy-source,ch-ppqm-policy-repository:The access right in `sourceReference` **SHALL** be in effect, **SHALL** grant the action `delegate`, and **SHALL** have the performer of the delegation, or a group or health institution the performer is a member of, as grantee.§ §ppq3-30^ch-ppqm-policy-source,ch-ppqm-policy-repository:The end date of the delegation **SHALL NOT** be later than the end date of the access right.§ |
-| [Representative](ppqm-consent.html#consent-representative) | §ppq3-31^ch-ppqm-policy-source,ch-ppqm-policy-repository:The performer **SHALL** be the holder§; §ppq3-32^ch-ppqm-policy-source,ch-ppqm-policy-repository:a representative **SHALL NOT** appoint a further representative, and a legal representative **SHALL NOT** appoint a representative.§ |
-| [Military recording](ppqm-consent.html#consent-military-recording) | §ppq3-33^ch-ppqm-policy-source,ch-ppqm-policy-repository:The grantee **SHALL** be an organization of the type `722172003` *Military health institution* (SNOMED CT) in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member.§ |
-| [Community mandate](ppqm-consent.html#consent-community-mandate) | §ppq3-34^ch-ppqm-policy-source,ch-ppqm-policy-repository:The grantee **SHALL** be the community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)).§ §ppq3-35?^ch-ppqm-policy-source,ch-ppqm-policy-repository:Where the administration adds the mandate, the consent **SHALL** carry evidence of the mandate in `source[x]` or `verification`.§ |
+| All | Except for the opening, a consent can only be added while an [opening](ppqm-consent.html#consent-opening) of the holder is in effect. The identifier, the consent type and the patient of a consent **SHALL NOT** be changed. |
+| [Opening](ppqm-consent.html#consent-opening), [emergency access setting](ppqm-consent.html#consent-emergency-access-setting), [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) | At most one consent of each of these types per holder. They are only added and deleted by the Policy Repository, when the health dossier is opened or dissolved (see [Policy Repository rules](#policy-repository-rules)); the emergency access setting and the indirect authorization setting are updated to the type permit or deny. The `organization` of the opening **SHALL** be the community managing the health dossier in the Register E-GD. |
+| [Access](ppqm-consent.html#consent-access) | The master identifiers in the nested provisions **SHALL** identify documents of the holder. A representative **SHALL** only grant access to documents of the level "restricted" if the representative consent grants reading the level "restricted". |
+| [Indirect authorization](ppqm-consent.html#consent-indirect-authorization) | The [indirect authorization setting](ppqm-consent.html#consent-indirect-authorization-setting) of the holder **SHALL** be of type permit. The end date **SHALL NOT** be later than 60 days after the date the holder gave the consent (`dateTime`). |
+| [Delegation](ppqm-consent.html#consent-delegation) | The access right in `sourceReference` **SHALL** be in effect, **SHALL** grant the action `delegate`, and **SHALL** have the performer of the delegation, or a group or health institution the performer is a member of, as grantee. The end date of the delegation **SHALL NOT** be later than the end date of the access right. |
+| [Representative](ppqm-consent.html#consent-representative) | The performer **SHALL** be the holder; a representative **SHALL NOT** appoint a further representative, and a legal representative **SHALL NOT** appoint a representative. |
+| [Military recording](ppqm-consent.html#consent-military-recording) | The grantee **SHALL** be an organization of the type `722172003` *Military health institution* (SNOMED CT) in the directory (see [mCSD](iti-mcsd.html#communities-and-military-health-institutions)), or a health professional registered as its member. |
+| [Community mandate](ppqm-consent.html#consent-community-mandate) | The grantee **SHALL** be the community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Where the administration adds the mandate, the consent **SHALL** carry evidence of the mandate in `source[x]` or `verification`. |
 {:class="table table-bordered"}
 
 Table 2: Validation rules by consent type
 
-§ppq3-36^ch-ppqm-policy-repository:The Policy Repository **SHALL** reject a request which fails the validation with HTTP `422 Unprocessable Entity` and an
-OperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if the resource cannot be parsed.§
+The Policy Repository **SHALL** reject a request which fails the validation with HTTP `422 Unprocessable Entity` and an
+OperationOutcome describing the failed rule, or with HTTP `400 Bad Request` if the resource cannot be parsed.
 
 #### Policy Repository rules
 
-§ppq3-37^ch-ppqm-policy-repository:After persisting or deleting a consent, or on an event of the Register E-GD, the Policy Repository **SHALL** apply the
-following rules.§ The consents the Policy Repository adds, updates or deletes itself are recorded in the audit trail of the holder (see
+After persisting or deleting a consent, or on an event of the Register E-GD, the Policy Repository **SHALL** apply the
+following rules. The consents the Policy Repository adds, updates or deletes itself are recorded in the audit trail of the holder (see
 [Security Audit Considerations](#security-audit-considerations)).
 
 | Event | Rule |
@@ -194,35 +194,35 @@ Table 3: Policy Repository rules
 
 ### Security Considerations
 
-§ppq3-38^ch-ppqm-policy-source,ch-ppqm-policy-repository:The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with
-server certificates.§
+The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with
+server certificates.
 
-§ppq3-39^ch-ppqm-policy-source,ch-ppqm-policy-repository:The transaction **SHALL** use client authentication and authorization using an extended access token defined in
+The transaction **SHALL** use client authentication and authorization using an extended access token defined in
 [IUA](iti-71.html) conveyed as defined in the
 [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72)
-transaction.§
+transaction.
 
-§ppq3-40^ch-ppqm-policy-source,ch-ppqm-policy-repository:The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).§
+The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Security Audit Considerations
 
-§§ppq3-41^ch-ppqm-policy-source,ch-ppqm-policy-repository:The Policy Source and Policy Repository **SHALL** record an audit event for each PPQ-3 operation^The **Policy Source** and **Policy Repository** **SHALL** record an audit event for each operation in the transaction according to:
+The **Policy Source** and **Policy Repository** **SHALL** record an audit event for each operation in the transaction according to:
 
 - [CH Audit Event for [PPQ-3] **Create** Privacy Policy](StructureDefinition-ChAuditEventPpq3Create.html)
 - [CH Audit Event for [PPQ-3] **Update** Privacy Policy](StructureDefinition-ChAuditEventPpq3Update.html)
 - [CH Audit Event for [PPQ-3] **Delete** Privacy Policy](StructureDefinition-ChAuditEventPpq3Delete.html)
 
-§§
+
 
 The audit events of the Policy Repository build the audit trail of the holder, see
-[Audit trail of the consent transactions](volume3.html#audit-trail-of-the-consent-transactions). §ppq3-42^ch-ppqm-policy-repository:The Policy Repository
+[Audit trail of the consent transactions](volume3.html#audit-trail-of-the-consent-transactions). The Policy Repository
 **SHALL** record the type of the event in the audit trail as a subtype, and the consent type, the grantee and the end of
 the validity of the consent as details of the consent entity
 ([example for an indirect authorization](AuditEvent-ChAuditEventPpq3CreateExample.html),
 [example for the exclusion of emergency access](AuditEvent-ChAuditEventPpq3UpdateExample.html),
-[example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)).§
+[example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)).
 
-§§ppq3-43^ch-ppqm-policy-repository:The Policy Repository **SHALL** record an audit event for every consent it adds, deletes or updates itself^The Policy Repository **SHALL** also record an audit event for every consent it adds, deletes or updates itself under the [Policy Repository rules](#policy-repository-rules):
+The Policy Repository **SHALL** also record an audit event for every consent it adds, deletes or updates itself under the [Policy Repository rules](#policy-repository-rules):
 
 - where the rule is applied because of the request of a user, according to the Delete or Update profile above, with
   the user of that request as main user and the `traceparent` of that request: the delegations derived from a revoked
@@ -238,4 +238,4 @@ the validity of the consent as details of the consent entity
   ([example for an access right deleted on the death of the holder](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):
   `dissolution` and `death` for the consents deleted when the health dossier is dissolved.
 
-§§
+

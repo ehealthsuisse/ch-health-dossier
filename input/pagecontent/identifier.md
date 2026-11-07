@@ -19,16 +19,16 @@ The identity provider issues an identifier to the user after identification as p
 uses this identifier internally to identify the user. It is never presented to clients and is therefore out of scope 
 of this specification.
 
-§ident-1^ch-oidc-identity-provider:The health dossier requires the identity provider to present an identifier to client applications after authentication. 
+The health dossier requires the identity provider to present an identifier to client applications after authentication. 
 To support single sign-on and cross-application identification, this identifier **SHALL** be persistent 
-(see [OpenID Connect](openid-connect.html)).§
+(see [OpenID Connect](openid-connect.html)).
 
-§ident-2^ch-oidc-identity-provider:The identity provider **SHALL** convey the persistent identifier as the Subject Identifier in the `sub` claim of the 
+The identity provider **SHALL** convey the persistent identifier as the Subject Identifier in the `sub` claim of the 
 `id_token`, together with the user’s demographic data and any optional additional identifiers 
-(see [OpenID Connect](openid-connect.html#identity-token)).§
+(see [OpenID Connect](openid-connect.html#identity-token)).
 
-§ident-3^ch-iua-authorization-server:To identify the user in the health dossier, the Subject Identifier issued by the identity provider **SHALL** be converted 
-to the identifier used in the health dossier.§ For this purpose, a client that accesses data in the health dossier 
+To identify the user in the health dossier, the Subject Identifier issued by the identity provider **SHALL** be converted 
+to the identifier used in the health dossier. For this purpose, a client that accesses data in the health dossier 
 shall present the `id_token` with the [Get Access Token](iti-71.html#message-semantics) request. 
 
 #### Identifier mapping

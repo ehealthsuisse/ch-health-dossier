@@ -27,10 +27,10 @@ masked to the day and without duplicates, as [CH Audit Trail Event](StructureDef
 
 ### Audit Trail Consumption Event Types
 
-§vol3-1^ch-iua-resource-server:The audit events carry, in addition to the code of the transaction, the type of the event in the audit trail of the
+The audit events carry, in addition to the code of the transaction, the type of the event in the audit trail of the
 holder as a subtype (`AuditEvent.subtype`), from the code system
 [CH Health Dossier Audit Event Type](CodeSystem-HealthDossierAuditEventType.html). The actor serving the request **SHALL**
-record it, the actor making the request MAY record it.§ A Patient Audit Consumer can filter the audit trail on these
+record it, the actor making the request MAY record it. A Patient Audit Consumer can filter the audit trail on these
 types with the search parameter `subtype` (see [ITI-81](iti-81.html)).
 
 The code system succeeds the Audit Trail Consumption event types of the EPR
@@ -72,10 +72,10 @@ healthcare professional on whose behalf the assistant acts (see [ITI-20](iti-20.
 the type of the event.
 
 The audit events of the document transactions record the document concerned only with its master identifier
-(`DocumentReference.masterIdentifier`). §vol3-2^ch-mhd-source,ch-mhd-recipient,ch-mhd-consumer,ch-mhd-responder:The title, the type and the confidentiality code of the document **SHALL NOT** be
+(`DocumentReference.masterIdentifier`). The title, the type and the confidentiality code of the document **SHALL NOT** be
 recorded in the audit events, with one exception: where the confidentiality code of a document was changed
 (`ATC_DOC_UPDATE_CONFIDENTIALITY`, see [CH:MHD-1](ch-mhd-1.html#security-audit-considerations)), the new
-confidentiality code is recorded.§ A Patient Audit Consumer which displays the title or the type in the audit trail of
+confidentiality code is recorded. A Patient Audit Consumer which displays the title or the type in the audit trail of
 a holder reads them from the DocumentReference; for a purged document only the master identifier is available.
 
 ### Audit trail of the consent transactions
@@ -83,8 +83,8 @@ a holder reads them from the DocumentReference; for a purged document only the m
 For the consent transactions the audit trail of a holder is built from the audit events which the Policy Repository
 records for [PPQ-3](ppq-3.html#security-audit-considerations) and [PPQ-4](ppq-4.html), and for the consents it adds,
 deletes or updates itself under the [Policy Repository rules](ppq-3.html#policy-repository-rules). These audit events
-replace the Policy Audit Event Content Profile of the EPR. §vol3-3^ch-ppqm-policy-repository:The Policy Repository **SHALL** record the type of the event in
-the audit trail, the Policy Source MAY record it.§ The types follow from the consent type and the type of the provision
+replace the Policy Audit Event Content Profile of the EPR. The Policy Repository **SHALL** record the type of the event in
+the audit trail, the Policy Source MAY record it. The types follow from the consent type and the type of the provision
 (permit or deny), see [Table 1](#audit-trail-consumption-event-types); the emergency access setting and the indirect
 authorization setting are only deleted when the health dossier is dissolved.
 

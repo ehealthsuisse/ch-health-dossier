@@ -1,0 +1,10 @@
+{% comment %}
+  Puts the conformance statement markers of site.data.conformance (input/data/conformance.json) into the
+  markdown of the page (page-md), so the IG Publisher finds them as if they had been written in the page:
+  §id?^actors:text§ for a statement and §§id?^actors:summary^text§§ for a block. Statements are marked from
+  the end of the page backwards, so the "before" context of a statement is still unmarked when it is used.
+  A statement whose text is no longer found on the page yields a broken link, which the QA report lists.
+{% endcomment %}{% assign cs-page = localPage | remove: '.html' %}{% assign cs-list = site.data.conformance[cs-page] %}{% if cs-list %}{% for cs in cs-list reversed %}{% capture cs-key %}{{ cs.id }}{% if cs.conditional %}?{% endif %}{% if cs.actors %}^{{ cs.actors | join: ',' }}{% endif %}{% if cs.categories %}^{% unless cs.actors %}^{% endunless %}{{ cs.categories | join: ',' }}{% endif %}{% endcapture %}{% capture cs-find %}{{ cs.before }}{{ cs.text }}{% endcapture %}{% if cs.summary %}{% capture cs-marked %}{{ cs.before }}§§{{ cs-key }}:{{ cs.summary }}^{{ cs.text }}§§{% endcapture %}{% else %}{% capture cs-marked %}{{ cs.before }}§{{ cs-key }}:{{ cs.text }}§{% endcapture %}{% endif %}{% if page-md contains cs-find %}{% assign page-md = page-md | replace_first: cs-find, cs-marked %}{% else %}{% capture page-md %}{{ page-md }}
+
+<a href="conformance-statement-not-found-{{ cs.id }}.html">Conformance statement {{ cs.id }} not found on this page</a>
+{% endcapture %}{% endif %}{% endfor %}{% endif %}

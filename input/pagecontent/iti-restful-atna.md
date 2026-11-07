@@ -17,7 +17,7 @@ This figure shows the actors directly involved in the _Add RESTful ATNA_ Profile
 between them.
 
 ### ATNA Actor Options
-§atna-1^ch-atna-audit-record-repository:The Audit Record Repository **SHALL** support the ATX: FHIR Feed Option.§
+The Audit Record Repository **SHALL** support the ATX: FHIR Feed Option.
 
 ### Required Actor Grouping  
 This national extension enforces authentication and authorization for access control. Therefore actors of this profile must be grouped with actors of other profiles according to the following table: 
