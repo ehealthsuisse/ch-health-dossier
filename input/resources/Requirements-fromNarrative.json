@@ -1462,6 +1462,24 @@
     {
       "extension": [
         {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementshallnot",
+          "valueBoolean": true
+        },
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-iua-authorization-client"
+        },
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-iua-authorization-server"
+        }
+      ],
+      "key": "clientreg-39",
+      "requirement": "Dynamic client registration **SHALL NOT** be used for portals (see [ITI-71](iti-71.html#portals)): a portal is registered out of band during onboarding by its operator, like a clinical archive system."
+    },
+    {
+      "extension": [
+        {
           "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
           "valueId": "ch-mhd-source"
         }
@@ -3212,6 +3230,32 @@
       ],
       "conditionality": true,
       "requirement": "The Authorization Server **SHALL** delete the stored authorization of a digital health application after three months without access by the application."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-iua-authorization-client"
+        }
+      ],
+      "key": "iti71-64",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "Authorization Clients acting as portals **SHALL** claim the scopes listed for the role of the user: the scopes of [digital health applications](iti-71.html#digital-health-applications) for holders and representatives (`PAT`, `REP`, `LEGREP`), and the scopes of [primary systems](iti-71.html#primary-systems) for healthcare professionals and assistants (`HCP`, `ASS`)."
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
+          "valueId": "ch-iua-authorization-server"
+        }
+      ],
+      "key": "iti71-65",
+      "conformance": [
+        "SHALL"
+      ],
+      "requirement": "If the Authorization Client is registered as a portal, the Authorization Server **SHALL** accept only the scopes listed for the role of the user in [Portals](iti-71.html#portals)."
     },
     {
       "extension": [

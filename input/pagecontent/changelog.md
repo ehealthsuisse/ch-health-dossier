@@ -56,6 +56,9 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
   `/.well-known/oauth-authorization-server` and `private_key_jwt` is required as client authentication.
 * Updated to changes in the IUA Revision 2.5 standard: the claims `subject_role` and `purpose_of_use` now are arrays 
   of FHIR Coding type [ch-epr-fhir#498](https://github.com/ehealthsuisse/ch-epr-fhir/pull/498).
+* Added the portal as an application type of [ITI-71](iti-71.html#portals): a portal is registered during onboarding,
+  conveys the user's identity token and claims the scopes of digital health applications for holders and
+  representatives, and the scopes of primary systems for healthcare professionals and assistants.
 
 #### OpenID Connect
 
