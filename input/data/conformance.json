@@ -374,6 +374,14 @@
       "text": "Dynamic client registration **SHALL NOT** be used for clinical archive systems with role `TCU` defined in \n[Internet User Authorization (IUA)](iti-iua.html)."
     },
     {
+      "id": "clientreg-39",
+      "text": "Dynamic client registration **SHALL NOT** be used for portals (see [ITI-71](iti-71.html#portals)): a portal is\nregistered out of band during onboarding by its operator, like a clinical archive system.",
+      "actors": [
+        "ch-iua-authorization-client",
+        "ch-iua-authorization-server"
+      ]
+    },
+    {
       "id": "clientreg-5",
       "actors": [
         "ch-iua-authorization-client"
@@ -1435,6 +1443,13 @@
       "text": "Authorization Clients acting as digital health applications (dGA) **SHALL** claim the scopes in the following table."
     },
     {
+      "id": "iti71-64",
+      "text": "Authorization Clients acting as portals **SHALL** claim the scopes listed for the role of the user: the scopes of\n[digital health applications](#digital-health-applications) for holders and representatives (`PAT`, `REP`, `LEGREP`),\nand the scopes of [primary systems](#primary-systems) for healthcare professionals and assistants (`HCP`, `ASS`).",
+      "actors": [
+        "ch-iua-authorization-client"
+      ]
+    },
+    {
       "id": "iti71-13",
       "actors": [
         "ch-iua-authorization-client"
@@ -1493,6 +1508,13 @@
       ],
       "summary": "For a digital health application or primary system, the Authorization Server **SHALL** verify that the client is authorized to act on behalf of the user and issue the access token only for the scopes authorized by the user",
       "text": "If the Authorization Client is registered as a digital health application or primary system, the Authorization Server **SHALL** additionally:\n\n1. Verify that the Authorization Client is authorized to access on behalf of the user. \n2. Issue the access token only for the scopes authorized by the user (see [Client Authorization](#client-authorization)).\n\n"
+    },
+    {
+      "id": "iti71-65",
+      "text": "If the Authorization Client is registered as a portal, the Authorization Server **SHALL** accept only the scopes\nlisted for the role of the user in [Portals](#portals).",
+      "actors": [
+        "ch-iua-authorization-server"
+      ]
     },
     {
       "id": "iti71-21",

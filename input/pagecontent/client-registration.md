@@ -28,6 +28,9 @@ Dynamic client registration **SHALL NOT** be used for clinical archive systems w
 [Internet User Authorization (IUA)](iti-iua.html). For security reasons, such systems require out-of-band 
 registration, including additional proofs of identity and authorization.
 
+Dynamic client registration **SHALL NOT** be used for portals (see [ITI-71](iti-71.html#portals)): a portal is
+registered out of band during onboarding by its operator, like a clinical archive system.
+
 
 ### Referenced Standards
 - [OAuth 2.0 Dynamic Client Registration Protocol (RFC 7591)](https://www.rfc-editor.org/rfc/rfc7591).

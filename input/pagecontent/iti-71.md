@@ -57,7 +57,7 @@ This section specifies the national extensions for the client credential grant f
 ##### Trigger Events
 
 A clinical archive system aims to access the EPR to write documents, or a user authenticates in a primary 
-system or in a digital health app to access data and Documents in the EPR. 
+system, a portal or a digital health app to access data and Documents in the EPR. 
 
 ##### Message Semantics
 
@@ -153,6 +153,17 @@ Authorization Clients acting as digital health applications (dGA) **SHALL** clai
 
 <figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
 
+###### Portals
+
+A portal is a web application, operated by a community or by another operator registered during onboarding, in which
+holders, representatives, healthcare professionals and assistants use the health dossier (e.g., the use case
+[Holder Access from a Portal](iti-iua.html#holder-access-from-a-portal) and the
+[consent management](ppqm-consent.html)). It acts for the authenticated user and conveys the user's identity token.
+
+Authorization Clients acting as portals **SHALL** claim the scopes listed for the role of the user: the scopes of
+[digital health applications](#digital-health-applications) for holders and representatives (`PAT`, `REP`, `LEGREP`),
+and the scopes of [primary systems](#primary-systems) for healthcare professionals and assistants (`HCP`, `ASS`).
+
 <br/>
 Note: The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values **SHALL** be URL
 encoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E`
@@ -169,7 +180,7 @@ When receiving a Token Request, the Authorization Server **SHALL**:
 1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 2. Verify that the Authorization Client was registered with the `client_id` during onboarding.
 3. Determine the application type the Authorization Client was registered as during Client 
-   Registration: clinical archive system, primary system or digital health application (dGA).
+   Registration: clinical archive system, primary system, digital health application (dGA) or portal.
 4. Verify that a scope claim for `purpose_of_use` and `subject_role` is present and accepted for the application type as required in [Message Semantics](#message-semantics).
 5. Verify that every additional scope claim is listed for that application type in the tables of the [Message Semantics](#message-semantics) section.
 6. Verify that both the resource type and the rights (e.g. .c, .rs, .cruds) of each claimed scope 
@@ -189,6 +200,10 @@ If the Authorization Client is registered as a digital health application or pri
 2. Issue the access token only for the scopes authorized by the user (see [Client Authorization](#client-authorization)).
 
 
+
+If the Authorization Client is registered as a portal, the Authorization Server **SHALL** accept only the scopes
+listed for the role of the user in [Portals](#portals). A portal is authorized for its users by its registration
+during onboarding; the [Client Authorization](#client-authorization) does not apply to it.
 
 If one of the checks above fails, the Authorization Server **SHALL** respond with HTTP 403 Forbidden.
 
