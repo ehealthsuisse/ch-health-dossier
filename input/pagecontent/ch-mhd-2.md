@@ -47,7 +47,7 @@ POST [base]/DocumentReference/[id]/$purge
 The operation has no input parameters and the request has no body. The operation is synchronous: the Document
 Responder processes the request completely before it responds.
 
-The operation **SHALL** be invoked as a standalone HTTP request, it **SHALL NOT** be part of a batch or transaction Bundle.
+The operation SHALL be invoked as a standalone HTTP request, it SHALL NOT be part of a batch or transaction Bundle.
 
 ##### Roles which may purge a document
 
@@ -81,11 +81,11 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 The Document Responder shall provide a [CapabilityStatement](CapabilityStatement-CH.MHD.DocumentResponder.html) with
 the capabilities interaction and indicate that the operation `purge` is available on the DocumentReference.
 
-The Document Responder **SHALL** process the Purge Document Request Message as follows:
+The Document Responder SHALL process the Purge Document Request Message as follows:
 
 1. Verify that the DocumentReference exists and that the requester is allowed to access it, as described in
    [Security Consideration](#security-consideration). If the DocumentReference does not exist, or the requester is not
-   allowed to access it, respond with HTTP `404 Not Found`. The response **SHALL NOT** disclose whether a document the
+   allowed to access it, respond with HTTP `404 Not Found`. The response SHALL NOT disclose whether a document the
    requester is not allowed to access exists.
 2. Verify that the requester is allowed to purge the document, as described in
    [Roles which may purge a document](#roles-which-may-purge-a-document). If the requester is allowed to access the
@@ -98,10 +98,10 @@ The Document Responder **SHALL** process the Purge Document Request Message as f
 5. Remove the references to the DocumentReference from other resources held by the Document Responder, e.g. the entry
    in the [SubmissionSet](StructureDefinition-ch-mhd-submissionset.html) the document was provided with.
 
-Any error that occurs during the processing **SHALL** cause the entire request to fail, nothing is removed and the Document
+Any error that occurs during the processing SHALL cause the entire request to fail, nothing is removed and the Document
 Responder returns the status and the error in its response message.
 
-After a successful purge the document and its metadata **SHALL NOT** be accessible anymore: a read of the DocumentReference
+After a successful purge the document and its metadata SHALL NOT be accessible anymore: a read of the DocumentReference
 or of the document responds with HTTP `404 Not Found`, and the DocumentReference is not returned by
 [Find Document References [ITI-67]](iti-67.html). A repeated purge of the same document therefore responds with
 HTTP `404 Not Found`.
@@ -109,46 +109,46 @@ HTTP `404 Not Found`.
 Documents which refer to the purged document with `DocumentReference.relatesTo`, e.g. a new version replacing it, are not
 purged, their reference to the purged document can no longer be resolved.
 
-Audit events recorded for the document, including the audit events of this transaction, **SHALL NOT** be purged. The
+Audit events recorded for the document, including the audit events of this transaction, SHALL NOT be purged. The
 audit events of this transaction record only the master identifier of the purged document, as the audit events of
 all document transactions do (see [CH:ATC](volume3.html#audit-trail-of-the-document-transactions)).
 
 #### Purge Document Response Message
 
-On success, the Document Responder **SHALL** respond with HTTP `200 OK` and an OperationOutcome with an issue of severity
+On success, the Document Responder SHALL respond with HTTP `200 OK` and an OperationOutcome with an issue of severity
 `information` and code `informational`:
 
 {% fragment OperationOutcome/MhdOperationOutcomePurgeSuccess JSON %}
 
-On failure, the Document Responder **SHALL** respond with the HTTP status code as described in
+On failure, the Document Responder SHALL respond with the HTTP status code as described in
 [Expected Actions](#expected-actions) and an OperationOutcome describing the error.
 
 ### Security Consideration
 
-The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates. 
+The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with server certificates. 
 
-The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
+The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-For every Purge Document [CH:MHD-2] request, the Document Responder **SHALL** enforce the access rules of the holder and of
+For every Purge Document [CH:MHD-2] request, the Document Responder SHALL enforce the access rules of the holder and of
 the requesting health professional or health institution, as described in
 [Appendix: Enforcement of Access Rules](accesscontrol.html) and in
-[Roles which may purge a document](#roles-which-may-purge-a-document). The Document Responder **SHALL** reject the request
+[Roles which may purge a document](#roles-which-may-purge-a-document). The Document Responder SHALL reject the request
 if the requester is not authorized to purge the document concerned.
 
-The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Security Audit Considerations
 
 ##### Document Source Audit
 
-The **Document Source** **SHALL** record an audit event according to
+The **Document Source** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-2] Document Source](StructureDefinition-ch-mhd-purgedocument-audit-source.html)
 ([example](AuditEvent-ChAuditEventChMhd2SourceExample.html), and
 [example of a purge by the holder](AuditEvent-ChAuditEventChMhd2SourcePatientExample.html)).
 
 ##### Document Responder Audit
 
-The **Document Responder** **SHALL** record an audit event according to
+The **Document Responder** SHALL record an audit event according to
 [CH Audit Event for [CH:MHD-2] Document Responder](StructureDefinition-ch-mhd-purgedocument-audit-responder.html)
 ([example](AuditEvent-ChAuditEventChMhd2ResponderExample.html), and
 [example of a purge by the holder](AuditEvent-ChAuditEventChMhd2ResponderPatientExample.html)).

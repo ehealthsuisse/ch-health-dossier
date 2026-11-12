@@ -4,7 +4,7 @@ This page describes how an Authorization Client is registered at the Authorizati
 request access tokens with [ITI-71](iti-71.html).
 
 In the Swiss Health Dossier, the Authorization Server identifies each client application by its `client_id`.
-The `client_id` **SHALL** be unique to the Authorization Client. The client passes it to the Authorization
+The `client_id` SHALL be unique to the Authorization Client. The client passes it to the Authorization
 Server in every Token Request. The Authorization Server uses the `client_id` to identify the client application
 and to determine which scopes are authorized.
 
@@ -18,13 +18,13 @@ of that instance share this registration.
 
 This page covers two variants of dynamic client registration. In both, the request is authorized by a natural
 person who is authenticated at an Identity Provider accepted for the Swiss Health Dossier.
-- *User Authorized Client Registration:* **SHALL** be used by healthcare professionals or assistants to register
+- *User Authorized Client Registration:* SHALL be used by healthcare professionals or assistants to register
   a primary system.
-- *dGA Client Registration:* **SHALL** be used by holders to register a digital health application
+- *dGA Client Registration:* SHALL be used by holders to register a digital health application
   (dGA, e.g., a mobile health application). In addition, the dGA is identified by a software statement issued by the
   Federal Office of Public Health (FOPH).
 
-Dynamic client registration **SHALL NOT** be used for clinical archive systems with role `TCU` defined in 
+Dynamic client registration SHALL NOT be used for clinical archive systems with role `TCU` defined in 
 [Internet User Authorization (IUA)](iti-iua.html). For security reasons, such systems require out-of-band 
 registration, including additional proofs of identity and authorization.
 
@@ -84,16 +84,16 @@ Table: Sequence for dGA Client Registration
 To register, the client sends an HTTP POST with content type `application/json` to the client registration
 endpoint. The payload is a JSON document containing the requested client metadata.
 
-The Client Registration Request **SHALL** contain the following parameters:
-- *client_name*: **SHALL** be a human-readable name of the client, to be presented to the end user.
-- *token_endpoint_auth_method*: **SHALL** be `private_key_jwt`.
-- *grant_types*: **SHALL** be `client_credentials`.
-- *scope*: **SHALL** be the list of scopes the client can use when requesting tokens, formatted as a string of
+The Client Registration Request SHALL contain the following parameters:
+- *client_name*: SHALL be a human-readable name of the client, to be presented to the end user.
+- *token_endpoint_auth_method*: SHALL be `private_key_jwt`.
+- *grant_types*: SHALL be `client_credentials`.
+- *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
 space-separated values (see [ITI-71](iti-71.html#message-semantics)).
-- *jwks*: **SHALL** be a JSON Web Key Set (JWKS) containing the public key used for asymmetric client authentication (JWT).
-- *id_token*: **SHALL** be the signed JWT containing the identity token issued by the Identity Provider.
-- *software_statement*: A signed JWT containing the software statement defined below. It **SHALL** be present for 
-dGA Client Registration and **SHALL NOT** be present otherwise.
+- *jwks*: SHALL be a JSON Web Key Set (JWKS) containing the public key used for asymmetric client authentication (JWT).
+- *id_token*: SHALL be the signed JWT containing the identity token issued by the Identity Provider.
+- *software_statement*: A signed JWT containing the software statement defined below. It SHALL be present for 
+dGA Client Registration and SHALL NOT be present otherwise.
 
 The software statement allows a dGA to present its client metadata in a way that the Authorization Server can verify
 it was issued and signed by the FOPH as part of the dGA admission process.
@@ -111,7 +111,7 @@ The software statement contains the following claims:
 
 ##### Expected Actions
 
-Upon receiving the registration request, the Authorization Server **SHALL**:
+Upon receiving the registration request, the Authorization Server SHALL:
 
 1. verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. verify that the `id_token` is signed by one of the Identity Providers accepted for the health dossier.
@@ -125,11 +125,11 @@ the current time does not exceed the software statement expiration time `exp`.
 
 
 
-If all checks succeed, the Authorization Server **SHALL** assign a unique `client_id` to the client application and
+If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
 register the application with this `client_id`, the user ID and the issuer identifier from the `id_token`, and 
 the submitted metadata, including the public key for client authentication.
 
-If one of the above checks fails, the Authorization Server **SHALL** reject the request with an error response as defined in
+If one of the above checks fails, the Authorization Server SHALL reject the request with an error response as defined in
 [RFC 7591, Section 3.2.2](https://www.rfc-editor.org/rfc/rfc7591#section-3.2.2), e.g., `invalid_client_metadata`, `invalid_software_statement` or 
 `unapproved_software_statement`.
 
@@ -206,7 +206,7 @@ Where the `software_statement` payload may look like:
 ```
 
 The software statement of this example is signed with the following example key of the FOPH (JWKS, `kid`
-`foph-example-2026`), which can be used to verify the signature. This key is an example key only and **SHALL NOT** be used outside of testing:
+`foph-example-2026`), which can be used to verify the signature. This key is an example key only and SHALL NOT be used outside of testing:
 
 ```json
 {"keys": [{
@@ -231,20 +231,20 @@ The software statement of this example is signed with the following example key 
 Upon a successful registration request, the Authorization Server generates a new `client_id` and returns it to the
 client together with the metadata associated with the client.
 
-The Client Information Response **SHALL** contain the following parameters:
-- *client_id*: **SHALL** be a unique ID assigned by the Authorization Server.
-- *client_name*: **SHALL** be the client name from the request.  
-- *client_id_issued_at*: **SHALL** be the Unix timestamp at which the Authorization Server issued the `client_id`.
-- *token_endpoint_auth_method*: **SHALL** be `private_key_jwt`.
-- *grant_types*: **SHALL** be `client_credentials`.
-- *scope*: **SHALL** be the list of scopes the client can use when requesting tokens, formatted as a string of
+The Client Information Response SHALL contain the following parameters:
+- *client_id*: SHALL be a unique ID assigned by the Authorization Server.
+- *client_name*: SHALL be the client name from the request.  
+- *client_id_issued_at*: SHALL be the Unix timestamp at which the Authorization Server issued the `client_id`.
+- *token_endpoint_auth_method*: SHALL be `private_key_jwt`.
+- *grant_types*: SHALL be `client_credentials`.
+- *scope*: SHALL be the list of scopes the client can use when requesting tokens, formatted as a string of
   space-separated values.
-- *jwks*: **SHALL** be the JSON Web Key Set from the request.
+- *jwks*: SHALL be the JSON Web Key Set from the request.
 
 ##### Expected Actions
 
-The Authorization Client **SHALL** store the `client_id` and the metadata returned in the registration response, and
-**SHALL** use them in all subsequent Token Requests to the Authorization Server.
+The Authorization Client SHALL store the `client_id` and the metadata returned in the registration response, and
+SHALL use them in all subsequent Token Requests to the Authorization Server.
 
 ##### Message Example
 
@@ -282,13 +282,13 @@ Pragma: no-cache
 
 ### Security Consideration 
 
-The Authorization Server **SHALL** use TLS 1.2 or higher for the dynamic registration endpoint. The Authorization Client 
-**SHALL** verify the Authorization Server’s TLS certificate.
+The Authorization Server SHALL use TLS 1.2 or higher for the dynamic registration endpoint. The Authorization Client 
+SHALL verify the Authorization Server’s TLS certificate.
 
-The Authorization Client **SHALL** provide a JSON Web Key (JWK) that meets the Authorization Server’s requirements. 
-The Authorization Server **SHALL** support, at a minimum, the RS256 algorithm (RSASSA-PKCS1-v1_5 using SHA-256).
+The Authorization Client SHALL provide a JSON Web Key (JWK) that meets the Authorization Server’s requirements. 
+The Authorization Server SHALL support, at a minimum, the RS256 algorithm (RSASSA-PKCS1-v1_5 using SHA-256).
 
-If a software statement is used, the Authorization Client **SHALL** keep it confidential and **SHALL NOT** present 
+If a software statement is used, the Authorization Client SHALL keep it confidential and SHALL NOT present 
 it to any party other than the Authorization Server.
 
 This can be achieved, for example, by multi-tier web applications that store the software statement exclusively 
@@ -302,7 +302,7 @@ if they obtain it at installation time from an endpoint operated by the vendor, 
 The `id_token` in the Client Registration Request identifies the registering user, i.e. the user who performs the 
 registration of the client application.
 
-The authorization server **SHALL** use the id_token to verify that:
+The authorization server SHALL use the id_token to verify that:
 
 1. the registering user is a registered health dossier user; and
 2. the registering user is authorized to register a client application of the requested type, e.g. a health professional 
@@ -310,21 +310,21 @@ registering a primary system or a holder registering a digital health applicatio
 
 
 
-The `id_token` **SHALL** be used solely for the purpose of authenticating and authorizing the registration. The 
+The `id_token` SHALL be used solely for the purpose of authenticating and authorizing the registration. The 
 registering user and the end user of the registered client application MAY be different persons. A client 
 application registration is therefore not bound to the identity of the registering user for the purpose of later 
-data access, and the authorization server **SHALL NOT** assume that the end user is the registering user. For instance, 
+data access, and the authorization server SHALL NOT assume that the end user is the registering user. For instance, 
 a primary system may be registered by one health professional and subsequently used by other health professionals 
 or assistants in the same practice.
 
 #### Client registration and data access
 
 Registration of a client application is a prerequisite for communicating with the health dossier services. A client 
-application that has not been registered **SHALL NOT** be granted access to any health dossier service.
+application that has not been registered SHALL NOT be granted access to any health dossier service.
 
-Registration **SHALL NOT**, by itself, grant access to data in the health dossier.
+Registration SHALL NOT, by itself, grant access to data in the health dossier.
 
-Access to dossier data **SHALL** be granted 
+Access to dossier data SHALL be granted 
 only if all the following conditions are met:
 
 1. the identity of the current user has been established and verified;
@@ -333,5 +333,5 @@ only if all the following conditions are met:
 
 
 
-The authorization server and the health dossier services **SHALL** evaluate these conditions for each access request. 
-If any condition is not met, the request **SHALL** be rejected.
+The authorization server and the health dossier services SHALL evaluate these conditions for each access request. 
+If any condition is not met, the request SHALL be rejected.

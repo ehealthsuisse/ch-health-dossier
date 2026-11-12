@@ -16,7 +16,7 @@ Otherwise there are no extensions or restrictions to the profile actors and the 
 This figure shows the actors directly involved in the _Patient Identifier Cross-referencing for mobile_ Profile and 
 the relevant transactions between them.
 
-The Mobile Patient Identifier Cross-reference Query [[ITI-83]](https://profiles.ihe.net/ITI/PIXm/ITI-83.html) transaction defined in [PIXm](https://profiles.ihe.net/ITI/PIXm/index.html) **SHALL NOT** be made available in this context.
+The Mobile Patient Identifier Cross-reference Query [[ITI-83]](https://profiles.ihe.net/ITI/PIXm/ITI-83.html) transaction defined in [PIXm](https://profiles.ihe.net/ITI/PIXm/index.html) SHALL NOT be made available in this context.
 
 ### Actor Options  
 No extensions or restrictions to the profile actor options are specified in the Swiss national extension. Support for the 'Remove Patient' option for Patient Identity Source and Patient Identifier Cross-reference Manager is not required. 

@@ -25,7 +25,7 @@ where:
 #### Additional ATNA Search Parameters
 
 The Patient Audit Consumer may use the search parameters listed in Retrieve ATNA Audit Event [ITI-81]. The Patient Audit
-Record Service **SHALL** evaluate all search parameters on the masked audit events (see [Expected Actions](#expected-actions)),
+Record Service SHALL evaluate all search parameters on the masked audit events (see [Expected Actions](#expected-actions)),
 never on the recorded audit events: a search parameter on an element which is not returned, e.g. `address` or the
 identifier of an assistant, does not match any audit event.
 
@@ -42,13 +42,13 @@ For the CH:ATC profile the entity.identifier has to be the EPR-SPID:
 
 #### Sort
 
-The Patient Audit Record Service **SHALL** support the FHIR result parameter
+The Patient Audit Record Service SHALL support the FHIR result parameter
 [`_sort`](http://hl7.org/fhir/R4/search.html#sort) with the search parameter `date` as sort key, in ascending
 (`_sort=date`) and descending (`_sort=-date`) order. The sort is evaluated on the masked
 values, see [Search and sort on the masked values](#search-and-sort-on-the-masked-values).
 
 The Patient Audit Consumer MAY use `_sort`. A Patient Audit Consumer which relies on a specific order of the audit
-events **SHALL** request it with `_sort` and **SHALL NOT** assume a default order of the Patient Audit Record Service. For
+events SHALL request it with `_sort` and SHALL NOT assume a default order of the Patient Audit Record Service. For
 example, the most recent audit events first:
 ``` http
 http://example.com/fhir/AuditEvent?date=ge2026-03-22&date=le2026-10-07&entity.identifier=urn:oid:2.16.756.5.30.1.127.3.10.3|761337610411353650&_sort=-date
@@ -62,7 +62,7 @@ the requests, see [Audit trail of the document transactions](volume3.html#audit-
 [Audit trail of the consent transactions](volume3.html#audit-trail-of-the-consent-transactions). They are not returned
 as recorded, but masked and without duplicates as described in [Expected Actions](#expected-actions).
 
-The response **SHALL** conform to [Retrieve ATNA Audit Event [ITI-81] Response](StructureDefinition-CH-ATC.ITI-81.Response.html),
+The response SHALL conform to [Retrieve ATNA Audit Event [ITI-81] Response](StructureDefinition-CH-ATC.ITI-81.Response.html),
 and each audit event to [CH Audit Trail Event](StructureDefinition-ChAuditTrailEvent.html), see the
 [example](Bundle-ch-atc-iti-81-response-sample.html).
 
@@ -84,7 +84,7 @@ e.g. because the requester had no access right, did not process any data of the 
 
 ##### Masking
 
-The Patient Audit Record Service **SHALL** apply the following rules to every audit event of the response, whoever
+The Patient Audit Record Service SHALL apply the following rules to every audit event of the response, whoever
 performed the event, including the holder and the representatives:
 
 <ol type="a">
@@ -115,7 +115,7 @@ The masked audit events conform to [CH Audit Trail Event](StructureDefinition-Ch
 
 ##### Duplicates
 
-Audit events which are identical after the masking, apart from `id` and `meta`, **SHALL** be returned only once, so that the
+Audit events which are identical after the masking, apart from `id` and `meta`, SHALL be returned only once, so that the
 response does not show how often the same user performed the same action on the same data on one day. Each remaining
 audit event is returned as an AuditEvent resource of its own; the audit events are not combined into a summary.
 
@@ -123,39 +123,39 @@ For example, a healthcare professional who retrieves the same document three tim
 audit event of the type `ATC_DOC_READ` for that day. Retrieving two different documents on that day results in two
 audit events.
 
-The Patient Audit Record Service **SHALL** remove the duplicates before paging the result; `Bundle.total`, where
+The Patient Audit Record Service SHALL remove the duplicates before paging the result; `Bundle.total`, where
 returned, counts the audit events after the removal.
 
 ##### Search and sort on the masked values
 
-The Patient Audit Record Service **SHALL** evaluate the search parameter `date` and the sort on the masked values, never
+The Patient Audit Record Service SHALL evaluate the search parameter `date` and the sort on the masked values, never
 on the recorded time, so that a search with a time of day cannot narrow down the time of an event. The Patient Audit
-Consumer **SHOULD** search with dates (`YYYY-MM-DD`). The order of the audit events within a day carries no meaning.
+Consumer SHOULD search with dates (`YYYY-MM-DD`). The order of the audit events within a day carries no meaning.
 
 #### Security Considerations
 
-The transaction **SHALL** be secured by Transport Layer Security (TLS) encryption and server authentication with
+The transaction SHALL be secured by Transport Layer Security (TLS) encryption and server authentication with
 server certificates.
 
-The transaction **SHALL** use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
+The transaction SHALL use client authentication and authorization using an extended access token defined in [IUA](iti-71.html) conveyed as defined in the [Incorporate Access Token [ITI-72]](https://profiles.ihe.net/ITI/IUA/index.html#372-incorporate-access-token-iti-72) transaction.
 
-For every Retrieve ATNA Audit Event [ITI-81] request, the Patient Audit Record Service **SHALL** enforce the access
+For every Retrieve ATNA Audit Event [ITI-81] request, the Patient Audit Record Service SHALL enforce the access
 rules as described in [Appendix: Enforcement of Access Rules](accesscontrol.html).
-Audit records the requester is not authorized to see **SHALL NOT** be included in the response.
+Audit records the requester is not authorized to see SHALL NOT be included in the response.
 
-The actors **SHALL** support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
+The actors SHALL support the _traceparent_ header handling, as defined in [Appendix: Trace Context](tracecontext.html).
 
 #### Security Audit Considerations
 
 ##### Patient Audit Consumer Audit
 
-The **Patient Audit Consumer** **SHALL** record an audit event according to
+The **Patient Audit Consumer** SHALL record an audit event according to
 [CH Audit Event for [ITI-81] Patient Audit Consumer](StructureDefinition-ChAuditEventIti81Consumer.html)
 ([example](AuditEvent-ChAuditEventIti81ConsumerExample.html)).
 
 ##### Patient Audit Record Service Audit
 
-The **Patient Audit Record Service** **SHALL** record an audit event according to
+The **Patient Audit Record Service** SHALL record an audit event according to
 [CH Audit Event for [ITI-81] Patient Audit Record Service](StructureDefinition-ChAuditEventIti81Service.html)
 ([example](AuditEvent-ChAuditEventIti81ServiceExample.html)) for every Retrieve ATNA Audit Event [ITI-81] request,
 with the type `ATC_LOG_READ` in the audit trail of the holder, whoever made the request (the holder, a

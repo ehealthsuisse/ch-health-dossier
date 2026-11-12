@@ -22,10 +22,10 @@ traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-00
 Each actor shall support the `traceparent` header. Grouped actors shall use the same **trace-id** value to correlate
 IHE transactions.
 
-Actors of all transactions **SHALL** support the W3C Trace Context Recommendation. 
-Actors of all transactions **SHOULD** send the HTTP header `traceparent` in requests.
+Actors of all transactions SHALL support the W3C Trace Context Recommendation. 
+Actors of all transactions SHOULD send the HTTP header `traceparent` in requests.
 
-Moreover, when serving incoming requests, each actor **SHALL**:
+Moreover, when serving incoming requests, each actor SHALL:
 
 - Accept the HTTP header `traceparent` if it is contained in the incoming request and is a valid value, otherwise generate it.
 - Send the HTTP header `traceparent` in all requests induced by the incoming request, with the same value of the field **trace-id** as for the incoming request.
@@ -37,7 +37,7 @@ It also links transactions to their audit events, through the whole `traceparent
 
 #### Audit event requirements
 
-The `traceparent` header value of a transaction **SHALL** be added to the generated Audit Event: for the client,
+The `traceparent` header value of a transaction SHALL be added to the generated Audit Event: for the client,
 the header value of the request; for the responder, the header value of the response.
 It is described as an `AuditEvent.entity`, with the `type` and `role` elements as demonstrated below.
 

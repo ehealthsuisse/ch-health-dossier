@@ -20,14 +20,14 @@ uses this identifier internally to identify the user. It is never presented to c
 of this specification.
 
 The health dossier requires the identity provider to present an identifier to client applications after authentication. 
-To support single sign-on and cross-application identification, this identifier **SHALL** be persistent 
+To support single sign-on and cross-application identification, this identifier SHALL be persistent 
 (see [OpenID Connect](openid-connect.html)).
 
-The identity provider **SHALL** convey the persistent identifier as the Subject Identifier in the `sub` claim of the 
+The identity provider SHALL convey the persistent identifier as the Subject Identifier in the `sub` claim of the 
 `id_token`, together with the user’s demographic data and any optional additional identifiers 
 (see [OpenID Connect](openid-connect.html#identity-token)).
 
-To identify the user in the health dossier, the Subject Identifier issued by the identity provider **SHALL** be converted 
+To identify the user in the health dossier, the Subject Identifier issued by the identity provider SHALL be converted 
 to the identifier used in the health dossier. For this purpose, a client that accesses data in the health dossier 
 shall present the `id_token` with the [Get Access Token](iti-71.html#message-semantics) request. 
 
