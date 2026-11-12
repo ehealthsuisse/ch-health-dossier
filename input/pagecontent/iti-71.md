@@ -153,12 +153,6 @@ Authorization Clients acting as digital health applications (dGA) SHALL claim th
 
 <figcaption ID="dga-scopes">Table: Supported scopes for digital health applications.</figcaption>
 
-<br/>
-Note: The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values SHALL be URL
-encoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E`
-and `&` as `%26` (see the [message examples](#message-example)).
-
-
 ##### Expected Actions
 
 The Authorization Server SHALL validate the claims as described in the following sections. If the validation succeeds, 

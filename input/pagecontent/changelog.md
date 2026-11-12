@@ -59,6 +59,8 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
 * [ITI-71](iti-71.html#expected-actions): for a holder, the Authorization Server verifies that the `person_id` of the
   Token Request is the holder's own EPR-SPID; the Authorization Server binds the token to the user and the holder, and
   the Resource Server enforces the access rights for each request.
+* [ITI-71](iti-71.html#message-semantics): removed the note on the URL encoding of the Token Request parameters
+  [#69](https://github.com/ehealthsuisse/ch-health-dossier/issues/69).
 
 #### OpenID Connect
 
