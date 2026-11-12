@@ -65,8 +65,8 @@ document](iti-mhd.html#use-cases)), the Document Source provides the corrected d
 `DocumentReference.relatesTo` of type `replaces` to the document it corrects. The Document Recipient SHALL set the
 `status` of the replaced document to `superseded` and SHALL keep it accessible: a superseded document is no longer
 returned when searching for the current documents, but it can still be found with the `status` search parameter in
-[ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html). The confidentiality code of the replaced document SHALL
-NOT be changed by the replacement. The Document Source sets the [confidentiality code](document-sharing-metadata.html#confidentiality-code) of the
+[ITI-67](iti-67.html) and retrieved with [ITI-68](iti-68.html). The confidentiality code of the replaced document
+SHALL NOT be changed by the replacement. The Document Source sets the [confidentiality code](document-sharing-metadata.html#confidentiality-code) of the
 new version, which may differ from the one of the replaced document.
 
 Examples: [Provide Document Bundle for a corrected document](Bundle-BundleProvideDocumentCorrection.html), which

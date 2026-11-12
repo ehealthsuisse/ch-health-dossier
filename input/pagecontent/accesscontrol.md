@@ -12,7 +12,9 @@ in the health dossier. In medical emergencies, health professionals and health i
 without a granted right, unless the holder has excluded emergency access.
 
 Every actor serving a request of the Health Dossier API SHALL evaluate and enforce these rules individually for each
-request, before any data is created, updated, returned or otherwise disclosed. The decision SHALL take into account:
+request, before any data is created, updated, returned or otherwise disclosed.
+
+The decision SHALL take into account:
 
 - the authenticated identity, the role, the organization and the purpose of use of the requester, as conveyed in the
   access token (see [Get Access Token [ITI-71]](iti-71.html));
@@ -20,6 +22,8 @@ request, before any data is created, updated, returned or otherwise disclosed. T
   institutions (see [Find Matching Care Services [ITI-90]](iti-90.html)) and the treatment context they assert;
 - the rights by law and the consents in effect for the holder concerned, including those defined by a representative;
 - the confidentiality level of the data concerned.
+
+
 
 A request that is not permitted SHALL be rejected. Data the requester is not authorized to see SHALL NOT be included
 in a response.
@@ -82,7 +86,7 @@ A request with the purpose of use `EMER` from a health professional or assistant
 of the level "normal" only while the [emergency access setting](ppqm-consent.html#consent-emergency-access-setting) of the holder is of
 type permit. If the health professional, or a group or health institution in the access token, already holds an
 access right, the request SHALL be processed with that access right as a normal access, and SHALL NOT trigger a
-notification of the holder. Otherwise the holder SHALL be notified when an emergency access is activated, once for a
+notification of the holder. If no such access right is held, the holder SHALL be notified when an emergency access is activated, once for a
 sequence of emergency accesses of the same health professional or assistant.
 
 The actor serving the request SHALL record in its audit event (see [ITI-20](iti-20.html)) the lowest purpose of use
@@ -98,7 +102,7 @@ token.
 
 The administration (`ADM`) acts only on the health dossiers managed by its community: the community of the
 administration (`subject_organization_id` of the access token, see [ITI-71](iti-71.html#administrators)) SHALL be the
-community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Requests for
+community managing the health dossier (`Consent.organization` of the [opening](ppqm-consent.html#consent-opening)). Requests of the administration for
 other health dossiers SHALL be rejected.
 
 The administration is not authorized generally by its role: it processes the content or the settings of a health

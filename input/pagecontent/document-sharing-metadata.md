@@ -107,8 +107,8 @@ determines who may provide a [new version](iti-65.html#correction-of-a-provided-
 The provider role SHALL be conveyed in the DocumentReference with the extension
 [http://fhir.ch/ig/ch-health-dossier/StructureDefinition/ch-ext-provider-role](StructureDefinition-ch-ext-provider-role.html),
 with a value from the value set [CH Health Dossier Provider Role](ValueSet-HealthDossierProviderRole.html). The
-Document Source SHALL set it to the role of the current user, which the Document Recipient verifies against the access
-token (see [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution)). It SHALL NOT be
+Document Source SHALL set the provider role to the role of the current user, which the Document Recipient verifies against the access
+token (see [ITI-65](iti-65.html#verification-of-the-provider-role-and-the-provider-institution)). The provider role SHALL NOT be
 changed with [CH:MHD-1](ch-mhd-1.html#metadata-which-may-be-updated).
 
 ### Provider institution

@@ -5,7 +5,7 @@ This national extension defines restrictions and extensions to the
 retrieve EPR compliant identity tokens used to identify and authenticate users. 
 
 Identity Providers SHALL provide trusted endpoints for Relying Parties implementing the OpenID Connect 1.0 authorization
-code flow fulfilling the requirements defined in this section. Other flows supported by OpenID Connect SHALL not be 
+code flow fulfilling the requirements defined in this section. Other flows supported by OpenID Connect SHALL NOT be 
 supported.
 
 ### Definition of terms 
@@ -31,8 +31,7 @@ provider on a contractual basis.
 
 Certificate Authority - Identity provider MAY operate a managed Certificate Authority (CA) that is 
 operated according to documented processes detailed in a Certificate Policy (CP) and Certificate Practice
-Statement (CPS). The CA's processes SHALL meet the requirements of class 1 certificates defined within 
-the [eCH-0048 PKI Certificate Classes standard Version 2.0](https://www.ech.ch/de/ech/ech-0048/2.0). They MAY 
+Statement (CPS). The requirements for the CA's processes are defined in [Back-channel Communication](#back-channel-communication). They MAY 
 use this Certificate Authority to issue client certificates (mTLS) for Relying Parties. Identity providers 
 MAY delegate the service to other providers on a contractual basis. 
 
@@ -108,18 +107,18 @@ The Authentication Request SHALL contain the following parameters:
 - *response_type*: The value SHALL be *code*.
 - *client_id*: The value SHALL be the Client Identifier the Relying 
   Party was registered with at the Identity Provider.
-- *redirect_uri*: SHALL convey the redirection URIs the Access Token
-  Response SHALL be sent to. Its value must match one of the
-  redirection URI the Relying Party was registered at the Identity Provider.
+- *redirect_uri*: SHALL convey the redirection URI the Authentication
+  Response SHALL be sent to. Its value SHALL match one of the
+  redirection URIs the Relying Party was registered with at the Identity Provider.
 - *state*: SHALL convey an opaque value used to maintain the state
   between the request and the response to mitigate Cross-Site Request Forgery
   attacks.
 - *nonce*: SHALL convey an opaque string passed through from the
   Authentication Request to the ID Token to mitigate replay attacks.
-- *code_challenge*: code challenge derived from the code verifier
+- *code_challenge*: SHALL convey the code challenge derived from the code verifier
   using the code challenge method as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
-- *code_challenge_method*: code challenge method indicator defined
-  in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value must be S256.
+- *code_challenge_method*: SHALL convey the code challenge method indicator defined
+  in [PKCE](https://www.rfc-editor.org/info/rfc7636/). Its value SHALL be S256.
 
 The Identity Provider SHALL validate the Authentication Request as specified in 
 the [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) specification.
@@ -153,26 +152,27 @@ The Access Token Request SHALL contain the following parameters:
   retrieved with the Authentication Response.
 - *client_id*: SHALL be the Client Identifier the Relying
   Party was registered with at the Identity Provider.
-- *redirect_uri*: SHALL convey the redirection URI the Access Token
-  Response SHALL be sent to. Its value must match the redirection URI
-  sent with the Authentication Request.
-- *code_verifier*: The code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/).
+- *redirect_uri*: SHALL be the redirection URI sent with the
+  Authentication Request.
+- *code_verifier*: SHALL convey the code verifier value as defined in [PKCE](https://www.rfc-editor.org/info/rfc7636/)
+  from which the *code_challenge* of the Authentication Request was derived.
 
 The Identity Provider SHALL validate the Access Token Request as follows:
-1. Identify the client using the `client_id`. 
-2. Authenticate the Relying Party, if the client application is
-   registered as a confidential client. 
-3. Verify that the authorization code was issued to the Relying Party
-   in response to an Authentication Request. 
-4. Verify that the authorization code was not used before. 
-5. Verify that the value of the `redirect_uri` parameter sent with the
+
+1. The Identity Provider SHALL identify the client using the `client_id`.
+2. The Identity Provider SHALL authenticate the Relying Party, if the client application is
+   registered as a confidential client.
+3. The Identity Provider SHALL verify that the authorization code was issued to the Relying Party
+   in response to an Authentication Request.
+4. The Identity Provider SHALL verify that the authorization code was not used before.
+5. The Identity Provider SHALL verify that the value of the `redirect_uri` parameter sent with the
    Access Token Request matches the one sent with the Authentication
-   Request. 
-6. Verify that the value of the `redirect_uri` parameter sent with the
+   Request.
+6. The Identity Provider SHALL verify that the value of the `redirect_uri` parameter sent with the
    Access Token Request matches one of the redirect URIs registered
-   for the Relying Party. 
-7. Verify that the `code_verifier` matches the `code_challenge` sent
-   with the authentication request respecting the S256 code challenge
+   for the Relying Party.
+7. The Identity Provider SHALL verify that the `code_verifier` matches the `code_challenge` sent
+   with the Authentication Request respecting the S256 code challenge
    method.
 
 #### Access Token Response
@@ -232,11 +232,11 @@ The Identity Token MAY contain other claims which SHALL be ignored by the Relyin
 
 The Relying Parties SHALL validate Identity Tokens as follows:
 
-1. Verify that the unique identifier of the Issuer matches the one registered for the Identity Provider. 
-2. Verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party. 
-3. Validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter. 
-4. Verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider. 
-5. Verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request.
+1. The Relying Party SHALL verify that the unique identifier of the Issuer matches the one registered for the Identity Provider.
+2. The Relying Party SHALL verify that the value of the *aud* parameter matches the Client Identifier of the Relying Party.
+3. The Relying Party SHALL validate the signature according to [JSON Web Signature](https://www.rfc-editor.org/info/rfc7515/) using the algorithm specified in the JWT *alg* Header Parameter.
+4. The Relying Party SHALL verify that the Identity Token is not expired and the current time is later than or equal to the time the token was issued by the Identity Provider.
+5. The Relying Party SHALL verify that a *nonce* claim is present and its value matches the one that was sent in the Authentication Request.
 
 ##### Message Example
 
@@ -279,11 +279,14 @@ UserInfo Requests from the Relying Party using back-channel communication. The U
 (JWT) compliant to the [OpenID Connect 1.0 UserInfo Response message](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo).
 
 The UserInfo Response SHALL contain the following parameters:
+
 - *sub*: The subject identifier of the user.
 - *first_name*: The first name of the user.
 - *family_name*: The family name of the user.
 - *gender*: The user's coded gender with the value from the value set EprGender (2.16.756.5.30.1.127.3.10.1.25).
 - *birthdate*: The user's date of birth as ISO 8601-1:2019 formatted string.
+
+
 
 If the Identity Provider delivers the GLN of healthcare professionals or assistants, the UserInfo Response 
 SHALL contain a *gln* parameter conveying the GLN of healthcare professionals and assistants.
@@ -293,8 +296,7 @@ the [OpenID Connect 1.0 Core](https://openid.net/specs/openid-connect-core-1_0.h
 
 In case of an error the Identity Provider SHALL respond a HTTP Error as defined in [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html#UserInfoError) specification.
 
-The UserInfo response message SHALL be signed using recommended cryptographic signature standards and the 
-signature SHALL be validated by the relying party.
+The UserInfo response message SHALL be signed using recommended cryptographic signature standards. The signature of the UserInfo response message SHALL be validated by the Relying Party.
 
 ##### Message Example
 
@@ -324,7 +326,7 @@ A *LogoutRequest* message SHALL convey the following parameters:
 - *state*: SHALL convey an opaque value used to maintain the state
    between the request and the response to mitigate Cross-Site Request Forgery attacks.
 
-The Logout Request MAY contain other claims which SHALL be ignored by the Identity Provider.
+The Logout Request MAY contain other parameters which SHALL be ignored by the Identity Provider.
 
 The Identity Provider SHALL validate *LogoutRequest* messages by verifying that the Identity Token was 
 issued by the Identity Provider for the requesting Relying Party and the user.
@@ -345,8 +347,8 @@ Location: https://idp.com/logout?id_token_hint=eyJhbGciOiJIUz...&state=14424&pos
 #### Front-channel Communication
 
 The User Agent and the Identity Provider SHALL communicate through an authenticated and protected channel using 
-TLS 1.2 or higher. The Identity Provider SHALL identify and authenticate itself with X.509 certificates
-issued by a class 2 TLS certificate issued by a trusted certificate service provider according to ZertES; 
+TLS 1.2 or higher. The Identity Provider SHALL identify and authenticate itself towards the User Agent with class 2
+X.509 certificates issued by a trusted certificate service provider according to ZertES; 
 SR 943.03 and listed by the Swiss Accreditation Service (SAS).
 
 #### Back-channel Communication
@@ -358,8 +360,8 @@ responses.
 The Identity Provider SHALL NOT use redirects through an intermediary user agent (e.g., Web Browser) to send requests
 to Relying Parties.
 
-The Identity Provider SHALL identify and authenticate itself with class 2 X.509 certificates 
-issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss
+The Identity Provider SHALL identify and authenticate itself towards the Relying Parties with class 2
+X.509 certificates issued by a trusted certificate service provider according to ZertES; SR 943.03 and listed by the Swiss
 Accreditation Service (SAS).
 
 Identity Provider SHALL identify and authenticate the Relying Parties by using mutual TLS (mTLS) or the 

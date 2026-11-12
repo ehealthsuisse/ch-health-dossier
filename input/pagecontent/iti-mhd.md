@@ -44,7 +44,7 @@ The actions of the holder in the use cases above (providing, search and download
 This figure shows the actors directly involved in the _Mobile Access to Health Documents_ Profile and the relevant 
 transactions between them.
 
-The Find Document Lists [[ITI-66]](https://profiles.ihe.net/ITI/MHD/ITI-66.html) transaction defined in [MHD](https://profiles.ihe.net/ITI/MHD/index.html) SHALL not be made available in this context.
+The Find Document Lists [[ITI-66]](https://profiles.ihe.net/ITI/MHD/ITI-66.html) transaction defined in [MHD](https://profiles.ihe.net/ITI/MHD/index.html) SHALL NOT be made available in this context.
 
 ### Actor options  
 

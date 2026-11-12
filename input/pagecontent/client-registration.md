@@ -123,6 +123,8 @@ representative for dGA Client Registration, a healthcare professional or assista
 checking that `iss` matches the FOPH identifier, verifying the signature with the FOPH's public key, and checking that 
 the current time does not exceed the software statement expiration time `exp`.
 
+
+
 If all checks succeed, the Authorization Server SHALL assign a unique `client_id` to the client application and
 register the application with this `client_id`, the user ID and the issuer identifier from the `id_token`, and 
 the submitted metadata, including the public key for client authentication.
@@ -204,7 +206,7 @@ Where the `software_statement` payload may look like:
 ```
 
 The software statement of this example is signed with the following example key of the FOPH (JWKS, `kid`
-`foph-example-2026`), which can be used to verify the signature. It is an example key only and SHALL NOT be used outside of testing:
+`foph-example-2026`), which can be used to verify the signature. This key is an example key only and SHALL NOT be used outside of testing:
 
 ```json
 {"keys": [{
@@ -298,10 +300,15 @@ if they obtain it at installation time from an endpoint operated by the vendor, 
 #### id token 
 
 The `id_token` in the Client Registration Request identifies the registering user, i.e. the user who performs the 
-registration of the client application. The authorization server SHALL use the id_token to verify that:
+registration of the client application.
+
+The authorization server SHALL use the id_token to verify that:
+
 1. the registering user is a registered health dossier user; and
 2. the registering user is authorized to register a client application of the requested type, e.g. a health professional 
 registering a primary system or a holder registering a digital health application.
+
+
 
 The `id_token` SHALL be used solely for the purpose of authenticating and authorizing the registration. The 
 registering user and the end user of the registered client application MAY be different persons. A client 
@@ -315,12 +322,16 @@ or assistants in the same practice.
 Registration of a client application is a prerequisite for communicating with the health dossier services. A client 
 application that has not been registered SHALL NOT be granted access to any health dossier service.
 
-Registration SHALL NOT, by itself, grant access to data in the health dossier. Access to dossier data SHALL be granted 
+Registration SHALL NOT, by itself, grant access to data in the health dossier.
+
+Access to dossier data SHALL be granted 
 only if all the following conditions are met:
 
 1. the identity of the current user has been established and verified;
 2. the requested operation is within the scopes granted to the current user; and
 3. the current user holds the access rights required for the requested data, as configured by the dossier holder.
+
+
 
 The authorization server and the health dossier services SHALL evaluate these conditions for each access request. 
 If any condition is not met, the request SHALL be rejected.

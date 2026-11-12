@@ -28,6 +28,10 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
 * Added the appendix [Identifier](identifier.html) with a non-normative explanation of the identifiers and issuers used
   in the health dossier [#28](https://github.com/ehealthsuisse/ch-health-dossier/issues/28).
 * Updated the dependencies to CH Core 7.0.0-ballot and IHE MHD 4.2.5.
+* Added the appendix [Conformance Statements](conformance-statements.html): the conformance statements in the
+  narrative have a stable id and the actor(s) they apply to, are linked from the text and are published as a
+  computable Requirements resource to support test coverage; ActorDefinitions are added for the actors of all
+  profiles.
 
 #### IUA
 
@@ -52,6 +56,9 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
   `/.well-known/oauth-authorization-server` and `private_key_jwt` is required as client authentication.
 * Updated to changes in the IUA Revision 2.5 standard: the claims `subject_role` and `purpose_of_use` now are arrays 
   of FHIR Coding type [ch-epr-fhir#498](https://github.com/ehealthsuisse/ch-epr-fhir/pull/498).
+* [ITI-71](iti-71.html#expected-actions): for a holder, the Authorization Server verifies that the `person_id` of the
+  Token Request is the holder's own EPR-SPID; the Authorization Server binds the token to the user and the holder, and
+  the Resource Server enforces the access rights for each request.
 
 #### OpenID Connect
 

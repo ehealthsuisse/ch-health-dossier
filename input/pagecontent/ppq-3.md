@@ -114,8 +114,9 @@ The PPQ-3 response SHALL be created according to the section
 
 The Policy Repository SHALL authorize the request by the consent type and the role of the requester (`subject_role`
 of the access token), as defined in
-[Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent). In addition, the
-Policy Repository SHALL verify that:
+[Who May Record and Retrieve Which Consent](ppqm-consent.html#who-may-record-and-retrieve-which-consent).
+
+In addition, the Policy Repository SHALL verify that:
 
 - the patient of the consent (`Consent.patient`) is the patient of the access token (`person_id`);
 - for the role `ADM`, the community of the administration (`subject_organization_id`) manages the health dossier
@@ -140,6 +141,8 @@ Policy Repository SHALL verify that:
 {:class="table table-bordered"}
 
 Table 1: Performer of the consent by the role of the requester
+
+
 
 A digital health application acting for the holder may only add, update or delete
 [access rights](ppqm-consent.html#consent-access), and only if the access token grants the scope `patient/Consent.cruds`
@@ -203,12 +206,13 @@ The actors SHALL support the _traceparent_ header handling, as defined in [Appen
 
 #### Security Audit Considerations
 
-The **Policy Source** and **Policy Repository** SHALL record an audit event for each operation in the 
-transaction according to:
+The **Policy Source** and **Policy Repository** SHALL record an audit event for each operation in the transaction according to:
 
 - [CH Audit Event for [PPQ-3] **Create** Privacy Policy](StructureDefinition-ChAuditEventPpq3Create.html)
 - [CH Audit Event for [PPQ-3] **Update** Privacy Policy](StructureDefinition-ChAuditEventPpq3Update.html)
 - [CH Audit Event for [PPQ-3] **Delete** Privacy Policy](StructureDefinition-ChAuditEventPpq3Delete.html)
+
+
 
 The audit events of the Policy Repository build the audit trail of the holder, see
 [Audit trail of the consent transactions](volume3.html#audit-trail-of-the-consent-transactions). The Policy Repository
@@ -218,8 +222,7 @@ the validity of the consent as details of the consent entity
 [example for the exclusion of emergency access](AuditEvent-ChAuditEventPpq3UpdateExample.html),
 [example for a revoked access right](AuditEvent-ChAuditEventPpq3DeleteExample.html)).
 
-The Policy Repository SHALL also record an audit event for every consent it adds, deletes or updates itself under the
-[Policy Repository rules](#policy-repository-rules):
+The Policy Repository SHALL also record an audit event for every consent it adds, deletes or updates itself under the [Policy Repository rules](#policy-repository-rules):
 
 - where the rule is applied because of the request of a user, according to the Delete or Update profile above, with
   the user of that request as main user and the `traceparent` of that request: the delegations derived from a revoked
@@ -234,3 +237,5 @@ The Policy Repository SHALL also record an audit event for every consent it adds
   with the reason of the deletion
   ([example for an access right deleted on the death of the holder](AuditEvent-ChAuditEventPpq3RepositoryDeleteExample.html)):
   `dissolution` and `death` for the consents deleted when the health dossier is dissolved.
+
+

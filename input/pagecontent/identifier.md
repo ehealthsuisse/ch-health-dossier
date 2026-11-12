@@ -27,7 +27,7 @@ The identity provider SHALL convey the persistent identifier as the Subject Iden
 `id_token`, together with the user’s demographic data and any optional additional identifiers 
 (see [OpenID Connect](openid-connect.html#identity-token)).
 
-To identify the user in the health dossier, the Subject Identifier issued by the identity provider MUST be converted 
+To identify the user in the health dossier, the Subject Identifier issued by the identity provider SHALL be converted 
 to the identifier used in the health dossier. For this purpose, a client that accesses data in the health dossier 
 shall present the `id_token` with the [Get Access Token](iti-71.html#message-semantics) request. 
 

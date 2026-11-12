@@ -41,6 +41,9 @@ dependencies:
     id: ihemcsdfhir
   ihe.iti.balp: 
     version: 1.1.4
+  hl7.fhir.uv.xver-r5.r4:
+    id: xver
+    version: 0.1.0
   hl7.terminology.r4: 
     uri: http://terminology.hl7.org/ImplementationGuide/hl7.terminology
     version: 7.1.0
@@ -132,6 +135,8 @@ pages:
     title: Trace Context
   relation-eu-health-data-api.md:
     title: Relation to EU Health Data API
+  conformance-statements.md:
+    title: Conformance Statements
   changelog.md:
     title: Open Issues / Change Log
 
@@ -180,6 +185,7 @@ menu:
     Enforcement of Access Rules: accesscontrol.html
     Trace Context: tracecontext.html
     Relation to EU Health Data API: relation-eu-health-data-api.html
+    Conformance Statements: conformance-statements.html
     Open Issues / Change Log: changelog.html
   Artifacts: artifacts.html
 

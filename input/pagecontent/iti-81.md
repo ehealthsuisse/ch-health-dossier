@@ -92,7 +92,7 @@ performed the event, including the holder and the representatives:
     <strong>Time:</strong> the time of the event is reduced to the day, determined in Swiss local time
     (Europe/Zurich). <code>period.start</code> and <code>period.end</code> carry that day as a date
     (<code>YYYY-MM-DD</code>). <code>recorded</code> carries the start of that day
-    (<code>YYYY-MM-DDT00:00:00+01:00</code> or <code>+02:00</code>); it has no meaning beyond the day and SHALL NOT be
+    (<code>YYYY-MM-DDT00:00:00+01:00</code> or <code>+02:00</code>); it has no meaning beyond the day and <strong>SHALL NOT</strong> be
     displayed as a time.
   </li>
   <li>

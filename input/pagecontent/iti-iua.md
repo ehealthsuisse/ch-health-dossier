@@ -113,6 +113,8 @@ The actors SHALL be grouped with other actors as follows:
 | User Authentication Provider | CT Time Client                                         | R           |
 {:class="table table-bordered"}
 
+
+
 The groupings of actors with IUA Authorization Client and Resource Server actor are defined in the respective profile 
 sections.
 

@@ -35,8 +35,11 @@ When receiving a request, the Resource Server SHALL:
    if the request refers to a health dossier. The Resource Server SHALL reject the request if they differ.
 
 The Resource Server SHALL also:
+
 1. Verify that the transaction is permitted by the token's `scope`, as defined in [ITI-71](iti-71.html#message-semantics).
 2. Enforce the access rights defined in the holder-specific consent, as specified in [CH PPQm Consent](ppqm-consent.html).
+
+
 
 The Resource Server MAY delegate the access decision to a policy enforcement service.
 

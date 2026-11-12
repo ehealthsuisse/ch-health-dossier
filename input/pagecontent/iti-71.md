@@ -165,6 +165,12 @@ The Authorization Server SHALL validate the claims as described in the following
 the Authorization Server SHALL respond with the Token Response defined below. In case the validation fails, the 
 Authorization Server SHALL respond with HTTP 401 Unauthorized or HTTP 403 Forbidden error.
 
+The Authorization Server authenticates the user and the Authorization Client and binds the access token to the user,
+the role, the organization and the EPR-SPID of the holder (`person_id`). It does not evaluate the access rights to the
+health dossier (rights by law and consents of the holder): the Resource Server enforces them for each request (see
+[ITI-72](iti-72.html#expected-actions) and [Enforcement of Access Rules](accesscontrol.html)). An extended access
+token therefore does not grant access to the health dossier by itself.
+
 When receiving a Token Request, the Authorization Server SHALL:
 1. Verify the client authentication JWT as described in [SMART App Launch Client Authentication](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#signature-verification).
 2. Verify that the Authorization Client was registered with the `client_id` during onboarding.
@@ -177,33 +183,50 @@ When receiving a Token Request, the Authorization Server SHALL:
    type, or that requests more rights than listed, SHALL NOT be granted.
 
 If the Authorization Client is registered as a digital health application, the Authorization Server SHALL additionally:
+
 1. Verify that a software statement is registered for the client_id (see Client Registration).
 2. Issue the access token only for the scopes that are both listed in this specification and granted in the software statement.
 
+
+
 If the Authorization Client is registered as a digital health application or primary system, the Authorization Server SHALL additionally:
+
 1. Verify that the Authorization Client is authorized to access on behalf of the user. 
 2. Issue the access token only for the scopes authorized by the user (see [Client Authorization](#client-authorization)).
+
+
 
 If one of the checks above fails, the Authorization Server SHALL respond with HTTP 403 Forbidden.
 
 ###### Holders
+
 When receiving a Token Request with `subject_role` set to `PAT`, the Authorization Server SHALL:
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the SPID of the holder.
+5. If the Token Request contains `person_id`, verify that it is the SPID of the holder resolved in step 4.
+
+
 
 ###### Representatives
+
 When receiving a Token Request with `subject_role` set to `REP` or `LEGREP`, the Authorization Server SHALL:
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
    the Identity Provider. 
 4. Read the subject identifier `sub` of the id token and resolve it to the ID of the representative.
 
+
+
 ###### Healthcare Professionals 
+
 When receiving a Token Request with `subject_role` set to `HCP`, the Authorization Server SHALL: 
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
@@ -213,6 +236,8 @@ When receiving a Token Request with `subject_role` set to `HCP`, the Authorizati
 5. Verify the healthcare professional is registered with the same GLN in the provider directory. 
 6. Query the provider directory and resolve the GLN of the healthcare professional to all groups or institutions 
   including all superior groups or institutions up to the root level.
+
+
 
 ###### Assistants
 When receiving a Token Request with `subject_role` set to `ASS`, the Authorization Server SHALL:
@@ -227,14 +252,16 @@ When receiving a Token Request with `subject_role` set to `ASS`, the Authorizati
   `principal_id` claim. 
 7. If a `group_id` claim is present, the Authorization Server SHALL verify that the healthcare 
   professional in the `principal_id` claim is a member of the group or institution claimed in the `group_id` attribute 
-  of the request. If true, the Authorization Server SHALL resolve the claimed group or institution to all 
+  of the request. If the healthcare professional is a member, the Authorization Server SHALL resolve the claimed group or institution to all 
   superior groups and institutions up to the root level. 
 8. If no `group_id` claim is present, the authorization server SHALL resolve the GLN of the healthcare 
   professional claimed in the `principal_id` to all groups or institutions the healthcare professional is a member 
   of, including all superior groups or institutions up to the root level.
 
 ###### Administrators 
+
 When receiving a Token Request with `subject_role` set to `ADM`, the Authorization Server SHALL:
+
 1. Verify that the issuer identifier `iss` matches the issuer identifier of an Identity Provider accepted for the health dossier.
 2. Verify that the `id_token` is signed by the identity provider resolved from `iss`.
 3. Verify that the `id_token` is not expired and the current time is later than or equal to the time the token was issued by
@@ -247,6 +274,8 @@ When receiving a Token Request with `subject_role` set to `ADM`, the Authorizati
 7. Convey the OID and the name of the community in the claims `subject_organization_id` and `subject_organization` of
   the access token. The actors serving the requests use it to restrict the administrator to the health dossiers managed
   by the community (see [Enforcement of Access Rules](accesscontrol.html#administration-of-the-community)).
+
+
 
 
 The access token SHALL carry the `client_id` claim ([RFC 9068](https://www.rfc-editor.org/rfc/rfc9068)), so that the actors serving the requests 
@@ -599,8 +628,11 @@ of a signed JSON Web Token (JWT) in each request to the token endpoint, as defin
 [SMART App Launch Client Authentication: Asymmetric](https://hl7.org/fhir/smart-app-launch/client-confidential-asymmetric.html#authenticating-to-the-token-endpoint).
 
 The Authorization Server SHALL validate the client assertion by:
+
 1. Verifying the signature against a public key registered for the client, and
 2. Verifying the claims as required by the referenced SMART App Launch specification (e.g., iss, sub, aud, exp, and jti).
+
+
 
 The Authorization Server SHALL reject the Access Token request if validation fails.
 
