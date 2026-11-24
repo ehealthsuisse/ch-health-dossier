@@ -1,5 +1,7 @@
 @startuml
-!include design.plantuml.txt
+skinparam Padding 1
+autonumber 1 1 "<b>[00]"
+skinparam svgDimensionStyle false
 
 actor user as "Healthcare \nProfessional"
 

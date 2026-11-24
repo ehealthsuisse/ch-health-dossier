@@ -1,5 +1,0 @@
-activate docsource
-docsource -[#black]> mp_doc_recipient: publish document [ITI-65] with extended access token
-activate mp_doc_recipient
-docsource <[#black]- mp_doc_recipient
-deactivate mp_doc_recipient

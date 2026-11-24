@@ -1,5 +1,7 @@
 @startuml
-!include design.plantuml.txt
+skinparam Padding 1
+autonumber 1 1 "<b>[00]"
+skinparam svgDimensionStyle false
 
 box "Clinical Archive" #BFCAD2
   participant app as "Technical User"
@@ -22,11 +24,22 @@ app <- mp_AuthorizationServer: Authorization Server metadata
 deactivate mp_AuthorizationServer
 
 ' Get Access Token (Extended), the EPR-SPID is known to the clinical archive
-!include_many step_mh_iua.plantuml.txt
+app -[#black]> AuthorizationClient: Get Access Token
+activate AuthorizationClient
+AuthorizationClient -> mp_AuthorizationServer: [ITI-71] Get Access Token\n[Extended access token]
+activate mp_AuthorizationServer
+AuthorizationClient <- mp_AuthorizationServer: [ITI-71] Get Access Token Response\n[Extended access token]
+deactivate mp_AuthorizationServer
+app <[#black]- AuthorizationClient:
+deactivate AuthorizationClient
 
 ' Publish Documents
 app -> docsource: publish document\nwith extended access token
-!include_many step_mh_mhd_pub.plantuml.txt
+activate docsource
+docsource -[#black]> mp_doc_recipient: publish document [ITI-65] with extended access token
+activate mp_doc_recipient
+docsource <[#black]- mp_doc_recipient
+deactivate mp_doc_recipient
 docsource <- app
 
 deactivate docsource
