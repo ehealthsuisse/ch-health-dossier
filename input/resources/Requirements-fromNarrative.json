@@ -2484,19 +2484,6 @@
       "extension": [
         {
           "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
-          "valueId": "ch-iua-authorization-client"
-        }
-      ],
-      "key": "iti71-13",
-      "conformance": [
-        "SHALL"
-      ],
-      "requirement": "The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values SHALL be URL encoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E` and `&` as `%26` (see the [message examples](iti-71.html#message-example))."
-    },
-    {
-      "extension": [
-        {
-          "url": "http://hl7.org/fhir/tools/StructureDefinition/requirements-statementactor",
           "valueId": "ch-iua-authorization-server"
         }
       ],

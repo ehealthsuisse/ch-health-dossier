@@ -1435,13 +1435,6 @@
       "text": "Authorization Clients acting as digital health applications (dGA) SHALL claim the scopes in the following table."
     },
     {
-      "id": "iti71-13",
-      "actors": [
-        "ch-iua-authorization-client"
-      ],
-      "text": "The Token Request is sent as `application/x-www-form-urlencoded` body, so all parameter values SHALL be URL\nencoded, e.g. the space between scopes as `%20`, `=` as `%3D`, `|` as `%7C`, `:` as `%3A`, `/` as `%2F`, `^` as `%5E`\nand `&` as `%26` (see the [message examples](#message-example))."
-    },
-    {
       "id": "iti71-14",
       "actors": [
         "ch-iua-authorization-server"

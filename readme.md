@@ -35,4 +35,6 @@ python3 scripts/check_conformance.py --ignore           # accept the sentences f
 
 After changing a statement, update its `text` in `conformance.json` (the QA report shows a broken link
 `conformance-statement-not-found-<id>.html` otherwise). If the build writes a new `Requirements-fromNarrative.json` to
-the root, copy it to `input/resources/` and build again.
+the root, copy it to `input/resources/` and build again. When removing a statement, also remove it from
+`input/resources/Requirements-fromNarrative.json`: the IG Publisher keeps the statements of that file that are not found
+in the pages and does not report it.
