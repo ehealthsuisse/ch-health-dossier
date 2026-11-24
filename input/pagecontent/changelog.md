@@ -32,6 +32,8 @@ This is a preliminary release of the CH Health Dossier Implementation Guide for 
   narrative have a stable id and the actor(s) they apply to, are linked from the text and are published as a
   computable Requirements resource to support test coverage; ActorDefinitions are added for the actors of all
   profiles.
+* The [sequence diagrams](sequencediagrams.html) no longer include shared PlantUML files, which the PlantUML
+  sandbox of the IG template blocks; the diagrams are unchanged.
 
 #### IUA
 
